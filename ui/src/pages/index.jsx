@@ -6,11 +6,11 @@ import moment from 'moment'
 import styled from 'styled-components'
 
 const FixedWidth = styled.span`
+  font-family: var(--bs-font-monospace);
   display: inline-block !important;
-  width: 350px;
   border: 1px solid black;
   padding: 1rem;
-  text-align: left;
+  text-align: center;
 `
 
 const RELEASE_DATE = new Date(2021, 9, 8, 18, 0, 0)
@@ -29,7 +29,7 @@ const IndexPage = () => {
   }, [])
   return (
     <Layout>
-      <Jumbotron className="p-5 bg-light bg-gradient rounded-pill text-center">
+      <Jumbotron className="py-5 px-md-5 bg-warning bg-gradient rounded-pill text-center">
         <h1>
           Countdown: <FixedWidth>{timeRemaining}</FixedWidth>
         </h1>

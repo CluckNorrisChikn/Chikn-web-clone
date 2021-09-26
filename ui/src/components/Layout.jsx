@@ -1,19 +1,15 @@
 import { Link } from 'gatsby'
 import * as React from 'react'
-import { Button, Container, Nav, Navbar, Row } from 'react-bootstrap'
+import { Button, Container, Nav, Navbar } from 'react-bootstrap'
 import { FaDiscord, FaTwitter } from 'react-icons/fa'
 import styled from 'styled-components'
+import ChickenIconSrc from '../images/chicken-icon.png'
 
-// const Footer = styled.footer`
-// background: #1868b7;
-// color: #ffffff;
-// a {
-//   color: #ffffff;
-// }
-// .btn {
-//   border-color: #ffffff;
-// }
-// `
+const ChickenIcon = styled((props) => <img src={ChickenIconSrc} {...props} />)`
+  width: 4rem;
+  height: 4rem;
+  margin-right: 0.5rem;
+`
 
 const Spacer = styled.div`
   width: 30px;
@@ -31,27 +27,6 @@ const StackRow = styled.div`
 const FullHeight = styled(Stack)`
   height: 100%;
   width: 100%;
-`
-
-const SocialLink = styled(
-  ({ className = '', href = '', icon: Icon, ...props }) => {
-    return (
-      <>
-        <Nav.Item>
-          <Nav.Link className={`${className}`} href={href}>
-            <Icon />
-          </Nav.Link>
-        </Nav.Item>
-      </>
-    )
-  }
-)`
-  height: 2.8rem;
-  width: 2.8rem;
-  display: flex !important;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid red;
 `
 
 const NavGatsbyLink = ({ children, disabled, ...props }) => {
@@ -88,7 +63,9 @@ const Layout = ({ children = [] }) => {
           className="bg-white border-bottom shadow-sm"
         >
           <Container>
-            <Navbar.Brand href="/">Chikn NFT</Navbar.Brand>
+            <Navbar.Brand href="/">
+              <ChickenIcon /> Chikn NFT
+            </Navbar.Brand>
             <Navbar.Toggle aria-controls="navbarResponsive" />
             <Navbar.Collapse
               id="navbarResponsive"
@@ -109,7 +86,7 @@ const Layout = ({ children = [] }) => {
       </header>
 
       {/* main */}
-      <main className="pt-5 flex-grow-1">
+      <main className="flex-grow-1">
         <Container className="my-5">{children}</Container>
       </main>
 
@@ -119,7 +96,9 @@ const Layout = ({ children = [] }) => {
           <Container className="d-flex justify-content-between py-5">
             <Stack className="justify-content-between">
               <Stack>
-                <h3>Chikn NFT</h3>
+                <h3>
+                  <ChickenIcon /> Chikn NFT
+                </h3>
                 <div>8,000 unique chickens who need farmers.</div>
               </Stack>
               <Stack>

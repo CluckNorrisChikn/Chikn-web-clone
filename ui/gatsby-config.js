@@ -9,7 +9,7 @@ module.exports = {
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-mdx',
     'gatsby-plugin-sharp',
-    'gatsby-transformer-sharp',
+    { resolve: 'gatsby-transformer-sharp', options: { icon: 'src/images/chicken-icon.png' } },
     'gatsby-plugin-sass',
     'gatsby-plugin-fontawesome-css',
     {
