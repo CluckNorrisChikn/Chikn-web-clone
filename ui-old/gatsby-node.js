@@ -4,6 +4,9 @@ const webpack = require('webpack');
 exports.onCreateWebpackConfig = ({ actions }) => {
     actions.setWebpackConfig({
         
+        externals: {
+            electron: 'electron',
+        },
         resolve: {
             fallback: {
                 crypto: require.resolve('crypto-browserify'),
