@@ -106,13 +106,13 @@ const IndexPage = () => {
       subscription.on('changed', changed => console.log('changed --> ', changed))
       subscription.on('error', err => { throw err })
       subscription.on('connected', nr => console.log('conencted', nr))
-      
+
       const maxSupply = await myContract.methods.maxSupply().call()
       setMaxSupply(maxSupply)
       const supply = await myContract.methods.totalSupply().call()
       setCurrentSupply(supply)
       let allTokens = []
-      for (let i = 0; i < supply; i++) {
+      for (let i = 1; i <= supply; i++) {
         let newToken = await myContract.methods.allChickenRun(i).call()
         allTokens.push(newToken)
       }
@@ -126,7 +126,7 @@ const IndexPage = () => {
 
   const connectToMetamask = async () => {
     await window.ethereum.enable();
-    this.setState({ metamaskConnected: true });
+    setMetamaskConnected(true);
     window.location.reload();
   }
 
@@ -153,8 +153,12 @@ const IndexPage = () => {
     try {
       const supply = await contract.methods.totalSupply().call()
       setCurrentSupply(supply)
-      let newToken = await contract.methods.chickens(supply - 1).call()
-      setTokens(pv => [...pv, newToken])
+      let allTokens = []
+      for (let i = 1; i <= supply; i++) {
+        let newToken = await contract.methods.allChickenRun(i).call()
+        allTokens.push(newToken)
+      }
+      setTokens(allTokens)
       const totalOwn = await contract.methods.balanceOf(account).call()
       await setTokenOwnByUser(totalOwn)
     } catch (err) {
@@ -171,6 +175,9 @@ const IndexPage = () => {
 
     console.log("minting the following token with ", tokenURI)
     contract.methods.mint(tokenURI).send({ from: account, value: price })
+      .on('transactionHash', async (txHash) => {
+        console.log("tx hash is return", txHash)
+      })
       .on('receipt', async (receipt) => {
         console.log("receipt from minting", receipt)
         setIsMinting(false)
@@ -180,6 +187,8 @@ const IndexPage = () => {
         setIsMinting(false)
         console.log("Error minting", err)
       })
+  
+
   }
 
   const shortFormAccountNum = () => {
@@ -205,7 +214,7 @@ const IndexPage = () => {
       <hr />
       <div>
         {tokens.map((t, inx) => {
-          return (<div key={inx}>Token: {t}</div>)
+          return (<div key={inx}>Token: {JSON.stringify(t)}</div>)
         })}
       </div>
       <hr />
