@@ -1,6 +1,6 @@
 import * as React from "react"
 import Web3 from 'web3'
-import ChickenRun from '../../contract/Chicken.json'
+import ChickenRun from '../../contract/Chicken_Fuji.json'
 import { AVALANCHE_TESTNET_PARAMS } from '../utils/network'
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { v4 as uuidv4 } from 'uuid';
@@ -171,6 +171,7 @@ const IndexPage = () => {
     setIsMinting(true)
     const price = window.web3.utils.toWei('2', "Ether") // 2 AVAX
     // need to pass who is minting the coin
+    //call server to get new
     const tokenURI = `https://chickenrun.io/${uuidv4()}`
 
     console.log("minting the following token with ", tokenURI)
