@@ -1,11 +1,12 @@
 import { Link } from 'gatsby'
 import * as React from 'react'
-import { Button, Container, Nav, Navbar } from 'react-bootstrap'
+import { Container, Nav, Navbar } from 'react-bootstrap'
 import { FaDiscord, FaTwitter } from 'react-icons/fa'
 import styled from 'styled-components'
 import ChickenIconSrc from '../images/chicken-icon.png'
 import AvalancheIconSrc from '../images/avalanche-avax-logo-black.svg'
 import { ConnectWalletButton } from './ConnectWalletButton'
+import Helmet from 'react-helmet'
 
 const AvaxLogoSmall = styled((props) => (
   <img src={AvalancheIconSrc} {...props} />
@@ -52,19 +53,11 @@ const NavGatsbyLink = ({ children, disabled, ...props }) => {
   )
 }
 
-const NavButton = (props) => {
-  return (
-    <Nav.Item>
-      <Button {...props} />
-    </Nav.Item>
-  )
-}
-
 const HeaderLinks = () => (
   <>
     <NavGatsbyLink to="/">Home</NavGatsbyLink>
     <NavGatsbyLink to="/mint">Mint</NavGatsbyLink>
-    <NavGatsbyLink to="/marketplace">Market</NavGatsbyLink>
+    <NavGatsbyLink to="/market">Market</NavGatsbyLink>
     <NavGatsbyLink to="/wallet">Wallet</NavGatsbyLink>
   </>
 )
@@ -72,6 +65,17 @@ const HeaderLinks = () => (
 const Layout = ({ children = [] }) => {
   return (
     <FullHeight>
+      {/* meta */}
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Chikn NFT</title>
+        <meta
+          name="description"
+          content="8,000 unique chickens who need farmers."
+        />
+        <link rel="canonical" href="https://chickenrun-rho.vercel.app/" />
+      </Helmet>
+
       {/* header */}
       <header>
         <Navbar
@@ -103,7 +107,9 @@ const Layout = ({ children = [] }) => {
 
       {/* main */}
       <main className="flex-grow-1">
-        <Container className="my-5">{children}</Container>
+        <Container className="my-5 d-flex flex-column gap-4">
+          {children}
+        </Container>
       </main>
 
       {/* footer */}
@@ -121,10 +127,10 @@ const Layout = ({ children = [] }) => {
                 <StackCol>
                   <h5 className="mb-3 mt-5">Join the community</h5>
                   <StackRow className="gap-2">
-                    <a className="btn btn-lg btn-outline-primary" href="#">
+                    <a className="btn btn-lg btn-outline-dark" href="#">
                       <FaDiscord />
                     </a>
-                    <a className="btn btn-lg btn-outline-primary" href="#">
+                    <a className="btn btn-lg btn-outline-dark" href="#">
                       <FaTwitter />
                     </a>
                   </StackRow>

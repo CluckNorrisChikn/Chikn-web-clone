@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Button, Card, Jumbotron } from 'react-bootstrap'
+import { Section } from '../components/Common'
 import { ConnectWalletButton } from '../components/ConnectWalletButton'
 import Layout from '../components/Layout'
 
@@ -8,16 +8,14 @@ const IndexPage = () => {
     <Layout>
       <h1>Mint</h1>
 
-      <Jumbotron className="p-5 bg-light bg-gradient rounded-3 text-center">
+      <Section className="bg-light">
         <h3>Chickens Remaining: 8000 / 8000</h3>
-      </Jumbotron>
+      </Section>
 
-      <Card className="mt-5 text-center">
-        <Card.Body>
-          <p>You will need to connect your wallet before claiming an NFT.</p>
-          <ConnectWalletButton />
-        </Card.Body>
-      </Card>
+      <Section className="border">
+        <p>You will need to connect your wallet before claiming an NFT.</p>
+        <ConnectWalletButton />
+      </Section>
     </Layout>
   )
 }

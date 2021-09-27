@@ -1,15 +1,14 @@
 import * as React from 'react'
-import { Jumbotron } from 'react-bootstrap'
 import Layout from '../components/Layout'
 import prettyMilliseconds from 'pretty-ms'
 import moment from 'moment'
 import styled from 'styled-components'
+import { Section } from '../components/Common'
 
 const FixedWidth = styled.span`
   font-family: var(--bs-font-monospace);
   display: inline-block !important;
-  border: 1px solid black;
-  padding: 1rem;
+  padding: 1rem 2rem;
   text-align: center;
 `
 
@@ -29,12 +28,12 @@ const IndexPage = () => {
   }, [])
   return (
     <Layout>
-      <Jumbotron className="py-5 px-md-5 bg-warning bg-gradient rounded-3 text-center">
+      <Section className="bg-light">
         <h1>
           Countdown: <FixedWidth>{timeRemaining}</FixedWidth>
         </h1>
         <small>{moment.utc(RELEASE_DATE).format('LLLL')} (UTC)</small>
-      </Jumbotron>
+      </Section>
     </Layout>
   )
 }

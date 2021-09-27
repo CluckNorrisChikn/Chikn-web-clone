@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    siteUrl: 'https://chickenrun.io',
-    title: 'ChickenRun'
+    title: 'Chikn NFT',
+    siteUrl: 'https://chickenrun.io'
   },
   plugins: [
     'gatsby-plugin-styled-components',
@@ -9,7 +9,19 @@ module.exports = {
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-mdx',
     'gatsby-plugin-sharp',
-    { resolve: 'gatsby-transformer-sharp', options: { icon: 'src/images/chicken-icon.png' } },
+    'gatsby-transformer-sharp',
+    {
+      resolve: 'gatsby-plugin-manifest',
+      options: {
+        name: 'Chikn NFT',
+        short_name: 'Chikn NFT',
+        start_url: '/',
+        background_color: '#f7f0eb',
+        theme_color: '#E84141',
+        display: 'standalone',
+        icon: 'src/images/chicken-icon-white.png'
+      }
+    },
     'gatsby-plugin-sass',
     'gatsby-plugin-fontawesome-css',
     {
