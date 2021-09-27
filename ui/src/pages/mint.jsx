@@ -10,6 +10,8 @@ import ChickenRun from '../../contract/Chicken_Fuji.json'
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { Alert, Button, Spinner } from 'react-bootstrap'
 
+const isBrowser = typeof window !== 'undefined'
+
 const injected = new InjectedConnector({
   supportedChainIds: [1, 3, 4, 5, 42, 43114, 43113, 43112]
 })
@@ -38,8 +40,10 @@ const IndexPage = () => {
         console.error(err.message, { stack: err.stack })
       }
     }
-    fetchWeb3()
-    // addAvalancheNetwork()
+    if (isBrowser) {
+      fetchWeb3()
+      // addAvalancheNetwork()
+    }
   }, [])
 
   // const connectWallet = () => {
@@ -60,17 +64,19 @@ const IndexPage = () => {
   // }
 
   const loadWeb3 = async () => {
-    if (window.ethereum) {
-      // new way
-      window.web3 = new Web3(window.ethereum)
-      setWeb3Supported(true)
-      await window.eth_requestAccounts
-    } else if (window.web3) {
-      window.web3 = new Web3(window.web3.currentProvider)
-      setWeb3Supported(true)
-    } else {
-      setWeb3Supported(false)
-      return Promise.reject(new Error('Browser does not support Web3.'))
+    if (isBrowser) {
+      if (window.ethereum) {
+        // new way
+        window.web3 = new Web3(window.ethereum)
+        setWeb3Supported(true)
+        await window.eth_requestAccounts
+      } else if (window.web3) {
+        window.web3 = new Web3(window.web3.currentProvider)
+        setWeb3Supported(true)
+      } else {
+        setWeb3Supported(false)
+        return Promise.reject(new Error('Browser does not support Web3.'))
+      }
     }
   }
 

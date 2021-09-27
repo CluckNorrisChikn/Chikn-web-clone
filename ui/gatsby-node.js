@@ -1,13 +1,13 @@
 //  has to add all of these due to webpack 5
 const webpack = require('webpack')
 
-exports.onCreateWebpackConfig = ({ actions }) => {
+exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
   actions.setWebpackConfig({
 
-    // externals: {
-    //   electron: 'electron'
-    // },
     resolve: {
+      alias: {
+        process: 'process/browser'
+      },
       fallback: {
         crypto: require.resolve('crypto-browserify'),
         http: require.resolve('stream-http'),
@@ -21,8 +21,7 @@ exports.onCreateWebpackConfig = ({ actions }) => {
     },
     plugins: [
       new webpack.ProvidePlugin({
-        Buffer: ['buffer', 'Buffer'],
-        process: 'process/browser'
+        Buffer: ['buffer', 'Buffer']
       })
     ]
   })
