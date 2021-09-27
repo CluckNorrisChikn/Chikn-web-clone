@@ -4,7 +4,16 @@ import { Button, Container, Nav, Navbar } from 'react-bootstrap'
 import { FaDiscord, FaTwitter } from 'react-icons/fa'
 import styled from 'styled-components'
 import ChickenIconSrc from '../images/chicken-icon.png'
+import AvalancheIconSrc from '../images/avalanche-avax-logo-black.svg'
 import { ConnectWalletButton } from './ConnectWalletButton'
+
+const AvaxLogoSmall = styled((props) => (
+  <img src={AvalancheIconSrc} {...props} />
+))`
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-left: 0.2rem;
+`
 
 const ChickenIcon = styled((props) => <img src={ChickenIconSrc} {...props} />)`
   width: 4rem;
@@ -132,7 +141,12 @@ const Layout = ({ children = [] }) => {
             </StackCol>
           </Container>
           <Container className="border-top p-3">
-            <small>&copy; {new Date().getFullYear()} Chikn NFT Inc</small>
+            <StackRow className="justify-content-between align-items-center">
+              <small>&copy; {new Date().getFullYear()} Chikn NFT Inc</small>
+              <small>
+                Powered by <AvaxLogoSmall />
+              </small>
+            </StackRow>
           </Container>
         </StackCol>
       </footer>
