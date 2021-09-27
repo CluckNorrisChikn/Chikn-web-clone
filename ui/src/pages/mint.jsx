@@ -30,12 +30,11 @@ const IndexPage = () => {
 
   React.useEffect(() => {
     async function fetchWeb3() {
-      console.debug('loading web3...')
       try {
-        await loadWeb3().then(() => {
-          console.debug('loading blockchain data...')
-          return loadBlockchainData()
-        })
+        console.debug('loading web3...')
+        await loadWeb3()
+        console.debug('loading blockchain data...')
+        await loadBlockchainData()
       } catch (err) {
         console.error(err.message, { stack: err.stack })
       }
@@ -82,6 +81,7 @@ const IndexPage = () => {
 
   const loadBlockchainData = async () => {
     // fetch our smart contract
+    console.debug('got here 1')
     const web3 = window.web3
 
     // web3.on('accountsChanged', (code, reason) => {
@@ -94,7 +94,9 @@ const IndexPage = () => {
     //   }
     // });
 
+    console.debug('got here 2')
     const accounts = await web3.eth.getAccounts()
+    console.debug(`web3: found accounts - ${accounts.length}}`)
     if (accounts.length === 0) {
       setMetamaskConnected(false)
     } else {

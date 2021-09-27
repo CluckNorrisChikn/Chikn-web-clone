@@ -5,9 +5,6 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
   actions.setWebpackConfig({
 
     resolve: {
-      alias: {
-        process: 'process/browser'
-      },
       fallback: {
         crypto: require.resolve('crypto-browserify'),
         http: require.resolve('stream-http'),
@@ -25,4 +22,28 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
       })
     ]
   })
+
+  // [web3-providers-ws]/lib/helpers.js:23:1 - looks for process
+  // node_modules/util/util.js - looks for process
+  if (stage === 'build-html' || stage === 'develop-html') {
+    actions.setWebpackConfig({
+      module: {
+        rules: [
+          {
+            test: /helpers\.js|util\.js/,
+            use: loaders.null()
+          }
+        ]
+      }
+    })
+  }
+//   if (stage === 'build-html') {
+//     actions.setWebpackConfig({
+//       resolve: {
+//         alias: {
+//           process: 'process/browser'
+//         }
+//       }
+//     })
+//   }
 }
