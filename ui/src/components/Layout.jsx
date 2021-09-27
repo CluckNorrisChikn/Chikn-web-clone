@@ -4,6 +4,7 @@ import { Button, Container, Nav, Navbar } from 'react-bootstrap'
 import { FaDiscord, FaTwitter } from 'react-icons/fa'
 import styled from 'styled-components'
 import ChickenIconSrc from '../images/chicken-icon.png'
+import { ConnectWalletButton } from './ConnectWalletButton'
 
 const ChickenIcon = styled((props) => <img src={ChickenIconSrc} {...props} />)`
   width: 4rem;
@@ -15,14 +16,13 @@ const Spacer = styled.div`
   width: 30px;
 `
 
-const Stack = styled.div`
-  display: flex !important;
-  flex-direction: column;
-`
-const StackRow = styled.div`
-  display: flex !important;
-  flex-direction: row;
-`
+const StackCol = ({ className = '', ...props }) => (
+  <div className={`d-flex flex-column ${className}`} {...props} />
+)
+const StackRow = ({ className = '', ...props }) => (
+  <div className={`d-flex flex-row ${className}`} {...props} />
+)
+const Stack = StackCol
 
 const FullHeight = styled(Stack)`
   height: 100%;
@@ -33,7 +33,7 @@ const NavGatsbyLink = ({ children, disabled, ...props }) => {
   return (
     <Nav.Item>
       <Link
-        className={`nav-link px-3 ${disabled && 'disabled'}`}
+        className={`nav-link px-3 ${disabled ? 'disabled' : ''}`}
         activeClassName="active"
         {...props}
       >
@@ -50,6 +50,15 @@ const NavButton = (props) => {
     </Nav.Item>
   )
 }
+
+const HeaderLinks = () => (
+  <>
+    <NavGatsbyLink to="/">Home</NavGatsbyLink>
+    <NavGatsbyLink to="/mint">Mint</NavGatsbyLink>
+    <NavGatsbyLink to="/marketplace">Market</NavGatsbyLink>
+    <NavGatsbyLink to="/wallet">Wallet</NavGatsbyLink>
+  </>
+)
 
 const Layout = ({ children = [] }) => {
   return (
@@ -71,14 +80,12 @@ const Layout = ({ children = [] }) => {
               id="navbarResponsive"
               className="justify-content-end"
             >
-              <Nav>
-                <NavGatsbyLink to="/">Home</NavGatsbyLink>
-                <NavGatsbyLink to="/mint">Mint</NavGatsbyLink>
-                <NavGatsbyLink to="/marketplace">Market</NavGatsbyLink>
+              <Nav className="align-items-md-center">
+                <HeaderLinks />
                 <Spacer />
-                <NavButton variant="outline-primary" className="px-3">
-                  Connect wallet
-                </NavButton>
+                <Nav.Item>
+                  <ConnectWalletButton />
+                </Nav.Item>
               </Nav>
             </Navbar.Collapse>
           </Container>
@@ -92,39 +99,42 @@ const Layout = ({ children = [] }) => {
 
       {/* footer */}
       <footer className="border-top bg-light">
-        <Stack>
-          <Container className="d-flex justify-content-between py-5">
-            <Stack className="justify-content-between">
-              <Stack>
-                <h3>
-                  <ChickenIcon /> Chikn NFT
-                </h3>
-                <div>8,000 unique chickens who need farmers.</div>
-              </Stack>
-              <Stack>
-                <h5 className="mb-3">Join the community</h5>
-                <StackRow className="gap-2">
-                  <a className="btn btn-lg btn-outline-primary" href="#">
-                    <FaDiscord />
-                  </a>
-                  <a className="btn btn-lg btn-outline-primary" href="#">
-                    <FaTwitter />
-                  </a>
-                </StackRow>
-              </Stack>
-            </Stack>
-            <Nav defaultActiveKey="/home" className="flex-column">
-              <NavGatsbyLink to="/">Home</NavGatsbyLink>
-              <NavGatsbyLink to="/mint">Mint</NavGatsbyLink>
-              <NavGatsbyLink to="/marketplace">Market</NavGatsbyLink>
-              <NavGatsbyLink to="/terms">Wallet</NavGatsbyLink>
-              <NavGatsbyLink to="/terms">Terms &amp; Conditions</NavGatsbyLink>
-            </Nav>
+        <StackCol>
+          <Container className="py-5">
+            <StackCol className="gap-4 flex-md-row justify-content-between">
+              <StackCol className="justify-content-between">
+                <StackCol>
+                  <h3>
+                    <ChickenIcon /> Chikn NFT
+                  </h3>
+                  <div>8,000 unique chickens who need farmers.</div>
+                </StackCol>
+                <StackCol>
+                  <h5 className="mb-3 mt-5">Join the community</h5>
+                  <StackRow className="gap-2">
+                    <a className="btn btn-lg btn-outline-primary" href="#">
+                      <FaDiscord />
+                    </a>
+                    <a className="btn btn-lg btn-outline-primary" href="#">
+                      <FaTwitter />
+                    </a>
+                  </StackRow>
+                </StackCol>
+              </StackCol>
+              <Navbar bg="light">
+                <Nav className="flex-column">
+                  <HeaderLinks />
+                  <NavGatsbyLink to="/terms">
+                    Terms &amp; Conditions
+                  </NavGatsbyLink>
+                </Nav>
+              </Navbar>
+            </StackCol>
           </Container>
           <Container className="border-top p-3">
             <small>&copy; {new Date().getFullYear()} Chikn NFT Inc</small>
           </Container>
-        </Stack>
+        </StackCol>
       </footer>
     </FullHeight>
   )

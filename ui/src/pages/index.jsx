@@ -29,7 +29,7 @@ const IndexPage = () => {
   }, [])
   return (
     <Layout>
-      <Jumbotron className="py-5 px-md-5 bg-warning bg-gradient rounded-pill text-center">
+      <Jumbotron className="py-5 px-md-5 bg-warning bg-gradient rounded-3 text-center">
         <h1>
           Countdown: <FixedWidth>{timeRemaining}</FixedWidth>
         </h1>
