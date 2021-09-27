@@ -25,12 +25,13 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
 
   // [web3-providers-ws]/lib/helpers.js:23:1 - looks for process
   // node_modules/util/util.js - looks for process
+  // web3.min.js - window is not defined
   if (stage === 'build-html' || stage === 'develop-html') {
     actions.setWebpackConfig({
       module: {
         rules: [
           {
-            test: /helpers\.js|util\.js/,
+            test: /helpers\.js|util\.js|web3\.min\.js/,
             use: loaders.null()
           }
         ]

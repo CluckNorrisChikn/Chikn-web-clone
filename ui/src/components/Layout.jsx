@@ -7,6 +7,7 @@ import ChickenIconSrc from '../images/chicken-icon.png'
 import AvalancheIconSrc from '../images/avalanche-avax-logo-black.svg'
 import { ConnectWalletButton } from './ConnectWalletButton'
 import Helmet from 'react-helmet'
+import { StackCol, StackRow } from './Common'
 
 const AvaxLogoSmall = styled((props) => (
   <img src={AvalancheIconSrc} {...props} />
@@ -26,12 +27,6 @@ const Spacer = styled.div`
   width: 30px;
 `
 
-const StackCol = ({ className = '', ...props }) => (
-  <div className={`d-flex flex-column ${className}`} {...props} />
-)
-const StackRow = ({ className = '', ...props }) => (
-  <div className={`d-flex flex-row ${className}`} {...props} />
-)
 const Stack = StackCol
 
 const FullHeight = styled(Stack)`
@@ -95,10 +90,10 @@ const Layout = ({ children = [] }) => {
             >
               <Nav className="align-items-md-center">
                 <HeaderLinks />
-                <Spacer />
+                {/* <Spacer />
                 <Nav.Item>
                   <ConnectWalletButton />
-                </Nav.Item>
+                </Nav.Item> */}
               </Nav>
             </Navbar.Collapse>
           </Container>

@@ -7,3 +7,10 @@ export const Section = ({ className = '', ...props }) => (
     {...props}
   />
 )
+
+export const StackCol = ({ className = '', ...props }) => (
+  <div className={`d-flex flex-column ${className}`} {...props} />
+)
+export const StackRow = ({ className = '', ...props }) => (
+  <div className={`d-flex flex-row ${className}`} {...props} />
+)

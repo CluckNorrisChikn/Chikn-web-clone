@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 import * as React from 'react'
-import { Section } from '../components/Common'
+import { Section, StackRow } from '../components/Common'
 import { ConnectWalletButton } from '../components/ConnectWalletButton'
 import Layout from '../components/Layout'
 
-import Web3 from 'web3'
+import Web3 from 'web3/dist/web3.min.js'
 import ChickenRun from '../../contract/Chicken_Fuji.json'
 // import { AVALANCHE_TESTNET_PARAMS } from '../utils/network'
 import { InjectedConnector } from '@web3-react/injected-connector'
@@ -154,9 +154,10 @@ const IndexPage = () => {
     window.location.reload() // NOTE is this required?!
   }
 
-  // const disconnectMetaMask = async () => {
-  // await web3Modal.clearCachedProvider();
-  // }
+  const disconnectMetaMask = async () => {
+    // TODO implement
+    // await web3Modal.clearCachedProvider()
+  }
 
   // if the token own change, refresh the list
   // React.useEffect(() => {
@@ -243,13 +244,24 @@ const IndexPage = () => {
         )}
         {/* {web3Supported === true && <ConnectWalletButton />} */}
         {web3Supported === true && (
-          <Button
-            variant="primary"
-            disabled={account}
-            onClick={() => connectToMetamask()}
-          >
-            {account ? shortFormAccountNum() : 'Connect Wallet'}
-          </Button>
+          <StackRow className="gap-3 justify-content-center">
+            {/* connect */}
+            <Button
+              variant="primary"
+              disabled={account}
+              onClick={() => connectToMetamask()}
+            >
+              {account ? shortFormAccountNum() : 'Connect Wallet'}
+            </Button>
+            {/* disconnect */}
+            <Button
+              variant="outline-primary"
+              disabled={!account}
+              onClick={() => disconnectMetaMask()}
+            >
+              Disconnect Wallet
+            </Button>
+          </StackRow>
         )}
       </Section>
 

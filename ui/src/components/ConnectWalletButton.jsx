@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Button, Spinner } from 'react-bootstrap'
-import { useGetWalletQuery } from './Api'
+import { useGetWalletQuery } from './ContractApi'
 import styled from 'styled-components'
 
 const FixedWidthButton = styled(Button)`
