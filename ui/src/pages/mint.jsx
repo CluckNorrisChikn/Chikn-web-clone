@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import * as React from 'react'
-import { Section, StackRow } from '../components/Common'
+import { Section, StackCol, StackRow } from '../components/Common'
 import { ConnectWalletButton } from '../components/ConnectWalletButton'
 import Layout from '../components/Layout'
 
@@ -8,7 +8,15 @@ import Web3 from 'web3/dist/web3.min.js'
 import ChickenRun from '../../contract/Chicken_Fuji.json'
 // import { AVALANCHE_TESTNET_PARAMS } from '../utils/network'
 import { InjectedConnector } from '@web3-react/injected-connector'
-import { Alert, Button, Spinner } from 'react-bootstrap'
+import { Alert, Button, Card, Spinner, Table } from 'react-bootstrap'
+import { v4 as uuidv4 } from 'uuid'
+import styled from 'styled-components'
+
+const ChickenCard = styled(({ className = '', ...props }) => (
+  <Card className={`${className} rounded-3 shadow`} {...props} />
+))`
+  max-width: 300px;
+`
 
 const isBrowser = typeof window !== 'undefined'
 
@@ -115,18 +123,18 @@ const IndexPage = () => {
       setContract(myContract)
 
       // subscribe to contract events from
-      const subscription = web3.eth.subscribe('logs', (err, event) => {
-        if (!err) console.log('None error event -->', event)
-      })
+      // const subscription = web3.eth.subscribe('logs', (err, event) => {
+      //   if (!err) console.log('None error event -->', event)
+      // })
 
-      subscription.on('data', (event) => console.log('data -->', event))
-      subscription.on('changed', (changed) =>
-        console.log('changed --> ', changed)
-      )
-      subscription.on('error', (err) => {
-        throw err
-      })
-      subscription.on('connected', (nr) => console.log('conencted', nr))
+      // subscription.on('data', (event) => console.log('data -->', event))
+      // subscription.on('changed', (changed) =>
+      //   console.log('changed --> ', changed)
+      // )
+      // subscription.on('error', (err) => {
+      //   throw err
+      // })
+      // subscription.on('connected', (nr) => console.log('conencted', nr))
 
       const maxSupply = await myContract.methods.maxSupply().call()
       setMaxSupply(maxSupply)
@@ -160,61 +168,71 @@ const IndexPage = () => {
   }
 
   // if the token own change, refresh the list
-  // React.useEffect(() => {
-  //   loopThroughUserTokens()
-  // }, [tokenOwnByUser])
+  React.useEffect(() => {
+    loopThroughUserTokens()
+  }, [tokenOwnByUser])
 
-  // const loopThroughUserTokens = async () => {
-  //   const temp = []
-  //   for (let i = 0; i < tokenOwnByUser; i++) {
-  //     const tokenDetail = await contract.methods
-  //       .tokenOfOwnerByIndex(account, i)
-  //       .call()
-  //     temp.push(tokenDetail)
-  //   }
-  //   setOwnerTokenList(temp)
-  // }
+  const loopThroughUserTokens = async () => {
+    const temp = []
+    for (let i = 0; i < tokenOwnByUser; i++) {
+      const tokenDetail = await contract.methods
+        .tokenOfOwnerByIndex(account, i)
+        .call()
+      const chicken = await contract.methods.allChickenRun(tokenDetail).call()
+      temp.push(chicken)
+    }
+    setOwnerTokenList(temp)
+  }
 
-  // const refreshContract = async () => {
-  //   try {
-  //     const supply = await contract.methods.totalSupply().call()
-  //     setCurrentSupply(supply)
-  //     const allTokens = []
-  //     for (let i = 1; i <= supply; i++) {
-  //       const newToken = await contract.methods.allChickenRun(i).call()
-  //       allTokens.push(newToken)
-  //     }
-  //     setTokens(allTokens)
-  //     const totalOwn = await contract.methods.balanceOf(account).call()
-  //     await setTokenOwnByUser(totalOwn)
-  //   } catch (err) {
-  //     console.log('Try to refresh data', err)
-  //   }
-  // }
+  /**
+   * Re-retrieve contract details.
+   */
+  const refreshContract = async () => {
+    try {
+      const supply = await contract.methods.totalSupply().call()
+      setCurrentSupply(supply)
+      const allTokens = []
+      for (let i = 1; i <= supply; i++) {
+        const newToken = await contract.methods.allChickenRun(i).call()
+        allTokens.push(newToken)
+      }
+      setTokens(allTokens)
+      const totalOwn = await contract.methods.balanceOf(account).call()
+      await setTokenOwnByUser(totalOwn)
+    } catch (err) {
+      console.log('Try to refresh data', err)
+    }
+  }
 
+  /**
+   * Mints the actual token.
+   */
   const mintToken = (e) => {
     // e.preventDefault()
-    // setIsMinting(true)
-    // const price = window.web3.utils.toWei('2', 'Ether') // 2 AVAX
-    // // need to pass who is minting the coin
-    // // call server to get new
-    // const tokenURI = `https://chickenrun.io/${uuidv4()}`
+    setIsMinting(true)
+    const price = window.web3.utils.toWei('2', 'Ether') // 2 AVAX
+    // need to pass who is minting the coin
+    // call server to get new
+    const tokenURI = `https://chickenrun.io/${uuidv4()}`
     // console.log('minting the following token with ', tokenURI)
-    // contract.methods
-    //   .mint(tokenURI)
-    //   .send({ from: account, value: price })
-    //   .on('transactionHash', async (txHash) => {
-    //     console.log('tx hash is return', txHash)
-    //   })
-    //   .on('receipt', async (receipt) => {
-    //     console.log('receipt from minting', receipt)
-    //     setIsMinting(false)
-    //     refreshContract()
-    //   })
-    //   .on('error', (err) => {
-    //     setIsMinting(false)
-    //     console.log('Error minting', err)
-    //   })
+    contract.methods
+      .mint(tokenURI)
+      .send({ from: account, value: price })
+      .on('transactionHash', async (txHash) => {
+        // pending
+        console.log('tx hash is return', txHash)
+      })
+      .on('receipt', async (receipt) => {
+        // success
+        console.log('receipt from minting', receipt)
+        setIsMinting(false)
+        refreshContract()
+      })
+      .on('error', (err) => {
+        // error
+        setIsMinting(false)
+        console.log('Error minting', err)
+      })
   }
 
   const shortFormAccountNum = () => {
@@ -228,80 +246,130 @@ const IndexPage = () => {
       <h1>Mint</h1>
 
       <Section className="bg-light">
-        <h3>Chickens Remaining: 8000 / 8000</h3>
+        <h3>
+          Chickens Minted: {currentSupply} / {maxSupply}
+        </h3>
       </Section>
 
       <Section className="border">
-        <p>You will need to connect your wallet before claiming an NFT.</p>
+        <StackCol className="gap-3">
+          <p>You will need to connect your wallet before claiming an NFT.</p>
 
-        {web3Supported === null && (
-          <Spinner animation="border" className="m-3" />
-        )}
-        {web3Supported === false && (
-          <Alert variant="info">
-            Non-Ethereum browser detected. You should consider trying MetaMask!
-          </Alert>
-        )}
-        {/* {web3Supported === true && <ConnectWalletButton />} */}
-        {web3Supported === true && (
-          <StackRow className="gap-3 justify-content-center">
-            {/* connect */}
-            <Button
-              variant="primary"
-              disabled={account}
-              onClick={() => connectToMetamask()}
-            >
-              {account ? shortFormAccountNum() : 'Connect Wallet'}
-            </Button>
-            {/* disconnect */}
-            <Button
-              variant="outline-primary"
-              disabled={!account}
-              onClick={() => disconnectMetaMask()}
-            >
-              Disconnect Wallet
-            </Button>
-          </StackRow>
-        )}
-      </Section>
-
-      <Section className="border">
-        {/* {account ? (
+          {web3Supported === null && (
+            <Spinner animation="border" className="m-3" />
+          )}
+          {web3Supported === false && (
+            <Alert variant="info">
+              Non-Ethereum browser detected. You should consider trying
+              MetaMask!
+            </Alert>
+          )}
+          {/* {web3Supported === true && <ConnectWalletButton />} */}
+          {web3Supported === true && (
+            <StackRow className="gap-3 justify-content-center">
+              {/* connect */}
+              <Button
+                variant="primary"
+                disabled={account}
+                onClick={() => connectToMetamask()}
+              >
+                {account ? shortFormAccountNum() : 'Connect Wallet'}
+              </Button>
+              {/* disconnect */}
+              <Button
+                variant="outline-primary"
+                disabled={true}
+                onClick={() => disconnectMetaMask()}
+              >
+                Disconnect Wallet
+              </Button>
+            </StackRow>
+          )}
           <Button
+            type="button"
+            size="lg"
             variant="outline-primary"
-            disabled={true}
-            // onClick={() => disconnectMetaMask()}
+            onClick={() => mintToken()}
           >
-            Disconnect Wallet
+            Mint my Chicken!
           </Button>
-        ) : (
-          <Button variant="outline-primary" onClick={() => connectToMetamask()}>
-            {account ? shortFormAccountNum() : 'Connect Wallet'}
-          </Button>
-        )} */}
+          {/* <div>Number of tokens you currently own: {tokenOwnByUser}</div> */}
+        </StackCol>
 
-        <div>
-          Total: {currentSupply} / {maxSupply}
-        </div>
-        <div>
-          <h1>Mint token</h1>
-          <form onSubmit={mintToken}>
-            <Button type="submit" variant="success">
-              Mint
-            </Button>
-          </form>
-        </div>
-        <div>
+        {/* <form onSubmit={mintToken}> */}
+        {/* </form> */}
+        {/* <div>
           {tokens.map((t, inx) => {
             return <div key={inx}>Token: {JSON.stringify(t)}</div>
           })}
-        </div>
-        <div>
-          Number of token the user own: {tokenOwnByUser}
-          {ownerTokenList.map((t, inx) => {
+        </div> */}
+        {/* {ownerTokenList.map((t, inx) => {
             return <div key={inx}>Token: {t}</div>
+          })} */}
+      </Section>
+
+      <h3>My Chickens ({tokenOwnByUser})</h3>
+
+      {/* {"0":"2",
+      "1":"https://chickenrun.io/7cab5b9e-f762-42de-b3be-50af9a094be3",
+      "2":"0xd363EC3bc20c6842A198195453E7f1d877C708D1",
+      "3":"0xd363EC3bc20c6842A198195453E7f1d877C708D1",
+      "4":"0x0000000000000000000000000000000000000000",
+      "5":"2000000000000000000",
+      "6":"0",
+      "7":false,
+      "tokenId":"2",
+      "tokenURI":"https://chickenrun.io/7cab5b9e-f762-42de-b3be-50af9a094be3",
+      "mintedBy":"0xd363EC3bc20c6842A198195453E7f1d877C708D1",
+      "currentOwner":"0xd363EC3bc20c6842A198195453E7f1d877C708D1",
+      "previousOwner":"0x0000000000000000000000000000000000000000",
+      "price":"2000000000000000000",
+      "numberOfTransfers":"0",
+      "forSale":false} */}
+      <Section className="border">
+        <StackRow>
+          {ownerTokenList.map((token, i) => {
+            return (
+              <ChickenCard key={i}>
+                <Card.Img
+                  variant="top"
+                  src={'/images/3fe19ff5-469c-4f90-b760-477b852d2617.png'}
+                />
+                <Card.Body>
+                  <Card.Title>#{token.tokenId}</Card.Title>
+                  <Card.Text>
+                    <h5>Traits (TBD)</h5>
+                    <Table>
+                      <tr>
+                        <th>For Sale</th>
+                        <td>{token.forSale ? 'Yes' : 'No'}</td>
+                      </tr>
+                      <tr>
+                        <th>Last Sale Price</th>
+                        <td>
+                          {(
+                            parseInt(token.price) / 1000000000000000000
+                          ).toLocaleString()}{' '}
+                          AVAX
+                        </td>
+                      </tr>
+                      {/* <tr>
+                        <th>Current Owner</th>
+                        <td>$11</td>
+                      </tr> */}
+                      <tr>
+                        <th>Number of Sales</th>
+                        <td>
+                          {parseInt(token.numberOfTransfers).toLocaleString()}
+                        </td>
+                      </tr>
+                    </Table>
+                  </Card.Text>
+                </Card.Body>
+              </ChickenCard>
+            )
           })}
-        </div>
+        </StackRow>
       </Section>
     </Layout>
   )
