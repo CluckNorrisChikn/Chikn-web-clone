@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Layout from '../components/Layout'
-import prettyMilliseconds from 'pretty-ms'
 import moment from 'moment'
 import styled from 'styled-components'
 import { Section, StyleDaChikn } from '../components/Common'
@@ -8,7 +7,8 @@ import ChickenCarousel from '../components/ChickenCarousel'
 import { Button, Container } from 'react-bootstrap'
 import SiteConfig from '../../site-config'
 import ChickenHead from '../components/ChickenHead'
-import FlipDate from '../components/FlipDate'
+// import FlipDate from '../components/FlipDate'
+import FlipCountdown from '@rumess/react-flip-countdown'
 
 const ChickenHeadImageWrapper = styled(({ className = '', ...props }) => (
   <div className={`${className} d-none d-lg-block`} {...props}>
@@ -24,35 +24,27 @@ const ChickenHeadImageWrapper = styled(({ className = '', ...props }) => (
   }
 `
 
-const FixedWidth = styled.span`
-  font-family: var(--bs-font-monospace);
-  display: inline-block !important;
-  padding: 1rem 2rem;
-  text-align: center;
-`
-
 const RELEASE_DATE = new Date('2021-10-09T00:00:00+10:00')
 
-const prettyDiff = () =>
-  prettyMilliseconds(
-    parseInt((RELEASE_DATE.getTime() - Date.now()) / 1000) * 1000
-  )
-
-// markup
 const IndexPage = () => {
-  const [timeRemaining, setTimeRemaining] = React.useState(prettyDiff())
-  React.useEffect(() => {
-    const timer = setInterval(() => setTimeRemaining(prettyDiff()), 1000)
-    return () => clearInterval(timer)
-  }, [])
-
   return (
-    <Layout constrainWidth={false} className="gap-7">
+    <Layout constrainWidth={false} className="gap-8">
       <Container>
         <Section className="bg-light">
-          <h1>
-            Countdown: <FixedWidth>{timeRemaining}</FixedWidth>
-            {/* <FlipDate value={RELEASE_DATE.toISOString()} /> */}
+          <h3>Countdown to release:</h3>
+          <h1 className="py-4">
+            <FlipCountdown
+              hideYear
+              hideMonth
+              dayTitle="Days"
+              hourTitle="Hours"
+              minuteTitle="Minutes"
+              secondTitle="Seconds"
+              endAtZero
+              size="medium"
+              titlePosition="bottom"
+              endAt={RELEASE_DATE.toISOString()} // Date/Time
+            />
           </h1>
           <small>{moment.utc(RELEASE_DATE).format('LLLL')} (UTC)</small>
         </Section>

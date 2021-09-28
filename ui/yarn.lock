@@ -2002,6 +2002,13 @@
   dependencies:
     dequal "^2.0.2"
 
+"@rumess/react-flip-countdown@1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@rumess/react-flip-countdown/-/react-flip-countdown-1.2.3.tgz#55b0f282cbfe98087813e057c95d688e0425b61a"
+  integrity sha512-DM+ojQlnhOVDy3mCK1ROp7P5i6vMXjsvG5C+IsFAjkSHFAVzgZZlYbP4/xL2hwv0dcKB3HG2F+Ys2cVwt8qg7g==
+  dependencies:
+    moment "^2.26.0"
+
 "@sideway/address@^4.1.0":
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/@sideway/address/-/address-4.1.2.tgz#811b84333a335739d3969cfc434736268170cad1"
@@ -9430,7 +9437,7 @@ moment-timezone@0.5.33:
   dependencies:
     moment ">= 2.9.0"
 
-moment@2.29.1, "moment@>= 2.9.0", moment@^2.27.0:
+moment@2.29.1, "moment@>= 2.9.0", moment@^2.26.0, moment@^2.27.0:
   version "2.29.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
   integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
