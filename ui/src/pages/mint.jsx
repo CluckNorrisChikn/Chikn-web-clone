@@ -1,6 +1,12 @@
 /* eslint-disable no-unused-vars */
 import * as React from 'react'
-import { Section, StackCol, StackRow } from '../components/Common'
+import {
+  ChiknText,
+  Section,
+  StackCol,
+  StackRow,
+  StyleDaChikn
+} from '../components/Common'
 import { ConnectWalletButton } from '../components/ConnectWalletButton'
 import Layout from '../components/Layout'
 
@@ -11,6 +17,7 @@ import { InjectedConnector } from '@web3-react/injected-connector'
 import { Alert, Button, Card, Spinner, Table } from 'react-bootstrap'
 import { v4 as uuidv4 } from 'uuid'
 import styled from 'styled-components'
+import SiteConfig from '../../site-config'
 
 const ChickenCard = styled(({ className = '', ...props }) => (
   <Card className={`${className} rounded-3 shadow`} {...props} />
@@ -247,7 +254,7 @@ const IndexPage = () => {
 
       <Section className="bg-light">
         <h3>
-          Chickens Minted: {currentSupply} / {maxSupply}
+          <ChiknText /> Minted: {currentSupply} / {maxSupply}
         </h3>
       </Section>
 
@@ -291,7 +298,7 @@ const IndexPage = () => {
             variant="outline-primary"
             onClick={() => mintToken()}
           >
-            Mint my Chicken!
+            Mint my {SiteConfig.nftName}!
           </Button>
           {/* <div>Number of tokens you currently own: {tokenOwnByUser}</div> */}
         </StackCol>
@@ -308,7 +315,9 @@ const IndexPage = () => {
           })} */}
       </Section>
 
-      <h3>My Chickens ({tokenOwnByUser})</h3>
+      <h3>
+        My {SiteConfig.nftName} ({tokenOwnByUser})
+      </h3>
 
       {/* {"0":"2",
       "1":"https://chickenrun.io/7cab5b9e-f762-42de-b3be-50af9a094be3",

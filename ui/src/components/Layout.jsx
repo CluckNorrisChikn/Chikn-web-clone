@@ -7,7 +7,7 @@ import ChickenIconSrc from '../images/chicken-icon.png'
 import AvalancheIconSrc from '../images/avalanche-avax-logo-black.svg'
 import { ConnectWalletButton } from './ConnectWalletButton'
 import Helmet from 'react-helmet'
-import { ChiknText, StackCol, StackRow } from './Common'
+import { ChiknText, StackCol, StackRow, StyleDaChikn } from './Common'
 import SiteConfig from '../../site-config'
 
 const AvaxLogoSmall = styled((props) => (
@@ -86,7 +86,7 @@ const Layout = ({
           <Container>
             <Navbar.Brand href="/">
               <ChickenIcon />
-              <ChiknText>{SiteConfig.title}</ChiknText>
+              <StyleDaChikn>{SiteConfig.title}</StyleDaChikn>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="navbarResponsive" />
             <Navbar.Collapse
@@ -129,12 +129,14 @@ const Layout = ({
                 <StackCol>
                   <h3>
                     <ChickenIcon />
-                    <ChiknText>{SiteConfig.title}</ChiknText>
+                    <StyleDaChikn>{SiteConfig.title}</StyleDaChikn>
                   </h3>
-                  <div>{SiteConfig.description}</div>
+                  <div>
+                    <StyleDaChikn>{SiteConfig.description}</StyleDaChikn>
+                  </div>
                 </StackCol>
                 <StackCol>
-                  <h5 className="mb-3 mt-5">Join the community</h5>
+                  <h6 className="mb-3 mt-5">Join the community</h6>
                   <StackRow className="gap-2">
                     <a className="btn btn-lg btn-outline-dark" href="#">
                       <FaDiscord />
@@ -158,7 +160,8 @@ const Layout = ({
           <Container className="border-top p-3">
             <StackRow className="justify-content-between align-items-center">
               <small>
-                &copy; {new Date().getFullYear()} {SiteConfig.title} Inc
+                &copy; {new Date().getFullYear()}{' '}
+                <StyleDaChikn>{SiteConfig.title}</StyleDaChikn> Inc
               </small>
               <small>
                 Powered by <AvaxLogoSmall />

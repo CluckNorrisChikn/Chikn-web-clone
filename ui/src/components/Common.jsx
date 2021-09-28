@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Container } from 'react-bootstrap'
 import styled from 'styled-components'
+import SiteConfig from '../../site-config'
 
 export const Section = ({ className = '', ...props }) => (
   <Container
@@ -15,6 +16,14 @@ export const StackCol = ({ className = '', ...props }) => (
 export const StackRow = ({ className = '', ...props }) => (
   <div className={`d-flex flex-row ${className}`} {...props} />
 )
+
+export const StyleDaChikn = ({ children = '' }) => {
+  const split = children.split(new RegExp(`(${SiteConfig.nftName})`))
+  split.forEach((s, i) => {
+    if (s === SiteConfig.nftName) split[i] = <ChiknText />
+  })
+  return split
+}
 
 export const RainbowText1 = styled((props) => <span {...props} />)`
   background: linear-gradient(135deg, #6699ff 0%, #ff3366 100%);
@@ -33,7 +42,9 @@ export const RainbowText2 = styled((props) => <span {...props} />)`
   -webkit-box-decoration-break: clone;
 `
 
-export const ChiknText = styled.span`
+export const ChiknText = styled((props) => (
+  <span {...props}>{SiteConfig.nftName}</span>
+))`
   background: linear-gradient(135deg, red 0%, purple 100%);
   color: #b664b0;
   background-clip: text;
@@ -43,7 +54,7 @@ export const ChiknText = styled.span`
 `
 export const FeedText = styled.span`
   // background: linear-gradient(135deg, DarkSlateGray 0%, darkgreen 100%);
-  background: linear-gradient(135deg, Gold 0%, GoldenRod 50%, green 100%);
+  background: linear-gradient(135deg, orange 0%, gold 100%);
   color: #b664b0;
   background-clip: text;
   -webkit-background-clip: text;
