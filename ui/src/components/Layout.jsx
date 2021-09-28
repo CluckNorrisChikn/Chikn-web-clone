@@ -7,7 +7,8 @@ import ChickenIconSrc from '../images/chicken-icon.png'
 import AvalancheIconSrc from '../images/avalanche-avax-logo-black.svg'
 import { ConnectWalletButton } from './ConnectWalletButton'
 import Helmet from 'react-helmet'
-import { StackCol, StackRow } from './Common'
+import { ChiknText, StackCol, StackRow } from './Common'
+import SiteConfig from '../../site-config'
 
 const AvaxLogoSmall = styled((props) => (
   <img src={AvalancheIconSrc} {...props} />
@@ -38,7 +39,9 @@ const NavGatsbyLink = ({ children, disabled, ...props }) => {
   return (
     <Nav.Item>
       <Link
-        className={`nav-link px-3 ${disabled ? 'disabled' : ''}`}
+        className={`nav-link px-3 text-capitalize ${
+          disabled ? 'disabled' : ''
+        }`}
         activeClassName="active"
         {...props}
       >
@@ -48,27 +51,28 @@ const NavGatsbyLink = ({ children, disabled, ...props }) => {
   )
 }
 
-const HeaderLinks = () => (
-  <>
-    <NavGatsbyLink to="/">Home</NavGatsbyLink>
-    <NavGatsbyLink to="/mint">Mint</NavGatsbyLink>
-    <NavGatsbyLink to="/market">Market</NavGatsbyLink>
-    <NavGatsbyLink to="/wallet">Wallet</NavGatsbyLink>
-  </>
-)
+const links = 'home,mint,market,farm,roost'.split(',')
 
-const Layout = ({ children = [] }) => {
+const HeaderLinks = () =>
+  links.map((link, idx) => (
+    <NavGatsbyLink key={link} to={idx === 0 ? '/' : `/${link}`}>
+      {link}
+    </NavGatsbyLink>
+  ))
+
+const Layout = ({
+  children = [],
+  constrainWidth = true,
+  className = 'gap-4'
+}) => {
   return (
     <FullHeight>
       {/* meta */}
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Chikn NFT</title>
-        <meta
-          name="description"
-          content="8,000 unique chickens who need farmers."
-        />
-        <link rel="canonical" href="https://chickenrun-rho.vercel.app/" />
+        <title>{SiteConfig.title}</title>
+        <meta name="description" content={SiteConfig.description} />
+        <link rel="canonical" href={SiteConfig.url} />
       </Helmet>
 
       {/* header */}
@@ -81,7 +85,8 @@ const Layout = ({ children = [] }) => {
         >
           <Container>
             <Navbar.Brand href="/">
-              <ChickenIcon /> Chikn NFT
+              <ChickenIcon />
+              <ChiknText>{SiteConfig.title}</ChiknText>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="navbarResponsive" />
             <Navbar.Collapse
@@ -90,10 +95,10 @@ const Layout = ({ children = [] }) => {
             >
               <Nav className="align-items-md-center">
                 <HeaderLinks />
-                {/* <Spacer />
+                <Spacer />
                 <Nav.Item>
                   <ConnectWalletButton />
-                </Nav.Item> */}
+                </Nav.Item>
               </Nav>
             </Navbar.Collapse>
           </Container>
@@ -102,9 +107,17 @@ const Layout = ({ children = [] }) => {
 
       {/* main */}
       <main className="flex-grow-1">
-        <Container className="my-5 d-flex flex-column gap-4">
-          {children}
-        </Container>
+        {constrainWidth
+          ? (
+          <Container className={`${className} my-5 d-flex flex-column`}>
+            {children}
+          </Container>
+            )
+          : (
+          <div className={`${className} my-5 d-flex flex-column`}>
+            {children}
+          </div>
+            )}
       </main>
 
       {/* footer */}
@@ -115,9 +128,10 @@ const Layout = ({ children = [] }) => {
               <StackCol className="justify-content-between">
                 <StackCol>
                   <h3>
-                    <ChickenIcon /> Chikn NFT
+                    <ChickenIcon />
+                    <ChiknText>{SiteConfig.title}</ChiknText>
                   </h3>
-                  <div>8,000 unique chickens who need farmers.</div>
+                  <div>{SiteConfig.description}</div>
                 </StackCol>
                 <StackCol>
                   <h5 className="mb-3 mt-5">Join the community</h5>
@@ -143,7 +157,9 @@ const Layout = ({ children = [] }) => {
           </Container>
           <Container className="border-top p-3">
             <StackRow className="justify-content-between align-items-center">
-              <small>&copy; {new Date().getFullYear()} Chikn NFT Inc</small>
+              <small>
+                &copy; {new Date().getFullYear()} {SiteConfig.title} Inc
+              </small>
               <small>
                 Powered by <AvaxLogoSmall />
               </small>
