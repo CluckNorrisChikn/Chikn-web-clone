@@ -2,9 +2,9 @@ import * as React from 'react'
 import Layout from '../components/Layout'
 import moment from 'moment'
 import styled from 'styled-components'
-import { Section, StyleDaChikn } from '../components/Common'
+import { AButton, Section, StyleDaChikn } from '../components/Common'
 import ChickenCarousel from '../components/ChickenCarousel'
-import { Button, Container } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
 import siteConfig from '../../site-config'
 import ChickenHead from '../components/ChickenHead'
 // import FlipDate from '../components/FlipDate'
@@ -24,8 +24,6 @@ const ChickenHeadImageWrapper = styled(({ className = '', ...props }) => (
   }
 `
 
-const RELEASE_DATE = new Date('2021-10-09T00:00:00+10:00')
-
 const IndexPage = () => {
   return (
     <Layout constrainWidth={false} className="gap-8">
@@ -43,10 +41,12 @@ const IndexPage = () => {
               endAtZero
               size="medium"
               titlePosition="bottom"
-              endAt={RELEASE_DATE.toISOString()} // Date/Time
+              endAt={siteConfig.releaseDate} // Date/Time
             />
           </h1>
-          <small>{moment.utc(RELEASE_DATE).format('LLLL')} (UTC)</small>
+          <small>
+            {moment.utc(siteConfig.releaseDate).format('LLLL')} (UTC)
+          </small>
         </Section>
       </Container>
 
@@ -67,7 +67,12 @@ const IndexPage = () => {
             <p>
               For the latest news, updates and access to pre-release content.
             </p>
-            <Button variant="outline-primary">Join our Discord</Button>
+            <AButton
+              className="fs-5 btn-outline-primary px-4"
+              href={siteConfig.links.discord}
+            >
+              Join our Discord
+            </AButton>
           </div>
         </Container>
       </div>

@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import ChickenIconSrc from '../images/chicken-icon.png'
 import AvalancheIconSrc from '../images/avalanche-avax-logo-black.svg'
 import { ConnectWalletButton } from './ConnectWalletButton'
-import { StackCol, StackRow, StyleDaChikn } from './Common'
+import { AButton, StackCol, StackRow, StyleDaChikn } from './Common'
 import siteConfig from '../../site-config'
 import HelmetMeta from './HelmetMeta'
 
@@ -88,6 +88,7 @@ const Layout = ({
               id="navbarResponsive"
               className="justify-content-end"
             >
+              {/* links */}
               <Nav className="align-items-md-center">
                 <HeaderLinks />
                 <Spacer />
@@ -130,21 +131,42 @@ const Layout = ({
                     <StyleDaChikn>{siteConfig.description}</StyleDaChikn>
                   </div>
                 </StackCol>
+
+                {/* social */}
                 <StackCol>
                   <h6 className="mb-3 mt-5">Join the community</h6>
                   <StackRow className="gap-2">
-                    <a className="btn btn-lg btn-outline-dark" href="#">
+                    <AButton
+                      className="fs-5 btn-lg btn-outline-dark"
+                      href={siteConfig.links.discord}
+                    >
                       <FaDiscord />
-                    </a>
-                    <a className="btn btn-lg btn-outline-dark" href="#">
+                    </AButton>
+                    <AButton
+                      className="fs-5 btn-lg btn-outline-dark"
+                      href={siteConfig.links.twitter}
+                    >
                       <FaTwitter />
-                    </a>
+                    </AButton>
                   </StackRow>
                 </StackCol>
               </StackCol>
+
+              {/* links */}
               <Navbar bg="light">
                 <Nav className="flex-column">
                   <HeaderLinks />
+
+                  <Nav.Item>
+                    <a
+                      className="nav-link px-3 text-capitalize "
+                      href={siteConfig.links.docs}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Docs
+                    </a>
+                  </Nav.Item>
                   <NavGatsbyLink to="/terms">
                     Terms &amp; Conditions
                   </NavGatsbyLink>

@@ -25,6 +25,18 @@ export const StyleDaChikn = ({ children = '' }) => {
   return split
 }
 
+/**
+ * An <A> link, thats styled as a button.
+ */
+export const AButton = ({ className = '', ...props }) => (
+  <a
+    className={`btn ${className}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    {...props}
+  />
+)
+
 export const RainbowText1 = styled((props) => <span {...props} />)`
   background: linear-gradient(135deg, #6699ff 0%, #ff3366 100%);
   color: #b664b0;
