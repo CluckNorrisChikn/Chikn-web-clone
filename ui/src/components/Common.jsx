@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Container } from 'react-bootstrap'
 import styled from 'styled-components'
-import SiteConfig from '../../site-config'
+import siteConfig from '../../site-config'
 
 export const Section = ({ className = '', ...props }) => (
   <Container
@@ -18,9 +18,9 @@ export const StackRow = ({ className = '', ...props }) => (
 )
 
 export const StyleDaChikn = ({ children = '' }) => {
-  const split = children.split(new RegExp(`(${SiteConfig.nftName})`))
+  const split = children.split(new RegExp(`(${siteConfig.nftName})`))
   split.forEach((s, i) => {
-    if (s === SiteConfig.nftName) split[i] = <ChiknText />
+    if (s === siteConfig.nftName) split[i] = <ChiknText />
   })
   return split
 }
@@ -43,7 +43,7 @@ export const RainbowText2 = styled((props) => <span {...props} />)`
 `
 
 export const ChiknText = styled((props) => (
-  <span {...props}>{SiteConfig.nftName}</span>
+  <span {...props}>{siteConfig.nftName}</span>
 ))`
   background: linear-gradient(135deg, red 0%, purple 100%);
   color: #b664b0;

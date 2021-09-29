@@ -6,9 +6,9 @@ import styled from 'styled-components'
 import ChickenIconSrc from '../images/chicken-icon.png'
 import AvalancheIconSrc from '../images/avalanche-avax-logo-black.svg'
 import { ConnectWalletButton } from './ConnectWalletButton'
-import Helmet from 'react-helmet'
-import { ChiknText, StackCol, StackRow, StyleDaChikn } from './Common'
-import SiteConfig from '../../site-config'
+import { StackCol, StackRow, StyleDaChikn } from './Common'
+import siteConfig from '../../site-config'
+import HelmetMeta from './HelmetMeta'
 
 const AvaxLogoSmall = styled((props) => (
   <img src={AvalancheIconSrc} {...props} />
@@ -68,12 +68,7 @@ const Layout = ({
   return (
     <FullHeight>
       {/* meta */}
-      <Helmet>
-        <meta charSet="utf-8" />
-        <title>{SiteConfig.title}</title>
-        <meta name="description" content={SiteConfig.description} />
-        <link rel="canonical" href={SiteConfig.url} />
-      </Helmet>
+      <HelmetMeta />
 
       {/* header */}
       <header>
@@ -86,7 +81,7 @@ const Layout = ({
           <Container>
             <Navbar.Brand href="/">
               <ChickenIcon />
-              <StyleDaChikn>{SiteConfig.title}</StyleDaChikn>
+              <StyleDaChikn>{siteConfig.title}</StyleDaChikn>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="navbarResponsive" />
             <Navbar.Collapse
@@ -129,10 +124,10 @@ const Layout = ({
                 <StackCol>
                   <h3>
                     <ChickenIcon />
-                    <StyleDaChikn>{SiteConfig.title}</StyleDaChikn>
+                    <StyleDaChikn>{siteConfig.title}</StyleDaChikn>
                   </h3>
                   <div>
-                    <StyleDaChikn>{SiteConfig.description}</StyleDaChikn>
+                    <StyleDaChikn>{siteConfig.description}</StyleDaChikn>
                   </div>
                 </StackCol>
                 <StackCol>
@@ -161,7 +156,7 @@ const Layout = ({
             <StackRow className="justify-content-between align-items-center">
               <small>
                 &copy; {new Date().getFullYear()}{' '}
-                <StyleDaChikn>{SiteConfig.title}</StyleDaChikn> Inc
+                <StyleDaChikn>{siteConfig.title}</StyleDaChikn> Inc
               </small>
               <small>
                 Powered by <AvaxLogoSmall />

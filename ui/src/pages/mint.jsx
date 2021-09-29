@@ -17,7 +17,7 @@ import { InjectedConnector } from '@web3-react/injected-connector'
 import { Alert, Button, Card, Spinner, Table } from 'react-bootstrap'
 import { v4 as uuidv4 } from 'uuid'
 import styled from 'styled-components'
-import SiteConfig from '../../site-config'
+import siteConfig from '../../site-config'
 
 const ChickenCard = styled(({ className = '', ...props }) => (
   <Card className={`${className} rounded-3 shadow`} {...props} />
@@ -298,7 +298,7 @@ const IndexPage = () => {
             variant="outline-primary"
             onClick={() => mintToken()}
           >
-            Mint my {SiteConfig.nftName}!
+            Mint my {siteConfig.nftName}!
           </Button>
           {/* <div>Number of tokens you currently own: {tokenOwnByUser}</div> */}
         </StackCol>
@@ -316,7 +316,7 @@ const IndexPage = () => {
       </Section>
 
       <h3>
-        My {SiteConfig.nftName} ({tokenOwnByUser})
+        My {siteConfig.nftName} ({tokenOwnByUser})
       </h3>
 
       {/* {"0":"2",

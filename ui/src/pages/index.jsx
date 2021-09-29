@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Section, StyleDaChikn } from '../components/Common'
 import ChickenCarousel from '../components/ChickenCarousel'
 import { Button, Container } from 'react-bootstrap'
-import SiteConfig from '../../site-config'
+import siteConfig from '../../site-config'
 import ChickenHead from '../components/ChickenHead'
 // import FlipDate from '../components/FlipDate'
 import FlipCountdown from '@rumess/react-flip-countdown'
@@ -53,7 +53,7 @@ const IndexPage = () => {
       <div className="py-5">
         <Container className="pb-5 text-center">
           <h1>
-            <StyleDaChikn>{SiteConfig.description}</StyleDaChikn>
+            <StyleDaChikn>{siteConfig.description}</StyleDaChikn>
           </h1>
         </Container>
         <ChickenCarousel />
