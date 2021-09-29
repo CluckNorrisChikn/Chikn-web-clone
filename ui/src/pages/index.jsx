@@ -59,22 +59,27 @@ const IndexPage = () => {
         <ChickenCarousel />
       </div>
 
-      <div className="bg-light">
-        <Container className="position-relative">
-          <ChickenHeadImageWrapper />
-          <div className="py-5">
-            <h3>Join the community</h3>
-            <p>
-              For the latest news, updates and access to pre-release content.
-            </p>
-            <AButton
-              className="fs-5 btn-outline-primary px-4"
-              href={siteConfig.links.discord}
-            >
-              Join our Discord
-            </AButton>
-          </div>
-        </Container>
+      <div className="mb-5">
+        <div className="bg-light mb-5">
+          <Container className="position-relative">
+            <ChickenHeadImageWrapper />
+            <div className="py-5">
+              <div className="py-5">
+                <h3>Join the community</h3>
+                <p>
+                  For the latest news, updates and access to pre-release
+                  content.
+                </p>
+                <AButton
+                  className="fs-5 btn-outline-primary px-4"
+                  href={siteConfig.links.discord}
+                >
+                  Join our Discord
+                </AButton>
+              </div>
+            </div>
+          </Container>
+        </div>
       </div>
     </Layout>
   )
