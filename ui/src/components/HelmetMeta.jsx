@@ -23,8 +23,8 @@ const HelmetMeta = () => {
       <meta property="og:title" content={siteConfig.title} />
       <meta property="og:description" content={siteConfig.description} />
       <meta property="og:image" content={siteConfig.imageUrl} />
-      <meta property="og:image:width" content={siteConfig.imageDimsPx} />
-      <meta property="og:image:height" content={siteConfig.imageDimsPx} />
+      <meta property="og:image:width" content={siteConfig.imageWidthPx} />
+      <meta property="og:image:height" content={siteConfig.imageHeightPx} />
       <meta property="og:image:alt" content={siteConfig.description} />
       <meta property="og:url" content={siteConfig.url} />
       <meta property="og:type" content="website" />
