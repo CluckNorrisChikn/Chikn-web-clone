@@ -105,15 +105,15 @@ const Layout = ({
       <main className="flex-grow-1">
         {constrainWidth
           ? (
-          <Container className={`${className} my-5 d-flex flex-column`}>
-            {children}
-          </Container>
-            )
+            <Container className={`${className} my-5 d-flex flex-column`}>
+              {children}
+            </Container>
+          )
           : (
-          <div className={`${className} my-5 d-flex flex-column`}>
-            {children}
-          </div>
-            )}
+            <div className={`${className} my-5 d-flex flex-column`}>
+              {children}
+            </div>
+          )}
       </main>
 
       {/* footer */}

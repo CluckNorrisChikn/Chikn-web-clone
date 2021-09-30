@@ -9,7 +9,8 @@ module.exports = {
     'react/prop-types': 0,
     'space-before-function-paren': 0,
     'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'error'
+    'react-hooks/exhaustive-deps': 'error',
+    indent: ['error', 2]
   },
   settings: {
     react: {

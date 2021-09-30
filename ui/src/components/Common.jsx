@@ -20,7 +20,7 @@ export const StackRow = ({ className = '', ...props }) => (
 export const StyleDaChikn = ({ children = '' }) => {
   const split = children.split(new RegExp(`(${siteConfig.nftName})`))
   split.forEach((s, i) => {
-    if (s === siteConfig.nftName) split[i] = <ChiknText />
+    if (s === siteConfig.nftName) split[i] = <ChiknText key={i}/>
   })
   return split
 }
