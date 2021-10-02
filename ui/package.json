@@ -10,7 +10,7 @@
   "scripts": {
     "develop": "gatsby develop",
     "start": "gatsby develop",
-    "build": "gatsby build",
+    "build": "cp gatsby-browser.js gatsby-ssr.js && gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "deploy": "vercel --prod",
