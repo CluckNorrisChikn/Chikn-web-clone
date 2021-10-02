@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const { allowCors } = require('../../apisrc/vercel-utils')
-const ChickenContract = require('../../contract/ChickenContract.class')
+const ChickenContract = require('../../apisrc/ChickenContract.class')
 
 const BASE_TRAITS_KEY_MAP = {
   id: 'id',

@@ -1,5 +1,5 @@
 const { allowCors } = require('../../apisrc/vercel-utils')
-const ChickenContract = require('../../contract/ChickenContract.class')
+const ChickenContract = require('../../apisrc/ChickenContract.class')
 
 /** Returns the current minted vs total counts. */
 module.exports = allowCors(async (req, res) => {
