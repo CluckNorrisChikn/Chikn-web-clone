@@ -1,8 +1,6 @@
 const fs = require('fs')
 const path = require('path')
 
-const TOTAL_TOKENS = 10
-
 const BASE_TRAITS_KEY_MAP = {
   id: 'id',
   b: 'background',
