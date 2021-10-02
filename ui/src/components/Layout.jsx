@@ -9,6 +9,10 @@ import { ConnectWalletButton } from './ConnectWalletButton'
 import { AButton, StackCol, StackRow, StyleDaChikn } from './Common'
 import siteConfig from '../../site-config'
 import HelmetMeta from './HelmetMeta'
+import { useWeb3React } from '@web3-react/core'
+import { useQueryClient } from 'react-query'
+import { KEYS } from '../components/Connect'
+import TransactionProgress from '../components/TransactionProgress'
 
 const AvaxLogoSmall = styled((props) => (
   <img src={AvalancheIconSrc} {...props} />
@@ -65,13 +69,33 @@ const Layout = ({
   constrainWidth = true,
   className = 'gap-4'
 }) => {
+  // add useEffect to monitor change in wallet
+  const { library, account, chainId } = useWeb3React()
+  const queryClient = useQueryClient()
+
+  React.useEffect(() => {
+    if (!chainId || !account || !library) return
+    const update = async () => {
+      try {
+        // invalidate all wallet related stuff
+        queryClient.invalidateQueries(KEYS.CONTRACT())
+        queryClient.invalidateQueries(KEYS.WALLET())
+      } catch (e) {
+        console.log('failed to setup user and contract', e)
+      }
+    }
+
+    update()
+  // eslint-disable-next-line
+  }, [chainId, account, library])
+
   return (
     <FullHeight>
       {/* meta */}
       <HelmetMeta />
 
       {/* header */}
-      <header>
+      <header style={{ postion: 'relative' }}>
         <Navbar
           bg="light"
           expand="md"
@@ -100,20 +124,21 @@ const Layout = ({
           </Container>
         </Navbar>
       </header>
-
+      {/* Display transaction Toasterd */}
+      <TransactionProgress />
       {/* main */}
-      <main className="flex-grow-1">
+      <main className="flex-grow-1" >
         {constrainWidth
           ? (
-          <Container className={`${className} my-5 d-flex flex-column`}>
-            {children}
-          </Container>
-            )
+            <Container className={`${className} my-5 d-flex flex-column`} >
+              {children}
+            </Container>
+          )
           : (
-          <div className={`${className} my-5 d-flex flex-column`}>
-            {children}
-          </div>
-            )}
+            <div className={`${className} my-5 d-flex flex-column`}>
+              {children}
+            </div>
+          )}
       </main>
 
       {/* footer */}
