@@ -20,7 +20,8 @@ import {
   useGetWalletTokensQuer,
   useGetWalletTokensQuery,
   useGetWalletBalanceQuery,
-  useMintTokenMutation
+  useMintTokenMutation,
+  useGetSupplyQuery
 } from '../components/Connect'
 
 const ChickenCard = styled(({ className = '', ...props }) => (
@@ -32,6 +33,7 @@ const ChickenCard = styled(({ className = '', ...props }) => (
 const isBrowser = typeof window !== 'undefined'
 
 const IndexPage = () => {
+  const getSupplyQuery = useGetSupplyQuery()
   const useTotalSupply = useGetContractMaxSupplyQuery()
   const useCurrentSupply = useGetContractCurrentSupplyQuery()
   const useWalletBalance = useGetWalletBalanceQuery()
@@ -41,7 +43,9 @@ const IndexPage = () => {
 
   const { contractDetail = {} } = useContract.isSuccess ? useContract.data : {}
   const { tokens = [] } = useWalletTokens.isSuccess ? useWalletTokens.data : {}
-  const { balance = '-' } = useWalletBalance.isSuccess ? useWalletBalance.data : {}
+  const { balance = '-' } = useWalletBalance.isSuccess
+    ? useWalletBalance.data
+    : {}
 
   console.log('token', tokens, balance)
   const mintToken = () => {
@@ -55,7 +59,11 @@ const IndexPage = () => {
 
       <Section className="bg-light">
         <h3>
-          <ChiknText /> Minted: {useCurrentSupply.isSuccess ? useCurrentSupply.data.currentSupply : '-'} / {useTotalSupply.isSuccess ? useTotalSupply.data.totalSupply : '-'}
+          <ChiknText /> Minted:{' '}
+          {getSupplyQuery.isLoading && <Spinner animation="border" />}
+          {getSupplyQuery.isSuccess &&
+            `${getSupplyQuery.data.minted} / ${getSupplyQuery.data.total}`}
+          {getSupplyQuery.isError && '-'}
         </h3>
       </Section>
 
@@ -86,12 +94,11 @@ const IndexPage = () => {
       </Section>
 
       <h3>
-        {contractDetail.name} w({contractDetail.symbol} {contractDetail.address})
+        {contractDetail.name} w({contractDetail.symbol} {contractDetail.address}
+        )
       </h3>
 
-      <h5>
-          Current wallet balance: {balance}
-      </h5>
+      <h5>Current wallet balance: {balance}</h5>
 
       <Section className="border">
         <StackRow>
@@ -118,7 +125,7 @@ const IndexPage = () => {
                         {(
                           parseInt(token.price) / 1000000000000000000
                         ).toLocaleString()}{' '}
-                          AVAX
+                        AVAX
                       </td>
                     </tr>
                     {/* <tr>
@@ -132,14 +139,12 @@ const IndexPage = () => {
                       </td>
                     </tr>
                   </Table>
-
                 </Card.Body>
               </ChickenCard>
             )
           })}
         </StackRow>
       </Section>
-
     </Layout>
   )
 }

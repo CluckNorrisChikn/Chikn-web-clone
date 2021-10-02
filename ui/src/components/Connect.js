@@ -8,6 +8,7 @@ import ChickenRun from '../../contract/Chicken_Fuji.json'
 //  TODO: use mainnet contract
 import { BigNumber, Contract, utils, Event } from 'ethers'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
+import axios from 'axios'
 
 const getErrorMessage = (error) => {
   console.log(error)
@@ -262,6 +263,13 @@ export const useGetWalletTokensQuery = () => {
       enabled: enabledContract
     }
   )
+}
+
+export const useGetSupplyQuery = () => {
+  return useQuery(KEYS.CONTRACT_CURRENTSUPPLY(), async () => axios.get('/api/contract/supply').then(res => res.data), {
+    cacheTime: TIMEOUT_1_MIN,
+    staleTime: TIMEOUT_1_MIN
+  })
 }
 
 export const useGetContractMaxSupplyQuery = () => {

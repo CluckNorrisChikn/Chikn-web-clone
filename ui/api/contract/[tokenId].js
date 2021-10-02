@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const { allowCors } = require('../../apisrc/vercel-utils')
 const ChickenContract = require('../../contract/ChickenContract.class')
 
 const BASE_TRAITS_KEY_MAP = {
@@ -27,7 +28,7 @@ const BASE_TRAITS = {
   f: 'None' // feet
 }
 
-module.exports = async (req, res) => {
+module.exports = allowCors(async (req, res) => {
   const { query: { tokenId } } = req
 
   // token must be a number
@@ -50,4 +51,4 @@ module.exports = async (req, res) => {
 
   res.setHeader('Cache-Control', 's-max-age=60')
   res.json(record)
-}
+})

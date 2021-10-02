@@ -1,5 +1,5 @@
 // const Web3 = require('web3')
-const { abi, address } = require('./Chicken_Fuji.json')
+const { abi, address } = require('../contract/Chicken_Fuji.json')
 const Web3Eth = require('web3-eth')
 
 class ChickenContract {
