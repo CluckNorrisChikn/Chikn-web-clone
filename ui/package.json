@@ -10,13 +10,16 @@
   "scripts": {
     "develop": "gatsby develop",
     "start": "gatsby develop",
-    "build": "cp gatsby-browser.js gatsby-ssr.js && gatsby build",
+    "build": "cp gatsby-browser.js gatsby-ssr.js && gatsby build && rm -rf .cache",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "deploy": "vercel --prod",
     "deploy-staging": "vercel"
   },
   "dependencies": {
+    "web3": "1.5.3"
+  },
+  "devDependencies": {
     "@ethersproject/providers": "5.4.5",
     "@fontsource/poppins": "4.5.0",
     "@fortawesome/fontawesome-svg-core": "1.2.36",
@@ -61,9 +64,6 @@
     "styled-components": "5.3.1",
     "url": "0.11.0",
     "uuid": "8.3.2",
-    "web3": "1.5.3"
-  },
-  "devDependencies": {
     "@vercel/node": "1.12.1",
     "electron": "15.0.0",
     "eslint": "7.32.0",
