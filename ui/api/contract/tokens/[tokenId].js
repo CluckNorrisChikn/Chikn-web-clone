@@ -44,7 +44,7 @@ module.exports = allowCors(async (req, res) => {
   // token must be minted
   if (tid > minted) return res.status(412).json({ message: 'Precondition failed: token has not yet been minted.' })
 
-  const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data.json')))
+  const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../../data.json')))
   let record = { ...BASE_TRAITS, ...data[tid] }
   record = Object.fromEntries(Object.entries(record).map(([k, v]) => [BASE_TRAITS_KEY_MAP[k], v]))
   record.image = `/images/${record.id}.png`
