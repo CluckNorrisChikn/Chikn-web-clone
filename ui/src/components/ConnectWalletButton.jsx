@@ -3,8 +3,9 @@ import { Button, Spinner } from 'react-bootstrap'
 // import { useGetWalletQuery } from './ContractApi'
 import styled from 'styled-components'
 import { useWeb3React } from '@web3-react/core'
-import GlobalStoreContext from './Connect'
+import { KEYS, useGetContractQuery, useGetUserWalletAddressQuery } from '../components/Connect'
 import { injected } from '../hooks/web3'
+import { useQueryClient } from 'react-query'
 
 const FixedWidthButton = styled(Button)`
   min-width: 180px;
@@ -17,16 +18,24 @@ const shortFormAccountNum = (account) => {
 }
 
 export const ConnectWalletButton = () => {
-  const { user, activatingConnector, setActivatingConnector } = React.useContext(GlobalStoreContext)
-  const { connector, activate, active, deactivate } = useWeb3React()
+  const queryClient = useQueryClient()
+  const { library, activate, active, deactivate } = useWeb3React()
 
-  const activating = activatingConnector === injected
-  const connected = connector === injected
+  const useContract = useGetContractQuery()
+  const useUserWallet = useGetUserWalletAddressQuery()
 
-  const onClickButton = () => {
-    if (!(user && active)) {
-      setActivatingConnector(injected)
-      activate(injected, undefined, true)
+  const { data: { user = null } = {} } = useUserWallet
+
+  React.useEffect(() => {
+    if (library) {
+      queryClient.resetQueries(KEYS.CONTRACT())
+    }
+  }, [library, queryClient])
+
+  const onClickButton = async() => {
+    // no contract
+    if (!user || !active) {
+      await activate(injected, undefined, true)
     } else {
       deactivate()
     }
@@ -39,15 +48,15 @@ export const ConnectWalletButton = () => {
       className="px-3"
       onClick={onClickButton}
     >
-      {activating && connected && !user
-        ? (
-          <Spinner animation="border" size="sm" />
-        )
-        : (
-          (user && active)
+      {
+        useContract.isFetching || useUserWallet.isFetching
+          ? (
+            <Spinner animation="border" size="sm" />
+          )
+          : (useUserWallet.isSuccess && active
             ? shortFormAccountNum(user)
-            : 'Connect Wallet'
-        )}
+            : 'Connect Wallet')
+      }
     </FixedWidthButton>
   )
 }

@@ -6,7 +6,7 @@ import { Web3Provider } from '@ethersproject/providers'
 import React from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
-import { ConnectStoreProvider } from '../ui/src/components/Connect'
+
 /**
  * Implement Gatsby's Browser APIs in this file.
  *
@@ -36,11 +36,7 @@ export const wrapRootElement = ({ element }) => {
     <QueryClientProvider client={queryClient}>
 
       <Web3ReactProvider getLibrary={getLibrary}>
-
-        <ConnectStoreProvider>
-          {element}
-        </ConnectStoreProvider>
-
+        {element}
       </Web3ReactProvider>
 
       <ReactQueryDevtools initialIsOpen={false} />
