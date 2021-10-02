@@ -17,7 +17,7 @@
     "deploy-staging": "vercel"
   },
   "dependencies": {
-    "web3": "1.5.3"
+    "web3-eth": "1.6.0"
   },
   "devDependencies": {
     "@ethersproject/providers": "5.4.5",
@@ -50,6 +50,7 @@
     "moment": "2.29.1",
     "moment-timezone": "0.5.33",
     "os-browserify": "0.3.0",
+    "web3": "1.5.3",
     "react": "17.0.2",
     "react-bootstrap": "1.6.4",
     "react-dom": "17.0.2",
