@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const ChickenContract = require('../../contract/ChickenContract.class')
 
 const BASE_TRAITS_KEY_MAP = {
   id: 'id',
@@ -26,25 +27,27 @@ const BASE_TRAITS = {
   f: 'None' // feet
 }
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
   const { query: { tokenId } } = req
-  if (isNaN(parseInt(tokenId))) {
-    // 400 Bad Request
-    return res.status(400).json({ message: 'Invalid tokenId.' })
-  }
+
+  // token must be a number
+  if (isNaN(parseInt(tokenId))) return res.status(400).json({ message: 'Bad request: Invalid tokenId.' })
   const tid = parseInt(tokenId) - 1
   const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data.json')))
-  if (tid < 0 || tid >= data.length) {
-    // 416 Range Not Satisfiable
-    return res.status(416).json({ message: 'TokenId not in range.' })
-  }
 
-  // TODO check if token has not been minted yet...
-  // 412 Precondition failed
+  // token must be in range
+  if (tid < 0 || tid >= data.length) return res.status(416).json({ message: 'Range not satisfiable: TokenId not in range.' })
+
+  const contract = new ChickenContract()
+  const minted = await contract.mintedCount()
+
+  // token must be minted
+  if (minted < tokenId) return res.status(412).json({ message: 'Precondition failed: token has not yet been minted.' })
 
   let record = { ...BASE_TRAITS, ...data[tokenId] }
   record = Object.fromEntries(Object.entries(record).map(([k, v]) => [BASE_TRAITS_KEY_MAP[k], v]))
   record.image = `/images/${record.id}.png`
 
+  res.setHeader('Cache-Control', 's-max-age=60')
   res.json(record)
 }
