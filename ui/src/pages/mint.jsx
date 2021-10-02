@@ -14,10 +14,7 @@ import { v4 as uuidv4 } from 'uuid'
 import styled from 'styled-components'
 import siteConfig from '../../site-config'
 import {
-  useGetContractMaxSupplyQuery,
-  useGetContractCurrentSupplyQuery,
   useGetContractQuery,
-  useGetWalletTokensQuer,
   useGetWalletTokensQuery,
   useGetWalletBalanceQuery,
   useMintTokenMutation,
@@ -34,8 +31,6 @@ const isBrowser = typeof window !== 'undefined'
 
 const IndexPage = () => {
   const getSupplyQuery = useGetSupplyQuery()
-  const useTotalSupply = useGetContractMaxSupplyQuery()
-  const useCurrentSupply = useGetContractCurrentSupplyQuery()
   const useWalletBalance = useGetWalletBalanceQuery()
   const useContract = useGetContractQuery()
   const useWalletTokens = useGetWalletTokensQuery()

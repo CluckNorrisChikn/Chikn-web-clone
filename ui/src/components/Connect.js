@@ -10,6 +10,10 @@ import { BigNumber, Contract, utils, Event } from 'ethers'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import axios from 'axios'
 
+const axiosClient = axios.create({
+  baseURL: process.env.NODE_ENV === 'production' ? '/' : 'https://chickenrun-git-dev-mountainpass.vercel.app'
+})
+
 const getErrorMessage = (error) => {
   console.log(error)
 
@@ -45,6 +49,16 @@ export const KEYS = {
   WALLET_TOKEN: () => ['WALLET', 'WALLET_TOKEN'],
   WALLET_BALANCE: () => ['WALLET', 'WALLET_BALANCE'],
   TRANSACTION: () => ['TRANSACTION']
+}
+
+/**
+ * Get's the minted / total count of tokens.
+ */
+export const useGetSupplyQuery = () => {
+  return useQuery(KEYS.CONTRACT_CURRENTSUPPLY(), async () => axiosClient.get('/api/contract/supply').then(res => res.data), {
+    cacheTime: TIMEOUT_1_MIN,
+    staleTime: TIMEOUT_1_MIN
+  })
 }
 
 // GET contract
@@ -256,83 +270,6 @@ export const useGetWalletTokensQuery = () => {
         setEnableContract(false) // reset this to false
         return new Promise((resolve, reject) => {
           reject(errorMessage)
-        })
-      }
-    },
-    {
-      enabled: enabledContract
-    }
-  )
-}
-
-export const useGetSupplyQuery = () => {
-  return useQuery(KEYS.CONTRACT_CURRENTSUPPLY(), async () => axios.get('/api/contract/supply').then(res => res.data), {
-    cacheTime: TIMEOUT_1_MIN,
-    staleTime: TIMEOUT_1_MIN
-  })
-}
-
-export const useGetContractMaxSupplyQuery = () => {
-  const useContract = useGetContractQuery()
-  const [enabledContract, setEnableContract] = React.useState(false)
-
-  React.useEffect(() => {
-    setEnableContract(useContract.isSuccess)
-    // eslint-disable-next-line
-  }, [useContract])
-
-  return useQuery(
-    KEYS.CONTRACT_TOTALSUUPLY(),
-    async () => {
-      const { contract } = useContract.isSuccess ? useContract.data : {}
-      let totalSupply = 0
-      try {
-        console.log('0--- total totalSupply')
-        totalSupply = await contract.maxSupply()
-        return new Promise((resolve, reject) => {
-          resolve({
-            totalSupply: totalSupply.toString()
-          })
-        })
-      } catch (err) {
-        console.error('Error getting contract total supply', err)
-        return new Promise((resolve, reject) => {
-          reject(getErrorMessage(err))
-        })
-      }
-    },
-    {
-      enabled: enabledContract
-    }
-  )
-}
-
-export const useGetContractCurrentSupplyQuery = () => {
-  const useContract = useGetContractQuery()
-  const [enabledContract, setEnableContract] = React.useState(false)
-
-  React.useEffect(() => {
-    setEnableContract(useContract.isSuccess)
-  }, [useContract])
-
-  return useQuery(
-    KEYS.CONTRACT_CURRENTSUPPLY(),
-    async () => {
-      const { contract } = useContract.isSuccess ? useContract.data : {}
-      let currentSupply = 0
-      try {
-        console.log('0--- total currentSupply')
-        currentSupply = await contract.totalSupply() // total minted
-        console.log('curret', currentSupply.toString())
-        return new Promise((resolve, reject) => {
-          resolve({
-            currentSupply: currentSupply.toString()
-          })
-        })
-      } catch (err) {
-        console.error('Error getting contract current minted supply', err)
-        return new Promise((resolve, reject) => {
-          reject(getErrorMessage(err))
         })
       }
     },
