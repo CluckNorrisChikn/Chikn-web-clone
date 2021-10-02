@@ -64,6 +64,17 @@ const IndexPage = () => {
 
       <Section className="border">
         <StackCol className="gap-3">
+          {!useContract.isSuccess
+            ? (
+              <span>
+              Please connect your wallet, to mint a <ChiknText />.
+              </span>
+            )
+            : (
+              <span>
+              Click the button below, to mint your <ChiknText />.
+              </span>
+            )}
           <Button
             type="button"
             size="lg"
@@ -88,58 +99,63 @@ const IndexPage = () => {
           })} */}
       </Section>
 
-      <h3>
-        {contractDetail.name} w({contractDetail.symbol} {contractDetail.address}
-        )
-      </h3>
+      {/* NOTE don't show wallet until it's connected */}
+      {useContract.isSuccess && (
+        <>
+          <h3>
+            {contractDetail.name} w({contractDetail.symbol}{' '}
+            {contractDetail.address})
+          </h3>
 
-      <h5>Current wallet balance: {balance}</h5>
+          <h5>Current wallet balance: {balance}</h5>
 
-      <Section className="border">
-        <StackRow>
-          {tokens.length === 0 && <h5>No token in your wallet</h5>}
-          {tokens.map((token, i) => {
-            return (
-              <ChickenCard key={i}>
-                <Card.Img
-                  variant="top"
-                  src={'/images/3fe19ff5-469c-4f90-b760-477b852d2617.png'}
-                />
-                <Card.Body>
-                  <Card.Title>#{token.tokenId}</Card.Title>
+          <Section className="border">
+            <StackRow>
+              {tokens.length === 0 && <h5>No token in your wallet</h5>}
+              {tokens.map((token, i) => {
+                return (
+                  <ChickenCard key={i}>
+                    <Card.Img
+                      variant="top"
+                      src={'/images/3fe19ff5-469c-4f90-b760-477b852d2617.png'}
+                    />
+                    <Card.Body>
+                      <Card.Title>#{token.tokenId}</Card.Title>
 
-                  <h5>Traits (TBD)</h5>
-                  <Table>
-                    <tr>
-                      <th>For Sale</th>
-                      <td>{token.forSale ? 'Yes' : 'No'}</td>
-                    </tr>
-                    <tr>
-                      <th>Last Sale Price</th>
-                      <td>
-                        {(
-                          parseInt(token.price) / 1000000000000000000
-                        ).toLocaleString()}{' '}
-                        AVAX
-                      </td>
-                    </tr>
-                    {/* <tr>
+                      <h5>Traits (TBD)</h5>
+                      <Table>
+                        <tr>
+                          <th>For Sale</th>
+                          <td>{token.forSale ? 'Yes' : 'No'}</td>
+                        </tr>
+                        <tr>
+                          <th>Last Sale Price</th>
+                          <td>
+                            {(
+                              parseInt(token.price) / 1000000000000000000
+                            ).toLocaleString()}{' '}
+                            AVAX
+                          </td>
+                        </tr>
+                        {/* <tr>
                         <th>Current Owner</th>
                         <td>$11</td>
                       </tr> */}
-                    <tr>
-                      <th>Number of Sales</th>
-                      <td>
-                        {parseInt(token.numberOfTransfers).toLocaleString()}
-                      </td>
-                    </tr>
-                  </Table>
-                </Card.Body>
-              </ChickenCard>
-            )
-          })}
-        </StackRow>
-      </Section>
+                        <tr>
+                          <th>Number of Sales</th>
+                          <td>
+                            {parseInt(token.numberOfTransfers).toLocaleString()}
+                          </td>
+                        </tr>
+                      </Table>
+                    </Card.Body>
+                  </ChickenCard>
+                )
+              })}
+            </StackRow>
+          </Section>
+        </>
+      )}
     </Layout>
   )
 }
