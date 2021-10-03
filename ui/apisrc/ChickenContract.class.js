@@ -38,7 +38,7 @@ class ChickenContract {
    */
   async details(tokenId) {
     if (typeof tokenId === 'undefined') throw new Error('Missing parameter - tokenId')
-    const { price, numberOfTransfers, ...details } = await this.daiToken.methods.allChickenRun(tokenId).call()
+    const { price, numberOfTransfers, ...details } = await this.contract.methods.allChickenRun(tokenId).call()
     return { ...details, price: parseInt(price) / Math.pow(10, 18), numberOfTransfers: parseInt(numberOfTransfers) }
   }
 }
