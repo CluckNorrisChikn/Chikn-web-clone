@@ -6,6 +6,7 @@ import { useWeb3React } from '@web3-react/core'
 import { KEYS, useGetContractQuery, useGetUserWalletAddressQuery } from '../components/Connect'
 import { injected } from '../hooks/web3'
 import { useQueryClient } from 'react-query'
+import { AVALANCHE_TESTNET_PARAMS, AVALANCHE_MAINNET_PARAMS } from '../utils/network'
 
 const FixedWidthButton = styled(Button)`
   min-width: 180px;
@@ -39,6 +40,21 @@ export const ConnectWalletButton = () => {
     } else {
       deactivate()
     }
+  }
+
+  // Offer them option to add this to their meta mask network?
+  const addAvalancheNetwork = () => {
+    injected.getProvider().then(provider => {
+      console.log('prorivder injection', provider)
+      provider
+        .request({
+          method: 'wallet_addEthereumChain',
+          params: [AVALANCHE_TESTNET_PARAMS]
+        })
+        .catch((error) => {
+          console.log('Unable to push wallet', error)
+        })
+    })
   }
 
   // const getWalletQuery = useGetWalletQuery()
