@@ -40,7 +40,7 @@ const PropertyColour = ({ children }) => {
 
 const ChickenCard = ({ tokenId }) => {
   const getTokenQuery = useGetTokenQuery(tokenId)
-  const { data } = getTokenQuery
+  const { data: { properties = {}, details = {} } = {} } = getTokenQuery
 
   return (
     <>
@@ -57,13 +57,15 @@ const ChickenCard = ({ tokenId }) => {
       )}
       {getTokenQuery.isError && (
         <Alert variant="danger">
-          {getTokenQuery.error.response.data.message}
+          {getTokenQuery.error.response
+            ? getTokenQuery.error.response.data.message
+            : getTokenQuery.error.message}
         </Alert>
       )}
       {getTokenQuery.isSuccess && (
         <>
           <ChiknCard>
-            <Image src={data.image} />
+            <Image src={properties.image} />
             <Card.Body>
               <h5>
                 <ChiknText /> #{tokenId}
@@ -76,12 +78,15 @@ const ChickenCard = ({ tokenId }) => {
                       <>
                         <dd>{property}</dd>
                         <dt>
-                          <PropertyColour>{data[property]}</PropertyColour>
+                          <PropertyColour>
+                            {properties[property]}
+                          </PropertyColour>
                         </dt>
                       </>
                     )
                   })}
               </Properties>
+              <pre>{JSON.stringify(details, null, 2)}</pre>
             </Card.Body>
           </ChiknCard>
         </>

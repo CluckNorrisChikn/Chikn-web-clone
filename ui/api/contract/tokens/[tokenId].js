@@ -39,7 +39,7 @@ module.exports = allowCors(async (req, res) => {
   const [minted, total, details] = await Promise.all([
     contract.mintedCount(),
     contract.totalCount(),
-    contract.details()
+    contract.details(tokenId)
   ])
 
   // token must be in range
