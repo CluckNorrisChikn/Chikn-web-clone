@@ -33,7 +33,7 @@ const TransactionProgress = () => {
         }
         setOnShow(true)
         if (receipt.confirmations >= 1) {
-          queryClient.invalidateQueries(KEYS.CONTRACT())
+          // queryClient.invalidateQueries(KEYS.CONTRACT()) // Don't invalidate the whole contract, when you only need to update the supply.
           queryClient.invalidateQueries(KEYS.CONTRACT_CURRENTSUPPLY())
         }
       } catch (err) {
@@ -54,13 +54,14 @@ const TransactionProgress = () => {
   return (
     <Toast show={onShow} onClose={() => setOnShow(false)} delay={5000}
       style={{
-        position: 'absolute',
+        position: 'fixed',
         marginLeft: 'auto',
         marginRight: 'auto',
         top: 100,
         left: 0
       }}
-      autohide >
+      autohide={false}
+    >
       <Toast.Header style={{ backgroundColor: backgroundColor, color: 'white' }} closeButton={false}>
         <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
         <strong className="me-auto">{title}</strong>

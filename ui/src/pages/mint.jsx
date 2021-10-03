@@ -9,7 +9,7 @@ import {
 } from '../components/Common'
 import { ConnectWalletButton } from '../components/ConnectWalletButton'
 import Layout from '../components/Layout'
-import { Alert, Button, Card, Spinner, Table } from 'react-bootstrap'
+import { Alert, Button, Card, Col, Row, Spinner, Table } from 'react-bootstrap'
 import { v4 as uuidv4 } from 'uuid'
 import styled from 'styled-components'
 import siteConfig from '../../site-config'
@@ -20,12 +20,9 @@ import {
   useMintTokenMutation,
   useGetSupplyQuery
 } from '../components/Connect'
-
-const ChickenCard = styled(({ className = '', ...props }) => (
-  <Card className={`${className} rounded-3 shadow`} {...props} />
-))`
-  max-width: 300px;
-`
+import ChickenCard from '../components/ChickenCard'
+import { navigate } from 'gatsby-link'
+import TransactionProgress from '../components/TransactionProgress'
 
 const isBrowser = typeof window !== 'undefined'
 
@@ -50,6 +47,9 @@ const IndexPage = () => {
 
   return (
     <Layout>
+      {/* Display transaction Toasterd */}
+      <TransactionProgress />
+
       <h1>Mint</h1>
 
       <Section className="bg-light">
@@ -102,57 +102,24 @@ const IndexPage = () => {
       {/* NOTE don't show wallet until it's connected */}
       {useContract.isSuccess && (
         <>
-          <h3>
-            {contractDetail.name} w({contractDetail.symbol}{' '}
-            {contractDetail.address})
-          </h3>
-
-          <h5>Current wallet balance: {balance}</h5>
+          <h1>Wallet</h1>
 
           <Section className="border">
-            <StackRow>
-              {tokens.length === 0 && <h5>No token in your wallet</h5>}
-              {tokens.map((token, i) => {
-                return (
-                  <ChickenCard key={i}>
-                    <Card.Img
-                      variant="top"
-                      src={'/images/3fe19ff5-469c-4f90-b760-477b852d2617.png'}
+            {tokens.length === 0 && <h5>No token in your wallet</h5>}
+            <Row>
+              {tokens
+                .map((t) => parseInt(t.tokenId))
+                .sort((a, b) => a - b)
+                .map((tokenId) => (
+                  <Col key={tokenId} sm={6} md={4} lg={3}>
+                    <ChickenCard
+                      tokenId={tokenId}
+                      size="sm"
+                      onClick={() => navigate(`/wallet/${tokenId}`)}
                     />
-                    <Card.Body>
-                      <Card.Title>#{token.tokenId}</Card.Title>
-
-                      <h5>Traits (TBD)</h5>
-                      <Table>
-                        <tr>
-                          <th>For Sale</th>
-                          <td>{token.forSale ? 'Yes' : 'No'}</td>
-                        </tr>
-                        <tr>
-                          <th>Last Sale Price</th>
-                          <td>
-                            {(
-                              parseInt(token.price) / 1000000000000000000
-                            ).toLocaleString()}{' '}
-                            AVAX
-                          </td>
-                        </tr>
-                        {/* <tr>
-                        <th>Current Owner</th>
-                        <td>$11</td>
-                      </tr> */}
-                        <tr>
-                          <th>Number of Sales</th>
-                          <td>
-                            {parseInt(token.numberOfTransfers).toLocaleString()}
-                          </td>
-                        </tr>
-                      </Table>
-                    </Card.Body>
-                  </ChickenCard>
-                )
-              })}
-            </StackRow>
+                  </Col>
+                ))}
+            </Row>
           </Section>
         </>
       )}

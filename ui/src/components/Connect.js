@@ -71,59 +71,55 @@ export const useGetTokenQuery = (tokenId) => {
   })
 }
 
+// export const getWalletTokensQuery = () => {
+//   return useQuery()
+// }
+
 // GET contract
 export const useGetContractQuery = () => {
   const { library, error } = useWeb3React()
-  // queryClient.invalidateQueries(KEYS.WALLET())
+  const queryClient = useQueryClient()
   const [enabledContract, setEnableContract] = React.useState(false)
 
   React.useEffect(() => {
-    setEnableContract(typeof library !== 'undefined')
-  }, [library])
+    const data = queryClient.getQueryData(KEYS.CONTRACT())
+    if (typeof data === 'undefined' && typeof library !== 'undefined') setEnableContract(true)
+  }, [library, queryClient])
 
   return useQuery(
     KEYS.CONTRACT(),
     async () => {
-      let errorMessage = null
       try {
-        const abi = ChickenRun.abi
-        const address = ChickenRun.address
-
-        let contract = null
-        let name = null
-        let symbol = null
-
-        if (error || !library) {
-          errorMessage = getErrorMessage(error)
+        if (error) {
+          return Promise.reject(new Error(getErrorMessage(error)))
         } else {
-          contract = new Contract(address, abi, library.getSigner())
-          name = await contract.name()
-          symbol = await contract.symbol()
-        }
-
-        return new Promise((resolve, reject) => {
-          if (errorMessage) reject(errorMessage)
-          resolve({
+          console.debug('creating new contract connection...')
+          const { abi, address } = ChickenRun
+          const contract = new Contract(address, abi, library.getSigner())
+          const [name, symbol] = await Promise.all([
+            contract.name(),
+            contract.symbol()
+          ])
+          return {
             contract,
             contractDetail: {
               name,
               symbol,
               address
             }
-          })
-        })
+          }
+        }
       } catch (err) {
         console.error('Error trying to get contract', err)
-        errorMessage = getErrorMessage(err)
-        return new Promise((resolve, reject) => {
-          reject(errorMessage)
-        })
+        return Promise.reject(new Error(getErrorMessage(err)))
       }
     },
     {
       enabled: enabledContract,
       cacheTime: TIMEOUT_1_MIN * 5,
-      staleTime: TIMEOUT_1_MIN * 5
+      staleTime: TIMEOUT_1_MIN * 5,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false
     }
   )
 }
@@ -220,26 +216,25 @@ export const useGetWalletBalanceQuery = () => {
 
 export const useGetWalletTokensQuery = () => {
   const { library, account, error } = useWeb3React()
-  const useContract = useGetContractQuery()
+  const getContractQuery = useGetContractQuery()
+  const { data: { contract } = {} } = getContractQuery
 
   const [enabledContract, setEnableContract] = React.useState(false)
   const [currentAddress, setCurrentAddress] = React.useState(null)
 
   React.useEffect(() => {
     if (currentAddress !== account) {
-      setEnableContract(typeof library !== 'undefined' && useContract.isSuccess)
+      setEnableContract(typeof library !== 'undefined' && typeof contract !== 'undefined')
     }
-  }, [useContract, library, account, currentAddress])
+  }, [contract, library, account, currentAddress])
 
   return useQuery(
     KEYS.WALLET_TOKEN(),
     async () => {
-      const { contract } = useContract.isSuccess ? useContract.data : {}
-      let errorMessage = null
       const ownedTokens = new Map()
       try {
         if (error) {
-          errorMessage = getErrorMessage(error)
+          return Promise.reject(new Error('Error: ' + getErrorMessage(error)))
         } else {
           const ownedTokensEvents = contract.filters.Transfer(null, account)
           const results = await contract.queryFilter(ownedTokensEvents, 0, 'latest')
@@ -269,18 +264,12 @@ export const useGetWalletTokensQuery = () => {
         const tokenDetail = Array.from(ownedTokens).map(([_, token]) => token)
         setCurrentAddress(account)
         setEnableContract(false) // reset this to false
-        return new Promise((resolve, reject) => {
-          if (errorMessage) reject(errorMessage)
-          resolve({
-            tokens: tokenDetail
-          })
-        })
+        return {
+          tokens: tokenDetail
+        }
       } catch (err) {
         console.error('Error getting user wallet tokens', err)
-        setEnableContract(false) // reset this to false
-        return new Promise((resolve, reject) => {
-          reject(errorMessage)
-        })
+        throw new Error('Error getting user wallet tokens: ' + err.message)
       }
     },
     {

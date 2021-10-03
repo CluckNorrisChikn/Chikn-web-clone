@@ -1,14 +1,24 @@
 import * as React from 'react'
 import { Alert, Card } from 'react-bootstrap'
-import { ChiknText } from './Common'
-import { useGetTokenQuery } from './Connect'
+import { ChiknText, Stack, StackCol, StackRow } from './Common'
+import { useGetTokenQuery, useGetUserWalletAddressQuery } from './Connect'
 import styled from 'styled-components'
+import AvaxSvg from '../images/avalanche-avax-logo.svg'
+
+const AvaxLogo = styled((props) => <img src={AvaxSvg} {...props} />)`
+  width: 15px;
+  height: 15px;
+  margin-left: 5px;
+  position: relative;
+  top: -1px;
+`
 
 const Properties = styled.dl`
+  font-size: 1rem;
   display: grid;
   grid-template-columns: 120px auto;
   column-gap: 10px;
-  row-gap: 2px;
+  row-gap: 5px;
   margin-bottom: 0px;
   text-transform: capitalize;
   dd {
@@ -21,16 +31,32 @@ const Properties = styled.dl`
 
 const ChiknCard = styled(Card)`
   max-width: 500px;
+  &.clickable {
+    transition: all 0.1s ease-in-out;
+    cursor: pointer;
+  }
+  &.clickable:hover {
+    transform: scale(1.05);
+  }
 `
 
 const Image = styled((props) => <Card.Img variant="top" {...props} />)`
   max-width: 500px;
   max-height: 500px;
-  &.shimmer {
-    width: 500px;
-    height: 500px;
-  }
 `
+
+const GreyPill = styled(({ className = '', ...props }) => (
+  <span
+    className={`${className} px-3 bg-light text-dark rounded-pill`}
+    {...props}
+  />
+))``
+
+const shortAccount = (acct) => {
+  const firstHalf = acct.substring(0, 4)
+  const lastHalf = acct.substring(38)
+  return `${firstHalf}...${lastHalf}`
+}
 
 const PropertyColour = ({ children }) => {
   const pv = children.toLowerCase()
@@ -38,7 +64,16 @@ const PropertyColour = ({ children }) => {
   else return <span>{children}</span>
 }
 
-const ChickenCard = ({ tokenId }) => {
+const RenderAddress = ({ address }) => {
+  const getUserWalletAddressQuery = useGetUserWalletAddressQuery()
+  const { data: { user: { address: myAddress = '-' } = {} } = {} } =
+    getUserWalletAddressQuery
+  return (
+    <GreyPill>{address === myAddress ? 'You' : shortAccount(address)}</GreyPill>
+  )
+}
+
+const ChickenCard = ({ tokenId, size = 'lg', onClick = null }) => {
   const getTokenQuery = useGetTokenQuery(tokenId)
   const { data: { properties = {}, details = {} } = {} } = getTokenQuery
 
@@ -64,29 +99,72 @@ const ChickenCard = ({ tokenId }) => {
       )}
       {getTokenQuery.isSuccess && (
         <>
-          <ChiknCard>
+          <ChiknCard
+            className={onClick !== null ? 'clickable' : ''}
+            onClick={onClick}
+          >
             <Image src={properties.image} />
             <Card.Body>
-              <h5>
-                <ChiknText /> #{tokenId}
-              </h5>
-              <Properties className="fs-6">
-                {'background,chicken,headwear,mouth,eyewear,neck,arms,tail,feet'
-                  .split(',')
-                  .map((property) => {
-                    return (
-                      <>
-                        <dd>{property}</dd>
-                        <dt>
-                          <PropertyColour>
-                            {properties[property]}
-                          </PropertyColour>
-                        </dt>
-                      </>
-                    )
-                  })}
-              </Properties>
-              <pre>{JSON.stringify(details, null, 2)}</pre>
+              <Stack
+                direction={size === 'sm' ? 'col' : 'row'}
+                className="justify-content-between"
+              >
+                <h5>
+                  <ChiknText /> #{tokenId}
+                </h5>
+                <div>
+                  <GreyPill className="py-2 px-3">Not for sale</GreyPill>
+                </div>
+              </Stack>
+
+              {size !== 'sm' && (
+                <>
+                  <h5 className="mt-4 mb-3" visible={false}>
+                    Properties
+                  </h5>
+                  <Properties>
+                    {'background,chicken,headwear,mouth,eyewear,neck,arms,tail,feet'
+                      .split(',')
+                      .map((property) => {
+                        return (
+                          <>
+                            <dd>{property}</dd>
+                            <dt>
+                              <PropertyColour>
+                                {properties[property]}
+                              </PropertyColour>
+                            </dt>
+                          </>
+                        )
+                      })}
+                  </Properties>
+
+                  <h5 className="mt-4 mb-3">History</h5>
+                  <Properties>
+                    <dd>mintedBy</dd>
+                    <dt>
+                      <RenderAddress address={details.mintedBy} />
+                    </dt>
+                    <dd>currentOwner</dd>
+                    <dt>
+                      <RenderAddress address={details.currentOwner} />
+                    </dt>
+                    <dd>previousOwner</dd>
+                    <dt>
+                      <RenderAddress address={details.previousOwner} />
+                    </dt>
+                    <dd>price</dd>
+                    <dt>
+                      <GreyPill>
+                        {details.price.toLocaleString()}
+                        <AvaxLogo />
+                      </GreyPill>
+                    </dt>
+                    {/* <dd>Transfers</dd>
+                <dt>{details.numberOfTransfers}</dt> */}
+                  </Properties>
+                </>
+              )}
             </Card.Body>
           </ChiknCard>
         </>

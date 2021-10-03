@@ -10,6 +10,14 @@ export const Section = ({ className = '', ...props }) => (
   />
 )
 
+export const Stack = ({ className = '', direction = 'row', ...props }) => (
+  <div
+    className={`d-flex flex-${
+      direction === 'row' ? 'row' : 'column'
+    } gap-2 ${className}`}
+    {...props}
+  />
+)
 export const StackCol = ({ className = '', ...props }) => (
   <div className={`d-flex flex-column ${className}`} {...props} />
 )
@@ -20,7 +28,7 @@ export const StackRow = ({ className = '', ...props }) => (
 export const StyleDaChikn = ({ children = '' }) => {
   const split = children.split(new RegExp(`(${siteConfig.nftName})`))
   split.forEach((s, i) => {
-    if (s === siteConfig.nftName) split[i] = <ChiknText key={i}/>
+    if (s === siteConfig.nftName) split[i] = <ChiknText key={i} />
   })
   return split
 }

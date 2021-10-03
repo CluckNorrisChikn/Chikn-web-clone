@@ -12,7 +12,6 @@ import HelmetMeta from './HelmetMeta'
 import { useWeb3React } from '@web3-react/core'
 import { useQueryClient } from 'react-query'
 import { KEYS } from '../components/Connect'
-import TransactionProgress from '../components/TransactionProgress'
 
 const AvaxLogoSmall = styled((props) => (
   <img src={AvalancheIconSrc} {...props} />
@@ -55,7 +54,7 @@ const NavGatsbyLink = ({ children, disabled, ...props }) => {
   )
 }
 
-const links = 'home,mint,market,farm,roost'.split(',')
+const links = 'home,mint,market,farm,roost,wallet'.split(',')
 
 const HeaderLinks = () =>
   links.map((link, idx) => (
@@ -86,7 +85,7 @@ const Layout = ({
     }
 
     update()
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [chainId, account, library])
 
   return (
@@ -124,13 +123,11 @@ const Layout = ({
           </Container>
         </Navbar>
       </header>
-      {/* Display transaction Toasterd */}
-      <TransactionProgress />
       {/* main */}
-      <main className="flex-grow-1" >
+      <main className="flex-grow-1">
         {constrainWidth
           ? (
-            <Container className={`${className} my-5 d-flex flex-column`} >
+            <Container className={`${className} my-5 d-flex flex-column`}>
               {children}
             </Container>
           )
