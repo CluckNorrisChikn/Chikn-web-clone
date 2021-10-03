@@ -6,8 +6,7 @@ import { AButton, Section, StyleDaChikn } from '../components/Common'
 import ChickenCarousel from '../components/ChickenCarousel'
 import { Container } from 'react-bootstrap'
 import siteConfig from '../../site-config'
-import ChickenHead from '../components/ChickenHead'
-// import FlipDate from '../components/FlipDate'
+import ChickenHead from '../components/ChickenHeadImage'
 import FlipCountdown from '@rumess/react-flip-countdown'
 
 const ChickenHeadImageWrapper = styled(({ className = '', ...props }) => (

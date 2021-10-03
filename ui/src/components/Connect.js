@@ -44,6 +44,7 @@ const MINT_PRICE = '2'
 export const KEYS = {
   CONTRACT: () => ['CONTRACT'],
   CONTRACT_CURRENTSUPPLY: () => ['supply'],
+  CONTRACT_TOKEN: (tokenId) => ['token', tokenId],
   WALLET: () => ['WALLET'],
   WALLET_TOKEN: () => ['WALLET', 'WALLET_TOKEN'],
   WALLET_BALANCE: () => ['WALLET', 'WALLET_BALANCE'],
@@ -57,6 +58,16 @@ export const useGetSupplyQuery = () => {
   return useQuery(KEYS.CONTRACT_CURRENTSUPPLY(), async () => axiosClient.get('/api/contract/supply').then(res => res.data), {
     cacheTime: TIMEOUT_1_MIN,
     staleTime: TIMEOUT_1_MIN
+  })
+}
+/**
+ * Get's metadata for the given token.
+ */
+export const useGetTokenQuery = (tokenId) => {
+  return useQuery(KEYS.CONTRACT_TOKEN(), async () => axiosClient.get(`/api/contract/tokens/${tokenId}`).then(res => res.data), {
+    cacheTime: TIMEOUT_1_MIN * 30,
+    staleTime: TIMEOUT_1_MIN * 30,
+    retry: 0
   })
 }
 

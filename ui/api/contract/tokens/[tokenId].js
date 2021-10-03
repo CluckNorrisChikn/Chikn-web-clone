@@ -36,7 +36,11 @@ module.exports = allowCors(async (req, res) => {
   const tid = parseInt(tokenId)
 
   const contract = new ChickenContract()
-  const [minted, total] = await Promise.all([contract.mintedCount(), contract.totalCount()])
+  const [minted, total, details] = await Promise.all([
+    contract.mintedCount(),
+    contract.totalCount(),
+    contract.details()
+  ])
 
   // token must be in range
   if (!(tid >= 1 && tid <= total)) return res.status(416).json({ message: 'Range not satisfiable: TokenId not in range.' })
@@ -46,10 +50,10 @@ module.exports = allowCors(async (req, res) => {
 
   const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../../data.json')))
   const chickenIndex = (tid - 1) % 10 // TODO remove mod 10
-  let record = { ...BASE_TRAITS, ...data[chickenIndex] }
-  record = Object.fromEntries(Object.entries(record).map(([k, v]) => [BASE_TRAITS_KEY_MAP[k], v]))
-  record.image = `/images/${record.id}.png`
+  let properties = { ...BASE_TRAITS, ...data[chickenIndex] }
+  properties = Object.fromEntries(Object.entries(properties).map(([k, v]) => [BASE_TRAITS_KEY_MAP[k], v]))
+  properties.image = `/images/${properties.id}.png`
 
   res.setHeader('Cache-Control', 's-max-age=60')
-  res.json(record)
+  res.json({ properties, details })
 })
