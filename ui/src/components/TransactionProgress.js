@@ -34,6 +34,7 @@ const TransactionProgress = () => {
         setOnShow(true)
         if (receipt.confirmations >= 1) {
           queryClient.invalidateQueries(KEYS.CONTRACT())
+          queryClient.invalidateQueries(KEYS.CONTRACT_CURRENTSUPPLY())
         }
       } catch (err) {
         console.error('error checking transaction with blockchain')
