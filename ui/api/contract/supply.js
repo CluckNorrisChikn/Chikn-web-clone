@@ -8,6 +8,6 @@ module.exports = allowCors(async (req, res) => {
     contract.mintedCount(),
     contract.totalCount()
   ])
-  res.setHeader('Cache-Control', 's-max-age=5')
+  res.setHeader('Cache-Control', 'public, s-max-age=5')
   res.json({ minted, total })
 })

@@ -64,7 +64,7 @@ export const useGetSupplyQuery = () => {
  * Get's metadata for the given token.
  */
 export const useGetTokenQuery = (tokenId) => {
-  return useQuery(KEYS.CONTRACT_TOKEN(), async () => axiosClient.get(`/api/contract/tokens/${tokenId}`).then(res => res.data), {
+  return useQuery(KEYS.CONTRACT_TOKEN(tokenId), async () => axiosClient.get(`/api/contract/tokens/${tokenId}`).then(res => res.data), {
     cacheTime: TIMEOUT_1_MIN * 30,
     staleTime: TIMEOUT_1_MIN * 30,
     retry: 0

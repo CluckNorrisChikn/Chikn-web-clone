@@ -54,6 +54,6 @@ module.exports = allowCors(async (req, res) => {
   properties = Object.fromEntries(Object.entries(properties).map(([k, v]) => [BASE_TRAITS_KEY_MAP[k], v]))
   properties.image = `/images/${properties.id}.png`
 
-  res.setHeader('Cache-Control', 's-max-age=60')
+  res.setHeader('Cache-Control', 'public, s-max-age=60')
   res.json({ properties, details })
 })
