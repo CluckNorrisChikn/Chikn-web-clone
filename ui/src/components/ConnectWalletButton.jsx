@@ -84,6 +84,11 @@ export const ConnectWalletButton = () => {
         })
       })
       .catch((err) => {
+        const { stack } = err
+        console.error(
+          `Wallet connect error: '${err.constructor?.name}' - ${err.message}`,
+          { stack }
+        )
         setNotification({
           title: 'Wallet connect error',
           body: err.message,

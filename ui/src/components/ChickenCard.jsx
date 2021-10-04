@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Alert, Card } from 'react-bootstrap'
-import { ChiknText, Stack, StackCol, StackRow } from './Common'
+import { ChiknText, Stack } from './Common'
 import { useGetTokenQuery, useGetUserWalletAddressQuery } from './Connect'
 import styled from 'styled-components'
 import AvaxSvg from '../images/avalanche-avax-logo.svg'
