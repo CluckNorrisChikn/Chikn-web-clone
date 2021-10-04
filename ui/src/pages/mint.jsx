@@ -18,7 +18,8 @@ import {
   useGetWalletTokensQuery,
   useGetWalletBalanceQuery,
   useMintTokenMutation,
-  useGetSupplyQuery
+  useGetSupplyQuery,
+  useWeb3Contract
 } from '../components/Connect'
 import ChickenCard from '../components/ChickenCard'
 import { navigate } from 'gatsby-link'
@@ -27,19 +28,16 @@ import TransactionProgress from '../components/TransactionProgressToast'
 const isBrowser = typeof window !== 'undefined'
 
 const IndexPage = () => {
+  const { library, contract, account, active } = useWeb3Contract()
   const getSupplyQuery = useGetSupplyQuery()
-  const useWalletBalance = useGetWalletBalanceQuery()
-  const useContract = useGetContractQuery()
-  const useWalletTokens = useGetWalletTokensQuery()
-  const useMintToken = useMintTokenMutation()
+  const useWalletBalance = useGetWalletBalanceQuery(library, account, active)
 
-  const { contractDetail = {} } = useContract.isSuccess ? useContract.data : {}
-  const { tokens = [] } = useWalletTokens.isSuccess ? useWalletTokens.data : {}
+  const useMintToken = useMintTokenMutation(contract, active)
+
   const { balance = '-' } = useWalletBalance.isSuccess
     ? useWalletBalance.data
     : {}
 
-  console.log('token', tokens, balance)
   const mintToken = () => {
     const tokenURI = `https://chickenrun.io/${uuidv4()}`
     useMintToken.mutate(tokenURI)
@@ -48,11 +46,8 @@ const IndexPage = () => {
   return (
     <Layout>
       {/* Display transaction Toasterd */}
-      <TransactionProgress />
+      <TransactionProgress intialOnShow={false} />
 
-      <Alert variant="warning" className="text-center">
-        <h1>N.B. This page will merge with home</h1>
-      </Alert>
       <h1>Mint</h1>
 
       <Section className="bg-light">
@@ -67,25 +62,28 @@ const IndexPage = () => {
 
       <Section className="border">
         <StackCol className="gap-3">
-          {!useContract.isSuccess
+          {!contract
             ? (
               <span>
               Please connect your wallet, to mint a <ChiknText />.
               </span>
             )
             : (
-              <span>
+              <>
+                <div>Wallet balance - ${balance}</div>
+                <span>
               Click the button below, to mint your <ChiknText />.
-              </span>
+                </span>
+              </>
             )}
           <Button
             type="button"
             size="lg"
             variant="outline-primary"
-            disabled={!useContract.isSuccess}
+            disabled={!contract || useMintToken.isLoading}
             onClick={() => mintToken()}
           >
-            Mint my {siteConfig.nftName}!
+            {useMintToken.isLoading ? <Spinner animation="border" /> : <span>Mint my {siteConfig.nftName}!</span>}
           </Button>
           {/* <div>Number of tokens you currently own: {tokenOwnByUser}</div> */}
         </StackCol>
@@ -102,30 +100,10 @@ const IndexPage = () => {
           })} */}
       </Section>
 
-      {/* NOTE don't show wallet until it's connected */}
-      {useContract.isSuccess && (
-        <>
-          <h1>Wallet</h1>
+      <Alert variant="warning" className="text-center">
+        <h1>N.B. This page will merge with home</h1>
+      </Alert>
 
-          <Section className="border">
-            {tokens.length === 0 && <h5>No token in your wallet</h5>}
-            <Row>
-              {tokens
-                .map((t) => parseInt(t.tokenId))
-                .sort((a, b) => a - b)
-                .map((tokenId) => (
-                  <Col key={tokenId} sm={6} md={4} lg={3}>
-                    <ChickenCard
-                      tokenId={tokenId}
-                      size="sm"
-                      onClick={() => navigate(`/wallet/${tokenId}`)}
-                    />
-                  </Col>
-                ))}
-            </Row>
-          </Section>
-        </>
-      )}
     </Layout>
   )
 }

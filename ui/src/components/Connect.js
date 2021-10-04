@@ -98,92 +98,68 @@ export const useWeb3Contract = () => {
 export const useGetContractQuery = () => ({})
 export const getContractQuery = () => ({})
 
-export const useGetUserWalletAddressQuery = () => {
-  const { library, account, error } = useWeb3React()
-  const queryClient = useQueryClient()
+// export const useGetUserWalletAddressQuery = () => {
+//   const { library, account, error } = useWeb3React()
+//   const queryClient = useQueryClient()
 
-  const [enabledContract, setEnableContract] = React.useState(false)
-  const [currentAddress, setCurrentAddress] = React.useState(null)
+//   const [enabledContract, setEnableContract] = React.useState(false)
+//   const [currentAddress, setCurrentAddress] = React.useState(null)
 
-  React.useEffect(() => {
-    if (currentAddress !== account) {
-      setEnableContract(typeof library !== 'undefined' && typeof account !== 'undefined')
-    }
-  }, [library, account, currentAddress, queryClient])
+//   React.useEffect(() => {
+//     if (currentAddress !== account) {
+//       setEnableContract(typeof library !== 'undefined' && typeof account !== 'undefined')
+//     }
+//   }, [library, account, currentAddress, queryClient])
 
-  return useQuery(
-    KEYS.WALLET(),
-    async () => {
-      let errorMessage = null
-      try {
-        if (error) {
-          errorMessage = getErrorMessage(error)
-        }
-        setCurrentAddress(account)
-        setEnableContract(false) // reset this to false
-        return new Promise((resolve, reject) => {
-          if (errorMessage) reject(errorMessage)
-          resolve({
-            isAuthenticated: true,
-            user: { address: account || '' }
-          })
-        })
-      } catch (err) {
-        console.error('Error getting user wallet address', err)
-        setEnableContract(false) // reset this to false
-        return new Promise((resolve, reject) => {
-          reject(errorMessage)
-        })
-      }
-    },
-    {
-      enabled: enabledContract
-    }
-  )
-}
+//   return useQuery(
+//     KEYS.WALLET(),
+//     async () => {
+//       let errorMessage = null
+//       try {
+//         if (error) {
+//           errorMessage = getErrorMessage(error)
+//         }
+//         setCurrentAddress(account)
+//         setEnableContract(false) // reset this to false
+//         return new Promise((resolve, reject) => {
+//           if (errorMessage) reject(errorMessage)
+//           resolve({
+//             isAuthenticated: true,
+//             user: { address: account || '' }
+//           })
+//         })
+//       } catch (err) {
+//         console.error('Error getting user wallet address', err)
+//         setEnableContract(false) // reset this to false
+//         return new Promise((resolve, reject) => {
+//           reject(errorMessage)
+//         })
+//       }
+//     },
+//     {
+//       enabled: enabledContract
+//     }
+//   )
+// }
 
-export const useGetWalletBalanceQuery = () => {
-  const { library, account, error } = useWeb3React()
-
-  const [enabledContract, setEnableContract] = React.useState(false)
-  const [currentAddress, setCurrentAddress] = React.useState(null)
-
-  React.useEffect(() => {
-    if (currentAddress !== account) {
-      setEnableContract(typeof library !== 'undefined')
-    }
-  }, [library, account, currentAddress])
-
+export const useGetWalletBalanceQuery = (library, account, enabled = true) => {
   return useQuery(
     KEYS.WALLET_BALANCE(),
     async () => {
-      let errorMessage = null
-      let balance = null
-      try {
-        if (error) {
-          errorMessage = getErrorMessage(error)
-        } else {
-          balance = utils.formatEther(await library.getBalance(account || ''))
-        }
-        setCurrentAddress(account)
-        setEnableContract(false) // reset this to false
-
-        return new Promise((resolve, reject) => {
-          if (errorMessage) reject(errorMessage)
-          resolve({
-            balance: balance.toString()
-          })
+      const balance = utils.formatEther(await library.getBalance(account || ''))
+      return new Promise((resolve, reject) => {
+        resolve({
+          balance: balance.toString()
         })
-      } catch (err) {
-        console.error('Error getting user wallet balance', err)
-        setEnableContract(false) // reset this to false
-        return new Promise((resolve, reject) => {
-          reject(errorMessage)
-        })
-      }
+      })
     },
     {
-      enabled: enabledContract
+      enabled: !isUndef(account) && enabled,
+      cacheTime: TIMEOUT_1_MIN * 10,
+      staleTime: TIMEOUT_1_MIN * 10,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false
     }
   )
 }
@@ -196,21 +172,27 @@ export const useGetWalletTokensQuery = (contract, account, enabled = true) => {
     async () => {
       console.debug('refetching wallet tokens', { contract, account, enabled })
       const tokensIds = []
-      const ownedTokensEvents = contract.filters.Transfer(null, account)
-      const results = await contract.queryFilter(ownedTokensEvents, 0, 'latest')
-      console.debug('wallet tokens', results)
+      const tokenCount = await contract.balanceOf(account)
 
-      // TODO go through all the tx on the block - sounds expensive, no? - Nick
-      await Promise.all(
-        results.map(async current => {
-          const ownerToken = await contract.ownerOf(current.args.tokenId)
-          if (ownerToken === account) {
-            /** @type {BigNumber} */
-            const tokenId = current.args?.tokenId
-            tokensIds.push(tokenId.toNumber())
-          }
-        })
-      )
+      // const ownedTokensEvents = contract.filters.Transfer(null, account)
+      // const results = await contract.queryFilter(ownedTokensEvents, 0, 'latest')
+      // console.debug('wallet tokens', results)
+
+      // // TODO go through all the tx on the block - sounds expensive, no? - Nick
+      // await Promise.all(
+      //   results.map(async current => {
+      //     const ownerToken = await contract.ownerOf(current.args.tokenId)
+      //     if (ownerToken === account) {
+      //       /** @type {BigNumber} */
+      //       const tokenId = current.args?.tokenId
+      //       tokensIds.push(tokenId.toNumber())
+      //     }
+      //   })
+      // )
+      for (let i = 0; i < tokenCount.toNumber(); i++) {
+        const token = await contract.tokenOfOwnerByIndex(account, i)
+        tokensIds.push(token.toNumber())
+      }
       return tokensIds
     },
     {
@@ -224,17 +206,9 @@ export const useGetWalletTokensQuery = (contract, account, enabled = true) => {
   )
 }
 
-export const useMintTokenMutation = () => {
-  const useContract = useGetContractQuery()
-  const [enabledContract, setEnableContract] = React.useState(false)
+export const useMintTokenMutation = (contract, enabled = true) => {
   const queryClient = useQueryClient()
-
-  React.useEffect(() => {
-    setEnableContract(useContract.isSuccess)
-  }, [useContract])
-
   return useMutation(async (tokenURI) => {
-    const { contract } = useContract.isSuccess ? useContract.data : {}
     console.debug(`Minting token with the ${tokenURI}`)
     const tx = await contract.mint(tokenURI, { value: utils.parseUnits(MINT_PRICE, 'ether') })
     console.log('long tx', tx)
@@ -244,10 +218,9 @@ export const useMintTokenMutation = () => {
       })
     })
   }, {
-    enabled: enabledContract,
+    enabled: !isUndef(contract) && enabled,
     onSuccess: async (data) => {
       console.log('Tx mint request', data)
-
       // cancel anything in tranaction queue
       await queryClient.cancelQueries(KEYS.TRANSACTION())
       queryClient.setQueryData(KEYS.TRANSACTION(), data)
