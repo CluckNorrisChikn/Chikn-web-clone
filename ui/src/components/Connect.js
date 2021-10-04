@@ -75,54 +75,28 @@ export const useGetTokenQuery = (tokenId) => {
 //   return useQuery()
 // }
 
-// GET contract
-export const useGetContractQuery = () => {
-  const { library, error } = useWeb3React()
-  const queryClient = useQueryClient()
-  const [enabledContract, setEnableContract] = React.useState(false)
+/**
+ * @returns {}
+ */
+export const useWeb3Contract = () => {
+  const [state, setState] = React.useState({})
+  const web3react = useWeb3React()
 
   React.useEffect(() => {
-    const data = queryClient.getQueryData(KEYS.CONTRACT())
-    if (typeof data === 'undefined' && typeof library !== 'undefined') setEnableContract(true)
-  }, [library, queryClient])
-
-  return useQuery(
-    KEYS.CONTRACT(),
-    async () => {
-      try {
-        if (error) {
-          return Promise.reject(new Error(getErrorMessage(error)))
-        } else {
-          console.debug('creating new contract connection...')
-          const { abi, address } = ChickenRun
-          const contract = new Contract(address, abi, library.getSigner())
-          const [name, symbol] = await Promise.all([
-            contract.name(),
-            contract.symbol()
-          ])
-          return {
-            contract,
-            contractDetail: {
-              name,
-              symbol,
-              address
-            }
-          }
-        }
-      } catch (err) {
-        console.error('Error trying to get contract', err)
-        return Promise.reject(new Error(getErrorMessage(err)))
-      }
-    },
-    {
-      enabled: enabledContract,
-      cacheTime: TIMEOUT_1_MIN * 5,
-      staleTime: TIMEOUT_1_MIN * 5,
-      refetchOnMount: false,
-      refetchOnWindowFocus: false
+    console.debug('watch contract', web3react)
+    let contract
+    if (web3react.library) {
+      const { abi, address } = ChickenRun
+      contract = new Contract(address, abi, web3react.library.getSigner())
     }
-  )
+    setState({ ...web3react, contract })
+  }, [web3react])
+
+  return state
 }
+
+export const useGetContractQuery = () => ({})
+export const getContractQuery = () => ({})
 
 export const useGetUserWalletAddressQuery = () => {
   const { library, account, error } = useWeb3React()
@@ -214,66 +188,38 @@ export const useGetWalletBalanceQuery = () => {
   )
 }
 
-export const useGetWalletTokensQuery = () => {
-  const { library, account, error } = useWeb3React()
-  const getContractQuery = useGetContractQuery()
-  const { data: { contract } = {} } = getContractQuery
+const isUndef = o => typeof o === 'undefined'
 
-  const [enabledContract, setEnableContract] = React.useState(false)
-  const [currentAddress, setCurrentAddress] = React.useState(null)
-
-  React.useEffect(() => {
-    if (currentAddress !== account) {
-      setEnableContract(typeof library !== 'undefined' && typeof contract !== 'undefined')
-    }
-  }, [contract, library, account, currentAddress])
-
+export const useGetWalletTokensQuery = (contract, account, enabled = true) => {
   return useQuery(
     KEYS.WALLET_TOKEN(),
     async () => {
-      const ownedTokens = new Map()
-      try {
-        if (error) {
-          return Promise.reject(new Error('Error: ' + getErrorMessage(error)))
-        } else {
-          const ownedTokensEvents = contract.filters.Transfer(null, account)
-          const results = await contract.queryFilter(ownedTokensEvents, 0, 'latest')
-          console.log('results', results)
+      console.debug('refetching wallet tokens', { contract, account, enabled })
+      const tokensIds = []
+      const ownedTokensEvents = contract.filters.Transfer(null, account)
+      const results = await contract.queryFilter(ownedTokensEvents, 0, 'latest')
+      console.debug('wallet tokens', results)
 
-          // go through all the tx on the block
-          await Promise.all(
-            results.map(async current => {
-              const ownerToken = await contract.ownerOf(current.args.tokenId)
-
-              if (ownerToken === account) {
-                const { tokenId, tokenURI, price, numberOfTransfers, forSale } = await contract.allChickenRun(current.args?.tokenId)
-
-                // TODO: check new contract for new attribute
-                // lastSalePrice, perchHeight
-                ownedTokens.set(tokenURI, {
-                  tokenId: tokenId.toString(),
-                  price: price.toString(),
-                  numberOfTransfers: numberOfTransfers.toString(),
-                  forSale
-                })
-              }
-            })
-          )
-        }
-
-        const tokenDetail = Array.from(ownedTokens).map(([_, token]) => token)
-        setCurrentAddress(account)
-        setEnableContract(false) // reset this to false
-        return {
-          tokens: tokenDetail
-        }
-      } catch (err) {
-        console.error('Error getting user wallet tokens', err)
-        throw new Error('Error getting user wallet tokens: ' + err.message)
-      }
+      // TODO go through all the tx on the block - sounds expensive, no? - Nick
+      await Promise.all(
+        results.map(async current => {
+          const ownerToken = await contract.ownerOf(current.args.tokenId)
+          if (ownerToken === account) {
+            /** @type {BigNumber} */
+            const tokenId = current.args?.tokenId
+            tokensIds.push(tokenId.toNumber())
+          }
+        })
+      )
+      return tokensIds
     },
     {
-      enabled: enabledContract
+      enabled: !isUndef(contract) && !isUndef(account) && enabled,
+      cacheTime: TIMEOUT_1_MIN * 30,
+      staleTime: TIMEOUT_1_MIN * 30,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false
     }
   )
 }

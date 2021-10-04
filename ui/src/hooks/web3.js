@@ -15,13 +15,17 @@ export const useEagerConnect = () => {
     if (connector === injected) {
       injected.isAuthorized().then((isAuthorized) => {
         if (isAuthorized) {
-          activate(injected, undefined, true).catch(() => {
+          console.debug('userEagerConnect - authorized, activating...')
+          activate(injected, (e) => console.error(e), true).catch(() => {
             setTried(true)
           })
         } else {
+          console.debug('userEagerConnect - not authorized')
           setTried(true)
         }
       })
+    } else {
+      console.debug('userEagerConnect - not connected', connector)
     }
   }, [activate, connector])
 

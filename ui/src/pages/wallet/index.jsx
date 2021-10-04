@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
 import * as React from 'react'
+
+import { FaSync } from 'react-icons/fa'
 import {
   ChiknText,
   Section,
@@ -14,38 +16,55 @@ import { v4 as uuidv4 } from 'uuid'
 import styled from 'styled-components'
 import siteConfig from '../../../site-config'
 import {
+  KEYS,
   useGetContractQuery,
-  useGetWalletTokensQuery
+  useGetWalletTokensQuery,
+  useWeb3Contract
 } from '../../components/Connect'
 import ChickenCard from '../../components/ChickenCard'
 import { navigate } from 'gatsby-link'
+import { useQueryClient } from 'react-query'
 
 const IndexPage = () => {
-  const useContract = useGetContractQuery()
-  const useWalletTokens = useGetWalletTokensQuery()
+  const queryClient = useQueryClient()
+  const { contract, account, active } = useWeb3Contract()
+  const useWalletTokens = useGetWalletTokensQuery(contract, account, active)
 
-  const { data: { tokens = [] } = {} } = useWalletTokens
+  const { data: tokens = [] } = useWalletTokens
 
   return (
     <Layout>
-      <h1>Wallet</h1>
+      <StackRow className="justify-content-between">
+        <h1>Wallet</h1>
+        <div>
+          <Button
+            title="Refresh"
+            variant="light"
+            disabled={!active}
+            onClick={() => queryClient.invalidateQueries(KEYS.WALLET_TOKEN())}
+          >
+            <FaSync />
+          </Button>
+        </div>
+      </StackRow>
       <Section className="border">
-        {!useContract.isSuccess && (
+        {!active && (
           <span>
             Please connect your wallet, to view your <ChiknText />.
           </span>
         )}
-        {useWalletTokens.isLoading && <Spinner animation="border" />}
-        {useWalletTokens.isError && (
+        {useWalletTokens.isFetching && <Spinner animation="border" />}
+        {!useWalletTokens.isFetching && useWalletTokens.isError && (
           <Alert variant="danger">{useWalletTokens.error?.message}</Alert>
         )}
-        {useWalletTokens.isSuccess && tokens.length === 0 && (
-          <h5>No token in your wallet</h5>
-        )}
-        {useWalletTokens.isSuccess && tokens.length > 0 && (
+        {!useWalletTokens.isFetching &&
+          useWalletTokens.isSuccess &&
+          tokens.length === 0 && <h5>No tokens found in your wallet.</h5>}
+        {!useWalletTokens.isFetching &&
+          useWalletTokens.isSuccess &&
+          tokens.length > 0 && (
           <Row>
             {tokens
-              .map((t) => parseInt(t.tokenId))
               .sort((a, b) => a - b)
               .map((tokenId) => (
                 <Col key={tokenId} sm={6} md={4} lg={3}>
@@ -61,7 +80,12 @@ const IndexPage = () => {
 
         {/* debug */}
         {process.env.NODE_ENV !== 'production' && (
-          <pre>{JSON.stringify(useWalletTokens, null, 2)}</pre>
+          <>
+            <pre>active={JSON.stringify(active, null, 2)}</pre>
+            <pre>
+              useWalletTokens={JSON.stringify(useWalletTokens, null, 2)}
+            </pre>
+          </>
         )}
       </Section>
     </Layout>

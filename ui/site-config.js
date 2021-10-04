@@ -12,7 +12,7 @@ module.exports = {
   author: 'noreply@chikn.farm',
   links: {
     discord: 'https://discord.gg/CRuxFQRDsN',
-    twitter: 'https://twitter.com/chiknnft',
+    twitter: 'https://twitter.com/chikn_farm',
     docs: 'https://docs.chikn.farm/'
   },
   releaseDate: '2021-10-09T00:00:00+10:00'

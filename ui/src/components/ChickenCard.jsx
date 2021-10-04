@@ -119,9 +119,7 @@ const ChickenCard = ({ tokenId, size = 'lg', onClick = null }) => {
 
               {size !== 'sm' && (
                 <>
-                  <h5 className="mt-4 mb-3" visible={false}>
-                    Properties
-                  </h5>
+                  <h5 className="mt-4 mb-3">Properties</h5>
                   <Properties>
                     {'background,chicken,headwear,mouth,eyewear,neck,arms,tail,feet'
                       .split(',')

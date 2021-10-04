@@ -77,7 +77,7 @@ const Layout = ({
     const update = async () => {
       try {
         // invalidate all wallet related stuff
-        queryClient.invalidateQueries(KEYS.CONTRACT())
+        // queryClient.invalidateQueries(KEYS.CONTRACT()) // Don't invalidate the whole contract, when you only need to update the wallet.
         queryClient.invalidateQueries(KEYS.WALLET())
       } catch (e) {
         console.log('failed to setup user and contract', e)

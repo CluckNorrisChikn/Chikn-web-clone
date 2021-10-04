@@ -22,7 +22,7 @@ import {
 } from '../components/Connect'
 import ChickenCard from '../components/ChickenCard'
 import { navigate } from 'gatsby-link'
-import TransactionProgress from '../components/TransactionProgress'
+import TransactionProgress from '../components/TransactionProgressToast'
 
 const isBrowser = typeof window !== 'undefined'
 
@@ -50,6 +50,9 @@ const IndexPage = () => {
       {/* Display transaction Toasterd */}
       <TransactionProgress />
 
+      <Alert variant="warning" className="text-center">
+        <h1>N.B. This page will merge with home</h1>
+      </Alert>
       <h1>Mint</h1>
 
       <Section className="bg-light">
