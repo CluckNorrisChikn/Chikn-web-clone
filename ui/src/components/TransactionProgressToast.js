@@ -4,20 +4,19 @@ import {
   KEYS,
   useStoreWorkingTxQuery
 } from '../components/Connect'
-import { Toast } from 'react-bootstrap'
 import { useQueryClient } from 'react-query'
+import GenericToast from './GenericToast'
 
-const TransactionProgress = () => {
+const TransactionProgress = ({ intialOnShow = false }) => {
   const useTransaction = useStoreWorkingTxQuery()
   const queryClient = useQueryClient()
 
-  const [onShow, setOnShow] = React.useState(false)
+  const [onShow, setOnShow] = React.useState(intialOnShow)
+  const [errorMessage, setErrorMessage] = React.useState(null)
   const [title, setTitle] = React.useState('Transaction submitted')
   const transactionRef = React.useRef(null)
 
   const { data } = useTransaction
-
-  console.log('useTransaction', useTransaction, data)
 
   React.useEffect(() => {
     // async function
@@ -25,7 +24,6 @@ const TransactionProgress = () => {
       try {
         const receipt = await tx.wait()
         console.log('receipt', receipt)
-
         if (receipt.status === 1) {
           setTitle('Transaction completed')
         } else {
@@ -35,43 +33,36 @@ const TransactionProgress = () => {
         if (receipt.confirmations >= 1) {
           // queryClient.invalidateQueries(KEYS.CONTRACT()) // Don't invalidate the whole contract, when you only need to update the supply.
           queryClient.invalidateQueries(KEYS.CONTRACT_CURRENTSUPPLY())
+          queryClient.invalidateQueries(KEYS.WALLET_BALANCE())
         }
       } catch (err) {
+        setErrorMessage(err)
         console.error('error checking transaction with blockchain')
       }
     }
-
+    setErrorMessage(null)
     if (data && Object.keys(data).length > 0) {
       transactionRef.current = data
       setTitle('Transaction submitted')
       setOnShow(true)
       checkTransaction(data)
+      // clear out the old transaction straightaway
+      queryClient.setQueryData(KEYS.TRANSACTION(), {})
     }
   }, [data, queryClient])
 
-  const backgroundColor = title === 'Transaction submitted' ? '#5bc0de' : (title === 'Transaction failed' ? '#d9534f' : '#5cb85c')
+  const backgroundColor = title === 'Transaction submitted' ? 'info' : (title === 'Transaction failed' ? 'error' : 'success')
 
   return (
-    <Toast show={onShow} onClose={() => setOnShow(false)} delay={5000}
-      style={{
-        position: 'fixed',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        top: 100,
-        left: 0
-      }}
-      autohide={false}
+    <GenericToast
+      title={title}
+      show={onShow}
+      setShow={(show) => setOnShow(show)}
+      autoHide={true}
+      className={`bg-${backgroundColor} text-white`}
     >
-      <Toast.Header style={{ backgroundColor: backgroundColor, color: 'white' }} closeButton={false}>
-        <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-        <strong className="me-auto">{title}</strong>
-      </Toast.Header>
-      <Toast.Body style={{
-        height: '50px !important',
-        maxHeight: '50px !important',
-        backgroundColor: 'white'
-      }}>{transactionRef.current && toShort(transactionRef.current.hash)}</Toast.Body>
-    </Toast>
+      {errorMessage || (transactionRef.current && toShort(transactionRef.current.hash))}
+    </GenericToast >
   )
 }
 
