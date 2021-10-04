@@ -1,0 +1,56 @@
+import Layout from "../components/Layout";
+import { Section, ChiknText, EggText } from "../components/Common";
+import siteConfig from "../../site-config";
+
+<Layout>
+
+# FAQs
+
+# Wallet connect errors
+
+##### No Ethereum provider was found
+
+> No Ethereum provider was found on window.ethereum
+
+**Solution:** Switch to a browser that supports AVAX wallets. Details on connecting with MetaMask can be found [here](https://support.avax.network/en/articles/4626956-how-do-i-set-up-metamask-on-avalanche).
+
+---
+
+##### Unsupported chain id
+
+> Unsupported chain id: 56. Supported chain ids are: 1,3,4,5,42,43114,43113,43112.
+
+Solution: In your wallet, switch to a supported AVAX network in your wallet.
+
+---
+
+##### Request of type 'wallet_requestPermissions' already pending
+
+<blockquote>
+  <p>
+    Request of type 'wallet_requestPermissions' already pending for origin{" "}
+    {siteConfig.url}. Please wait.
+  </p>
+</blockquote>
+
+**Solution:** A connection request has already been made to your wallet. Please check your wallet's dialog window for a connection request approval.
+
+---
+
+##### The user rejected the request.
+
+> The user rejected the request.
+
+**Solution:** You (/or your wallet) rejected the connection request. To avoid, please accept the request.
+
+---
+
+##### Underlying network changed
+
+> underlying network changed (event="changed", network={"name":"homestead","chainId":1,"ensAddress":"0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e"}, detectedNetwork={"chainId":43113,"name":"unknown"}, code=NETWORK_ERROR, version=providers/5.4.5)
+
+**Solution:** Please switch to the AVAX network. Details on connecting with MetaMask can be found [here](https://support.avax.network/en/articles/4626956-how-do-i-set-up-metamask-on-avalanche).
+
+---
+
+</Layout>

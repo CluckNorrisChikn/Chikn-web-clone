@@ -3,6 +3,16 @@ import { Container } from 'react-bootstrap'
 import styled from 'styled-components'
 import siteConfig from '../../site-config'
 
+// formatters
+
+export const fmtNumber = (o) => parseFloat(o).toLocaleString()
+
+export const fmtCurrency = (o) =>
+  parseFloat(o).toLocaleString(undefined, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5
+  })
+
 export const Section = ({ className = '', ...props }) => (
   <Container
     className={`p-3 p-md-5 text-center rounded-3 ${className}`}

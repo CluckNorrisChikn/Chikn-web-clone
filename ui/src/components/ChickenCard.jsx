@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Alert, Card } from 'react-bootstrap'
-import { ChiknText, Stack } from './Common'
-import { useGetTokenQuery, useGetUserWalletAddressQuery } from './Connect'
+import { ChiknText, fmtCurrency, Stack } from './Common'
+import { useGetTokenQuery, useWeb3Contract } from './Connect'
 import styled from 'styled-components'
 import AvaxSvg from '../images/avalanche-avax-logo.svg'
 
@@ -10,7 +10,7 @@ const AvaxLogo = styled((props) => <img src={AvaxSvg} {...props} />)`
   height: 15px;
   margin-left: 5px;
   position: relative;
-  top: -1px;
+  top: -2px;
 `
 
 const Properties = styled.dl`
@@ -65,11 +65,9 @@ const PropertyColour = ({ children }) => {
 }
 
 const RenderAddress = ({ address }) => {
-  const getUserWalletAddressQuery = useGetUserWalletAddressQuery()
-  const { data: { user: { address: myAddress = '-' } = {} } = {} } =
-    getUserWalletAddressQuery
+  const { account } = useWeb3Contract()
   return (
-    <GreyPill>{address === myAddress ? 'You' : shortAccount(address)}</GreyPill>
+    <GreyPill>{address === account ? 'You' : shortAccount(address)}</GreyPill>
   )
 }
 
@@ -154,7 +152,7 @@ const ChickenCard = ({ tokenId, size = 'lg', onClick = null }) => {
                     <dd>price</dd>
                     <dt>
                       <GreyPill>
-                        {details.price.toLocaleString()}
+                        {fmtCurrency(details.price)}
                         <AvaxLogo />
                       </GreyPill>
                     </dt>

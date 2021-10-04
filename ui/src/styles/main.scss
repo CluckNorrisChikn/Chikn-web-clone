@@ -72,3 +72,12 @@ main {
     background-position: 1000px 0;
   }
 }
+
+// mdx
+
+blockquote {
+  background: var(--bs-light);
+  padding: 15px 30px !important;
+  border-left: 5px solid var(--bs-dark);
+  p { margin: 0 !important; }
+}

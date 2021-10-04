@@ -15,5 +15,27 @@ module.exports = {
     twitter: 'https://twitter.com/chikn_farm',
     docs: 'https://docs.chikn.farm/'
   },
-  releaseDate: '2021-10-09T00:00:00+10:00'
+  // releaseDate: '2021-10-09T00:00:00+10:00',
+  releaseDate: '2021-10-05T21:30:00+11:00',
+  pricing: [
+    {
+      label: '1x',
+      price: '2.69',
+      requiredRemaining: 1,
+      description: 'Includes 1x organic Chikn.'
+    },
+    {
+      label: '2x',
+      price: '4.2',
+      requiredRemaining: 2,
+      description: 'Includes 2x organic, free range Chikn.'
+    },
+    {
+      label: '3x',
+      price: '6.9',
+      requiredRemaining: 3,
+      description: 'Includes 3x organic, free range, gluten free, vegan friendly Chikn.',
+      highlight: true
+    }
+  ]
 }
