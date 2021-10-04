@@ -91,7 +91,7 @@ const ChickenCard = ({ tokenId, size = 'lg', onClick = null }) => {
         </ChiknCard>
       )}
       {getTokenQuery.isError && (
-        <Alert variant="danger">
+        <Alert variant="danger" className="mt-4">
           {getTokenQuery.error.response
             ? getTokenQuery.error.response.data.message
             : getTokenQuery.error.message}

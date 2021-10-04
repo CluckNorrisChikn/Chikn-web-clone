@@ -5,7 +5,7 @@ import ChickenCard from '../../components/ChickenCard'
 
 const Page = ({ tokenId }) => {
   return (
-    <Layout>
+    <Layout className="align-items-center">
       <h1>
         <ChiknText /> #{tokenId}
       </h1>
