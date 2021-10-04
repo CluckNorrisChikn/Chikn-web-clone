@@ -53,14 +53,16 @@ const IndexPage = () => {
             Please connect your wallet, to view your <ChiknText />.
           </span>
         )}
-        {useWalletTokens.isFetching && <Spinner animation="border" />}
-        {!useWalletTokens.isFetching && useWalletTokens.isError && (
+        {active && useWalletTokens.isFetching && <Spinner animation="border" />}
+        {active && !useWalletTokens.isFetching && useWalletTokens.isError && (
           <Alert variant="danger">{useWalletTokens.error?.message}</Alert>
         )}
-        {!useWalletTokens.isFetching &&
+        {active &&
+          !useWalletTokens.isFetching &&
           useWalletTokens.isSuccess &&
           tokens.length === 0 && <h5>No tokens found in your wallet.</h5>}
-        {!useWalletTokens.isFetching &&
+        {active &&
+          !useWalletTokens.isFetching &&
           useWalletTokens.isSuccess &&
           tokens.length > 0 && (
           <Row>
