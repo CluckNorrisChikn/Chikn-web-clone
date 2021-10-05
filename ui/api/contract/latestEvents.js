@@ -47,12 +47,15 @@ const getLatestEvents = async (limit = 12) => {
   }).slice(0, limit)
 }
 
-// /** Returns the current minted vs total counts. */
-// module.exports = allowCors(async (req, res) => {
-//   res.setHeader('Cache-Control', 'public, s-max-age=60')
-//   res.json(await getLatestEvents())
-// })
+/**
+ * Returns the latest 12 events.
+ * @link https://web3js.readthedocs.io/en/v1.2.9/web3-eth-contract.html#getpastevents
+ * */
+module.exports = allowCors(async (req, res) => {
+  res.setHeader('Cache-Control', 'public, s-max-age=60')
+  res.json(await getLatestEvents(12))
+})
 
-;(async () => {
-  console.log('getLatestEvents', JSON.stringify(await getLatestEvents(), null, 2))
-})()
+// ;(async () => {
+//   console.log('getLatestEvents', JSON.stringify(await getLatestEvents(), null, 2))
+// })()
