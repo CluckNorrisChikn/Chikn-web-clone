@@ -42,17 +42,17 @@ const getLatestEvents = async (limit = 12) => {
     from = to - PAGE_LIMIT
   }
   return events.sort((a, b) => b.blockNumber - a.blockNumber).map(e => {
-    const { from, to, tokenId } = e.returnValues
-    return { from, to, tokenId }
-  })
+    const { tokenId } = e.returnValues
+    return tokenId
+  }).slice(0, limit)
 }
 
 // /** Returns the current minted vs total counts. */
-module.exports = allowCors(async (req, res) => {
-  res.setHeader('Cache-Control', 'public, s-max-age=60')
-  res.json(await getLatestEvents())
-})
+// module.exports = allowCors(async (req, res) => {
+//   res.setHeader('Cache-Control', 'public, s-max-age=60')
+//   res.json(await getLatestEvents())
+// })
 
-// ;(async () => {
-//   console.log('getLatestEvents', JSON.stringify(await getLatestEvents(), null, 2))
-// })()
+;(async () => {
+  console.log('getLatestEvents', JSON.stringify(await getLatestEvents(), null, 2))
+})()
