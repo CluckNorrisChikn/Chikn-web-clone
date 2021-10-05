@@ -26,7 +26,7 @@ module.exports = {
     },
     {
       label: '2x',
-      price: '4.2',
+      price: '5',
       requiredRemaining: 2,
       description: 'Includes 2x organic, free range Chikn.'
     },
