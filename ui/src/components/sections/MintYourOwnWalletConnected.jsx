@@ -85,6 +85,8 @@ const IndexPage = () => {
                     return (
                       <Col
                         key={label}
+                        xs={12}
+                        md={4}
                         className={
                           requiredRemaining > remainingChikn ? 'opacity-50' : ''
                         }
@@ -109,7 +111,7 @@ const IndexPage = () => {
                               <AvaxLogoImage />
                             </h1>
                             <ul className="list-unstyled mt-3 mb-4">
-                              <li className="px-md-5">
+                              <li className="px-lg-5">
                                 <StyleDaChikn>{description}</StyleDaChikn>
                               </li>
                             </ul>

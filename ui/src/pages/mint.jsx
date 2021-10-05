@@ -20,10 +20,10 @@ const IndexPage = () => {
       <TotalMintedSection />
 
       {/* when not active... */}
-      {!active && <MintYourOwnWalletNotConnected />}
+      <MintYourOwnWalletNotConnected />
 
       {/* when active... */}
-      {active && <MintYourOwnWalletConnected />}
+      <MintYourOwnWalletConnected />
 
       <Alert variant="warning" className="text-center">
         <h1>N.B. This page is for testing only.</h1>
