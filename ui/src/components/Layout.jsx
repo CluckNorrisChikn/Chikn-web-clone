@@ -66,6 +66,7 @@ const HeaderLinks = () =>
 const Layout = ({
   children = [],
   constrainWidth = true,
+  padTop = true,
   className = 'gap-4'
 }) => {
   // add useEffect to monitor change in wallet
@@ -127,12 +128,20 @@ const Layout = ({
       <main className="flex-grow-1">
         {constrainWidth
           ? (
-            <Container className={`${className} my-5 d-flex flex-column`}>
+            <Container
+              className={`${className} ${
+                padTop ? 'mt-5' : 'mt-0'
+              } mb-5 d-flex flex-column`}
+            >
               {children}
             </Container>
           )
           : (
-            <div className={`${className} my-5 d-flex flex-column`}>
+            <div
+              className={`${className} ${
+                padTop ? 'mt-5' : 'mt-0'
+              } mb-5 d-flex flex-column`}
+            >
               {children}
             </div>
           )}

@@ -45,7 +45,7 @@ const Component = () => {
         {/* success */}
         {getRecentActivityQuery.isSuccess && (
           <Row className="gy-3 gx-3">
-            {tokens.map(({ from, to, tokenId }) => {
+            {tokens.slice(0, 4).map(({ from, to, tokenId }) => {
               return (
                 <Col key={tokenId} sm={6} md={4} lg={3}>
                   <ChickenCard

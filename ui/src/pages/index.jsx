@@ -7,7 +7,8 @@ import FlipCountdown from '@rumess/react-flip-countdown'
 import { AButton, Section, StackCol, StyleDaChikn } from '../components/Common'
 import ChickenCarousel from '../components/ChickenCarousel'
 import siteConfig from '../../site-config'
-import ChickenHead from '../components/ChickenHeadImage'
+import ChickenHeadImage from '../components/ChickenHeadImage'
+import ChickenBannerImage from '../components/ChickenBannerImage'
 import TotalMintedSection from '../components/sections/TotalMintedSection'
 import RecentActivitySection from '../components/sections/RecentActivitySection'
 import MintYourOwnWalletNotConnectedSection from '../components/sections/MintYourOwnWalletNotConnectedSection'
@@ -16,7 +17,7 @@ import { useWeb3Contract } from '../components/Connect'
 
 const ChickenHeadImageWrapper = styled(({ className = '', ...props }) => (
   <div className={`${className} d-none d-lg-block`} {...props}>
-    <ChickenHead />
+    <ChickenHeadImage />
   </div>
 ))`
   position: absolute;
@@ -49,7 +50,10 @@ const IndexPage = () => {
   }, [])
 
   return (
-    <Layout constrainWidth={false} className="gap-8">
+    <Layout constrainWidth={false} padTop={false} className="gap-8">
+      {/* banner */}
+      <ChickenBannerImage />
+
       {/* countdown */}
       {showCountdown && (
         <Container>
