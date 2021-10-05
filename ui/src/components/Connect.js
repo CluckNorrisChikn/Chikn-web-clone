@@ -42,13 +42,14 @@ const TIMEOUT_1_MIN = 60 * 1000
 const MINT_PRICE = '2'
 
 export const KEYS = {
-  CONTRACT: () => ['CONTRACT'],
+  CONTRACT: () => ['contract'],
   CONTRACT_CURRENTSUPPLY: () => ['supply'],
   CONTRACT_TOKEN: (tokenId) => ['token', tokenId],
-  WALLET: () => ['WALLET'],
-  WALLET_TOKEN: () => ['WALLET', 'WALLET_TOKEN'],
-  WALLET_BALANCE: () => ['WALLET', 'WALLET_BALANCE'],
-  TRANSACTION: () => ['TRANSACTION']
+  RECENT_ACTIVITY: () => ['recent_activity'],
+  WALLET: () => ['wallet'],
+  WALLET_TOKEN: () => ['wallet', 'wallet_token'],
+  WALLET_BALANCE: () => ['wallet', 'wallet_balance'],
+  TRANSACTION: () => ['transaction']
 }
 
 /**
@@ -60,11 +61,23 @@ export const useGetSupplyQuery = () => {
     staleTime: TIMEOUT_1_MIN
   })
 }
+
 /**
  * Get's metadata for the given token.
  */
 export const useGetTokenQuery = (tokenId) => {
   return useQuery(KEYS.CONTRACT_TOKEN(tokenId), async () => axiosClient.get(`/api/contract/tokens/${tokenId}`).then(res => res.data), {
+    cacheTime: TIMEOUT_1_MIN * 30,
+    staleTime: TIMEOUT_1_MIN * 30,
+    retry: 0
+  })
+}
+
+/**
+ * Get's latest contract activity.
+ */
+export const useGetRecentActivityQuery = () => {
+  return useQuery(KEYS.RECENT_ACTIVITY(), async () => axiosClient.get('/api/contract/recentActivity').then(res => res.data), {
     cacheTime: TIMEOUT_1_MIN * 30,
     staleTime: TIMEOUT_1_MIN * 30,
     retry: 0

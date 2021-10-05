@@ -1,29 +1,17 @@
 /* eslint-disable no-unused-vars */
+import { navigate } from 'gatsby-link'
 import * as React from 'react'
-
+import { Alert, Button, Col, Row } from 'react-bootstrap'
 import { FaSync } from 'react-icons/fa'
-import {
-  ChiknText,
-  Section,
-  StackCol,
-  StackRow,
-  StyleDaChikn
-} from '../../components/Common'
-import { ConnectWalletButton } from '../../components/ConnectWalletButton'
-import Layout from '../../components/Layout'
-import { Alert, Button, Card, Col, Row, Spinner, Table } from 'react-bootstrap'
-import { v4 as uuidv4 } from 'uuid'
-import styled from 'styled-components'
-import siteConfig from '../../../site-config'
+import { useQueryClient } from 'react-query'
+import ChickenCard, { ChickenCardShimmer } from '../../components/ChickenCard'
+import { ChiknText, Section, StackRow } from '../../components/Common'
 import {
   KEYS,
-  useGetContractQuery,
   useGetWalletTokensQuery,
   useWeb3Contract
 } from '../../components/Connect'
-import ChickenCard from '../../components/ChickenCard'
-import { navigate } from 'gatsby-link'
-import { useQueryClient } from 'react-query'
+import Layout from '../../components/Layout'
 
 const IndexPage = () => {
   const queryClient = useQueryClient()
@@ -53,7 +41,22 @@ const IndexPage = () => {
             Please connect your wallet, to view your <ChiknText />.
           </span>
         )}
-        {active && useWalletTokens.isFetching && <Spinner animation="border" />}
+        {active && useWalletTokens.isFetching && (
+          <Row className="gy-3 gx-3">
+            <Col sm={6} md={4} lg={3}>
+              <ChickenCardShimmer />
+            </Col>
+            <Col sm={6} md={4} lg={3}>
+              <ChickenCardShimmer />
+            </Col>
+            <Col sm={6} md={4} lg={3}>
+              <ChickenCardShimmer />
+            </Col>
+            <Col sm={6} md={4} lg={3}>
+              <ChickenCardShimmer />
+            </Col>
+          </Row>
+        )}
         {active && !useWalletTokens.isFetching && useWalletTokens.isError && (
           <Alert variant="danger">{useWalletTokens.error?.message}</Alert>
         )}

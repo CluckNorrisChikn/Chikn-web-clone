@@ -33,6 +33,7 @@ const TransactionProgress = ({ intialOnShow = false }) => {
         if (receipt.confirmations >= 1) {
           // queryClient.invalidateQueries(KEYS.CONTRACT()) // Don't invalidate the whole contract, when you only need to update the supply.
           queryClient.invalidateQueries(KEYS.CONTRACT_CURRENTSUPPLY())
+          queryClient.invalidateQueries(KEYS.RECENT_ACTIVITY())
           queryClient.invalidateQueries(KEYS.WALLET_BALANCE())
         }
       } catch (err) {

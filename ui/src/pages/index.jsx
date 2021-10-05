@@ -9,8 +9,9 @@ import ChickenCarousel from '../components/ChickenCarousel'
 import siteConfig from '../../site-config'
 import ChickenHead from '../components/ChickenHeadImage'
 import TotalMintedSection from '../components/sections/TotalMintedSection'
-import MintYourOwnWalletNotConnected from '../components/sections/MintYourOwnWalletNotConnected'
-import MintYourOwnWalletConnected from '../components/sections/MintYourOwnWalletConnected'
+import RecentActivitySection from '../components/sections/RecentActivitySection'
+import MintYourOwnWalletNotConnectedSection from '../components/sections/MintYourOwnWalletNotConnectedSection'
+import MintYourOwnWalletConnectedSection from '../components/sections/MintYourOwnWalletConnectedSection'
 import { useWeb3Contract } from '../components/Connect'
 
 const ChickenHeadImageWrapper = styled(({ className = '', ...props }) => (
@@ -80,11 +81,14 @@ const IndexPage = () => {
           {/* minting summary */}
           <TotalMintedSection />
           {/* mint your own - not connected */}
-          {!active && <MintYourOwnWalletNotConnected />}
+          {!active && <MintYourOwnWalletNotConnectedSection />}
           {/* mint your own - connected */}
-          {active && <MintYourOwnWalletConnected />}
+          {active && <MintYourOwnWalletConnectedSection />}
         </StackCol>
       )}
+
+      {/* recent activity */}
+      {!showCountdown && <RecentActivitySection />}
 
       {/* carousel */}
       <div className="py-5">

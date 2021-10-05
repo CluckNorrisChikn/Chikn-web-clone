@@ -16,7 +16,7 @@ module.exports = {
     docs: 'https://docs.chikn.farm/'
   },
   // releaseDate: '2021-10-09T00:00:00+10:00',
-  releaseDate: '2021-10-05T21:30:00+11:00',
+  releaseDate: '2021-10-05T21:15:00+11:00',
   pricing: [
     {
       label: '1x',

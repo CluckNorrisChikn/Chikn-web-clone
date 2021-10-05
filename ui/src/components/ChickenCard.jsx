@@ -71,23 +71,32 @@ const RenderAddress = ({ address }) => {
   )
 }
 
-const ChickenCard = ({ tokenId, size = 'lg', onClick = null }) => {
+export const ChickenCardShimmer = () => {
+  return (
+    <ChiknCard>
+      <Image className="shimmer" />
+      <Card.Body>
+        <h3 className="shimmer w-50">&nbsp;</h3>
+        <label className="shimmer w-75 mb-1">&nbsp;</label>
+        <label className="shimmer w-75 mb-1">&nbsp;</label>
+        <label className="shimmer w-75 mb-1">&nbsp;</label>
+      </Card.Body>
+    </ChiknCard>
+  )
+}
+
+const ChickenCard = ({
+  tokenId,
+  size = 'lg',
+  status = 'Not for sale',
+  onClick = null
+}) => {
   const getTokenQuery = useGetTokenQuery(tokenId)
   const { data: { properties = {}, details = {} } = {} } = getTokenQuery
 
   return (
     <>
-      {getTokenQuery.isLoading && (
-        <ChiknCard>
-          <Image className="shimmer" />
-          <Card.Body>
-            <h3 className="shimmer w-50">&nbsp;</h3>
-            <label className="shimmer w-75 mb-1">&nbsp;</label>
-            <label className="shimmer w-75 mb-1">&nbsp;</label>
-            <label className="shimmer w-75 mb-1">&nbsp;</label>
-          </Card.Body>
-        </ChiknCard>
-      )}
+      {getTokenQuery.isLoading && <ChickenCardShimmer />}
       {getTokenQuery.isError && (
         <Alert variant="danger" className="mt-4">
           {getTokenQuery.error.response
@@ -111,7 +120,7 @@ const ChickenCard = ({ tokenId, size = 'lg', onClick = null }) => {
                   <ChiknText /> #{tokenId}
                 </h5>
                 <div>
-                  <GreyPill className="py-2 px-3">Not for sale</GreyPill>
+                  <GreyPill className="py-2 px-3">{status}</GreyPill>
                 </div>
               </Stack>
 
