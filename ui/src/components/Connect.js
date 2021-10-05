@@ -8,10 +8,10 @@ import { Contract, utils } from 'ethers'
 import React from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import ChickenRun from '../../contract/Chicken_Fuji.json'
-import siteConfig from '../../site-config'
+import { isProd } from './Common'
 
 const axiosClient = axios.create({
-  baseURL: siteConfig.url
+  baseURL: isProd ? '/' : 'https://chickenrun-git-dev-mountainpass.vercel.app'
 })
 
 const getErrorMessage = (error) => {

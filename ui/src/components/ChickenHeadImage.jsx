@@ -11,7 +11,7 @@ export default function Image() {
             childImageSharp {
               # Specify the image processing specifications right in the query.
               # Makes it trivial to update as your page's design changes.
-              fixed(width: 170, height: 270) {
+              fixed(width: 170, height: 270, quality: 100) {
                 ...GatsbyImageSharpFixed
               }
             }
