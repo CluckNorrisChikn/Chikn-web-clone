@@ -17,9 +17,9 @@ module.exports = {
         short_name: 'Chikn NFT',
         start_url: '/',
         background_color: '#f7f0eb',
-        theme_color: '#E84141',
+        theme_color: '#DF3F3D',
         display: 'standalone',
-        icon: 'src/images/chicken-icon-white.png'
+        icon: 'src/images/chicken-icon-2.svg'
       }
     },
     'gatsby-plugin-sass',

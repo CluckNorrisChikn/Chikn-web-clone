@@ -75,7 +75,7 @@ export const RainbowText2 = styled((props) => <span {...props} />)`
 export const ChiknText = styled((props) => (
   <span {...props}>{siteConfig.nftName}</span>
 ))`
-  background: linear-gradient(135deg, red 0%, purple 100%);
+  background: linear-gradient(135deg, #df3f3d 0%, purple 100%);
   color: #b664b0;
   background-clip: text;
   -webkit-background-clip: text;

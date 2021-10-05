@@ -7,7 +7,7 @@ module.exports = {
   imageUrl: 'https://chikn.farm/brand/chicken-preview-800x419px.jpg',
   imageWidthPx: '800',
   imageHeightPx: '419',
-  themeColour: '#ffffff',
+  themeColour: '#DF3F3D',
   keywords: 'avax,nft,chikn,chicken',
   author: 'noreply@chikn.farm',
   links: {
