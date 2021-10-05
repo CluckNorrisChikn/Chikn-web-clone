@@ -15,8 +15,8 @@ const Web3Eth = require('web3-eth')
  */
 class ChickenContract {
   constructor() {
-    const web3 = new Web3Eth(process.env.WEB3_URL || 'https://api.avax-test.network/ext/bc/C/rpc')
-    this.contract = new web3.Contract(abi, address)
+    this.web3 = new Web3Eth(process.env.WEB3_URL || 'https://api.avax-test.network/ext/bc/C/rpc')
+    this.contract = new this.web3.Contract(abi, address)
   }
 
   /**

@@ -19,7 +19,7 @@ module.exports = {
         background_color: '#f7f0eb',
         theme_color: '#DF3F3D',
         display: 'standalone',
-        icon: 'src/images/chicken-icon-2.svg'
+        icon: 'src/images/chicken-icon-2-white.svg'
       }
     },
     'gatsby-plugin-sass',

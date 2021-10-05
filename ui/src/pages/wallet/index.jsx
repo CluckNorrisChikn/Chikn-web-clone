@@ -65,7 +65,7 @@ const IndexPage = () => {
           !useWalletTokens.isFetching &&
           useWalletTokens.isSuccess &&
           tokens.length > 0 && (
-          <Row>
+          <Row className="gy-3 gx-3">
             {tokens
               .sort((a, b) => a - b)
               .map((tokenId) => (
