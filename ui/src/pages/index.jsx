@@ -33,6 +33,9 @@ const releaseDateMoment = moment(siteConfig.releaseDate)
 
 const IndexPage = () => {
   const { active } = useWeb3Contract()
+
+  const enableCountdownAndMinting = false
+
   const [showCountdown, setShowCountdown] = React.useState(
     releaseDateMoment.isAfter(Date.now())
   )
@@ -54,45 +57,49 @@ const IndexPage = () => {
       {/* banner */}
       <ChickenBannerImage />
 
-      {/* countdown */}
-      {showCountdown && (
-        <Container>
-          <Section className="bg-light">
-            <h3>Countdown to release:</h3>
-            <h1 className="py-4">
-              <FlipCountdown
-                hideYear
-                hideMonth
-                dayTitle="Days"
-                hourTitle="Hours"
-                minuteTitle="Minutes"
-                secondTitle="Seconds"
-                endAtZero
-                size="medium"
-                titlePosition="bottom"
-                endAt={siteConfig.releaseDate} // Date/Time
-              />
-            </h1>
-            <small>
-              {moment.utc(siteConfig.releaseDate).format('LLLL')} (UTC)
-            </small>
-          </Section>
-        </Container>
-      )}
+      {enableCountdownAndMinting && (
+        <>
+          {/* countdown */}
+          {showCountdown && (
+            <Container>
+              <Section className="bg-light">
+                <h3>Countdown to release:</h3>
+                <h1 className="py-4">
+                  <FlipCountdown
+                    hideYear
+                    hideMonth
+                    dayTitle="Days"
+                    hourTitle="Hours"
+                    minuteTitle="Minutes"
+                    secondTitle="Seconds"
+                    endAtZero
+                    size="medium"
+                    titlePosition="bottom"
+                    endAt={siteConfig.releaseDate} // Date/Time
+                  />
+                </h1>
+                <small>
+                  {moment.utc(siteConfig.releaseDate).format('LLLL')} (UTC)
+                </small>
+              </Section>
+            </Container>
+          )}
 
-      {!showCountdown && (
-        <StackCol className="gap-3">
-          {/* minting summary */}
-          <TotalMintedSection />
-          {/* mint your own - not connected */}
-          {!active && <MintYourOwnWalletNotConnectedSection />}
-          {/* mint your own - connected */}
-          {active && <MintYourOwnWalletConnectedSection />}
-        </StackCol>
-      )}
+          {!showCountdown && (
+            <StackCol className="gap-3">
+              {/* minting summary */}
+              <TotalMintedSection />
+              {/* mint your own - not connected */}
+              {!active && <MintYourOwnWalletNotConnectedSection />}
+              {/* mint your own - connected */}
+              {active && <MintYourOwnWalletConnectedSection />}
+            </StackCol>
+          )}
 
-      {/* recent activity */}
-      {!showCountdown && <RecentActivitySection />}
+          {/* recent activity */}
+          {!showCountdown && <RecentActivitySection />}
+        </>
+      )}
 
       {/* carousel */}
       <div className="py-5">

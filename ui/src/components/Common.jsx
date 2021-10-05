@@ -5,6 +5,8 @@ import siteConfig from '../../site-config'
 
 // formatters
 
+export const isProd = process.env.NODE_ENV === 'production'
+
 export const fmtNumber = (o) => parseFloat(o).toLocaleString()
 
 export const fmtCurrency = (o) =>

@@ -5,7 +5,7 @@ import { Alert, Button, Col, Row } from 'react-bootstrap'
 import { FaSync } from 'react-icons/fa'
 import { useQueryClient } from 'react-query'
 import ChickenCard, { ChickenCardShimmer } from '../../components/ChickenCard'
-import { ChiknText, Section, StackRow } from '../../components/Common'
+import { ChiknText, isProd, Section, StackRow } from '../../components/Common'
 import {
   KEYS,
   useGetWalletTokensQuery,
@@ -81,16 +81,6 @@ const IndexPage = () => {
                 </Col>
               ))}
           </Row>
-        )}
-
-        {/* debug */}
-        {process.env.NODE_ENV !== 'production' && (
-          <>
-            <pre>active={JSON.stringify(active, null, 2)}</pre>
-            <pre>
-              useWalletTokens={JSON.stringify(useWalletTokens, null, 2)}
-            </pre>
-          </>
         )}
       </Section>
     </Layout>

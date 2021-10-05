@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import ChickenIconSrc from '../images/chicken-icon-2-trans.svg'
 import AvalancheIconSrc from '../images/avalanche-avax-logo-black.svg'
 import { ConnectWalletButton } from './ConnectWalletButton'
-import { AButton, StackCol, StackRow, StyleDaChikn } from './Common'
+import { AButton, isProd, StackCol, StackRow, StyleDaChikn } from './Common'
 import siteConfig from '../../site-config'
 import HelmetMeta from './HelmetMeta'
 import { useWeb3React } from '@web3-react/core'
@@ -54,7 +54,9 @@ const NavGatsbyLink = ({ children, disabled, ...props }) => {
   )
 }
 
-const links = 'home,mint,market,farm,roost,wallet'.split(',')
+const links = isProd
+  ? 'home,market,farm,roost,wallet'.split(',')
+  : 'home,mint,market,farm,roost,wallet'.split(',')
 
 const HeaderLinks = () =>
   links.map((link, idx) => (

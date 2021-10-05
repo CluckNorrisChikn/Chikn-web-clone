@@ -1,17 +1,17 @@
-import React from 'react'
-import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core'
+import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import {
   NoEthereumProviderError,
   UserRejectedRequestError as UserRejectedRequestErrorInjected
 } from '@web3-react/injected-connector'
-import ChickenRun from '../../contract/Chicken_Fuji.json'
-//  TODO: use mainnet contract
-import { BigNumber, Contract, utils, Event } from 'ethers'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
 import axios from 'axios'
+import { Contract, utils } from 'ethers'
+import React from 'react'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
+import ChickenRun from '../../contract/Chicken_Fuji.json'
+import siteConfig from '../../site-config'
 
 const axiosClient = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' ? '/' : 'https://chickenrun-git-dev-mountainpass.vercel.app'
+  baseURL: siteConfig.url
 })
 
 const getErrorMessage = (error) => {
