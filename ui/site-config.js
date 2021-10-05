@@ -4,9 +4,9 @@ const prodHost = 'chikn.farm'
 const host = process.env.NODE_ENV === 'production' ? prodHost : devHost
 
 module.exports = {
-  nftName: 'Chikn',
-  title: 'Chikn',
-  description: '8,008 algorithmically generated, unique Chikn.',
+  nftName: 'chikn',
+  title: 'chikn',
+  description: '8,888 algorithmically generated, unique chikn.',
   url: `https://${host}`,
   imageUrl: `https://${host}/brand/banner_og-1200x630px.jpg`,
   imageWidthPx: '1200',
@@ -27,19 +27,19 @@ module.exports = {
       label: '1x',
       price: '2.69',
       requiredRemaining: 1,
-      description: 'Includes 1x organic Chikn.'
+      description: 'Includes 1x organic chikn.'
     },
     {
       label: '2x',
       price: '4.99',
       requiredRemaining: 2,
-      description: 'Includes 2x organic, free range Chikn.'
+      description: 'Includes 2x organic, free range chikn.'
     },
     {
       label: '3x',
       price: '7.197',
       requiredRemaining: 3,
-      description: 'Includes 3x organic, free range, gluten free, vegan friendly Chikn.',
+      description: 'Includes 3x organic, free range, gluten free, vegan friendly chikn.',
       highlight: true
     }
   ],

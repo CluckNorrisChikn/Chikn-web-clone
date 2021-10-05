@@ -23,7 +23,7 @@ const ChickenCarousel = () => {
     {
       allFile(
         filter: {
-          extension: { regex: "/(png)/" }
+          extension: { regex: "/(jpg)/" }
           relativeDirectory: { eq: "carousel" }
         }
       ) {

@@ -52,7 +52,7 @@ module.exports = allowCors(async (req, res) => {
   const chickenIndex = (tid - 1) % 10 // TODO remove mod 10
   let properties = { ...BASE_TRAITS, ...data[chickenIndex] }
   properties = Object.fromEntries(Object.entries(properties).map(([k, v]) => [BASE_TRAITS_KEY_MAP[k], v]))
-  properties.image = `/images/${properties.id}.png`
+  properties.image = `/images/${properties.id}.jpg`
 
   res.setHeader('Cache-Control', 'public, s-max-age=60')
   res.json({ properties, details })

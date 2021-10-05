@@ -1,7 +1,9 @@
+const siteConfig = require('./site-config')
+
 module.exports = {
   siteMetadata: {
-    title: 'Chikn NFT',
-    siteUrl: 'https://chickenrun.io'
+    title: siteConfig.title,
+    siteUrl: siteConfig.url
   },
   plugins: [
     'gatsby-plugin-styled-components',
@@ -13,11 +15,11 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        name: 'Chikn NFT',
-        short_name: 'Chikn NFT',
+        name: siteConfig.title,
+        short_name: siteConfig.title,
         start_url: '/',
         background_color: '#f7f0eb',
-        theme_color: '#DF3F3D',
+        theme_color: siteConfig.themeColour,
         display: 'standalone',
         icon: 'src/images/chicken-icon-2-white.svg'
       }
