@@ -42,8 +42,8 @@ const getLatestEvents = async (limit = 12) => {
     from = to - PAGE_LIMIT
   }
   return events.sort((a, b) => b.blockNumber - a.blockNumber).map(e => {
-    const { tokenId } = e.returnValues
-    return tokenId
+    const { from, to, tokenId } = e.returnValues
+    return { from, to, tokenId: parseInt(tokenId) }
   }).slice(0, limit)
 }
 
