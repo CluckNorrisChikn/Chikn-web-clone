@@ -12,7 +12,7 @@ import ChickenBannerImage from '../components/ChickenBannerImage'
 import TotalMintedSection from '../components/sections/TotalMintedSection'
 import RecentActivitySection from '../components/sections/RecentActivitySection'
 import MintYourOwnWalletNotConnectedSection from '../components/sections/MintYourOwnWalletNotConnectedSection'
-import MintYourOwnWalletConnectedSection from '../components/sections/MintYourOwnWalletConnectedSection'
+import MintYourOwnWalletConnectedSection from '../components/sections/MintYourOwnWalletConnectedSectionv2'
 import { useWeb3Contract } from '../components/Connect'
 
 const ChickenHeadImageWrapper = styled(({ className = '', ...props }) => (

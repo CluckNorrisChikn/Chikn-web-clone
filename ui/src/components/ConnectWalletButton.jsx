@@ -142,6 +142,7 @@ export const ConnectWalletButton = () => {
       <FixedWidthButton
         variant="outline-primary"
         className="px-3"
+        style={{ minWidth: '182px' }}
         onClick={onClickButton}
         disabled={error}
         title={error?.message}

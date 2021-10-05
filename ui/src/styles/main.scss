@@ -50,10 +50,13 @@ main {
   gap: 10rem;
 }
 
+// used fixed width font for flip
 
 .flip-countdown.size-medium .flip-countdown-piece .flip-countdown-card .flip-countdown-card-sec {
   font-family: Courier, monospace !important;
 }
+
+// add shimmer
 
 .shimmer {
   animation-name: shimmer;
@@ -73,6 +76,17 @@ main {
   }
 }
 
+// remove spinner from numbers
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 // mdx
 
 blockquote {
@@ -80,4 +94,17 @@ blockquote {
   padding: 15px 30px !important;
   border-left: 5px solid var(--bs-dark);
   p { margin: 0 !important; }
+}
+
+// media queries
+
+@include media-breakpoint-up(md) {
+  .w-md-200px {
+    width: 200px !important;
+    max-width: 200px !important;
+  }
+  .w-md-300px {
+    width: 300px !important;
+    max-width: 300px !important;
+  }
 }

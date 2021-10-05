@@ -4,6 +4,7 @@ import { Alert } from 'react-bootstrap'
 import { useWeb3Contract } from '../components/Connect'
 import Layout from '../components/Layout'
 import MintYourOwnWalletConnected from '../components/sections/MintYourOwnWalletConnectedSection'
+import MintYourOwnWalletConnectedv2 from '../components/sections/MintYourOwnWalletConnectedSectionv2'
 import MintYourOwnWalletNotConnected from '../components/sections/MintYourOwnWalletNotConnectedSection'
 import TotalMintedSection from '../components/sections/TotalMintedSection'
 import TransactionProgress from '../components/TransactionProgressToast'
@@ -24,6 +25,8 @@ const IndexPage = () => {
 
       {/* when active... */}
       <MintYourOwnWalletConnected />
+
+      <MintYourOwnWalletConnectedv2 />
 
       <Alert variant="warning" className="text-center">
         <h1>N.B. This page is for testing only.</h1>
