@@ -1,7 +1,7 @@
 
 module.exports = {
   nftName: 'Chikn',
-  title: 'ChiknFarm',
+  title: 'Chikn',
   description: '8,008 algorithmically generated, unique Chikn.',
   url: 'https://chikn.farm/',
   imageUrl: 'https://chikn.farm/brand/chicken-preview-800x419px.jpg',
