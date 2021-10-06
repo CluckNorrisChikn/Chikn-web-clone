@@ -221,9 +221,13 @@ export const useGetWalletTokensQuery = (contract, account, enabled = true) => {
 
 export const useMintTokenMutation = (contract, enabled = true) => {
   const queryClient = useQueryClient()
-  return useMutation(async (tokenURI) => {
-    console.debug(`Minting token with the ${tokenURI}`)
-    const tx = await contract.mint(tokenURI, { value: utils.parseUnits(MINT_PRICE, 'ether') })
+  return useMutation(async ({ countOfChickens, totalPrice }) => {
+    let tx = null
+    if (countOfChickens === 1) {
+      tx = await contract.mint({ value: utils.parseUnits(totalPrice, 'ether') })
+    } else if (countOfChickens > 1 && countOfChickens <= 12) {
+      tx = await contract.mint2OrMoreTokens(countOfChickens, { value: utils.parseUnits(totalPrice, 'ether') })
+    }
     console.log('long tx', tx)
     return new Promise((resolve, reject) => {
       resolve({

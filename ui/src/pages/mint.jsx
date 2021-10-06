@@ -11,7 +11,19 @@ import TransactionProgress from '../components/TransactionProgressToast'
 
 // TODO Remove pre GO-LIVE
 const IndexPage = () => {
-  const { active } = useWeb3Contract()
+  const { active, address, contract } = useWeb3Contract()
+
+  const test = async () => {
+    const gbaddress = await contract.GB_erc20_contract()
+    const supply = await contract.maxSupply()
+    const currentMint = await contract.totalSupply()
+    console.log('Gb address', gbaddress)
+    console.log(' supplt', supply)
+    console.log('current mint', currentMint)
+  }
+  if (active) {
+    test()
+  }
 
   return (
     <Layout>

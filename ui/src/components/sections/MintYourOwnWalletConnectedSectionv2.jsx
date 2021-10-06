@@ -53,8 +53,9 @@ const IndexPage = () => {
   // TODO Sam - do we have options for the 2x and 3x buyer options? (validation: what happens if only <2 is left?)
   const mintToken = () => {
     // TODO Sam - is this URL still correct/required? Can we remove it?
-    const tokenURI = `${siteConfig.url}/api/contract/tokens/1`
-    useMintToken.mutate(tokenURI)
+    // const tokenURI = `${siteConfig.url}/api/contract/tokens/1`
+    // pass number of token and price
+    useMintToken.mutate({ countOfChickens, totalPrice })
   }
 
   const [countOfChickens, setCountOfChickens] = React.useState('1')
