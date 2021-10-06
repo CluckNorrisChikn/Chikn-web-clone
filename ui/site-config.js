@@ -1,7 +1,12 @@
 
-const devHost = 'chickenrun-git-dev-mountainpass.vercel.app'
-const prodHost = 'chikn.farm'
-const host = process.env.NODE_ENV === 'production' ? prodHost : devHost
+const isProd = process.env.NODE_ENV === 'production'
+
+const host = isProd ? 'chikn.farm' : 'chickenrun-git-dev-mountainpass.vercel.app'
+
+// google tag manager configuration
+const gtm = {
+  id: 'GTM-NFLTF75'
+}
 
 module.exports = {
   nftName: 'chikn',
@@ -50,5 +55,6 @@ module.exports = {
     if (count === 1) return 2.69
     if (count === 2) return 2.495
     else return 2.399
-  }
+  },
+  gtm
 }

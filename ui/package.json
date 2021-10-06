@@ -17,6 +17,7 @@
     "deploy-staging": "vercel"
   },
   "dependencies": {
+    "gatsby-plugin-google-tagmanager": "3.14.0",
     "web3-eth": "1.6.0"
   },
   "devDependencies": {

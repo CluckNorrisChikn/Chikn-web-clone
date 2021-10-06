@@ -6,6 +6,16 @@ module.exports = {
     siteUrl: siteConfig.url
   },
   plugins: [
+    {
+      resolve: 'gatsby-plugin-google-tagmanager',
+      options: {
+        id: siteConfig.gtm.id,
+        includeInDevelopment: true,
+        defaultDataLayer: { platform: 'gatsby' },
+        routeChangeEventName: 'gatsby-route-change',
+        enableWebVitalsTracking: true
+      }
+    },
     'gatsby-plugin-styled-components',
     'gatsby-plugin-image',
     'gatsby-plugin-react-helmet',
