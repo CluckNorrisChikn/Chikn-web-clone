@@ -14,6 +14,7 @@ import RecentActivitySection from '../components/sections/RecentActivitySection'
 import MintYourOwnWalletNotConnectedSection from '../components/sections/MintYourOwnWalletNotConnectedSection'
 import MintYourOwnWalletConnectedSection from '../components/sections/MintYourOwnWalletConnectedSectionv2'
 import { useWeb3Contract } from '../components/Connect'
+import { Helmet } from 'react-helmet'
 
 const ChickenHeadImageWrapper = styled(({ className = '', ...props }) => (
   <div className={`${className} d-none d-lg-block`} {...props}>
@@ -53,7 +54,12 @@ const IndexPage = () => {
   }, [])
 
   return (
-    <Layout constrainWidth={false} padTop={false} className="gap-8">
+    <Layout
+      pageName="Home"
+      constrainWidth={false}
+      padTop={false}
+      className="gap-8"
+    >
       {/* banner */}
       <ChickenBannerImage />
 

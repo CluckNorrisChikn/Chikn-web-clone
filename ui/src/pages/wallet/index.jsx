@@ -21,7 +21,7 @@ const IndexPage = () => {
   const { data: tokens = [] } = useWalletTokens
 
   return (
-    <Layout>
+    <Layout pageName="Wallet">
       <StackRow className="justify-content-between">
         <h1>Wallet</h1>
         <div>

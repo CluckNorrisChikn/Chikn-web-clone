@@ -26,7 +26,7 @@ const IndexPage = () => {
   }
 
   return (
-    <Layout>
+    <Layout pageName="Mint">
       {/* Display transaction Toasterd */}
       <TransactionProgress intialOnShow={false} />
 

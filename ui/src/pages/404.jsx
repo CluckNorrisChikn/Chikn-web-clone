@@ -5,7 +5,7 @@ import { StaticQuery, graphql } from 'gatsby'
 
 const NotFoundPage = () => {
   return (
-    <Layout className="align-items-center">
+    <Layout pageName="Page not found" className="align-items-center">
       <h1>Ce n&apos;est pas un poulet!</h1>
       <div className="text-muted mb-5">Page not found</div>
       <StaticQuery

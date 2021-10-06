@@ -2,12 +2,15 @@ import * as React from 'react'
 import { Helmet } from 'react-helmet'
 import siteConfig from '../../site-config'
 
-const HelmetMeta = () => {
+const HelmetMeta = ({ pageName }) => {
   return (
     <Helmet>
       {/* <!-- page --> */}
       <meta charSet="utf-8" />
-      <title>{siteConfig.title}</title>
+      <title>
+        {siteConfig.title}
+        {pageName ? ` - ${pageName}` : ''}
+      </title>
       <meta name="description" content={siteConfig.description} />
       <link rel="canonical" href={siteConfig.url} />
 

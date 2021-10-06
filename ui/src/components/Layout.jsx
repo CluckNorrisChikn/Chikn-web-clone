@@ -66,6 +66,7 @@ const HeaderLinks = () =>
   ))
 
 const Layout = ({
+  pageName = undefined,
   children = [],
   constrainWidth = true,
   padTop = true,
@@ -94,7 +95,7 @@ const Layout = ({
   return (
     <FullHeight>
       {/* meta */}
-      <HelmetMeta />
+      <HelmetMeta pageName={pageName} />
 
       {/* header */}
       <header style={{ postion: 'relative' }}>
