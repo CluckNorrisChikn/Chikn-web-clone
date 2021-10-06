@@ -67,14 +67,18 @@ const IndexPage = () => {
   )
 
   const canGoLower = (count) => parseInt(count) > 1
-  const canGoHigher = (count) => parseInt(count) < 20
+  const canGoHigher = (count) => parseInt(count) < siteConfig.maxPerMint
 
   const onChangeCountOfChickens = (val) => {
     console.debug('onChangeCountOfChickens', val)
     let tmp = parseInt(val)
     if (!isNaN(tmp) || val === '') {
-      if (val === '') tmp = 1
-      else if (tmp > 20) tmp = 20
+      if (val === '') {
+        setCountOfChickens('')
+        setPrice('-')
+        setTotalPrice('-')
+        return
+      } else if (tmp > siteConfig.maxPerMint) tmp = siteConfig.maxPerMint
       else if (tmp < 1) tmp = 1
       setCountOfChickens(tmp)
       setPrice(fmtCurrency(siteConfig.priceLookup(tmp)))
@@ -123,7 +127,7 @@ const IndexPage = () => {
                   pattern="[0-9]{1,2}"
                   inputMode="numeric"
                   className="text-center"
-                  aria-label="Choose number of Chickens. Max 20."
+                  aria-label="Choose number of Chickens."
                   value={countOfChickens}
                   onChange={(e) => onChangeCountOfChickens(e.target.value)}
                 />
@@ -161,9 +165,9 @@ const IndexPage = () => {
                   )}
               </Button>
               <small className="text-muted">
-                Max 20 per mint.
+                Max {siteConfig.maxPerMint} per mint.
                 <br />
-                Limit 50 per wallet.
+                Limit {siteConfig.limitPerWallet} per wallet.
                 <br />
                 View your minted <ChiknText /> in your{' '}
                 <Link to="/wallet">Wallet</Link>.
