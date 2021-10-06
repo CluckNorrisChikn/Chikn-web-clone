@@ -43,6 +43,13 @@ const IndexPage = () => {
     dl.push({
       event: 'purchase',
       ecommerce: {
+        // transaction_id: "T12345",
+        // affiliation: "Online Store",
+        value: 33.75,
+        // tax: 4.90,
+        // shipping: 5.99,
+        currency: 'USD',
+        // coupon: "SUMMER_SALE",
         items: [
           {
             item_name: 'chikn',
