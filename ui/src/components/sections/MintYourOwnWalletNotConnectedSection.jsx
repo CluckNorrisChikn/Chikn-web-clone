@@ -3,7 +3,7 @@ import { ChiknText, Section, StackCol } from '../Common'
 
 const Component = () => {
   return (
-    <Section className="border">
+    <Section className="border bg-white">
       <StackCol className="gap-3">
         <h3>Minting now open!</h3>
         <div>

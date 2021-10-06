@@ -14,6 +14,8 @@ $font-family-sans-serif: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto
 // Bootstrap and its default variables
 @import "bootstrap/scss/bootstrap";
 
+// fix height
+
 html,
 body,
 #___gatsby,
@@ -29,6 +31,12 @@ main {
     min-height: 100vh;
   }
 }
+
+body {
+  background-image: url('/brand/chicken-bkgd-pattern.jpg');
+}
+
+// add boostrap classes
 
 .gap-6 {
   gap: 6rem;

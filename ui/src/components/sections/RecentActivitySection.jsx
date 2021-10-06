@@ -11,7 +11,7 @@ const Component = () => {
   const getRecentActivityQuery = useGetRecentActivityQuery()
   const { data: tokens = [] } = getRecentActivityQuery
   return (
-    <Section className="border">
+    <Section className="border bg-white">
       <StackCol className="gap-3">
         <h3>Recent Activity</h3>
 
