@@ -4,8 +4,7 @@ import { Container, Nav, Navbar } from 'react-bootstrap'
 import { FaDiscord, FaTwitter } from 'react-icons/fa'
 import styled from 'styled-components'
 import ChickenIconSrc from '../images/chicken-icon-2-trans.svg'
-import AvalancheIconSrc from '../images/avalanche-avax-logo.svg'
-import AvalancheIconBlackSrc from '../images/avalanche-avax-logo-black.svg'
+import AvalancheIconSrc from '../images/avalanche-avax-logo-black.svg'
 import { ConnectWalletButton } from './ConnectWalletButton'
 import { AButton, isProd, StackCol, StackRow, StyleDaChikn } from './Common'
 import siteConfig from '../../site-config'
@@ -39,11 +38,11 @@ const FullHeight = styled(Stack)`
   width: 100%;
 `
 
-const NavGatsbyLink = ({ children, disabled, className = '', ...props }) => {
+const NavGatsbyLink = ({ children, disabled, ...props }) => {
   return (
     <Nav.Item>
       <Link
-        className={`${className} nav-link px-3 text-capitalize ${
+        className={`nav-link px-3 text-capitalize ${
           disabled ? 'disabled' : ''
         }`}
         activeClassName="active"
@@ -59,13 +58,9 @@ const links = isProd
   ? 'home,market,farm,roost,wallet'.split(',')
   : 'home,mint,market,farm,roost,wallet'.split(',')
 
-const HeaderLinks = ({ className = '', ...props }) =>
+const HeaderLinks = () =>
   links.map((link, idx) => (
-    <NavGatsbyLink
-      key={link}
-      to={idx === 0 ? '/' : `/${link}`}
-      className={className}
-    >
+    <NavGatsbyLink key={link} to={idx === 0 ? '/' : `/${link}`}>
       {link}
     </NavGatsbyLink>
   ))
@@ -155,7 +150,7 @@ const Layout = ({
       </main>
 
       {/* footer */}
-      <footer className="border-top bg-dark text-light">
+      <footer className="border-top bg-light">
         <StackCol>
           <Container className="py-5">
             <StackCol className="gap-4 flex-md-row justify-content-between">
@@ -175,13 +170,13 @@ const Layout = ({
                   <h6 className="mb-3 mt-5">Join the community</h6>
                   <StackRow className="gap-2">
                     <AButton
-                      className="fs-5 btn-lg btn-outline-light"
+                      className="fs-5 btn-lg btn-outline-dark"
                       href={siteConfig.links.discord}
                     >
                       <FaDiscord />
                     </AButton>
                     <AButton
-                      className="fs-5 btn-lg btn-outline-light"
+                      className="fs-5 btn-lg btn-outline-dark"
                       href={siteConfig.links.twitter}
                     >
                       <FaTwitter />
@@ -191,13 +186,13 @@ const Layout = ({
               </StackCol>
 
               {/* links */}
-              <Navbar bg="dark">
+              <Navbar bg="light">
                 <Nav className="flex-column">
-                  <HeaderLinks className="text-light" />
+                  <HeaderLinks />
 
                   <Nav.Item>
                     <a
-                      className="nav-link px-3 text-capitalize text-light"
+                      className="nav-link px-3 text-capitalize "
                       href={siteConfig.links.docs}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -205,7 +200,7 @@ const Layout = ({
                       Docs
                     </a>
                   </Nav.Item>
-                  <NavGatsbyLink to="/terms" className="text-light">
+                  <NavGatsbyLink to="/terms">
                     Terms &amp; Conditions
                   </NavGatsbyLink>
                 </Nav>
