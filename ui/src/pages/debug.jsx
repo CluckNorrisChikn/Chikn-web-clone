@@ -3,16 +3,18 @@ import * as React from 'react'
 import { Button } from 'react-bootstrap'
 import { useWeb3Contract } from '../components/Connect'
 
+// const isBrowser = typeof window !== 'undefined'
+
 const IndexPage = () => {
   const { active, account, contract } = useWeb3Contract()
 
   React.useEffect(() => {}, [])
 
   const fire = () => {
-    console.log('window.gtag', typeof window.gtag)
+    // console.log('window.gtag', typeof window.gtag)
     console.log('gtag', typeof gtag)
     console.log('ga', typeof ga)
-    console.log('window.dataLayer', typeof window.dataLayer)
+    // console.log('window.dataLayer', typeof window.dataLayer)
     console.log('dataLayer', typeof dataLayer)
   }
 
@@ -91,7 +93,7 @@ const IndexPage = () => {
       <pre>active={JSON.stringify(active, null, 2)}</pre>
       <pre>account={JSON.stringify(account, null, 2)}</pre>
       <pre>contract={JSON.stringify(contract, null, 2)}</pre>
-      <pre>gtag={JSON.stringify(typeof window.gtag, null, 2)}</pre>
+      {/* <pre>gtag={JSON.stringify(typeof window.gtag, null, 2)}</pre> */}
     </div>
   )
 }
