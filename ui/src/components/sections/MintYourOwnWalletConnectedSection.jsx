@@ -55,7 +55,7 @@ const IndexPage = () => {
       {/* notifications */}
       <TransactionProgress />
 
-      <Section className="border">
+      <Section className="border bg-white">
         <StackCol className="gap-3">
           {remainingChikn <= 0 && (
             <>

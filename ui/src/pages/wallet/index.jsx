@@ -35,7 +35,7 @@ const IndexPage = () => {
           </Button>
         </div>
       </StackRow>
-      <Section className="border">
+      <Section className="border bg-white">
         {!active && (
           <span>
             Please connect your wallet, to view your <ChiknText />.
