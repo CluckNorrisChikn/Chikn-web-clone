@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { Alert, Card } from 'react-bootstrap'
+import { Alert, Card, Button, Spinner } from 'react-bootstrap'
 import { ChiknText, fmtCurrency, Stack } from './Common'
-import { useGetTokenQuery, useWeb3Contract } from './Connect'
+import { useGetTokenQuery, useBuyTokenMutation, useWeb3Contract } from './Connect'
 import styled from 'styled-components'
 import AvaxSvg from '../images/avalanche-avax-logo.svg'
 
@@ -96,10 +96,19 @@ const ChickenCard = ({
   tokenId,
   size = 'lg',
   status = 'Not for sale',
-  onClick = null
+  onClick = null,
+  marketPlace = false
 }) => {
   const getTokenQuery = useGetTokenQuery(tokenId)
   const { data: { properties = {}, details = {} } = {} } = getTokenQuery
+
+  const { contract, active } = useWeb3Contract()
+
+  const useBuyToken = useBuyTokenMutation(contract, active)
+
+  const buyNow = () => {
+    useBuyToken.mutate({ tokenId, salePrice: details.price })
+  }
 
   return (
     <>
@@ -178,9 +187,19 @@ const ChickenCard = ({
                         <AvaxLogo />
                       </GreyPill>
                     </dt>
-                    {/* <dd>Transfers</dd>
-                <dt>{details.numberOfTransfers}</dt> */}
+                    <dd>Transfers</dd>
+                    <dt>{details.numberOfTransfers}</dt>
                   </Properties>
+                  {
+                    (marketPlace && details.forSale === true) &&
+                    <Button
+                      className="mt-4"
+                      variant="outline-primary"
+                      disabled={useBuyToken.isLoading}
+                      onClick={() => buyNow()}>
+                      {useBuyToken.isLoading ? <Spinner animation="border" /> : 'Buy Now'}
+                    </Button>
+                  }
                 </>
               )}
             </Card.Body>

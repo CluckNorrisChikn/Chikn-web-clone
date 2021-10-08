@@ -321,7 +321,7 @@ export const useSetTokenSalePriceMutation = (contract, enabled = true) => {
 export const useBuyTokenMutation = (contract, enabled = true) => {
   const queryClient = useQueryClient()
   return useMutation(async ({ tokenId, salePrice }) => {
-    const tx = await contract.buyToken(tokenId, { value: utils.parseUnits(salePrice, 'ether') })
+    const tx = await contract.buyToken(tokenId, { value: utils.parseUnits(salePrice.toString(), 'ether') })
     console.log('long tx', tx)
     return new Promise((resolve, reject) => {
       resolve({

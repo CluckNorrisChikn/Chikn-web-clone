@@ -74,6 +74,7 @@ const Market = () => {
                   <ChickenCard
                     tokenId={token.tokenId}
                     size="lg"
+                    marketPlace
                   />
                 </Col>
               ))}
