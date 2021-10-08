@@ -61,7 +61,7 @@ const Market = () => {
         {active &&
           !useWalletTokens.isFetching &&
           useWalletTokens.isSuccess &&
-          tokens.length === 0 && <h5>No tokens found in your wallet.</h5>}
+          tokens.length === 0 && <h5>No tokens available.</h5>}
         {active &&
           !useWalletTokens.isFetching &&
           useWalletTokens.isSuccess &&
