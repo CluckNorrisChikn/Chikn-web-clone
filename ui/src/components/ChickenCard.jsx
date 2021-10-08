@@ -67,7 +67,7 @@ const PropertyColour = ({ children }) => {
 const RenderAddress = ({ address }) => {
   const { account } = useWeb3Contract()
   return (
-    <GreyPill>{address === account ? 'You' : shortAccount(address)}</GreyPill>
+    <GreyPill>{address === account ? 'You' : (address ? shortAccount(address) : '-')}</GreyPill>
   )
 }
 

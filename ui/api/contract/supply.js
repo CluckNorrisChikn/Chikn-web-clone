@@ -16,6 +16,6 @@ module.exports = allowCors(async (req, res) => {
   res.json(await getMintAndTotal())
 })
 
-// ;(async () => {
+// ; (async () => {
 //   console.log('getMintAndTotal', await getMintAndTotal())
 // })()
