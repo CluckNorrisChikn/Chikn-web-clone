@@ -52,6 +52,13 @@ const GreyPill = styled(({ className = '', ...props }) => (
   />
 ))``
 
+const RedPill = styled(({ className = '', ...props }) => (
+  <span
+    className={`${className} px-3 bg-danger text-white rounded-pill`}
+    {...props}
+  />
+))``
+
 const shortAccount = (acct) => {
   const firstHalf = acct.substring(0, 4)
   const lastHalf = acct.substring(38)
@@ -120,7 +127,10 @@ const ChickenCard = ({
                   <ChiknText /> #{tokenId}
                 </h5>
                 <div>
-                  <GreyPill className="py-2 px-3">{status}</GreyPill>
+                  {details.forSale === true
+                    ? <RedPill className="py-2 px-3">On Sale</RedPill>
+                    : <GreyPill className="py-2 px-3">{status}</GreyPill>
+                  }
                 </div>
               </Stack>
 
@@ -154,14 +164,17 @@ const ChickenCard = ({
                     <dt>
                       <RenderAddress address={details.currentOwner} />
                     </dt>
-                    <dd>previousOwner</dd>
-                    <dt>
-                      <RenderAddress address={details.previousOwner} />
-                    </dt>
                     <dd>price</dd>
                     <dt>
                       <GreyPill>
                         {fmtCurrency(details.price)}
+                        <AvaxLogo />
+                      </GreyPill>
+                    </dt>
+                    <dd>last price</dd>
+                    <dt>
+                      <GreyPill>
+                        {fmtCurrency(details.previousPrice)}
                         <AvaxLogo />
                       </GreyPill>
                     </dt>

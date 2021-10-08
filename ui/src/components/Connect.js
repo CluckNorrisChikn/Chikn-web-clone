@@ -39,13 +39,12 @@ export const toShort = (value, factor = 5) => {
 
 const TIMEOUT_1_MIN = 60 * 1000
 
-const MINT_PRICE = '2'
-
 export const KEYS = {
   CONTRACT: () => ['contract'],
   CONTRACT_CURRENTSUPPLY: () => ['supply'],
   CONTRACT_TOKEN: (tokenId) => ['token', tokenId],
   RECENT_ACTIVITY: () => ['recent_activity'],
+  MARKET: () => ['market'],
   WALLET: () => ['wallet'],
   WALLET_TOKEN: () => ['wallet', 'wallet_token'],
   WALLET_BALANCE: () => ['wallet', 'wallet_balance'],
@@ -179,6 +178,42 @@ export const useGetWalletBalanceQuery = (library, account, enabled = true) => {
 
 const isUndef = o => typeof o === 'undefined'
 
+export const useGetAllTokensForSaleQuery = (contract, account, enabled = true) => {
+  return useQuery(
+    KEYS.MARKET(),
+    async () => {
+      console.debug('refetching tokens for sale', { contract, account, enabled })
+      const tokensIds = []
+      const tokenCount = await contract.totalSupply()
+      for (let i = 1; i <= tokenCount.toNumber(); i++) {
+        tokensIds.push({
+          tokenId: i
+        })
+        // const token = await contract.allChickenRun(i)
+        // tokensIds.push({
+        //   currentOwner: token.currentOwner,
+        //   forSale: token.forSale,
+        //   mintedBy: token.mintedBy,
+        //   numberOfTransfers: token.numberOfTransfers.toNumber(),
+        //   perchHeight: token.perchHeight.toNumber(),
+        //   previousPrice: utils.formatEther(token.previousPrice),
+        //   price: utils.formatEther(token.price),
+        //   tokenId: token.tokenId.toNumber()
+        // })
+      }
+      return tokensIds
+    },
+    {
+      enabled: !isUndef(contract) && !isUndef(account) && enabled,
+      cacheTime: TIMEOUT_1_MIN * 30,
+      staleTime: TIMEOUT_1_MIN * 30,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false
+    }
+  )
+}
+
 export const useGetWalletTokensQuery = (contract, account, enabled = true) => {
   return useQuery(
     KEYS.WALLET_TOKEN(),
@@ -223,6 +258,70 @@ export const useMintTokenMutation = (contract, enabled = true) => {
   const queryClient = useQueryClient()
   return useMutation(async ({ countOfChickens, totalPrice }) => {
     const tx = await contract.mint(countOfChickens, { value: utils.parseUnits(totalPrice, 'ether') })
+    console.log('long tx', tx)
+    return new Promise((resolve, reject) => {
+      resolve({
+        ...tx
+      })
+    })
+  }, {
+    enabled: !isUndef(contract) && enabled,
+    onSuccess: async (data) => {
+      console.log('Tx mint request', data)
+      // cancel anything in tranaction queue
+      await queryClient.cancelQueries(KEYS.TRANSACTION())
+      queryClient.setQueryData(KEYS.TRANSACTION(), data)
+    }
+  })
+}
+
+export const useToggleForSaleMutation = (contract, enabled = true) => {
+  const queryClient = useQueryClient()
+  return useMutation(async ({ tokenId }) => {
+    const tx = await contract.toggleForSale(tokenId)
+    console.log('long tx', tx)
+    return new Promise((resolve, reject) => {
+      resolve({
+        ...tx
+      })
+    })
+  }, {
+    enabled: !isUndef(contract) && enabled,
+    onSuccess: async (data) => {
+      console.log('Tx mint request', data)
+      // cancel anything in tranaction queue
+      await queryClient.cancelQueries(KEYS.TRANSACTION())
+      queryClient.setQueryData(KEYS.TRANSACTION(), data)
+    }
+  })
+}
+
+export const useSetTokenSalePriceMutation = (contract, enabled = true) => {
+  const queryClient = useQueryClient()
+  return useMutation(async ({ tokenId, newPrice }) => {
+    const ethPrice = utils.parseUnits(newPrice.toString(), 'ether')
+    const tx = await contract.changeTokenPrice(tokenId, ethPrice)
+    console.log('long tx', tx)
+    return new Promise((resolve, reject) => {
+      resolve({
+        ...tx
+      })
+    })
+  }, {
+    enabled: !isUndef(contract) && enabled,
+    onSuccess: async (data) => {
+      console.log('Tx mint request', data)
+      // cancel anything in tranaction queue
+      await queryClient.cancelQueries(KEYS.TRANSACTION())
+      queryClient.setQueryData(KEYS.TRANSACTION(), data)
+    }
+  })
+}
+
+export const useBuyTokenMutation = (contract, enabled = true) => {
+  const queryClient = useQueryClient()
+  return useMutation(async ({ tokenId, salePrice }) => {
+    const tx = await contract.buyToken(tokenId, { value: utils.parseUnits(salePrice, 'ether') })
     console.log('long tx', tx)
     return new Promise((resolve, reject) => {
       resolve({
