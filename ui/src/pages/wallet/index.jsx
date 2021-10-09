@@ -7,6 +7,7 @@ import { useQueryClient } from 'react-query'
 import ChickenCard, { ChickenCardShimmer } from '../../components/ChickenCard'
 import { ChiknText, isProd, Section, StackRow } from '../../components/Common'
 import {
+  getErrorMessage,
   KEYS,
   useGetWalletTokensQuery,
   useWeb3Contract
@@ -15,7 +16,7 @@ import Layout from '../../components/Layout'
 
 const IndexPage = () => {
   const queryClient = useQueryClient()
-  const { contract, account, active } = useWeb3Contract()
+  const { contract, account, active, deactivate } = useWeb3Contract()
   const useWalletTokens = useGetWalletTokensQuery(contract, account, active)
 
   const { data: tokens = [] } = useWalletTokens
@@ -58,7 +59,9 @@ const IndexPage = () => {
           </Row>
         )}
         {active && !useWalletTokens.isFetching && useWalletTokens.isError && (
-          <Alert variant="danger">{useWalletTokens.error?.message}</Alert>
+          <Alert variant="danger">
+            {getErrorMessage(useWalletTokens.error, deactivate)}
+          </Alert>
         )}
         {active &&
           !useWalletTokens.isFetching &&

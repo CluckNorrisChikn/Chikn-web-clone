@@ -14,20 +14,30 @@ const axiosClient = axios.create({
   baseURL: isProd ? '/' : 'https://chickenrun-git-dev-mountainpass.vercel.app'
 })
 
-const getErrorMessage = (error) => {
-  console.log(error)
+export const getErrorMessage = (error, deactivate) => {
+  const { constructor: { name } = {} } = error
+  const errorName = name || typeof error
+  let errorMessage = null
+  if (error.response && error.response.data && error.response.data.message) {
+    errorMessage = error.response.data.message
+  } else {
+    errorMessage = error.message
+  }
+  console.error(`${errorName} - ${errorMessage}`)
 
   if (error instanceof NoEthereumProviderError) {
     return 'No Ethereum browser extension detected, install MetaMask on desktop or visit from a dApp browser on mobile.'
   } else if (error instanceof UnsupportedChainIdError) {
-    return "You're connected to an unsupported network. Please connect to Fuji network" // TODO: change the name to mainnet
-  } else if (
-    error instanceof UserRejectedRequestErrorInjected
-  ) {
-    return 'Please authorize this website to access your AVAX account.'
+    return 'You are connected to an unsupported network. Please connect to the Avalanche Mainnet network'
+  } else if (error instanceof UserRejectedRequestErrorInjected) {
+    return 'Please authorize this website to access your Avalanche account.'
+  } else if (errorMessage.startsWith('call revert exception')) {
+    return 'Contract not found. Please check you are connected to the Avalanche Mainnet network'
+  } else if (errorMessage.startsWith('underlying network changed')) {
+    if (typeof deactivate === 'function') deactivate()
+    return 'Underlying network changed. Please reconnect your wallet.'
   } else {
-    console.error(error)
-    return 'An unknown error occurred. Check the console for more details.'
+    return 'An unknown error occurred. ' + errorMessage
   }
 }
 

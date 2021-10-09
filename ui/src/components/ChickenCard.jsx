@@ -1,7 +1,12 @@
 import * as React from 'react'
 import { Alert, Card, Button, Spinner } from 'react-bootstrap'
 import { ChiknText, fmtCurrency, Stack } from './Common'
-import { useGetTokenQuery, useBuyTokenMutation, useWeb3Contract } from './Connect'
+import {
+  useGetTokenQuery,
+  useBuyTokenMutation,
+  useWeb3Contract,
+  getErrorMessage
+} from './Connect'
 import styled from 'styled-components'
 import AvaxSvg from '../images/avalanche-avax-logo.svg'
 
@@ -45,19 +50,19 @@ const Image = styled((props) => <Card.Img variant="top" {...props} />)`
   max-height: 500px;
 `
 
-const GreyPill = styled(({ className = '', ...props }) => (
+const GreyPill = ({ className = '', ...props }) => (
   <span
-    className={`${className} px-3 bg-light text-dark rounded-pill`}
+    className={`${className} px-3 bg-light text-dark rounded-pill text-nowrap`}
     {...props}
   />
-))``
+)
 
-const RedPill = styled(({ className = '', ...props }) => (
+const GreenPill = ({ className = '', ...props }) => (
   <span
-    className={`${className} px-3 bg-danger text-white rounded-pill`}
+    className={`${className} px-3 bg-success text-white rounded-pill text-nowrap`}
     {...props}
   />
-))``
+)
 
 const shortAccount = (acct) => {
   const firstHalf = acct.substring(0, 4)
@@ -74,7 +79,9 @@ const PropertyColour = ({ children }) => {
 const RenderAddress = ({ address }) => {
   const { account } = useWeb3Contract()
   return (
-    <GreyPill>{address === account ? 'You' : (address ? shortAccount(address) : '-')}</GreyPill>
+    <GreyPill>
+      {address === account ? 'You' : address ? shortAccount(address) : '-'}
+    </GreyPill>
   )
 }
 
@@ -92,32 +99,89 @@ export const ChickenCardShimmer = () => {
   )
 }
 
+export const SaleStatus = ({ size = 'lg', forSale = false }) => {
+  const sizeClass = size === 'lg' ? 'py-2 px-3' : 'py-0 px-0'
+  if (forSale) {
+    return <GreenPill className={sizeClass}>For sale</GreenPill>
+  } else {
+    return <GreyPill className={sizeClass}>Not for sale</GreyPill>
+  }
+}
+
+/**
+ * Displays the marketplace card.
+ */
+const MarketPlaceContent = ({ details, tokenId }) => {
+  const { contract, active, account } = useWeb3Contract()
+  const useBuyToken = useBuyTokenMutation(contract, active)
+
+  const buyNow = () => {
+    useBuyToken.mutate({ tokenId, salePrice: details.price })
+  }
+  const showForSale =
+    details.forSale === true && details.currentOwner !== account
+  return (
+    <>
+      <h6 className="p-0">
+        <ChiknText /> #{tokenId}
+      </h6>
+      {showForSale && (
+        <Properties>
+          <dd>listing price</dd>
+          <dt>
+            <GreyPill>
+              {fmtCurrency(details.price)}
+              <AvaxLogo />
+            </GreyPill>
+          </dt>
+          <dd>last price</dd>
+          <dt>
+            <GreyPill>
+              {fmtCurrency(details.previousPrice)}
+              <AvaxLogo />
+            </GreyPill>
+          </dt>
+        </Properties>
+      )}
+      {showForSale
+        ? (
+          <Button
+            className="rounded-pill py-1"
+            variant="outline-primary"
+            disabled={useBuyToken.isLoading}
+            onClick={() => buyNow()}
+          >
+            {useBuyToken.isLoading
+              ? (
+                <Spinner size="sm" animation="border" />
+              )
+              : (
+                'Purchase'
+              )}
+          </Button>
+        )
+        : (
+          <SaleStatus forSale={details.forSale} />
+        )}
+    </>
+  )
+}
+
 const ChickenCard = ({
   tokenId,
   size = 'lg',
-  status = 'Not for sale',
   onClick = null,
   marketPlace = false
 }) => {
   const getTokenQuery = useGetTokenQuery(tokenId)
   const { data: { properties = {}, details = {} } = {} } = getTokenQuery
 
-  const { contract, active } = useWeb3Contract()
-
-  const useBuyToken = useBuyTokenMutation(contract, active)
-
-  const buyNow = () => {
-    useBuyToken.mutate({ tokenId, salePrice: details.price })
-  }
-
   return (
     <>
       {getTokenQuery.isLoading && <ChickenCardShimmer />}
       {getTokenQuery.isError && (
         <Alert variant="danger" className="mt-4">
-          {getTokenQuery.error.response
-            ? getTokenQuery.error.response.data.message
-            : getTokenQuery.error.message}
+          {getErrorMessage(getTokenQuery.error)}
         </Alert>
       )}
       {getTokenQuery.isSuccess && (
@@ -132,15 +196,18 @@ const ChickenCard = ({
                 direction={size === 'sm' ? 'col' : 'row'}
                 className="justify-content-between"
               >
-                <h5>
-                  <ChiknText /> #{tokenId}
-                </h5>
-                <div>
-                  {details.forSale === true
-                    ? <RedPill className="py-2 px-3">On Sale</RedPill>
-                    : <GreyPill className="py-2 px-3">{status}</GreyPill>
-                  }
-                </div>
+                {marketPlace
+                  ? (
+                    <MarketPlaceContent details={details} tokenId={tokenId} />
+                  )
+                  : (
+                    <>
+                      <h6>
+                        <ChiknText /> #{tokenId}
+                      </h6>
+                      <SaleStatus forSale={details.forSale} />
+                    </>
+                  )}
               </Stack>
 
               {size !== 'sm' && (
@@ -173,13 +240,6 @@ const ChickenCard = ({
                     <dt>
                       <RenderAddress address={details.currentOwner} />
                     </dt>
-                    <dd>price</dd>
-                    <dt>
-                      <GreyPill>
-                        {fmtCurrency(details.price)}
-                        <AvaxLogo />
-                      </GreyPill>
-                    </dt>
                     <dd>last price</dd>
                     <dt>
                       <GreyPill>
@@ -189,17 +249,18 @@ const ChickenCard = ({
                     </dt>
                     <dd>Transfers</dd>
                     <dt>{details.numberOfTransfers}</dt>
+                    <dd>Sale Status</dd>
+                    <dt>
+                      <SaleStatus size="sm" forSale={details.forSale} />
+                    </dt>
+                    <dd>listing price</dd>
+                    <dt>
+                      <GreyPill>
+                        {details.forSale ? fmtCurrency(details.price) : '-'}
+                        <AvaxLogo />
+                      </GreyPill>
+                    </dt>
                   </Properties>
-                  {
-                    (marketPlace && details.forSale === true) &&
-                    <Button
-                      className="mt-4"
-                      variant="outline-primary"
-                      disabled={useBuyToken.isLoading}
-                      onClick={() => buyNow()}>
-                      {useBuyToken.isLoading ? <Spinner animation="border" /> : 'Buy Now'}
-                    </Button>
-                  }
                 </>
               )}
             </Card.Body>

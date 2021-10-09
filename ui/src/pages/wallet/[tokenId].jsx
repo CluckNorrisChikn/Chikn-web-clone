@@ -1,6 +1,13 @@
 import * as React from 'react'
 import { ChiknText } from '../../components/Common'
-import { InputGroup, FormControl, Button, ButtonGroup, ToggleButton, Spinner } from 'react-bootstrap'
+import {
+  InputGroup,
+  FormControl,
+  Button,
+  ButtonGroup,
+  ToggleButton,
+  Spinner
+} from 'react-bootstrap'
 import Layout from '../../components/Layout'
 import ChickenCard from '../../components/ChickenCard'
 import siteConfig from '../../../site-config'
@@ -8,7 +15,11 @@ import styled from 'styled-components'
 import AvaxSvg from '../../images/avalanche-avax-logo.svg'
 import TransactionProgress from '../../components/TransactionProgressToast'
 
-import { useToggleForSaleMutation, useSetTokenSalePriceMutation, useWeb3Contract } from '../../components/Connect'
+import {
+  useToggleForSaleMutation,
+  useSetTokenSalePriceMutation,
+  useWeb3Contract
+} from '../../components/Connect'
 
 const AvaxLogo = styled((props) => <img src={AvaxSvg} {...props} />)`
   width: 30px;
@@ -35,6 +46,7 @@ const Page = ({ tokenId }) => {
 
   const setSalePriceToChain = () => {
     useSetNewSalePrice.mutate({ tokenId, newPrice: price })
+    // TODO: Nick, also i should actually get the sale value from contract  somehow
     // TODO: NICK, whats the best way to refesh the token since the key CONTRACT_TOKEN: (tokenId) => ['token', tokenId],
     // i cant pass the token the the received
   }
@@ -55,13 +67,28 @@ const Page = ({ tokenId }) => {
         <h1>List item for sale</h1>
         <h2>Price</h2>
         <InputGroup size="lg">
-          <InputGroup.Text id="inputGroup-sizing-lg"><AvaxLogo /></InputGroup.Text>
-          <FormControl aria-label="Large" aria-describedby="inputGroup-sizing-sm" value={price} onChange={handlePriceChange}/>
-          <Button variant="primary"
+          <InputGroup.Text id="inputGroup-sizing-lg">
+            <AvaxLogo />
+          </InputGroup.Text>
+          <FormControl
+            aria-label="Large"
+            aria-describedby="inputGroup-sizing-sm"
+            value={price}
+            onChange={handlePriceChange}
+          />
+          <Button
+            variant="primary"
             id="setprice-btn"
             disabled={useSetNewSalePrice.isLoading || !active}
-            onClick={() => setSalePriceToChain()}>
-            {useSetNewSalePrice.isLoading ? <Spinner animation="border" /> : 'Set Price'}
+            onClick={() => setSalePriceToChain()}
+          >
+            {useSetNewSalePrice.isLoading
+              ? (
+                <Spinner animation="border" />
+              )
+              : (
+                'Set Price'
+              )}
           </Button>
         </InputGroup>
         <h2>Set for sale?</h2>
@@ -74,9 +101,15 @@ const Page = ({ tokenId }) => {
             value={forSale}
             checked={forSale === true}
             onChange={() => toggleItemForSale()}
-            disabled={useToggleForSale.isLoading || !active}
+            // disabled={useToggleForSale.isLoading || !active}
           >
-            {useToggleForSale.isLoading ? <Spinner animation="border" /> : 'Yes, for sale'}
+            {useToggleForSale.isLoading
+              ? (
+                <Spinner animation="border" />
+              )
+              : (
+                'Yes, for sale'
+              )}
           </ToggleButton>
           <ToggleButton
             id={'radio-no'}
@@ -85,13 +118,22 @@ const Page = ({ tokenId }) => {
             name="radio"
             value={forSale}
             checked={forSale === false}
-            disabled={useToggleForSale.isLoading || !active}
+            // disabled={useToggleForSale.isLoading || !active}
             onChange={() => toggleItemForSale()}
           >
-            {useToggleForSale.isLoading ? <Spinner animation="border" /> : 'Not for sale'}
+            {useToggleForSale.isLoading
+              ? (
+                <Spinner animation="border" />
+              )
+              : (
+                'Not for sale'
+              )}
           </ToggleButton>
         </ButtonGroup>
       </div>
+      {process.env.NODE_ENV !== 'production' && (
+        <pre>useToggleForSale={JSON.stringify(useToggleForSale, null, 2)}</pre>
+      )}
     </Layout>
   )
 }

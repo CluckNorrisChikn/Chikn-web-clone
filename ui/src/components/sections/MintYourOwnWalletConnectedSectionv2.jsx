@@ -20,6 +20,7 @@ import {
   StyleDaChikn
 } from '../Common'
 import {
+  getErrorMessage,
   useGetSupplyQuery,
   useMintTokenMutation,
   useWeb3Contract
@@ -165,12 +166,11 @@ const IndexPage = () => {
                     <span>Mint Now</span>
                   )}
               </Button>
-              {
-                useMintToken.isError &&
+              {useMintToken.isError && (
                 <Alert variant={'danger'}>
-                  {useMintToken.error.data.message}
+                  {getErrorMessage(useMintToken.error)}
                 </Alert>
-              }
+              )}
               <small className="text-muted">
                 Max {siteConfig.maxPerMint} per mint.
                 <br />

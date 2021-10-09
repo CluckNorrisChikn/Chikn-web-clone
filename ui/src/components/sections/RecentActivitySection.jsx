@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Alert, Col, Row } from 'react-bootstrap'
 import ChickenCard, { ChickenCardShimmer } from '../ChickenCard'
 import { Section, StackCol } from '../Common'
-import { useGetRecentActivityQuery } from '../Connect'
+import { getErrorMessage, useGetRecentActivityQuery } from '../Connect'
 
 const MINTED_FROM_ADDRESS = '0x0000000000000000000000000000000000000000'
 
@@ -36,9 +36,7 @@ const Component = () => {
         {/* error */}
         {getRecentActivityQuery.isError && (
           <Alert variant="danger">
-            {getRecentActivityQuery.error.response
-              ? getRecentActivityQuery.error.response.data.message
-              : getRecentActivityQuery.error.message}
+            {getErrorMessage(getRecentActivityQuery.error)}
           </Alert>
         )}
 

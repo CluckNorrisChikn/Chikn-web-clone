@@ -2,8 +2,15 @@ import * as React from 'react'
 import Layout from '../components/Layout'
 import { Alert, Button, Col, Row } from 'react-bootstrap'
 import { FaSync } from 'react-icons/fa'
-import { Section, ChiknText, EggText, isProd, StackRow } from '../components/Common'
 import {
+  Section,
+  ChiknText,
+  EggText,
+  isProd,
+  StackRow
+} from '../components/Common'
+import {
+  getErrorMessage,
   KEYS,
   useGetAllTokensForSaleQuery,
   useWeb3Contract
@@ -56,7 +63,9 @@ const Market = () => {
           </Row>
         )}
         {active && !useWalletTokens.isFetching && useWalletTokens.isError && (
-          <Alert variant="danger">{useWalletTokens.error?.message}</Alert>
+          <Alert variant="danger">
+            {getErrorMessage(useWalletTokens.error)}
+          </Alert>
         )}
         {active &&
           !useWalletTokens.isFetching &&
@@ -73,8 +82,9 @@ const Market = () => {
                 <Col key={token.tokenId} sm={6} md={4} lg={3}>
                   <ChickenCard
                     tokenId={token.tokenId}
-                    size="lg"
+                    size="sm"
                     marketPlace
+                    onClick={() => navigate(`/wallet/${token.tokenId}`)}
                   />
                 </Col>
               ))}
