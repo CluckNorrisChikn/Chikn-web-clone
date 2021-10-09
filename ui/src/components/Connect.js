@@ -257,12 +257,18 @@ export const useGetWalletTokensQuery = (contract, account, enabled = true) => {
 export const useMintTokenMutation = (contract, enabled = true) => {
   const queryClient = useQueryClient()
   return useMutation(async ({ countOfChickens, totalPrice }) => {
-    const tx = await contract.mint(countOfChickens, { value: utils.parseUnits(totalPrice, 'ether') })
-    console.log('long tx', tx)
     return new Promise((resolve, reject) => {
-      resolve({
-        ...tx
-      })
+      contract.mint(countOfChickens, { value: utils.parseUnits(totalPrice, 'ether') })
+        .then((tx) => {
+          console.log('mint tx', tx)
+          resolve({
+            ...tx
+          })
+        })
+        .catch((err) => {
+          console.log('error', err)
+          reject(err)
+        })
     })
   }, {
     enabled: !isUndef(contract) && enabled,
@@ -278,17 +284,22 @@ export const useMintTokenMutation = (contract, enabled = true) => {
 export const useToggleForSaleMutation = (contract, enabled = true) => {
   const queryClient = useQueryClient()
   return useMutation(async ({ tokenId }) => {
-    const tx = await contract.toggleForSale(tokenId)
-    console.log('long tx', tx)
     return new Promise((resolve, reject) => {
-      resolve({
-        ...tx
-      })
+      contract.toggleForSale(tokenId)
+        .then((tx) => {
+          console.log('Toggle for sale tx', tx)
+          resolve({
+            ...tx
+          })
+        })
+        .catch((err) => {
+          console.log('error', err)
+          reject(err)
+        })
     })
   }, {
     enabled: !isUndef(contract) && enabled,
     onSuccess: async (data) => {
-      console.log('Tx mint request', data)
       // cancel anything in tranaction queue
       await queryClient.cancelQueries(KEYS.TRANSACTION())
       queryClient.setQueryData(KEYS.TRANSACTION(), data)
@@ -299,18 +310,23 @@ export const useToggleForSaleMutation = (contract, enabled = true) => {
 export const useSetTokenSalePriceMutation = (contract, enabled = true) => {
   const queryClient = useQueryClient()
   return useMutation(async ({ tokenId, newPrice }) => {
-    const ethPrice = utils.parseUnits(newPrice.toString(), 'ether')
-    const tx = await contract.changeTokenPrice(tokenId, ethPrice)
-    console.log('long tx', tx)
     return new Promise((resolve, reject) => {
-      resolve({
-        ...tx
-      })
+      const ethPrice = utils.parseUnits(newPrice.toString(), 'ether')
+      contract.changeTokenPrice(tokenId, ethPrice)
+        .then((tx) => {
+          console.log('Set sale price tx', tx)
+          resolve({
+            ...tx
+          })
+        })
+        .catch((err) => {
+          console.log('set sale price error', err)
+          reject(err)
+        })
     })
   }, {
     enabled: !isUndef(contract) && enabled,
     onSuccess: async (data) => {
-      console.log('Tx mint request', data)
       // cancel anything in tranaction queue
       await queryClient.cancelQueries(KEYS.TRANSACTION())
       queryClient.setQueryData(KEYS.TRANSACTION(), data)
@@ -321,17 +337,22 @@ export const useSetTokenSalePriceMutation = (contract, enabled = true) => {
 export const useBuyTokenMutation = (contract, enabled = true) => {
   const queryClient = useQueryClient()
   return useMutation(async ({ tokenId, salePrice }) => {
-    const tx = await contract.buyToken(tokenId, { value: utils.parseUnits(salePrice.toString(), 'ether') })
-    console.log('long tx', tx)
     return new Promise((resolve, reject) => {
-      resolve({
-        ...tx
-      })
+      contract.buyToken(tokenId, { value: utils.parseUnits(salePrice.toString(), 'ether') })
+        .then((tx) => {
+          console.log('Buy token tx', tx)
+          resolve({
+            ...tx
+          })
+        })
+        .catch((err) => {
+          console.log('Buy token error', err)
+          reject(err)
+        })
     })
   }, {
     enabled: !isUndef(contract) && enabled,
     onSuccess: async (data) => {
-      console.log('Tx mint request', data)
       // cancel anything in tranaction queue
       await queryClient.cancelQueries(KEYS.TRANSACTION())
       queryClient.setQueryData(KEYS.TRANSACTION(), data)

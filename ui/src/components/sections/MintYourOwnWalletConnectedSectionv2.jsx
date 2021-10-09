@@ -6,7 +6,8 @@ import {
   FormControl,
   InputGroup,
   Row,
-  Spinner
+  Spinner,
+  Alert
 } from 'react-bootstrap'
 import styled from 'styled-components'
 import siteConfig from '../../../site-config'
@@ -164,6 +165,12 @@ const IndexPage = () => {
                     <span>Mint Now</span>
                   )}
               </Button>
+              {
+                useMintToken.isError &&
+                <Alert variant={'danger'}>
+                  {useMintToken.error.data.message}
+                </Alert>
+              }
               <small className="text-muted">
                 Max {siteConfig.maxPerMint} per mint.
                 <br />

@@ -6,6 +6,10 @@ import {
 } from '../components/Connect'
 import { useQueryClient } from 'react-query'
 import GenericToast from './GenericToast'
+import {
+  AVALANCHE_TESTNET_PARAMS,
+  AVALANCHE_MAINNET_PARAMS
+} from '../utils/network'
 
 const TransactionProgress = ({ intialOnShow = false }) => {
   const useTransaction = useStoreWorkingTxQuery()
@@ -17,6 +21,8 @@ const TransactionProgress = ({ intialOnShow = false }) => {
   const transactionRef = React.useRef(null)
 
   const { data } = useTransaction
+
+  const networkExplorer = 1 === 1 ? AVALANCHE_TESTNET_PARAMS : AVALANCHE_MAINNET_PARAMS
 
   React.useEffect(() => {
     // async function
@@ -62,7 +68,13 @@ const TransactionProgress = ({ intialOnShow = false }) => {
       autoHide={true}
       className={`bg-${backgroundColor} text-white`}
     >
-      {errorMessage || (transactionRef.current && toShort(transactionRef.current.hash))}
+      {errorMessage || (transactionRef.current &&
+        <a
+          rel="noreferrer noopener"
+          target="_blank"
+          href={`${networkExplorer.blockExplorerUrls[0]}/tx/${transactionRef.current.hash}`}>
+          {toShort(transactionRef.current.hash)}
+        </a>)}
     </GenericToast >
   )
 }
