@@ -1,5 +1,5 @@
 {
-  "address": "0x14FBDa4a9BF76F35C8cAA8173BEF4A1EBbfcCa53",
+  "address": "0xb50F111494C622dD9EdfFb513ce55A5C153d0CE3",
   "abi": [
     {
       "anonymous": false,
@@ -302,6 +302,19 @@
           "internalType": "bool",
           "name": "",
           "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getAllSaleTokens",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
         }
       ],
       "stateMutability": "view",
