@@ -9,15 +9,15 @@ import ChickenCard, {
   ChickenCardShimmer,
   ChickenCardShimmerx4,
   ChickenCardWalletSummary
-} from '../../components/ChickenCard'
-import { ChiknText, isProd, Section, StackRow } from '../../components/Common'
+} from '../components/ChickenCard'
+import { ChiknText, isProd, Section, StackRow } from '../components/Common'
 import {
   getErrorMessage,
   KEYS,
   useGetWalletTokensQuery,
   useWeb3Contract
-} from '../../components/Connect'
-import Layout from '../../components/Layout'
+} from '../components/Connect'
+import Layout from '../components/Layout'
 
 const IndexPage = () => {
   const queryClient = useQueryClient()
@@ -68,7 +68,7 @@ const IndexPage = () => {
                 <Col key={tokenId} sm={6} md={4} lg={3}>
                   <ChickenCardWalletSummary
                     tokenId={tokenId}
-                    onClick={() => navigate(`/wallet/${tokenId}`)}
+                    onClick={() => navigate(`/chikn/${tokenId}`)}
                   />
                 </Col>
               ))}

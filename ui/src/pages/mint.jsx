@@ -3,6 +3,7 @@ import * as React from 'react'
 import { Alert } from 'react-bootstrap'
 import { useWeb3Contract } from '../components/Connect'
 import Layout from '../components/Layout'
+import CountdownSection from '../components/sections/CountdownSection'
 import MintYourOwnWalletConnected from '../components/sections/MintYourOwnWalletConnectedSection'
 import MintYourOwnWalletConnectedv2 from '../components/sections/MintYourOwnWalletConnectedSectionv2'
 import MintYourOwnWalletNotConnected from '../components/sections/MintYourOwnWalletNotConnectedSection'
@@ -42,6 +43,8 @@ const IndexPage = () => {
       <MintYourOwnWalletConnectedv2 />
 
       <RecentActivitySection />
+
+      <CountdownSection />
 
       <Alert variant="warning" className="text-center">
         <h1>N.B. This page is for testing only.</h1>

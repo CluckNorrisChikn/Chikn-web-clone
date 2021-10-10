@@ -9,7 +9,9 @@ import {
   Spinner
 } from 'react-bootstrap'
 import Layout from '../../components/Layout'
-import ChickenCard from '../../components/ChickenCard'
+import ChickenCard, {
+  ChickenCardOwnerDetails
+} from '../../components/ChickenCard'
 import siteConfig from '../../../site-config'
 import styled from 'styled-components'
 import AvaxSvg from '../../images/avalanche-avax-logo.svg'
@@ -62,8 +64,8 @@ const Page = ({ tokenId }) => {
         <ChiknText /> #{tokenId}
       </h1>
 
-      <ChickenCard tokenId={tokenId} size="sm" />
-      <div>
+      <ChickenCardOwnerDetails tokenId={tokenId} />
+      {/* <div>
         <h1>List item for sale</h1>
         <h2>Price</h2>
         <InputGroup size="lg">
@@ -130,10 +132,7 @@ const Page = ({ tokenId }) => {
               )}
           </ToggleButton>
         </ButtonGroup>
-      </div>
-      {process.env.NODE_ENV !== 'production' && (
-        <pre>useToggleForSale={JSON.stringify(useToggleForSale, null, 2)}</pre>
-      )}
+      </div> */}
     </Layout>
   )
 }

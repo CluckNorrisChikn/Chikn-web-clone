@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import ChickenIconSrc from '../images/chicken-icon-2-trans.svg'
 import AvalancheIconSrc from '../images/avalanche-avax-logo-black.svg'
 import { ConnectWalletButton } from './ConnectWalletButton'
-import { AButton, isProd, StackCol, StackRow, StyleDaChikn } from './Common'
+import { AButton, isProd, SocialDiscordButton, SocialTwitterButton, StackCol, StackRow, StyleDaChikn } from './Common'
 import siteConfig from '../../site-config'
 import HelmetMeta from './HelmetMeta'
 import { useWeb3React } from '@web3-react/core'
@@ -170,18 +170,8 @@ const Layout = ({
                 <StackCol>
                   <h6 className="mb-3 mt-5">Join the community</h6>
                   <StackRow className="gap-2">
-                    <AButton
-                      className="fs-5 btn-lg btn-outline-dark"
-                      href={siteConfig.links.discord}
-                    >
-                      <FaDiscord />
-                    </AButton>
-                    <AButton
-                      className="fs-5 btn-lg btn-outline-dark"
-                      href={siteConfig.links.twitter}
-                    >
-                      <FaTwitter />
-                    </AButton>
+                    <SocialDiscordButton />
+                    <SocialTwitterButton />
                   </StackRow>
                 </StackCol>
               </StackCol>

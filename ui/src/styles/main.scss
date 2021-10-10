@@ -117,3 +117,28 @@ blockquote {
     max-width: 300px !important;
   }
 }
+
+@include media-breakpoint-up(lg) {
+  .stack-dynamic {
+    flex-direction: row;
+  }
+  .w-exact60pc {
+    min-width: 60% !important;
+    width: 60% !important;
+    max-width: 60% !important;
+  }
+}
+@include media-breakpoint-down(lg) {
+  .stack-dynamic {
+    flex-direction: column;
+  }
+}
+
+
+.card, .card-body {
+  border-radius: 15px;
+  .card-img-top {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }
+}

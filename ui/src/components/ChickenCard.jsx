@@ -1,6 +1,16 @@
 import * as React from 'react'
 import { Alert, Card, Button, Spinner, Row, Col } from 'react-bootstrap'
-import { ChiknText, fmtCurrency, Stack } from './Common'
+import Accordion from 'react-bootstrap/Accordion'
+import {
+  ChiknText,
+  fmtCurrency,
+  Section,
+  SocialShareLinkButton,
+  Stack,
+  StackCol,
+  StackDynamic,
+  StackRow
+} from './Common'
 import {
   useGetTokenQuery,
   useBuyTokenMutation,
@@ -9,28 +19,54 @@ import {
 } from './Connect'
 import styled from 'styled-components'
 import AvaxSvg from '../images/avalanche-avax-logo.svg'
+import siteConfig from '../../site-config'
+
+/**
+ * @typedef {Object} Details
+ * @property {string} tokenId // "8",
+ * @property {string} mintedBy // "0x20e63CB166a90c22a7afC5623AEE59d8D8988Ec5",
+ * @property {string} currentOwner // "0x8db97C7cEcE249c2b98bDC0226Cc4C2A57BF52FC",
+ * @property {boolean} forSale // false,
+ * @property {string} perchHeight // "1",
+ * @property {number} price // 2.399,
+ * @property {number} previousPrice // 2.399,
+ * @property {number} numberOfTransfers // 1
+ */
+
+/** @type {Details} */
+const DETAILS_BLANK = {}
 
 const AvaxLogo = styled((props) => <img src={AvaxSvg} {...props} />)`
-  width: 15px;
-  height: 15px;
+  width: ${(props) => props.logoSize || '15px'};
+  height: ${(props) => props.logoSize || '15px'};
   margin-left: 5px;
   position: relative;
   top: -2px;
 `
 
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: ${(props) => props.columns || 'auto auto'};
+  column-gap: ${(props) => props.columnGap || '10px'};
+  row-gap: ${(props) => props.rowGap || '10px'};
+`
+
 const Properties = styled.dl`
   font-size: 1rem;
   display: grid;
-  grid-template-columns: 120px auto;
+  grid-template-columns: ${(props) =>
+    props.fixed ? '120px auto' : 'auto auto'};
   column-gap: 10px;
   row-gap: 5px;
   margin-bottom: 0px;
   text-transform: capitalize;
   dd {
     margin-bottom: 0px;
+    text-align: ${(props) => props.termAlign || 'left'};
   }
   dt {
     font-weight: normal;
+    text-align: ${(props) => props.definitionAlign || 'left'};
   }
 `
 
@@ -51,14 +87,14 @@ const ChiknCard = styled(({ className = '', onClick = null, ...props }) => (
   }
 `
 
-const Image = styled((props) => <Card.Img variant="top" {...props} />)`
+const CardImage = styled((props) => <Card.Img variant="top" {...props} />)`
   max-width: 500px;
   max-height: 500px;
 `
 
 const GreyPill = ({ className = '', ...props }) => (
   <span
-    className={`${className} px-3 bg-light text-dark rounded-pill text-nowrap`}
+    className={`${className} px-3 bg-light text-muted border rounded-pill text-nowrap`}
     {...props}
   />
 )
@@ -68,6 +104,28 @@ const GreenPill = ({ className = '', ...props }) => (
     className={`${className} px-3 bg-success text-white rounded-pill text-nowrap`}
     {...props}
   />
+)
+
+const BluePill = ({ className = '', ...props }) => (
+  <span
+    className={`${className} px-3 bg-light border text-dark rounded-pill text-nowrap`}
+    {...props}
+  />
+)
+
+const AvaxPill = ({
+  className = '',
+  children = undefined,
+  logoSize,
+  ...props
+}) => (
+  <span
+    className={`${className} px-3 bg-light text-dark rounded-pill text-nowrap`}
+    {...props}
+  >
+    {children}
+    <AvaxLogo logoSize={logoSize} />
+  </span>
 )
 
 const shortAccount = (acct) => {
@@ -91,10 +149,20 @@ const RenderAddress = ({ address }) => {
   )
 }
 
+const RenderOwnedByAddress = ({ address, ...props }) => {
+  const { account } = useWeb3Contract()
+  return (
+    <Property {...props}>
+      Owned by{' '}
+      {address === account ? 'You' : address ? shortAccount(address) : '-'}
+    </Property>
+  )
+}
+
 const ChickenCardShimmer = () => {
   return (
     <ChiknCard>
-      <Image className="shimmer" />
+      <CardImage className="shimmer" />
       <Card.Body>
         <h3 className="shimmer w-50">&nbsp;</h3>
         <label className="shimmer w-75 mb-1">&nbsp;</label>
@@ -124,96 +192,83 @@ export const ChickenCardShimmerx4 = () => {
   )
 }
 
-export const SaleStatus = ({ size = 'lg', forSale = false }) => {
+export const SaleStatus = ({
+  size = 'lg',
+  forSale = false,
+  isOwner = false
+}) => {
   const sizeClass = size === 'lg' ? 'py-2 px-3' : 'py-0 px-0'
-  if (forSale) {
-    return <GreenPill className={sizeClass}>For sale</GreenPill>
+  if (isOwner) {
+    return <BluePill className={`${sizeClass}`}>Already owned</BluePill>
+  } else if (forSale) {
+    return <GreenPill className={`${sizeClass}`}>For sale</GreenPill>
   } else {
-    return <GreyPill className={sizeClass}>Not for sale</GreyPill>
+    return <GreyPill className={`${sizeClass}`}>Not for sale</GreyPill>
   }
-}
-
-const OwnerSumary = ({ tokenId = '' }) => {
-  const getTokenQuery = useGetTokenQuery(tokenId)
-  const { data: { details = {} } = {} } = getTokenQuery
-  return (
-    <>
-      <h6>
-        <ChiknText /> #{tokenId}
-      </h6>
-      <SaleStatus forSale={details.forSale} />
-    </>
-  )
 }
 
 /**
  * Displays the marketplace card.
  */
-const MarketPlaceSummary = ({ tokenId = '' }) => {
-  const getTokenQuery = useGetTokenQuery(tokenId)
-  const { data: { details = {} } = {} } = getTokenQuery
-  const { contract, active, account } = useWeb3Contract()
-  const useBuyToken = useBuyTokenMutation(contract, active)
+// const MarketPlaceSummary = ({ tokenId = '' }) => {
+//   const getTokenQuery = useGetTokenQuery(tokenId)
+//   const { data: { details = {} } = {} } = getTokenQuery
+//   const { contract, active, account } = useWeb3Contract()
+//   // const useBuyToken = useBuyTokenMutation(contract, active)
 
-  const buyNow = () => {
-    useBuyToken.mutate({ tokenId, salePrice: details.price })
-  }
-  const showForSale =
-    details.forSale === true && details.currentOwner !== account
-  return (
-    <>
-      <h6 className="p-0">
-        <ChiknText /> #{tokenId}
-      </h6>
-      {showForSale && (
-        <Properties>
-          <dd>listing price</dd>
-          <dt>
-            <GreyPill>
-              {fmtCurrency(details.price)}
-              <AvaxLogo />
-            </GreyPill>
-          </dt>
-          <dd>last price</dd>
-          <dt>
-            <GreyPill>
-              {fmtCurrency(details.previousPrice)}
-              <AvaxLogo />
-            </GreyPill>
-          </dt>
-        </Properties>
-      )}
-      {showForSale
-        ? (
-          <Button
-            className="rounded-pill py-1"
-            variant="outline-primary"
-            disabled={useBuyToken.isLoading}
-            onClick={() => buyNow()}
-          >
-            {useBuyToken.isLoading
-              ? (
-                <Spinner size="sm" animation="border" />
-              )
-              : (
-                'Purchase'
-              )}
-          </Button>
-        )
-        : (
-          <SaleStatus forSale={details.forSale} />
-        )}
-    </>
-  )
-}
+//   // const buyNow = () => {
+//   //   useBuyToken.mutate({ tokenId, salePrice: details.price })
+//   // }
+//   // const showForSale =
+//   //   details.forSale === true && details.currentOwner !== account
+//   return (
+//     <>
+//       <h6 className="p-0">
+//         <ChiknText /> #{tokenId}
+//       </h6>
+//       <SaleStatus size="sm" forSale={details.forSale} />
+//       {showForSale && (
+//         <Properties>
+//           <dd>listing price</dd>
+//           <dt>
+//             <AvaxPill>{fmtCurrency(details.price)}</AvaxPill>
+//           </dt>
+//           <dd>last price</dd>
+//           <dt>
+//             <AvaxPill>{fmtCurrency(details.previousPrice)}</AvaxPill>
+//           </dt>
+//         </Properties>
+//       )}
+//       {/* {showForSale
+//         ? (
+//           <Button
+//             className="rounded-pill py-1"
+//             variant="outline-primary"
+//             disabled={useBuyToken.isLoading}
+//             onClick={() => buyNow()}
+//           >
+//             {useBuyToken.isLoading
+//               ? (
+//                 <Spinner size="sm" animation="border" />
+//               )
+//               : (
+//                 'Purchase'
+//               )}
+//           </Button>
+//         )
+//         : (
+//           <SaleStatus forSale={details.forSale} />
+//         )} */}
+//     </>
+//   )
+// }
 
 const ShowHistory = ({ tokenId = '' }) => {
   const getTokenQuery = useGetTokenQuery(tokenId)
   const { data: { details = {} } = {} } = getTokenQuery
   return (
     <>
-      <h5 className="mt-4 mb-3">History</h5>
-      <Properties>
+      <Properties fixed>
         <dd>mintedBy</dd>
         <dt>
           <RenderAddress address={details.mintedBy} />
@@ -224,10 +279,7 @@ const ShowHistory = ({ tokenId = '' }) => {
         </dt>
         <dd>last price</dd>
         <dt>
-          <GreyPill>
-            {fmtCurrency(details.previousPrice)}
-            <AvaxLogo />
-          </GreyPill>
+          <AvaxPill>{fmtCurrency(details.previousPrice)}</AvaxPill>
         </dt>
         <dd>Transfers</dd>
         <dt>{details.numberOfTransfers}</dt>
@@ -237,35 +289,10 @@ const ShowHistory = ({ tokenId = '' }) => {
         </dt>
         <dd>listing price</dd>
         <dt>
-          <GreyPill>
+          <AvaxPill>
             {details.forSale ? fmtCurrency(details.price) : '-'}
-            <AvaxLogo />
-          </GreyPill>
+          </AvaxPill>
         </dt>
-      </Properties>
-    </>
-  )
-}
-
-const ShowProperties = ({ tokenId = '' }) => {
-  const getTokenQuery = useGetTokenQuery(tokenId)
-  const { data: { properties = {} } = {} } = getTokenQuery
-  return (
-    <>
-      <h5 className="mt-4 mb-3">Properties</h5>
-      <Properties>
-        {'background,chicken,headwear,mouth,eyewear,neck,arms,tail,feet'
-          .split(',')
-          .map((property) => {
-            return (
-              <>
-                <dd>{property}</dd>
-                <dt>
-                  <PropertyColour>{properties[property]}</PropertyColour>
-                </dt>
-              </>
-            )
-          })}
       </Properties>
     </>
   )
@@ -283,8 +310,14 @@ export const ChickenCardMarketplaceSummary = ({
   tokenId = '',
   onClick = null
 }) => {
+  const { account } = useWeb3Contract()
   const getTokenQuery = useGetTokenQuery(tokenId)
-  const { data: { properties = {} } = {} } = getTokenQuery
+  const { data: { properties = {}, details = {} } = {} } = getTokenQuery
+
+  const isOwner = details.currentOwner === account
+  const showForSale =
+    details.forSale === true && details.currentOwner !== account
+
   return (
     <>
       {getTokenQuery.isLoading && <ChickenCardShimmer />}
@@ -292,11 +325,30 @@ export const ChickenCardMarketplaceSummary = ({
       {getTokenQuery.isSuccess && (
         <>
           <ChiknCard onClick={onClick}>
-            <Image src={properties.image} />
+            <CardImage src={properties.image} />
             <Card.Body>
-              <Stack direction="col" className="justify-content-between">
-                <MarketPlaceSummary tokenId={tokenId} />
-              </Stack>
+              <StackCol className="gap-2 justify-content-between">
+                <h6 className="p-0">
+                  <ChiknText /> #{tokenId}
+                </h6>
+                <SaleStatus
+                  size="sm"
+                  forSale={details.forSale}
+                  isOwner={isOwner}
+                />
+                {showForSale && (
+                  <Properties definitionAlign="right">
+                    <dd>price</dd>
+                    <dt>
+                      <AvaxPill>{fmtCurrency(details.price)}</AvaxPill>
+                    </dt>
+                    <dd>last price</dd>
+                    <dt>
+                      <AvaxPill>{fmtCurrency(details.previousPrice)}</AvaxPill>
+                    </dt>
+                  </Properties>
+                )}
+              </StackCol>
             </Card.Body>
           </ChiknCard>
         </>
@@ -307,7 +359,7 @@ export const ChickenCardMarketplaceSummary = ({
 
 export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
   const getTokenQuery = useGetTokenQuery(tokenId)
-  const { data: { properties = {} } = {} } = getTokenQuery
+  const { data: { properties = {}, details = {} } = {} } = getTokenQuery
   return (
     <>
       {getTokenQuery.isLoading && <ChickenCardShimmer />}
@@ -315,11 +367,14 @@ export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
       {getTokenQuery.isSuccess && (
         <>
           <ChiknCard onClick={onClick}>
-            <Image src={properties.image} />
+            <CardImage src={properties.image} />
             <Card.Body>
-              <Stack direction="col" className="justify-content-between">
-                <OwnerSumary tokenId={tokenId} />
-              </Stack>
+              <StackCol className="justify-content-between">
+                <h6>
+                  <ChiknText /> #{tokenId}
+                </h6>
+                <SaleStatus size="sm" forSale={details.forSale} />
+              </StackCol>
             </Card.Body>
           </ChiknCard>
         </>
@@ -328,46 +383,47 @@ export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
   )
 }
 
-const ChickenCard = ({
-  tokenId,
-  size = 'lg',
-  onClick = null,
-  marketPlace = false
+export const ChickenCardRecentActivitySummary = ({
+  tokenId = '',
+  from = '',
+  to = '',
+  onClick = null
 }) => {
+  const MINTED_FROM_ADDRESS = '0x0000000000000000000000000000000000000000'
+  /** @type {{ data: { details: Details }}} */
   const getTokenQuery = useGetTokenQuery(tokenId)
-  const { data: { properties = {} } = {} } = getTokenQuery
-
+  const { data: { properties = {}, details = DETAILS_BLANK } = {} } =
+    getTokenQuery
   return (
     <>
       {getTokenQuery.isLoading && <ChickenCardShimmer />}
       {getTokenQuery.isError && <ShowError error={getTokenQuery.error} />}
       {getTokenQuery.isSuccess && (
         <>
-          <ChiknCard
-            className={onClick !== null ? 'clickable' : ''}
-            onClick={onClick}
-          >
-            <Image src={properties.image} />
+          <ChiknCard onClick={onClick}>
+            <CardImage src={properties.image} />
             <Card.Body>
-              <Stack
-                direction={size === 'sm' ? 'col' : 'row'}
-                className="justify-content-between"
-              >
-                {marketPlace
+              <StackCol className="gap-2">
+                <h6>
+                  <ChiknText /> #{tokenId}
+                </h6>
+                {/* TODO what about listed forsale events... do they come through? */}
+                {from === MINTED_FROM_ADDRESS
                   ? (
-                    <MarketPlaceSummary tokenId={tokenId} />
+                    <GreyPill>Minted</GreyPill>
                   )
                   : (
-                    <OwnerSumary tokenId={tokenId} />
+                    <>
+                      <GreenPill>Sold</GreenPill>
+                      <Properties definitionAlign="right">
+                        <dd>price</dd>
+                        <dt>
+                          <AvaxPill>{fmtCurrency(details.price)}</AvaxPill>
+                        </dt>
+                      </Properties>
+                    </>
                   )}
-              </Stack>
-
-              {size !== 'sm' && (
-                <>
-                  <ShowProperties tokenId={tokenId} />
-                  <ShowHistory tokenId={tokenId} />
-                </>
-              )}
+              </StackCol>
             </Card.Body>
           </ChiknCard>
         </>
@@ -376,4 +432,128 @@ const ChickenCard = ({
   )
 }
 
-export default ChickenCard
+const ChickenImage = styled.img`
+  width: 100%;
+  border-radius: 15px;
+`
+
+const Property = styled(({ className = 'bg-light text-dark', ...props }) => (
+  <small
+    className={`${className} px-3 border rounded-3 text-nowrap text-capitalize`}
+    {...props}
+  />
+))`
+  // background: purple;
+`
+
+const MenuButton = styled(Button)`
+  min-width: 200px !important;
+  padding-left: 30px !important;
+  padding-right: 30px !important;
+`
+
+export const ChickenCardOwnerDetails = ({ tokenId = '' }) => {
+  const { active, account } = useWeb3Contract()
+  /** @type {{ data: { details: Details }}} */
+  const getTokenQuery = useGetTokenQuery(tokenId)
+  const { data: { properties = {}, details = DETAILS_BLANK } = {} } =
+    getTokenQuery
+  const isOwner = details.currentOwner === account
+  const isForSale = details.forSale
+  return (
+    <>
+      {getTokenQuery.isLoading && <ChickenCardShimmer />}
+      {getTokenQuery.isError && <ShowError error={getTokenQuery.error} />}
+      {getTokenQuery.isSuccess && (
+        <Section className="bg-white border" center={false}>
+          <StackDynamic className="gap-5 flex-grow-1">
+            <div>
+              <ChickenImage src={properties.image} />
+            </div>
+            <StackCol className="w-exact60pc gap-4">
+              <StackRow className="justify-content-between">
+                {/* title */}
+                <h5>
+                  <ChiknText /> #{tokenId}
+                </h5>
+
+                {/* social */}
+                <SocialShareLinkButton
+                  title={`${siteConfig.nftName} #${tokenId}`}
+                  text={siteConfig.description}
+                  url={window.location.toString()}
+                />
+              </StackRow>
+
+              {/* actions */}
+              <StackDynamic className="gap-1 flex-wrap">
+                {!isOwner && !isForSale && (
+                  <SaleStatus forSale={details.forSale} />
+                )}
+                {!active && isForSale && (
+                  <GreyPill className="py-2 border">
+                    Connect wallet to buy
+                  </GreyPill>
+                )}
+                {active && !isOwner && isForSale && (
+                  <MenuButton disabled>Purchase</MenuButton>
+                )}
+                {isOwner && !isForSale && (
+                  <MenuButton disabled>Sell</MenuButton>
+                )}
+                {isOwner && isForSale && (
+                  <MenuButton disabled>Lower price</MenuButton>
+                )}
+                {isOwner && isForSale && (
+                  <MenuButton disabled>Cancel listing</MenuButton>
+                )}
+              </StackDynamic>
+
+              {/* price */}
+              {isForSale && (
+                <div>
+                  <AvaxPill className="fs-4" logoSize="22px">
+                    {fmtCurrency(details.price)}
+                  </AvaxPill>
+                </div>
+              )}
+
+              {/* blurb */}
+              <i className="text-dark">
+                The chikns from the whole country have gathered in Chiknville
+                for the party, meet the chikns.
+              </i>
+
+              <Accordion defaultActiveKey="0" flush>
+                {/* attributes */}
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header>Attributes</Accordion.Header>
+                  <Accordion.Body>
+                    <StackRow className="gap-1 flex-wrap">
+                      {'background,chicken,headwear,mouth,eyewear,neck,arms,tail,feet'
+                        .split(',')
+                        .map((p) => {
+                          return (
+                            <Property key={p}>
+                              {p} : {properties[p]}
+                            </Property>
+                          )
+                        })}
+                    </StackRow>
+                  </Accordion.Body>
+                </Accordion.Item>
+                {/* history */}
+                <Accordion.Item eventKey="1">
+                  <Accordion.Header>History</Accordion.Header>
+                  <Accordion.Body>
+                    <ShowHistory tokenId={tokenId} />
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+            </StackCol>
+          </StackDynamic>
+        </Section>
+      )}
+    </>
+  )
+}

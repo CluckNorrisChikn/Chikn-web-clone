@@ -47,7 +47,7 @@ const Market = () => {
       <Section className="border bg-white">
         {!active && (
           <span>
-            Please connect your wallet, to view your <ChiknText />.
+            Please connect your wallet, to view market <ChiknText />.
           </span>
         )}
         {active && useWalletTokens.isFetching && <ChickenCardShimmerx4 />}
@@ -71,7 +71,7 @@ const Market = () => {
                 <Col key={token.tokenId} sm={6} md={4} lg={3}>
                   <ChickenCardMarketplaceSummary
                     tokenId={token.tokenId}
-                    onClick={() => navigate(`/wallet/${token.tokenId}`)}
+                    onClick={() => navigate(`/chikn/${token.tokenId}`)}
                   />
                 </Col>
               ))}

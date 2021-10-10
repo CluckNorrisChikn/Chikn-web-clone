@@ -1,14 +1,12 @@
 import { navigate } from 'gatsby-link'
 import * as React from 'react'
 import { Alert, Col, Row } from 'react-bootstrap'
-import ChickenCard, {
-  ChickenCardShimmer,
+import {
+  ChickenCardRecentActivitySummary,
   ChickenCardShimmerx4
 } from '../ChickenCard'
 import { Section, StackCol } from '../Common'
 import { getErrorMessage, useGetRecentActivityQuery } from '../Connect'
-
-const MINTED_FROM_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 const Component = () => {
   const getRecentActivityQuery = useGetRecentActivityQuery()
@@ -34,11 +32,11 @@ const Component = () => {
             {tokens.slice(0, 4).map(({ from, to, tokenId }) => {
               return (
                 <Col key={tokenId} sm={6} md={4} lg={3}>
-                  <ChickenCard
+                  <ChickenCardRecentActivitySummary
                     tokenId={tokenId}
-                    size="sm"
-                    onClick={() => navigate(`/wallet/${tokenId}`)}
-                    status={from === MINTED_FROM_ADDRESS ? 'Minted' : 'Sold'}
+                    from={from}
+                    to={to}
+                    onClick={() => navigate(`/chikn/${tokenId}`)}
                   />
                 </Col>
               )

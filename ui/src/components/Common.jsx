@@ -1,7 +1,9 @@
 import * as React from 'react'
-import { Container } from 'react-bootstrap'
+import { Button, Container } from 'react-bootstrap'
 import styled from 'styled-components'
 import siteConfig from '../../site-config'
+
+import { FaDiscord, FaTwitter, FaShareAlt } from 'react-icons/fa'
 
 // formatters
 
@@ -15,9 +17,11 @@ export const fmtCurrency = (o) =>
     maximumFractionDigits: 5
   })
 
-export const Section = ({ className = '', ...props }) => (
+export const Section = ({ className = '', center = true, ...props }) => (
   <Container
-    className={`p-3 p-md-5 text-center rounded-3 ${className}`}
+    className={`p-3 p-md-5 ${
+      center ? 'text-center' : ''
+    } rounded-3 ${className}`}
     {...props}
   />
 )
@@ -26,10 +30,14 @@ export const Stack = ({ className = '', direction = 'row', ...props }) => (
   <div
     className={`d-flex flex-${
       direction === 'row' ? 'row' : 'column'
-    } gap-2 ${className}`}
+    } ${className}`}
     {...props}
   />
 )
+export const StackDynamic = ({ className = '', ...props }) => (
+  <div className={`d-flex gap-2 stack-dynamic ${className}`} {...props} />
+)
+
 export const StackCol = ({ className = '', ...props }) => (
   <div className={`d-flex flex-column ${className}`} {...props} />
 )
@@ -56,6 +64,60 @@ export const AButton = ({ className = '', ...props }) => (
     {...props}
   />
 )
+
+export const SocialTwitterButton = () => {
+  return (
+    <AButton
+      className="fs-5 btn-lg btn-outline-dark"
+      href={siteConfig.links.twitter}
+    >
+      <FaTwitter />
+    </AButton>
+  )
+}
+
+export const SocialDiscordButton = () => {
+  return (
+    <AButton
+      className="fs-5 btn-lg btn-outline-dark"
+      href={siteConfig.links.discord}
+    >
+      <FaDiscord />
+    </AButton>
+  )
+}
+
+export const SocialShareLinkButton = ({
+  className = '',
+  title = '',
+  text = '',
+  url = '',
+  ...props
+}) => {
+  return (
+    <Button
+      variant="outline-dark"
+      className={`${className}`}
+      {...props}
+      onClick={() => {
+        // TODO add images to share
+        if (navigator.share) {
+          navigator.share({
+            title,
+            text,
+            url
+          })
+        } else if (navigator.clipboard) {
+          navigator.clipboard.writeText(url)
+        } else {
+          console.error('No way to share links!')
+        }
+      }}
+    >
+      <FaShareAlt />
+    </Button>
+  )
+}
 
 export const RainbowText1 = styled((props) => <span {...props} />)`
   background: linear-gradient(135deg, #6699ff 0%, #ff3366 100%);
