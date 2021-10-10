@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ChiknText } from '../../components/Common'
+import { ChiknText, Section } from '../../components/Common'
 import {
   InputGroup,
   FormControl,
@@ -62,7 +62,7 @@ const Page = ({ tokenId }) => {
         <ChiknText /> #{tokenId}
       </h1>
 
-      <ChickenCard tokenId={tokenId} />
+      <ChickenCard tokenId={tokenId} size="sm" />
       <div>
         <h1>List item for sale</h1>
         <h2>Price</h2>

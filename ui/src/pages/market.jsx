@@ -15,7 +15,11 @@ import {
   useGetAllTokensForSaleQuery,
   useWeb3Contract
 } from '../components/Connect'
-import ChickenCard, { ChickenCardShimmer } from '../components/ChickenCard'
+import ChickenCard, {
+  ChickenCardMarketplaceSummary,
+  ChickenCardShimmer,
+  ChickenCardShimmerx4
+} from '../components/ChickenCard'
 import { useQueryClient } from 'react-query'
 import { navigate } from 'gatsby-link'
 
@@ -46,22 +50,7 @@ const Market = () => {
             Please connect your wallet, to view your <ChiknText />.
           </span>
         )}
-        {active && useWalletTokens.isFetching && (
-          <Row className="gy-3 gx-3">
-            <Col sm={6} md={4} lg={3}>
-              <ChickenCardShimmer />
-            </Col>
-            <Col sm={6} md={4} lg={3}>
-              <ChickenCardShimmer />
-            </Col>
-            <Col sm={6} md={4} lg={3}>
-              <ChickenCardShimmer />
-            </Col>
-            <Col sm={6} md={4} lg={3}>
-              <ChickenCardShimmer />
-            </Col>
-          </Row>
-        )}
+        {active && useWalletTokens.isFetching && <ChickenCardShimmerx4 />}
         {active && !useWalletTokens.isFetching && useWalletTokens.isError && (
           <Alert variant="danger">
             {getErrorMessage(useWalletTokens.error)}
@@ -80,10 +69,8 @@ const Market = () => {
               .sort((a, b) => a.tokenId - b.tokenId)
               .map((token) => (
                 <Col key={token.tokenId} sm={6} md={4} lg={3}>
-                  <ChickenCard
+                  <ChickenCardMarketplaceSummary
                     tokenId={token.tokenId}
-                    size="sm"
-                    marketPlace
                     onClick={() => navigate(`/wallet/${token.tokenId}`)}
                   />
                 </Col>

@@ -8,6 +8,7 @@ import MintYourOwnWalletConnectedv2 from '../components/sections/MintYourOwnWall
 import MintYourOwnWalletNotConnected from '../components/sections/MintYourOwnWalletNotConnectedSection'
 import TotalMintedSection from '../components/sections/TotalMintedSection'
 import TransactionProgress from '../components/TransactionProgressToast'
+import RecentActivitySection from '../components/sections/RecentActivitySection'
 
 // TODO Remove pre GO-LIVE
 const IndexPage = () => {
@@ -39,6 +40,8 @@ const IndexPage = () => {
       <MintYourOwnWalletConnected />
 
       <MintYourOwnWalletConnectedv2 />
+
+      <RecentActivitySection />
 
       <Alert variant="warning" className="text-center">
         <h1>N.B. This page is for testing only.</h1>

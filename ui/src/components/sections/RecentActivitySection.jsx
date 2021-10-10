@@ -1,7 +1,10 @@
 import { navigate } from 'gatsby-link'
 import * as React from 'react'
 import { Alert, Col, Row } from 'react-bootstrap'
-import ChickenCard, { ChickenCardShimmer } from '../ChickenCard'
+import ChickenCard, {
+  ChickenCardShimmer,
+  ChickenCardShimmerx4
+} from '../ChickenCard'
 import { Section, StackCol } from '../Common'
 import { getErrorMessage, useGetRecentActivityQuery } from '../Connect'
 
@@ -16,22 +19,7 @@ const Component = () => {
         <h3>Recent Activity</h3>
 
         {/* loader */}
-        {getRecentActivityQuery.isLoading && (
-          <Row className="gy-3 gx-3">
-            <Col sm={6} md={4} lg={3}>
-              <ChickenCardShimmer />
-            </Col>
-            <Col sm={6} md={4} lg={3}>
-              <ChickenCardShimmer />
-            </Col>
-            <Col sm={6} md={4} lg={3}>
-              <ChickenCardShimmer />
-            </Col>
-            <Col sm={6} md={4} lg={3}>
-              <ChickenCardShimmer />
-            </Col>
-          </Row>
-        )}
+        {getRecentActivityQuery.isLoading && <ChickenCardShimmerx4 />}
 
         {/* error */}
         {getRecentActivityQuery.isError && (
