@@ -1,5 +1,5 @@
 {
-  "address": "0xD1D9C3431DBF57eD9E85C119618d5F0A0656e043",
+  "address": "0x14FBDa4a9BF76F35C8cAA8173BEF4A1EBbfcCa53",
   "abi": [
     {
       "anonymous": false,
@@ -247,24 +247,6 @@
       "name": "buyToken",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_tokenId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_newPrice",
-          "type": "uint256"
-        }
-      ],
-      "name": "changeTokenPrice",
-      "outputs": [],
-      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -648,6 +630,29 @@
     {
       "inputs": [
         {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_newPrice",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "isForSale",
+          "type": "bool"
+        }
+      ],
+      "name": "setPriceForSale",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "bytes4",
           "name": "interfaceId",
           "type": "bytes4"
@@ -675,19 +680,6 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_tokenId",
-          "type": "uint256"
-        }
-      ],
-      "name": "toggleForSale",
-      "outputs": [],
-      "stateMutability": "nonpayable",
       "type": "function"
     },
     {

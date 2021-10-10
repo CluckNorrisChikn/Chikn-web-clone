@@ -16,7 +16,6 @@ import AvaxSvg from '../../images/avalanche-avax-logo.svg'
 import TransactionProgress from '../../components/TransactionProgressToast'
 
 import {
-  useToggleForSaleMutation,
   useSetTokenSalePriceMutation,
   useWeb3Contract
 } from '../../components/Connect'
@@ -36,7 +35,6 @@ const Page = ({ tokenId }) => {
 
   const { contract, active } = useWeb3Contract()
 
-  const useToggleForSale = useToggleForSaleMutation(contract, active)
   const useSetNewSalePrice = useSetTokenSalePriceMutation(contract, active)
 
   const handlePriceChange = (e) => {
@@ -53,8 +51,9 @@ const Page = ({ tokenId }) => {
 
   const toggleItemForSale = () => {
     setForSale(!forSale)
-    useToggleForSale.mutate({ tokenId })
+    // useToggleForSale.mutate({ tokenId })
   }
+
   return (
     <Layout pageName={`${siteConfig.nftName} #${tokenId}`}>
       <TransactionProgress intialOnShow={false} />
@@ -103,13 +102,9 @@ const Page = ({ tokenId }) => {
             onChange={() => toggleItemForSale()}
             // disabled={useToggleForSale.isLoading || !active}
           >
-            {useToggleForSale.isLoading
-              ? (
-                <Spinner animation="border" />
-              )
-              : (
-                'Yes, for sale'
-              )}
+
+                Yes, for sale
+
           </ToggleButton>
           <ToggleButton
             id={'radio-no'}
@@ -121,18 +116,12 @@ const Page = ({ tokenId }) => {
             // disabled={useToggleForSale.isLoading || !active}
             onChange={() => toggleItemForSale()}
           >
-            {useToggleForSale.isLoading
-              ? (
-                <Spinner animation="border" />
-              )
-              : (
-                'Not for sale'
-              )}
+                Not for sale
           </ToggleButton>
         </ButtonGroup>
       </div>
       {process.env.NODE_ENV !== 'production' && (
-        <pre>useToggleForSale={JSON.stringify(useToggleForSale, null, 2)}</pre>
+        <pre>useToggleForSale={JSON.stringify(useSetNewSalePrice, null, 2)}</pre>
       )}
     </Layout>
   )
