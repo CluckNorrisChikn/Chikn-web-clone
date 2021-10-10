@@ -291,38 +291,12 @@ export const useMintTokenMutation = (contract, enabled = true) => {
   })
 }
 
-export const useToggleForSaleMutation = (contract, enabled = true) => {
-  const queryClient = useQueryClient()
-  return useMutation(async ({ tokenId }) => {
-    return new Promise((resolve, reject) => {
-      contract.toggleForSale(tokenId)
-        .then((tx) => {
-          console.log('Toggle for sale tx', tx)
-          resolve({
-            ...tx
-          })
-        })
-        .catch((err) => {
-          console.log('error', err)
-          reject(err)
-        })
-    })
-  }, {
-    enabled: !isUndef(contract) && enabled,
-    onSuccess: async (data) => {
-      // cancel anything in tranaction queue
-      await queryClient.cancelQueries(KEYS.TRANSACTION())
-      queryClient.setQueryData(KEYS.TRANSACTION(), data)
-    }
-  })
-}
-
 export const useSetTokenSalePriceMutation = (contract, enabled = true) => {
   const queryClient = useQueryClient()
-  return useMutation(async ({ tokenId, newPrice }) => {
+  return useMutation(async ({ tokenId, newPrice, isForSale }) => {
     return new Promise((resolve, reject) => {
       const ethPrice = utils.parseUnits(newPrice.toString(), 'ether')
-      contract.changeTokenPrice(tokenId, ethPrice)
+      contract.setPriceForSale(tokenId, ethPrice, isForSale)
         .then((tx) => {
           console.log('Set sale price tx', tx)
           resolve({
