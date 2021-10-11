@@ -125,6 +125,26 @@ export const ConnectWalletButton = () => {
     }
   }
 
+  // Feature: On hover, show a red "Disconnect" button
+
+  const [buttonText, setButtonText] = React.useState('Connect Wallet')
+  const [buttonVariant, setButtonVariant] = React.useState('outline-primary')
+
+  const onHover = (isHover = false) => {
+    if (isHover && account) {
+      setButtonVariant('outline-danger')
+      setButtonText('Disconnect')
+    } else {
+      setButtonVariant('outline-primary')
+      setButtonText(account ? shortFormAccountNum(account) : 'Connect Wallet')
+    }
+  }
+
+  React.useEffect(() => {
+    setButtonVariant('outline-primary')
+    setButtonText(account ? shortFormAccountNum(account) : 'Connect Wallet')
+  }, [account, setButtonText])
+
   return (
     <>
       {/* notification */}
@@ -140,14 +160,14 @@ export const ConnectWalletButton = () => {
 
       {/* button */}
       <FixedWidthButton
-        variant="outline-primary"
+        variant={buttonVariant}
         className="px-3"
         style={{ minWidth: '182px' }}
         onClick={onClickButton}
-        disabled={error}
-        title={error?.message}
+        onMouseEnter={() => onHover(true)}
+        onMouseLeave={() => onHover(false)}
       >
-        {account ? shortFormAccountNum(account) : 'Connect Wallet'}
+        {buttonText}
       </FixedWidthButton>
     </>
   )

@@ -207,62 +207,6 @@ export const SaleStatus = ({
   }
 }
 
-/**
- * Displays the marketplace card.
- */
-// const MarketPlaceSummary = ({ tokenId = '' }) => {
-//   const getTokenQuery = useGetTokenQuery(tokenId)
-//   const { data: { details = {} } = {} } = getTokenQuery
-//   const { contract, active, account } = useWeb3Contract()
-//   // const useBuyToken = useBuyTokenMutation(contract, active)
-
-//   // const buyNow = () => {
-//   //   useBuyToken.mutate({ tokenId, salePrice: details.price })
-//   // }
-//   // const showForSale =
-//   //   details.forSale === true && details.currentOwner !== account
-//   return (
-//     <>
-//       <h6 className="p-0">
-//         <ChiknText /> #{tokenId}
-//       </h6>
-//       <SaleStatus size="sm" forSale={details.forSale} />
-//       {showForSale && (
-//         <Properties>
-//           <dd>listing price</dd>
-//           <dt>
-//             <AvaxPill>{fmtCurrency(details.price)}</AvaxPill>
-//           </dt>
-//           <dd>last price</dd>
-//           <dt>
-//             <AvaxPill>{fmtCurrency(details.previousPrice)}</AvaxPill>
-//           </dt>
-//         </Properties>
-//       )}
-//       {/* {showForSale
-//         ? (
-//           <Button
-//             className="rounded-pill py-1"
-//             variant="outline-primary"
-//             disabled={useBuyToken.isLoading}
-//             onClick={() => buyNow()}
-//           >
-//             {useBuyToken.isLoading
-//               ? (
-//                 <Spinner size="sm" animation="border" />
-//               )
-//               : (
-//                 'Purchase'
-//               )}
-//           </Button>
-//         )
-//         : (
-//           <SaleStatus forSale={details.forSale} />
-//         )} */}
-//     </>
-//   )
-// }
-
 const ShowHistory = ({ tokenId = '' }) => {
   const getTokenQuery = useGetTokenQuery(tokenId)
   const { data: { details = {} } = {} } = getTokenQuery
@@ -451,6 +395,62 @@ const MenuButton = styled(Button)`
   padding-left: 30px !important;
   padding-right: 30px !important;
 `
+
+/**
+ * Displays the marketplace card.
+ */
+// const MarketPlaceSummary = ({ tokenId = '' }) => {
+//   const getTokenQuery = useGetTokenQuery(tokenId)
+//   const { data: { details = {} } = {} } = getTokenQuery
+//   const { contract, active, account } = useWeb3Contract()
+//   // const useBuyToken = useBuyTokenMutation(contract, active)
+
+//   // const buyNow = () => {
+//   //   useBuyToken.mutate({ tokenId, salePrice: details.price })
+//   // }
+//   // const showForSale =
+//   //   details.forSale === true && details.currentOwner !== account
+//   return (
+//     <>
+//       <h6 className="p-0">
+//         <ChiknText /> #{tokenId}
+//       </h6>
+//       <SaleStatus size="sm" forSale={details.forSale} />
+//       {showForSale && (
+//         <Properties>
+//           <dd>listing price</dd>
+//           <dt>
+//             <AvaxPill>{fmtCurrency(details.price)}</AvaxPill>
+//           </dt>
+//           <dd>last price</dd>
+//           <dt>
+//             <AvaxPill>{fmtCurrency(details.previousPrice)}</AvaxPill>
+//           </dt>
+//         </Properties>
+//       )}
+//       {/* {showForSale
+//         ? (
+//           <Button
+//             className="rounded-pill py-1"
+//             variant="outline-primary"
+//             disabled={useBuyToken.isLoading}
+//             onClick={() => buyNow()}
+//           >
+//             {useBuyToken.isLoading
+//               ? (
+//                 <Spinner size="sm" animation="border" />
+//               )
+//               : (
+//                 'Purchase'
+//               )}
+//           </Button>
+//         )
+//         : (
+//           <SaleStatus forSale={details.forSale} />
+//         )} */}
+//     </>
+//   )
+// }
 
 export const ChickenCardOwnerDetails = ({ tokenId = '' }) => {
   const { active, account } = useWeb3Contract()
