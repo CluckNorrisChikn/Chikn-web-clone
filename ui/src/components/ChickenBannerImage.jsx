@@ -75,7 +75,7 @@ export default function Image() {
                       <Img
                         fluid={data.layer3.childImageSharp.fluid}
                         objectFit="cover"
-                        alt="Chicken banner"
+                        alt="mountainsky"
                       />
                     ),
                     amount: 0.23
@@ -85,7 +85,7 @@ export default function Image() {
                       <Img
                         fluid={data.layer2.childImageSharp.fluid}
                         objectFit="cover"
-                        alt="Chicken banner"
+                        alt="backgrass"
                       />
                     ),
                     amount: 0.15
@@ -95,7 +95,7 @@ export default function Image() {
                       <Img
                         fluid={data.layer1.childImageSharp.fluid}
                         objectFit="cover"
-                        alt="Chicken banner"
+                        alt="frontgrass"
                       />
                     ),
                     amount: 0.01
@@ -105,7 +105,7 @@ export default function Image() {
                       <Img
                         fluid={data.layer0.childImageSharp.fluid}
                         objectFit="cover"
-                        alt="Chicken banner"
+                        alt="logo"
                       />
                     ),
                     amount: 0
