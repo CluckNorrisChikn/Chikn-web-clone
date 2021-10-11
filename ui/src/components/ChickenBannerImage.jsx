@@ -69,7 +69,6 @@ export default function Image() {
           <div className="d-none d-lg-inline-block">
             <ParallaxProvider>
               <ParallaxBanner
-                className="your-class"
                 layers={[
                   {
                     children: (
