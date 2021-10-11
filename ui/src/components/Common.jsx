@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Button, Container } from 'react-bootstrap'
 import styled from 'styled-components'
 import siteConfig from '../../site-config'
+import ChickenIconSrc from '../images/Chikn_Logo_Wordmark.svg'
 
 import { FaDiscord, FaTwitter, FaShareAlt } from 'react-icons/fa'
 
@@ -87,6 +88,14 @@ export const SocialDiscordButton = () => {
   )
 }
 
+export const ChickenIcon = styled((props) => (
+  <img src={ChickenIconSrc} {...props} />
+))`
+  // width: ${(props) => props.size || '6rem'};
+  height: ${(props) => props.size || '2.5rem'};
+  margin: 10px 0px;
+`
+
 export const SocialShareLinkButton = ({
   className = '',
   title = '',
@@ -139,12 +148,12 @@ export const RainbowText2 = styled((props) => <span {...props} />)`
 export const ChiknText = styled((props) => (
   <span {...props}>{siteConfig.nftName}</span>
 ))`
-  background: linear-gradient(135deg, #df3f3d 0%, purple 100%);
-  color: #b664b0;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -webkit-box-decoration-break: clone;
+  // background: linear-gradient(135deg, #df3f3d 0%, purple 100%);
+  // color: #b664b0;
+  // background-clip: text;
+  // -webkit-background-clip: text;
+  // -webkit-text-fill-color: transparent;
+  // -webkit-box-decoration-break: clone;
 `
 export const FeedText = styled.span`
   // background: linear-gradient(135deg, DarkSlateGray 0%, darkgreen 100%);

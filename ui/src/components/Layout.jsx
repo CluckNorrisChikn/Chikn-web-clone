@@ -1,17 +1,23 @@
+import { useWeb3React } from '@web3-react/core'
 import { Link } from 'gatsby'
 import * as React from 'react'
 import { Container, Nav, Navbar } from 'react-bootstrap'
-import { FaDiscord, FaTwitter } from 'react-icons/fa'
-import styled from 'styled-components'
-import ChickenIconSrc from '../images/chicken-icon-2-trans.svg'
-import AvalancheIconSrc from '../images/avalanche-avax-logo-black.svg'
-import { ConnectWalletButton } from './ConnectWalletButton'
-import { AButton, isProd, SocialDiscordButton, SocialTwitterButton, StackCol, StackRow, StyleDaChikn } from './Common'
-import siteConfig from '../../site-config'
-import HelmetMeta from './HelmetMeta'
-import { useWeb3React } from '@web3-react/core'
 import { useQueryClient } from 'react-query'
+import styled from 'styled-components'
+import siteConfig from '../../site-config'
 import { KEYS } from '../components/Connect'
+import AvalancheIconSrc from '../images/avalanche-avax-logo-black.svg'
+import {
+  ChickenIcon,
+  isProd,
+  SocialDiscordButton,
+  SocialTwitterButton,
+  StackCol,
+  StackRow,
+  StyleDaChikn
+} from './Common'
+import { ConnectWalletButton } from './ConnectWalletButton'
+import HelmetMeta from './HelmetMeta'
 
 const AvaxLogoSmall = styled((props) => (
   <img src={AvalancheIconSrc} {...props} />
@@ -19,12 +25,6 @@ const AvaxLogoSmall = styled((props) => (
   width: 1.2rem;
   height: 1.2rem;
   margin-left: 0.2rem;
-`
-
-const ChickenIcon = styled((props) => <img src={ChickenIconSrc} {...props} />)`
-  width: 4rem;
-  height: 4rem;
-  margin-right: 0.5rem;
 `
 
 const Spacer = styled.div`
@@ -55,7 +55,7 @@ const NavGatsbyLink = ({ children, disabled, ...props }) => {
 }
 
 const links = isProd
-  ? 'home,market,farm,roost,wallet'.split(',')
+  ? 'home,market,wallet'.split(',')
   : 'home,mint,market,farm,roost,wallet'.split(',')
 
 const HeaderLinks = () =>
@@ -108,7 +108,7 @@ const Layout = ({
           <Container>
             <Navbar.Brand href="/">
               <ChickenIcon />
-              <StyleDaChikn>{siteConfig.title}</StyleDaChikn>
+              {/* <StyleDaChikn>{siteConfig.title}</StyleDaChikn> */}
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="navbarResponsive" />
             <Navbar.Collapse
@@ -159,7 +159,7 @@ const Layout = ({
                 <StackCol>
                   <h3>
                     <ChickenIcon />
-                    <StyleDaChikn>{siteConfig.title}</StyleDaChikn>
+                    {/* <StyleDaChikn>{siteConfig.title}</StyleDaChikn> */}
                   </h3>
                   <div>
                     <StyleDaChikn>{siteConfig.description}</StyleDaChikn>

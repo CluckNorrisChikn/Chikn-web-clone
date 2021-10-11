@@ -2,23 +2,25 @@ import React from 'react'
 import Img from 'gatsby-image'
 import { StaticQuery, graphql } from 'gatsby'
 
-export default function Image() {
+export default function Image(props) {
   return (
     <StaticQuery
       query={graphql`
         query {
-          file(relativePath: { eq: "chicken-head.png" }) {
+          file(relativePath: { eq: "chicken_kernel.jpg" }) {
             childImageSharp {
               # Specify the image processing specifications right in the query.
               # Makes it trivial to update as your page's design changes.
-              fixed(width: 170, height: 270, quality: 100) {
-                ...GatsbyImageSharpFixed
+              fluid(maxWidth: 500, quality: 95) {
+                ...GatsbyImageSharpFluid
               }
             }
           }
         }
       `}
-      render={(data) => <Img fixed={data.file.childImageSharp.fixed} />}
+      render={(data) => (
+        <Img fluid={data.file.childImageSharp.fluid} {...props} />
+      )}
     />
   )
 }

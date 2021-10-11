@@ -11,7 +11,8 @@ const gtm = {
 module.exports = {
   nftName: 'chikn',
   title: 'chikn',
-  description: '8,888 algorithmically generated, unique chikn.',
+  description: '10,000 algorithmically generated, unique chikn.',
+  subdescription: 'NFT + Farm + TriToken Economy',
   url: `https://${host}`,
   imageUrl: `https://${host}/brand/banner_og-1200x630px.jpg`,
   imageWidthPx: '1200',

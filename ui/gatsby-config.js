@@ -31,7 +31,7 @@ module.exports = {
         background_color: '#f7f0eb',
         theme_color: siteConfig.themeColour,
         display: 'standalone',
-        icon: 'src/images/chicken-icon-2-white.svg'
+        icon: 'src/images/Chikn_Icon_Red_whitebkgd.svg'
       }
     },
     'gatsby-plugin-sass',
