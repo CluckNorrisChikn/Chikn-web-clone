@@ -11,7 +11,7 @@ const ChickenImage = styled(Img)`
   margin-right: 15px;
   margin-bottom: 15px;
   border-radius: 15px;
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+  // box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
   &.gatsby-image-wrapper {
     display: block !important;
   }
