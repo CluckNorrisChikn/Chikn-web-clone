@@ -2,6 +2,7 @@ import React from 'react'
 import Img from 'gatsby-image'
 import { StaticQuery, graphql } from 'gatsby'
 import { StackCol } from './Common'
+import { ParallaxProvider, ParallaxBanner } from 'react-scroll-parallax'
 
 export default function Image() {
   return (
@@ -15,11 +16,38 @@ export default function Image() {
               }
             }
           }
-          desktopImage: file(relativePath: { eq: "banner_all.jpg" }) {
+          layer0: file(relativePath: { eq: "banner/layer0.png" }) {
             childImageSharp {
               # Specify the image processing specifications right in the query.
               # Makes it trivial to update as your page's design changes.
-              fluid(maxWidth: 1600, quality: 100) {
+              fluid(maxWidth: 1600, quality: 95) {
+                ...GatsbyImageSharpFluid
+              }
+            }
+          }
+          layer1: file(relativePath: { eq: "banner/layer1.png" }) {
+            childImageSharp {
+              # Specify the image processing specifications right in the query.
+              # Makes it trivial to update as your page's design changes.
+              fluid(maxWidth: 1600, quality: 95) {
+                ...GatsbyImageSharpFluid
+              }
+            }
+          }
+          layer2: file(relativePath: { eq: "banner/layer2.png" }) {
+            childImageSharp {
+              # Specify the image processing specifications right in the query.
+              # Makes it trivial to update as your page's design changes.
+              fluid(maxWidth: 1600, quality: 95) {
+                ...GatsbyImageSharpFluid
+              }
+            }
+          }
+          layer3: file(relativePath: { eq: "banner/layer3.png" }) {
+            childImageSharp {
+              # Specify the image processing specifications right in the query.
+              # Makes it trivial to update as your page's design changes.
+              fluid(maxWidth: 1600, quality: 95) {
                 ...GatsbyImageSharpFluid
               }
             }
@@ -38,33 +66,60 @@ export default function Image() {
             />
           </StackCol>
           {/* desktop */}
-          <Img
-            className="d-none d-lg-inline-block"
-            fluid={data.desktopImage.childImageSharp.fluid}
-            objectFit="contain"
-            alt="Chicken banner"
-          />
+          <div className="d-none d-lg-inline-block">
+            <ParallaxProvider>
+              <ParallaxBanner
+                className="your-class"
+                layers={[
+                  {
+                    children: (
+                      <Img
+                        fluid={data.layer3.childImageSharp.fluid}
+                        objectFit="cover"
+                        alt="Chicken banner"
+                      />
+                    ),
+                    amount: 0.23
+                  },
+                  {
+                    children: (
+                      <Img
+                        fluid={data.layer2.childImageSharp.fluid}
+                        objectFit="cover"
+                        alt="Chicken banner"
+                      />
+                    ),
+                    amount: 0.15
+                  },
+                  {
+                    children: (
+                      <Img
+                        fluid={data.layer1.childImageSharp.fluid}
+                        objectFit="cover"
+                        alt="Chicken banner"
+                      />
+                    ),
+                    amount: 0.01
+                  },
+                  {
+                    children: (
+                      <Img
+                        fluid={data.layer0.childImageSharp.fluid}
+                        objectFit="cover"
+                        alt="Chicken banner"
+                      />
+                    ),
+                    amount: 0
+                  }
+                ]}
+                style={{
+                  height: '40vw'
+                }}
+              ></ParallaxBanner>
+            </ParallaxProvider>
+          </div>
         </>
       )}
     />
   )
 }
-
-// export default ({ data }) => {
-//   // Set up the array of image data and `media` keys.
-//   // You can have as many entries as you'd like.
-//   const sources = [
-//     data.mobileImage.childImageSharp.fluid,
-//     {
-//       ...data.desktopImage.childImageSharp.fluid,
-//       media: `(min-width: 768px)`,
-//     },
-//   ]
-
-//   return (
-//     <div>
-//       <h1>Hello art-directed gatsby-image</h1>
-//       <Img fluid={sources} />
-//     </div>
-//   )
-// }
