@@ -10,7 +10,7 @@ import { AButton, StackCol } from '../components/Common'
 import { useWeb3Contract } from '../components/Connect'
 import Layout from '../components/Layout'
 import CountdownSectionv2 from '../components/sections/CountdownSectionv2'
-import Scratches1WhiteImage from '../images/Web_CarouselEdges_02_var3.png'
+import Scratches1WhiteImage from '../images/Web_CarouselEdges_02_var6.png'
 // import Scratches2WhiteImage from '../images/Web_CarouselEdges_02_var3.png'
 
 const ScratchesWhite = styled(({ src = null, className = '', ...props }) => (
