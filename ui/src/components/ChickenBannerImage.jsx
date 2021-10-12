@@ -8,10 +8,10 @@ import AvalancheLogoSvg from '../images/avalanche-avax-logo-trans.svg'
 import styled from 'styled-components'
 
 const ChiknLogo = styled((props) => <img src={ChiknLogoSvg} {...props} />)`
-  width: 250px;
+  width: 18vw;
 `
 const AvaxLogo = styled((props) => <img src={AvalancheLogoSvg} {...props} />)`
-  width: 50px;
+  width: 4.5vw;
 `
 
 export default function Image() {
@@ -135,7 +135,7 @@ export default function Image() {
                     children: (
                       <div
                         className="d-flex justify-content-center align-items-center"
-                        style={{ height: '40vw' }}
+                        style={{ height: '39vw' }}
                       >
                         <AvaxLogo />
                       </div>
