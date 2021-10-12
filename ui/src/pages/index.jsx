@@ -10,8 +10,8 @@ import { AButton, StackCol } from '../components/Common'
 import { useWeb3Contract } from '../components/Connect'
 import Layout from '../components/Layout'
 import CountdownSectionv2 from '../components/sections/CountdownSectionv2'
-import Scratches1WhiteImage from '../images/Web_CarouselEdges_02_var1.png'
-import Scratches2WhiteImage from '../images/Web_CarouselEdges_02_var2.png'
+import Scratches1WhiteImage from '../images/Web_CarouselEdges_02_var3.png'
+// import Scratches2WhiteImage from '../images/Web_CarouselEdges_02_var3.png'
 
 const ScratchesWhite = styled(({ src = null, className = '', ...props }) => (
   <img src={src} className={`d-none d-md-block ${className}`} {...props} />
@@ -22,7 +22,7 @@ const ScratchesWhite = styled(({ src = null, className = '', ...props }) => (
   z-index: 999;
 `
 const ScratchesWhiteLeft = styled((props) => (
-  <ScratchesWhite src={Scratches2WhiteImage} {...props} />
+  <ScratchesWhite src={Scratches1WhiteImage} {...props} />
 ))`
   width: 200px;
   left: 0;
@@ -31,7 +31,7 @@ const ScratchesWhiteLeft = styled((props) => (
 const ScratchesWhiteRight = styled((props) => (
   <ScratchesWhite src={Scratches1WhiteImage} {...props} />
 ))`
-  width: 150px;
+  width: 200px;
   right: 0;
 `
 
