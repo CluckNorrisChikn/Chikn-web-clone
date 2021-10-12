@@ -10,25 +10,25 @@ const Component = ({ date = MOCK_DATE }) => {
   const [min, setMin] = React.useState('--')
   const [sec, setSec] = React.useState('--')
 
+  const setTime = (diffms, intervalRef) => {
+    const d = new Date(diffms)
+    if (diffms < 0) {
+      setDay('00')
+      setHrs('00')
+      setMin('00')
+      setSec('00')
+      clearInterval(intervalRef)
+    } else {
+      setDay(String(d.getUTCDate() - 1).padStart(2, '0'))
+      setHrs(String(d.getUTCHours()).padStart(2, '0'))
+      setMin(String(d.getUTCMinutes()).padStart(2, '0'))
+      setSec(String(d.getUTCSeconds()).padStart(2, '0'))
+    }
+  }
+
   React.useEffect(() => {
-    const ref = setInterval(() => {
-      const tmp = moment(date).diff()
-      // const tmp = new Date(date).getTime() - Date.now()
-      const d = new Date(tmp)
-      console.debug(tmp)
-      if (tmp < 0) {
-        setDay('00')
-        setHrs('00')
-        setMin('00')
-        setSec('00')
-        clearInterval(ref)
-      } else {
-        setDay(String(d.getUTCDate() - 1).padStart(2, '0'))
-        setHrs(String(d.getUTCHours()).padStart(2, '0'))
-        setMin(String(d.getUTCMinutes()).padStart(2, '0'))
-        setSec(String(d.getUTCSeconds()).padStart(2, '0'))
-      }
-    }, 1000)
+    setTime(moment(date).diff())
+    const ref = setInterval(() => setTime(moment(date).diff()), 1000)
     return () => clearInterval(ref)
   }, [date])
 

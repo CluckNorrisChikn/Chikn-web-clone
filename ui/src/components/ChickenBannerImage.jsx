@@ -3,6 +3,16 @@ import Img from 'gatsby-image'
 import { StaticQuery, graphql } from 'gatsby'
 import { StackCol } from './Common'
 import { ParallaxProvider, ParallaxBanner } from 'react-scroll-parallax'
+import ChiknLogoSvg from '../images/Chikn_Logo_Wordmark.svg'
+import AvalancheLogoSvg from '../images/avalanche-avax-logo-trans.svg'
+import styled from 'styled-components'
+
+const ChiknLogo = styled((props) => <img src={ChiknLogoSvg} {...props} />)`
+  width: 250px;
+`
+const AvaxLogo = styled((props) => <img src={AvalancheLogoSvg} {...props} />)`
+  width: 50px;
+`
 
 export default function Image() {
   return (
@@ -100,13 +110,35 @@ export default function Image() {
                     ),
                     amount: 0.01
                   },
+                  // {
+                  //   children: (
+                  //     <Img
+                  //       fluid={data.layer0.childImageSharp.fluid}
+                  //       objectFit="cover"
+                  //       alt="logo"
+                  //     />
+                  //   ),
+                  //   amount: 0
+                  // },
                   {
                     children: (
-                      <Img
-                        fluid={data.layer0.childImageSharp.fluid}
-                        objectFit="cover"
-                        alt="logo"
-                      />
+                      <div
+                        className="d-flex justify-content-center align-items-center"
+                        style={{ height: '25vw' }}
+                      >
+                        <ChiknLogo />
+                      </div>
+                    ),
+                    amount: 0
+                  },
+                  {
+                    children: (
+                      <div
+                        className="d-flex justify-content-center align-items-center"
+                        style={{ height: '40vw' }}
+                      >
+                        <AvaxLogo />
+                      </div>
                     ),
                     amount: 0
                   }
