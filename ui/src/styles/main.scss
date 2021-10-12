@@ -56,12 +56,19 @@ body {
 
 @include media-breakpoint-up(md) {
   .worm {
-    background-image: url('/images/worm.jpg');
+    background-image: url('/images/Web_Asset_Worm_02.jpg');
     background-position: right top;
     background-repeat: no-repeat;
     height: 250px;
     background-size: contain;
   }
+  // .feed {
+  //   background-image: url('/images/Web_Asset_Worm_02.jpg');
+  //   background-position: right top;
+  //   background-repeat: no-repeat;
+  //   height: 250px;
+  //   background-size: contain;
+  // }
 }
 
 // add boostrap classes

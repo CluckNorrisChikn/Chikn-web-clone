@@ -1,10 +1,10 @@
 import React from 'react'
 import Img from 'gatsby-image'
 import { StaticQuery, graphql } from 'gatsby'
-import { StackCol } from './Common'
+import { StackCol } from '../Common'
 import { ParallaxProvider, ParallaxBanner } from 'react-scroll-parallax'
-import ChiknLogoSvg from '../images/Chikn_Logo_Wordmark.svg'
-import AvalancheLogoSvg from '../images/avalanche-avax-logo-trans.svg'
+import ChiknLogoSvg from '../../images/Chikn_Logo_Wordmark.svg'
+import AvalancheLogoSvg from '../../images/avalanche-avax-logo-trans.svg'
 import styled from 'styled-components'
 
 const ChiknLogo = styled((props) => <img src={ChiknLogoSvg} {...props} />)`

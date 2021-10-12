@@ -3,34 +3,36 @@ import * as React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 import siteConfig from '../../site-config'
-import ChickenBannerImage from '../components/ChickenBannerImage'
+import ChickenBannerImage from '../components/images/ChickenBannerImage'
 import ChickenCarousel from '../components/ChickenCarousel'
-import ChickenKernelImage from '../components/ChickenKernel'
+import ChickenKernelImage from '../components/images/ChickenKernel'
 import { AButton, StackCol } from '../components/Common'
 import { useWeb3Contract } from '../components/Connect'
 import Layout from '../components/Layout'
 import CountdownSectionv2 from '../components/sections/CountdownSectionv2'
-import Scratches1WhiteImage from '../images/scratches1.png'
+import Scratches1WhiteImage from '../images/Web_CarouselEdges_02_var1.png'
+import Scratches2WhiteImage from '../images/Web_CarouselEdges_02_var2.png'
 
 const ScratchesWhite = styled(({ src = null, className = '', ...props }) => (
   <img src={src} className={`d-none d-md-block ${className}`} {...props} />
 ))`
-  height: 200px;
+  height: 202px;
   position: absolute;
+  top: -1px;
   z-index: 999;
+`
+const ScratchesWhiteLeft = styled((props) => (
+  <ScratchesWhite src={Scratches2WhiteImage} {...props} />
+))`
+  width: 200px;
+  left: 0;
+  transform: rotate(180deg);
 `
 const ScratchesWhiteRight = styled((props) => (
   <ScratchesWhite src={Scratches1WhiteImage} {...props} />
 ))`
   width: 150px;
   right: 0;
-`
-const ScratchesWhiteLeft = styled((props) => (
-  <ScratchesWhite src={Scratches1WhiteImage} {...props} />
-))`
-  width: 200px;
-  left: 0;
-  transform: rotate(180deg);
 `
 
 const releaseDateMoment = moment(siteConfig.releaseDate)

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import ChickenBannerImage from '../components/ChickenBannerImage'
+import ChickenBannerImage from '../components/images/ChickenBannerImage'
 import Layout from '../components/Layout'
 
 const IndexPage = () => {
