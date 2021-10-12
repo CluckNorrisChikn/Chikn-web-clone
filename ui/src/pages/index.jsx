@@ -1,35 +1,37 @@
-import * as React from 'react'
-import Layout from '../components/Layout'
 import moment from 'moment'
+import * as React from 'react'
+import { Col, Container, Row } from 'react-bootstrap'
 import styled from 'styled-components'
-import { Col, Container, Row, Button } from 'react-bootstrap'
-import FlipCountdown from '@rumess/react-flip-countdown'
-import { AButton, Section, StackCol, StyleDaChikn } from '../components/Common'
-import ChickenCarousel from '../components/ChickenCarousel'
 import siteConfig from '../../site-config'
-import ChickenKernelImage from '../components/ChickenKernel'
 import ChickenBannerImage from '../components/ChickenBannerImage'
-import TotalMintedSection from '../components/sections/TotalMintedSection'
-import CountdownSectionv2 from '../components/sections/CountdownSectionv2'
-import RecentActivitySection from '../components/sections/RecentActivitySection'
-import MintYourOwnWalletNotConnectedSection from '../components/sections/MintYourOwnWalletNotConnectedSection'
-import MintYourOwnWalletConnectedSection from '../components/sections/MintYourOwnWalletConnectedSectionv2'
+import ChickenCarousel from '../components/ChickenCarousel'
+import ChickenKernelImage from '../components/ChickenKernel'
+import { AButton, StackCol } from '../components/Common'
 import { useWeb3Contract } from '../components/Connect'
-import { Helmet } from 'react-helmet'
+import Layout from '../components/Layout'
+import CountdownSectionv2 from '../components/sections/CountdownSectionv2'
+import Scratches1WhiteImage from '../images/scratches1.png'
 
-// const ChickenHeadImageWrapper = styled(({ className = '', ...props }) => (
-//   <div className={`${className} d-none d-lg-block`} {...props}>
-//     <ChickenHeadImage />
-//   </div>
-// ))`
-//   position: absolute;
-//   right: 200px;
-//   bottom: 0;
-//   opacity: 0.5;
-//   > .gatsby-image-wrapper {
-//     display: block !important;
-//   }
-// `
+const ScratchesWhite = styled(({ src = null, className = '', ...props }) => (
+  <img src={src} className={`d-none d-md-block ${className}`} {...props} />
+))`
+  height: 200px;
+  position: absolute;
+  z-index: 999;
+`
+const ScratchesWhiteRight = styled((props) => (
+  <ScratchesWhite src={Scratches1WhiteImage} {...props} />
+))`
+  width: 150px;
+  right: 0;
+`
+const ScratchesWhiteLeft = styled((props) => (
+  <ScratchesWhite src={Scratches1WhiteImage} {...props} />
+))`
+  width: 200px;
+  left: 0;
+  transform: rotate(180deg);
+`
 
 const releaseDateMoment = moment(siteConfig.releaseDate)
 
@@ -112,7 +114,11 @@ const IndexPage = () => {
             </h1>
             <h1 className="text-body mt-4 mb-4">{siteConfig.subdescription}</h1>
           </Container>
-          <ChickenCarousel />
+          <Container className="position-relative">
+            <ScratchesWhiteLeft />
+            <ScratchesWhiteRight />
+            <ChickenCarousel />
+          </Container>
         </div>
 
         {/* welcome to the farm */}
@@ -144,7 +150,7 @@ const IndexPage = () => {
         </Container>
 
         {/* join community */}
-        <Container>
+        <Container className="worm">
           <h3>Join the community</h3>
           <p>For the latest news, updates and access to pre-release content.</p>
           <AButton

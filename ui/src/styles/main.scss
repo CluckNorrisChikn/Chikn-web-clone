@@ -50,6 +50,20 @@ body {
 //   background-attachment: fixed;
 // }
 
+  // background-image: url(img_flwr.gif), url(paper.gif);
+  // background-position: right bottom, left top;
+  // background-repeat: no-repeat, no-repeat;
+
+@include media-breakpoint-up(md) {
+  .worm {
+    background-image: url('/images/worm.jpg');
+    background-position: right top;
+    background-repeat: no-repeat;
+    height: 250px;
+    background-size: contain;
+  }
+}
+
 // add boostrap classes
 
 .gap-8 {
