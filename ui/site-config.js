@@ -15,6 +15,7 @@ module.exports = {
   subdescription: 'NFT + Farm + TriToken Economy',
   url: `https://${host}`,
   imageUrl: `https://${host}/brand/banner_og-1200x630px.jpg`,
+  imageSquareUrl: `https://${host}/brand/banner_og-630x630px.jpg`,
   imageWidthPx: '1200',
   imageHeightPx: '630',
   themeColour: '#DF3F3D',
@@ -23,6 +24,7 @@ module.exports = {
   links: {
     discord: 'https://discord.gg/CRuxFQRDsN',
     twitter: 'https://twitter.com/chikn_farm',
+    twitterAt: '@chikn_farm',
     docs: 'https://docs.chikn.farm/'
   },
   featureToggles: {

@@ -35,9 +35,10 @@ const HelmetMeta = ({ pageName }) => {
 
       {/* <!-- twitter --> */}
       <meta name="twitter:title" content={siteConfig.title} />
+      <meta name="twitter:site" content={siteConfig.links.twitterAt} />
       <meta name="twitter:description" content={siteConfig.description} />
-      <meta name="twitter:image" content={siteConfig.imageUrl} />
-      <meta name="twitter:card" content={siteConfig.imageUrl} />
+      <meta name="twitter:image" content={siteConfig.imageSquareUrl} />
+      <meta name="twitter:card" content="summary" />
 
       {/* <!-- Chrome, Firefox OS and Opera --> */}
       <meta name="theme-color" content={siteConfig.themeColour} />
