@@ -1,5 +1,9 @@
 
-const isProd = process.env.NODE_ENV === 'production'
+// N.B. MUST BE IN THIS FORMAT!
+const GATSBY_CONFIG = process.env.GATSBY_CONFIG || 'production'
+const GATSBY_FT_CONNECT_WALLET_ENABLED = process.env.GATSBY_FT_CONNECT_WALLET_ENABLED || 'true'
+
+const isProd = GATSBY_CONFIG === 'production'
 
 const host = isProd ? 'chikn.farm' : 'chickenrun-git-dev-mountainpass.vercel.app'
 
@@ -8,7 +12,7 @@ const gtm = {
   id: 'GTM-NFLTF75'
 }
 
-module.exports = {
+const siteConfig = {
   nftName: 'chikn',
   title: 'chikn',
   description: '10,000 algorithmically generated, unique chikn.',
@@ -29,7 +33,7 @@ module.exports = {
     docs: 'https://docs.chikn.farm/'
   },
   featureToggles: {
-    connectWalledEnabled: process.env.GATSBY_FT_CONNECT_WALLET_ENABLED !== 'false'
+    connectWalledEnabled: GATSBY_FT_CONNECT_WALLET_ENABLED !== 'false'
   },
   // releaseDate: '2021-10-09T00:00:00+10:00',
   releaseDate: '2021-10-06T21:15:00+11:00',
@@ -65,3 +69,8 @@ module.exports = {
   },
   gtm
 }
+
+console.log(`Using env: ${JSON.stringify(process.env, null, 2)}`)
+console.log(`Using siteConfig: ${JSON.stringify(siteConfig, null, 2)}`)
+
+module.exports = siteConfig
