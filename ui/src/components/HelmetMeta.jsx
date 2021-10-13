@@ -28,17 +28,18 @@ const HelmetMeta = ({ pageName }) => {
       <meta property="og:image" content={siteConfig.imageUrl} />
       <meta property="og:image:width" content={siteConfig.imageWidthPx} />
       <meta property="og:image:height" content={siteConfig.imageHeightPx} />
-      <meta property="og:image:alt" content={siteConfig.description} />
+      <meta property="og:image:alt" content={siteConfig.imageAlt} />
       <meta property="og:url" content={siteConfig.url} />
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content={siteConfig.title} />
 
       {/* <!-- twitter --> */}
+      <meta name="twitter:card" content="summary" />
       <meta name="twitter:title" content={siteConfig.title} />
       <meta name="twitter:site" content={siteConfig.links.twitterAt} />
       <meta name="twitter:description" content={siteConfig.description} />
       <meta name="twitter:image" content={siteConfig.imageSquareUrl} />
-      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:image:alt" content={siteConfig.imageAlt} />
 
       {/* <!-- Chrome, Firefox OS and Opera --> */}
       <meta name="theme-color" content={siteConfig.themeColour} />
