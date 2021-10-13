@@ -142,9 +142,11 @@ const IndexPage = () => {
               </p>
               <p>
                 NFTs have the unique ability to combine revolutionary fintech
-                with the power of mimetism. When you can have both, why not have
-                both?
+                with the power of mimetism.
                 <br />
+                When you can have both, why not have both?
+              </p>
+              <p>
                 It&apos;s simple, really. Everyone knows that chikn lay $egg.
               </p>
             </Col>
