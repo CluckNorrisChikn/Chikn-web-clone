@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { injected } from '../hooks/web3'
 import { KEYS, useWeb3Contract } from './Connect'
 import GenericToast from './GenericToast'
+import siteConfig from '../../site-config'
 
 const FixedWidthButton = styled(Button)`
   min-width: 180px;
@@ -162,6 +163,7 @@ export const ConnectWalletButton = () => {
         onClick={onClickButton}
         onMouseEnter={() => onHover(true)}
         onMouseLeave={() => onHover(false)}
+        disabled={!siteConfig.featureToggles.connectWalledEnabled}
       >
         {buttonText}
       </FixedWidthButton>

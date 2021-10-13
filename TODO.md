@@ -2,16 +2,16 @@
 
 ## HOME
 
-- [ ] JOHN - get corn/seed images
-- [ ] JOHN - add timber background to countdown
-- [ ] JOHN - add "kernel" chicken
+- [ ] add corn/seed images
+- [ ] get timber background?
+- [ ] disable global connect button
 
-## MARKETPLACE
+## MARKETPLACE (required post mint)
 
-- [ ] add property filters (?!)
+- [ ] add property filters
 - [ ] add forsale filters
 
-## WALLET
+## WALLET (required post mint)
 
 - [ ] connect chikn details action buttons
 

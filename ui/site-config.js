@@ -25,11 +25,14 @@ module.exports = {
     twitter: 'https://twitter.com/chikn_farm',
     docs: 'https://docs.chikn.farm/'
   },
+  featureToggles: {
+    connectWalledEnabled: process.env.GATSBY_FT_CONNECT_WALLET_ENABLED !== 'false'
+  },
   // releaseDate: '2021-10-09T00:00:00+10:00',
   releaseDate: '2021-10-06T21:15:00+11:00',
   maxPerMint: 12,
   limitPerWallet: 50,
-  // v1
+  // v1 - deprecatd
   pricing: [
     {
       label: '1x',
