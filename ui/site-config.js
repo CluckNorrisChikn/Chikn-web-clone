@@ -19,6 +19,7 @@ const siteConfig = {
   subdescription: 'NFT + Farm + TriToken Economy',
   url: `https://${host}`,
   imageUrl: `https://${host}/brand/banner_og-1200x630px.jpg`,
+  image2by1Url: `https://${host}/brand/banner_og-1260x630px.jpg`,
   imageSquareUrl: `https://${host}/brand/banner_og-630x630px.jpg`,
   imageAlt: 'A stylised farm scene showing grassy hills, two large red barns, free range chickens and the Chicken logo.',
   imageWidthPx: '1200',

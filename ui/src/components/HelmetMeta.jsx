@@ -34,11 +34,11 @@ const HelmetMeta = ({ pageName }) => {
       <meta property="og:site_name" content={siteConfig.title} />
 
       {/* <!-- twitter --> */}
-      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={siteConfig.title} />
       <meta name="twitter:site" content={siteConfig.links.twitterAt} />
       <meta name="twitter:description" content={siteConfig.description} />
-      <meta name="twitter:image" content={siteConfig.imageSquareUrl} />
+      <meta name="twitter:image" content={siteConfig.image2by1Url} />
       <meta name="twitter:image:alt" content={siteConfig.imageAlt} />
 
       {/* <!-- Chrome, Firefox OS and Opera --> */}
