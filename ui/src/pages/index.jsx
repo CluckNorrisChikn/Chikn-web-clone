@@ -126,7 +126,7 @@ const IndexPage = () => {
         {/* welcome to the farm */}
 
         <Container>
-          <Row className="g-5">
+          <Row>
             <Col xs={12} sm={4}>
               <ChickenKernelImage />
             </Col>

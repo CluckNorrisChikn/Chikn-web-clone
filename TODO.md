@@ -4,14 +4,16 @@
 
 - [ ] add corn/seed images
 - [ ] get timber background?
-- [ ] disable global connect button
+- [x] update carousel images
+- [x] disable connect wallet button
+- [x] disable countdown
 
-## MARKETPLACE (required post mint)
+## MARKETPLACE (required at time of mint)
 
 - [ ] add property filters
 - [ ] add forsale filters
 
-## WALLET (required post mint)
+## WALLET (required at time of mint)
 
 - [ ] connect chikn details action buttons
 
