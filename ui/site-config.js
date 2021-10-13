@@ -22,7 +22,7 @@ module.exports = {
   keywords: 'avax,nft,chikn,chicken',
   author: `noreply@${host}`,
   links: {
-    discord: 'https://discord.gg/CRuxFQRDsN',
+    discord: 'https://discord.gg/chikn',
     twitter: 'https://twitter.com/chikn_farm',
     twitterAt: '@chikn_farm',
     docs: 'https://docs.chikn.farm/'
