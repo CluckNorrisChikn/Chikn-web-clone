@@ -103,7 +103,7 @@ const IndexPage = () => {
           </>
         )} */}
 
-        <CountdownSectionv2 date={'2021-10-30T10:00:00+1100'} />
+        <CountdownSectionv2 date={'2021-01-01T10:00:00+1100'} />
 
         {/* carousel */}
         <div className="py-5">

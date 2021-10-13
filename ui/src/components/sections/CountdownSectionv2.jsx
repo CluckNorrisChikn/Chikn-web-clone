@@ -2,7 +2,7 @@ import moment from 'moment-timezone'
 import * as React from 'react'
 import { Button, Col, Container, Row } from 'react-bootstrap'
 
-const MOCK_DATE = '2021-12-25T00:00:00+1000'
+const MOCK_DATE = '2021-01-25T00:00:00+1000'
 
 const Component = ({ date = MOCK_DATE }) => {
   const [day, setDay] = React.useState('--')
