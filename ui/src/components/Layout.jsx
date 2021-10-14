@@ -191,9 +191,10 @@ const Layout = ({
                       Docs
                     </a>
                   </Nav.Item>
-                  <NavGatsbyLink to="/terms">
+                  {/* TODO Temporarily removed terms and conditions -> Joe */}
+                  {/* <NavGatsbyLink to="/terms">
                     Terms &amp; Conditions
-                  </NavGatsbyLink>
+                  </NavGatsbyLink> */}
                 </Nav>
               </Navbar>
             </StackCol>

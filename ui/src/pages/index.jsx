@@ -114,7 +114,7 @@ const IndexPage = () => {
                 algorithmically generated, unique chikn
               </span>
             </h1>
-            <h1 className="text-body mt-4 mb-4">{siteConfig.subdescription}</h1>
+            <h1 className="text-body mt-4 mb-4">NFTs that lay $egg</h1>
           </Container>
           <Container className="position-relative">
             <ScratchesWhiteLeft />
@@ -131,18 +131,19 @@ const IndexPage = () => {
               <ChickenKernelImage />
             </Col>
             <Col xs={12} sm={8}>
-              <h1>Welcome to chikn. Bgaarrk!</h1>
+              <h1>Welcome to chikn. Bgaark!</h1>
               <p>
-                <b>chikn</b> is your NFT that lays $egg. <br />
-                <b>chikn</b> is an entire ecosystem built around your NFT.{' '}
+                <b>chikn</b> is an NFT that lays $egg.
                 <br />
-                <b>chikn</b> is the First Tri-Token Economy built on Avalanche,
-                extending the utility of Public Minting, Secondary Sales, and
+                <b>chikn</b> is an entire ecosystem built around this NFT.
+                <br />
+                <b>chikn</b> is Tri-Token Architecture for NFTs on Avalanche,
+                extending the utility of Public Minting, a Marketplace, and
                 Farming for emerging NFT+token creators.
               </p>
               <p>
-                NFTs have the unique ability to combine revolutionary fintech
-                with the power of mimetism.
+                NFTs have the unique ability to combine utility with the power
+                of mimetism.
                 <br />
                 When you can have both, why not have both?
               </p>
