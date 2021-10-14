@@ -124,7 +124,7 @@ export default function Image() {
                     children: (
                       <div
                         className="d-flex justify-content-center align-items-center"
-                        style={{ height: '25vw' }}
+                        style={{ height: '17vw' }}
                       >
                         <ChiknLogo />
                       </div>
@@ -135,7 +135,7 @@ export default function Image() {
                     children: (
                       <div
                         className="d-flex justify-content-center align-items-center"
-                        style={{ height: '39vw' }}
+                        style={{ height: '31vw' }}
                       >
                         <AvaxLogo />
                       </div>
@@ -144,7 +144,7 @@ export default function Image() {
                   }
                 ]}
                 style={{
-                  height: '40vw'
+                  height: '34vw'
                 }}
               ></ParallaxBanner>
             </ParallaxProvider>
