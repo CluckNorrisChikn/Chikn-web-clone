@@ -155,7 +155,7 @@ const IndexPage = () => {
         </Container>
 
         {/* join community */}
-        <Container className="worm">
+        <Container className="feed">
           <h3>Join the community</h3>
           <p>For the latest news, updates and access to pre-release content.</p>
           <AButton

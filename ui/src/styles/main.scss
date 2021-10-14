@@ -54,7 +54,7 @@ body {
   // background-position: right bottom, left top;
   // background-repeat: no-repeat, no-repeat;
 
-@include media-breakpoint-up(md) {
+@include media-breakpoint-up(lg ) {
   .worm {
     background-image: url('/images/Web_Asset_Worm_02.jpg');
     background-position: right top;
@@ -62,13 +62,12 @@ body {
     height: 250px;
     background-size: contain;
   }
-  // .feed {
-  //   background-image: url('/images/Web_Asset_Worm_02.jpg');
-  //   background-position: right top;
-  //   background-repeat: no-repeat;
-  //   height: 250px;
-  //   background-size: contain;
-  // }
+  .feed {
+    background-image: url('/images/Corn_Small.jpg');
+    background-position: 700px bottom;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
 }
 
 // add boostrap classes
