@@ -151,8 +151,8 @@ const IndexPage = () => {
               <p>
                 NFTs have the unique ability to combine utility with the power
                 of mimetism.
-                <br />
-                When you can have both, why not have both?
+                <br className="d-none d-lg-block" /> When you can have both, why
+                not have both?
               </p>
               <p>
                 It&apos;s simple, really. Everyone knows that chikn lay $egg.
