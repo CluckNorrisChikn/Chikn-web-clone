@@ -6,12 +6,21 @@ import siteConfig from '../../site-config'
 import ChickenBannerImage from '../components/images/ChickenBannerImage'
 import ChickenCarousel from '../components/ChickenCarousel'
 import ChickenKernelImage from '../components/images/ChickenKernel'
+import CornImage from '../components/images/Corn'
 import { AButton, StackCol } from '../components/Common'
 import { useWeb3Contract } from '../components/Connect'
 import Layout from '../components/Layout'
 import CountdownSectionv2 from '../components/sections/CountdownSectionv2'
 import Scratches1WhiteImage from '../images/Web_CarouselEdges_02_var6.png'
 // import Scratches2WhiteImage from '../images/Web_CarouselEdges_02_var3.png'
+
+const Corn = styled(CornImage)`
+  position: absolute !important;
+  right: 50px;
+  bottom: -60px;
+  width: 150px;
+  transform: rotate(235deg);
+`
 
 const ScratchesWhite = styled(({ src = null, className = '', ...props }) => (
   <img src={src} className={`d-none d-md-block ${className}`} {...props} />
@@ -132,7 +141,8 @@ const IndexPage = () => {
 
         {/* welcome to the farm */}
 
-        <Container>
+        <Container className="position-relative">
+          <Corn />
           <Row>
             <Col xs={12} sm={4}>
               <ChickenKernelImage />
@@ -162,7 +172,7 @@ const IndexPage = () => {
         </Container>
 
         {/* join community */}
-        <Container className="feed">
+        <Container>
           <h3>Join the community</h3>
           <p>For the latest news, updates and access to pre-release content.</p>
           <AButton

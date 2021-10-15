@@ -45,30 +45,6 @@ h1,h2,h3,h4,h5,h6 {
 body {
   background: white;
 }
-// body {
-//   background-image: url('/brand/chicken-bkgd-pattern.jpg');
-//   background-attachment: fixed;
-// }
-
-  // background-image: url(img_flwr.gif), url(paper.gif);
-  // background-position: right bottom, left top;
-  // background-repeat: no-repeat, no-repeat;
-
-@include media-breakpoint-up(lg ) {
-  .worm {
-    background-image: url('/images/Web_Asset_Worm_02.jpg');
-    background-position: right top;
-    background-repeat: no-repeat;
-    height: 250px;
-    background-size: contain;
-  }
-  .feed {
-    background-image: url('/images/Corn_Small.jpg');
-    background-position: 700px bottom;
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-}
 
 // add boostrap classes
 
