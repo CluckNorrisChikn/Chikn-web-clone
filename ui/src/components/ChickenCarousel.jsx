@@ -40,6 +40,14 @@ const ChickenCarousel = () => {
       }
     }
   `)
+  const files = data.allFile.edges.sort((a, b) =>
+    a.node.base.localeCompare(b.node.base)
+  )
+  console.debug(
+    'CarouselOrder',
+    files.map((f) => f.node.base)
+  )
+  // console.log('data.allFile', data.allFile)
   return (
     <>
       <PageVisibility onChange={(isVisible) => setPageIsVisible(isVisible)}>
