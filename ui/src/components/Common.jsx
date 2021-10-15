@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Button, Container } from 'react-bootstrap'
+import { Button, Container, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import styled from 'styled-components'
 import siteConfig from '../../site-config'
 import ChickenIconSrc from '../images/Chikn_Logo_Wordmark.svg'
@@ -103,28 +103,42 @@ export const SocialShareLinkButton = ({
   url = '',
   ...props
 }) => {
+  const [tooltipText, setTooltipText] = React.useState('Copy link')
+
+  const tempChangeTooltipLabel = () => {
+    setTooltipText('Copied!')
+    const ref = setTimeout(() => setTooltipText('Copy link'), 3000)
+    return () => clearTimeout(ref)
+  }
+
   return (
-    <Button
-      variant="outline-dark"
-      className={`${className}`}
-      {...props}
-      onClick={() => {
-        // TODO add images to share
-        if (navigator.share) {
-          navigator.share({
-            title,
-            text,
-            url
-          })
-        } else if (navigator.clipboard) {
-          navigator.clipboard.writeText(url)
-        } else {
-          console.error('No way to share links!')
-        }
-      }}
+    <OverlayTrigger
+      placement="left"
+      overlay={<Tooltip id="tooltip-disabled">{tooltipText}</Tooltip>}
     >
-      <FaShareAlt />
-    </Button>
+      <Button
+        variant="outline-dark"
+        className={`${className}`}
+        {...props}
+        onClick={() => {
+          // TODO add images to share
+          if (navigator.share) {
+            navigator.share({
+              title,
+              text,
+              url
+            })
+          } else if (navigator.clipboard) {
+            navigator.clipboard.writeText(url)
+            tempChangeTooltipLabel()
+          } else {
+            console.error('No way to share links!')
+          }
+        }}
+      >
+        <FaShareAlt />
+      </Button>
+    </OverlayTrigger>
   )
 }
 

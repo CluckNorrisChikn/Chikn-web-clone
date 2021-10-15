@@ -520,8 +520,11 @@ export const ChickenCardOwnerDetails = ({ tokenId = '' }) => {
 
               {/* blurb */}
               <i className="text-dark">
-                The chikns from the whole country have gathered in Chiknville
-                for the party, meet the chikns.
+                10,000 <b>chikn</b> have flown the coop in search of owners!
+                These are no ordinary <b>chikn</b>. Some are dapper, some are
+                degen, others are made of the rarest materials known to
+                chikn-kind - but one thing&apos;s for sure - ALL <b>chikn</b>{' '}
+                lay <b>$egg</b>.
               </i>
 
               <Accordion defaultActiveKey="0" flush>
