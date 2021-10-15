@@ -5,21 +5,59 @@ import styled from 'styled-components'
 import siteConfig from '../../site-config'
 import ChickenBannerImage from '../components/images/ChickenBannerImage'
 import ChickenCarousel from '../components/ChickenCarousel'
-import ChickenKernelImage from '../components/images/ChickenKernel'
-import CornImage from '../components/images/Corn'
-import { AButton, StackCol } from '../components/Common'
+import ChickenKernelImage from '../components/images/ChickenSilhouette'
+import ChickenColonelImage from '../components/images/ChickenColonel'
+import Egg01Image from '../components/images/Egg01'
+import Egg02Image from '../components/images/Egg02'
+import Corn01Image from '../components/images/Corn01'
+import Corn02Image from '../components/images/Corn02'
+import { AButton, Section, StackCol } from '../components/Common'
 import { useWeb3Contract } from '../components/Connect'
 import Layout from '../components/Layout'
 import CountdownSectionv2 from '../components/sections/CountdownSectionv2'
 import Scratches1WhiteImage from '../images/Web_CarouselEdges_02_var6.png'
-// import Scratches2WhiteImage from '../images/Web_CarouselEdges_02_var3.png'
 
-const Corn = styled(CornImage)`
+const Corn01 = styled(Corn01Image)`
   position: absolute !important;
   right: 50px;
   bottom: -60px;
   width: 150px;
   transform: rotate(235deg);
+`
+
+const Corn02 = styled(Corn02Image)`
+  position: absolute !important;
+  right: -2vw;
+  top: 20vw;
+  width: 10vw;
+  z-index: 1005;
+`
+
+const ChickenColonel = styled(ChickenColonelImage)`
+  position: absolute !important;
+  right: -22vw;
+  top: -13vw;
+  width: 30vw;
+  transform: scaleX(-1);
+  z-index: 1003;
+`
+
+const Egg01 = styled(Egg01Image)`
+  position: absolute !important;
+  left: -14vw;
+  top: 8vw;
+  width: 10vw;
+  z-index: 1003;
+  transform: rotate(320deg);
+`
+
+const Egg02 = styled(Egg02Image)`
+  position: absolute !important;
+  left: -14vw;
+  top: -2vw;
+  width: 18vw;
+  z-index: 1002;
+  transform: rotate(345deg);
 `
 
 const ScratchesWhite = styled(({ src = null, className = '', ...props }) => (
@@ -74,12 +112,17 @@ const IndexPage = () => {
       padTop={false}
       className="gap-0"
     >
+      {/* banner */}
       <ChickenBannerImage />
-      <div>
-        {/* banner */}
 
+      {/* countdown */}
+      <Section pad={false} className="position-relative">
+        <Egg01 className="d-none d-xxl-block" />
+        <Egg02 className="d-none d-xxl-block" />
+        <Corn02 className="d-none d-xxl-block" />
+        <ChickenColonel className="d-none d-xxl-block" />
         <CountdownSectionv2 date={'2021-01-01T10:00:00+1100'} />
-      </div>
+      </Section>
 
       <StackCol className="gap-8 py-8">
         {/* {enableCountdownAndMinting && (
@@ -142,7 +185,7 @@ const IndexPage = () => {
         {/* welcome to the farm */}
 
         <Container className="position-relative">
-          <Corn />
+          <Corn01 />
           <Row>
             <Col xs={12} sm={4}>
               <ChickenKernelImage />

@@ -7,11 +7,11 @@ export default function Image(props) {
     <StaticQuery
       query={graphql`
         query {
-          file(relativePath: { eq: "Corn_Small.jpg" }) {
+          file(relativePath: { eq: "Web_Egg_02.png" }) {
             childImageSharp {
               # Specify the image processing specifications right in the query.
               # Makes it trivial to update as your page's design changes.
-              fluid(maxWidth: 300, quality: 96) {
+              fluid(maxWidth: 405, quality: 100) {
                 ...GatsbyImageSharpFluid
               }
             }
