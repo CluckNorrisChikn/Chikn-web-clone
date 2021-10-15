@@ -48,12 +48,23 @@ body {
 
 // add boostrap classes
 
-.gap-8 {
-  gap: 8rem;
+@include media-breakpoint-down(md) {
+  .gap-8 {
+    gap: 4rem;
+  }
+  .py-8 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
 }
-.py-8 {
-  padding-top: 8rem;
-  padding-bottom: 8rem;
+@include media-breakpoint-up(md) {
+  .gap-8 {
+    gap: 8rem;
+  }
+  .py-8 {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
 }
 
 .toast-header, .btn-primary {
@@ -79,8 +90,8 @@ body {
   .countdown-sizing {
     // border: 1px solid orange;
     h1 { 
-      text-shadow: -5px 8px 0px rgba(0, 0, 0, 0.15);
       font-size: 6vw !important; 
+      text-shadow: -.15rem .3rem 0px rgba(0, 0, 0, 0.15);
     }
     .btn { 
       font-size: 1rem;
@@ -97,7 +108,7 @@ body {
   .countdown-sizing {
     // border: 1px solid yellow;
     h1 { 
-      text-shadow: -5px 8px 0px rgba(0, 0, 0, 0.15);
+      text-shadow: -.2rem .4rem 0px rgba(0, 0, 0, 0.15);
       font-size: 4rem !important; 
     }
     .btn { 

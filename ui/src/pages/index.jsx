@@ -44,7 +44,7 @@ const ChickenColonel = styled(ChickenColonelImage)`
 
 const Egg01 = styled(Egg01Image)`
   position: absolute !important;
-  left: -14vw;
+  left: -11vw;
   top: 8vw;
   width: 10vw;
   z-index: 1003;
@@ -53,7 +53,7 @@ const Egg01 = styled(Egg01Image)`
 
 const Egg02 = styled(Egg02Image)`
   position: absolute !important;
-  left: -14vw;
+  left: -11vw;
   top: -2vw;
   width: 18vw;
   z-index: 1002;
@@ -165,8 +165,8 @@ const IndexPage = () => {
         )} */}
 
         {/* carousel */}
-        <div className="py-5">
-          <Container className="pb-5 text-center">
+        <div className="py-3 py-md-5">
+          <Container className="pb-3 pb-md-5 text-center">
             <h1>
               10,000{' '}
               <span className="text-body">
@@ -185,7 +185,7 @@ const IndexPage = () => {
         {/* welcome to the farm */}
 
         <Container className="position-relative">
-          <Corn01 />
+          <Corn01 className="d-none d-lg-block" />
           <Row>
             <Col xs={12} sm={4}>
               <ChickenKernelImage />

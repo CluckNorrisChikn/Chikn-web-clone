@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "description": "ChickenRun",
-  "author": "Nick Grealy",
+  "author": "Nick Grealy <nickgrealy@gmail.com>",
+  "license": "UNLICENSED",
   "keywords": [
     "gatsby"
   ],
