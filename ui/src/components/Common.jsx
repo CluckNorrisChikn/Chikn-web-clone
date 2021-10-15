@@ -18,9 +18,14 @@ export const fmtCurrency = (o) =>
     maximumFractionDigits: 5
   })
 
-export const Section = ({ className = '', center = true, ...props }) => (
+export const Section = ({
+  className = '',
+  pad = true,
+  center = true,
+  ...props
+}) => (
   <Container
-    className={`p-3 p-md-5 ${
+    className={`${pad ? 'p-3 p-md-5' : ''} ${
       center ? 'text-center' : ''
     } rounded-3 ${className}`}
     {...props}

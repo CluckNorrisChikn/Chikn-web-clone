@@ -59,9 +59,18 @@ const IndexPage = () => {
   }, [])
 
   return (
-    <Layout pageName="Home" constrainWidth={false} padTop={false}>
-      {/* banner */}
+    <Layout
+      pageName="Home"
+      constrainWidth={false}
+      padTop={false}
+      className="gap-0"
+    >
       <ChickenBannerImage />
+      <div>
+        {/* banner */}
+
+        <CountdownSectionv2 date={'2021-01-01T10:00:00+1100'} />
+      </div>
 
       <StackCol className="gap-8 py-8">
         {/* {enableCountdownAndMinting && (
@@ -102,8 +111,6 @@ const IndexPage = () => {
             {!showCountdown && <RecentActivitySection />}
           </>
         )} */}
-
-        <CountdownSectionv2 date={'2021-01-01T10:00:00+1100'} />
 
         {/* carousel */}
         <div className="py-5">
