@@ -91,23 +91,106 @@ body {
   font-family: Courier, monospace !important;
 }
 
-@include media-breakpoint-up(md) {
-  .countdown-monospace {
-    width: 500px;
-    text-align: center;
-    h1 { font-size: 5rem !important; }
-    h4 { font-size: 2.5rem !important; }
+.countdown-sizing {
+  text-align: center;
+  position:absolute;
+}
+.woodenbanner-sizing {
+  display:block;
+}
+
+@include media-breakpoint-between(xs, md) {
+  .countdown-sizing {
+    // border: 1px solid orange;
+    h1 { 
+      text-shadow: -5px 8px 0px rgba(0, 0, 0, 0.15);
+      font-size: 6vw !important; 
+    }
+    .btn { 
+      font-size: 1rem;
+      margin-top: 4%;
+      width: 40%;
+     }
+     bottom: 5%;
+  }
+  .woodenbanner-sizing {
+    width: 100%;
+  }
+}
+@include media-breakpoint-between(md, lg) {
+  .countdown-sizing {
+    // border: 1px solid yellow;
+    h1 { 
+      text-shadow: -5px 8px 0px rgba(0, 0, 0, 0.15);
+      font-size: 4rem !important; 
+    }
+    .btn { 
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
+      width: 30%;
+     }
+     bottom: 35px;
+  }
+  .woodenbanner-sizing {
+    width: 100%;
+  }
+}
+@include media-breakpoint-between(lg, xl) {
+  .countdown-sizing {
+    // border: 1px solid blue;
+    h1 { 
+      text-shadow: -5px 8px 0px rgba(0, 0, 0, 0.15);
+      font-size: 5rem !important; 
+    }
+    .btn { 
+      font-size: 1.5rem;
+      margin-top: 2rem;
+      width: 25%;
+     }
+     bottom: 50px;
+  }
+  .woodenbanner-sizing {
+    width: 90%;
+  }
+}
+@include media-breakpoint-between(xl, xxl) {
+  .countdown-sizing {
+    // border: 1px solid red;
+    h1 { 
+      text-shadow: -7px 10px 0px rgba(0, 0, 0, 0.15);
+      font-size: 6rem !important;
+    }
+    .btn { 
+      font-size: 1.8rem;
+      margin-top: 2.3rem;
+      width: 25%;
+     }
+     bottom: 65px;
+  }
+  .woodenbanner-sizing {
+    width: 90%;
   }
 }
 
-@include media-breakpoint-down(md) {
-  .countdown-monospace {
-    width: 300px;
-    text-align: center;
-    h1 { font-size: 3rem !important; }
-    h4 { font-size: 1.5rem !important; }
+@include media-breakpoint-up(xxl) {
+  .countdown-sizing {
+    // border: 1px solid magenta;
+    h1 {
+      text-shadow: -7px 10px 0px rgba(0, 0, 0, 0.15); 
+      font-size: 6.5rem !important; 
+    }
+    .btn { 
+      font-size: 2rem;
+      margin-top: 2.5rem;
+      width: 25%;
+     }
+     bottom: 75px;
+  }
+  .woodenbanner-sizing {
+    width: 90%;
   }
 }
+
 
 // add shimmer
 

@@ -1,8 +1,15 @@
 import moment from 'moment-timezone'
 import * as React from 'react'
 import { Button, Col, Container, Row } from 'react-bootstrap'
+import styled from 'styled-components'
+import WoodenBannerImage from '../../images/Wooden-Sign-Hanging.png'
+import { Section } from '../Common'
 
 const MOCK_DATE = '2021-01-25T00:00:00+1000'
+
+const WoodenBanner = (props) => <img src={WoodenBannerImage} {...props} />
+
+const WoodenBannerOverlay = Container
 
 const Component = ({ date = MOCK_DATE }) => {
   const [day, setDay] = React.useState('--')
@@ -34,29 +41,41 @@ const Component = ({ date = MOCK_DATE }) => {
 
   return (
     <>
-      <Container className="countdown-monospace">
-        <Row>
-          <Col xs={3}>
-            <h1>{day}</h1>
-            <h4>DAY</h4>
-          </Col>
-          <Col xs={3}>
-            <h1>{hrs}</h1>
-            <h4>HRS</h4>
-          </Col>
-          <Col xs={3}>
-            <h1>{min}</h1>
-            <h4>MIN</h4>
-          </Col>
-          <Col xs={3}>
-            <h1>{sec}</h1>
-            <h4>SEC</h4>
-          </Col>
-        </Row>
-        <Button disabled className="w-50 mt-5" size="lg">
-          Mint
-        </Button>
-      </Container>
+      <Section
+        pad={false}
+        center={false}
+        className="d-flex flex-column align-items-center position-relative"
+      >
+        <WoodenBannerOverlay className="countdown-sizing text-center">
+          <h1 className="text-white">Coming Soon</h1>
+          <Button disabled>Mint</Button>
+        </WoodenBannerOverlay>
+        {/* <Container className="countdown-sizing countdown-monospace text-center border position-absolute">
+          <Row>
+            <Col xs={3}>
+              <h1>{day}</h1>
+              <h4>DAY</h4>
+            </Col>
+            <Col xs={3}>
+              <h1>{hrs}</h1>
+              <h4>HRS</h4>
+            </Col>
+            <Col xs={3}>
+              <h1>{min}</h1>
+              <h4>MIN</h4>
+            </Col>
+            <Col xs={3}>
+              <h1>{sec}</h1>
+              <h4>SEC</h4>
+            </Col>
+          </Row>
+          <Button disabled className="w-50 mt-5" size="lg">
+            Mint
+          </Button>
+        </Container> */}
+
+        <WoodenBanner className="woodenbanner-sizing" />
+      </Section>
     </>
   )
 }
