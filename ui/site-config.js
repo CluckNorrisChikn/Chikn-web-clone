@@ -15,7 +15,7 @@ const gtm = {
 const siteConfig = {
   nftName: 'chikn',
   title: 'chikn',
-  description: '10,000 algorithmically generated, unique chikn.',
+  description: '10,000 algorithmically generated, unique chikn NFTs that lay $egg',
   url: `https://${host}`,
   imageUrl: `https://${host}/brand/banner_og-1200x630px.jpg`,
   image2by1Url: `https://${host}/brand/banner_og-1260x630px.jpg`,
