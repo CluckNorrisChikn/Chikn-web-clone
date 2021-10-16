@@ -17,6 +17,64 @@ import Layout from '../components/Layout'
 import CountdownSectionv2 from '../components/sections/CountdownSectionv2'
 import Scratches1WhiteImage from '../images/Web_CarouselEdges_02_var6.png'
 
+// containers
+
+const LeftContainer = styled.div`
+  position: absolute !important;
+  left: 0;
+  top: 0;
+  width: 300px;
+  height: 300px;
+`
+const RightContainer = styled.div`
+  position: absolute !important;
+  right: 0;
+  top: 0;
+  width: 300px;
+  height: 300px;
+`
+
+// right container
+
+const ChickenColonel = styled(ChickenColonelImage)`
+  position: absolute !important;
+  right: -30px;
+  top: -130px;
+  width: 130%;
+  transform: scaleX(-1);
+  z-index: 1003;
+`
+
+const Corn02 = styled(Corn02Image)`
+  position: absolute !important;
+  right: 280px;
+  top: 330px;
+  width: 100px;
+  z-index: 1005;
+`
+
+// left container
+
+const Egg01 = styled(Egg01Image)`
+  position: absolute !important;
+  left: 0;
+  top: 130px;
+  width: 60%;
+  z-index: 1003;
+  transform: rotate(320deg);
+`
+
+const Egg02 = styled(Egg02Image)`
+  position: absolute !important;
+  left: 0;
+  top: -50px;
+  width: 100%;
+  z-index: 1002;
+  transform: rotate(345deg);
+`
+
+// bottom corn
+
 const Corn01 = styled(Corn01Image)`
   position: absolute !important;
   right: 50px;
@@ -25,43 +83,7 @@ const Corn01 = styled(Corn01Image)`
   transform: rotate(235deg);
 `
 
-const Corn02 = styled(Corn02Image)`
-  position: absolute !important;
-  right: -2vw;
-  top: 20vw;
-  width: 10vw;
-  z-index: 1005;
-`
-
-const ChickenColonel = styled(ChickenColonelImage)`
-  position: absolute !important;
-  right: -22vw;
-  top: -13vw;
-  width: 30vw;
-  transform: scaleX(-1);
-  z-index: 1003;
-  max-width: 900px;
-`
-
-const Egg01 = styled(Egg01Image)`
-  position: absolute !important;
-  left: -11vw;
-  top: 8vw;
-  width: 10vw;
-  z-index: 1003;
-  transform: rotate(320deg);
-  max-width: 300px;
-`
-
-const Egg02 = styled(Egg02Image)`
-  position: absolute !important;
-  left: -11vw;
-  top: -2vw;
-  width: 18vw;
-  z-index: 1002;
-  transform: rotate(345deg);
-  max-width: 500px;
-`
+// scratches
 
 const ScratchesWhite = styled(({ src = null, className = '', ...props }) => (
   <img src={src} className={`d-none d-md-block ${className}`} {...props} />
@@ -84,6 +106,8 @@ const ScratchesWhiteRight = styled((props) => (
   width: 200px;
   right: 0;
 `
+
+// page
 
 const releaseDateMoment = moment(siteConfig.releaseDate)
 
@@ -121,10 +145,14 @@ const IndexPage = () => {
       <div className="overflowx-hidden">
         {/* countdown */}
         <Section pad={false} className="position-relative">
-          <Egg01 className="d-none d-xxl-block" />
-          <Egg02 className="d-none d-xxl-block" />
-          <Corn02 className="d-none d-xxl-block" />
-          <ChickenColonel className="d-none d-xxl-block" />
+          <LeftContainer className="d-none d-xxl-block">
+            <Egg01 />
+            <Egg02 />
+          </LeftContainer>
+          <RightContainer className="d-none d-xxl-block">
+            <Corn02 />
+            <ChickenColonel />
+          </RightContainer>
           <CountdownSectionv2 date={'2021-01-01T10:00:00+1100'} />
         </Section>
       </div>

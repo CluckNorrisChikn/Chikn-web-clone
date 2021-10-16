@@ -50,8 +50,7 @@ body {
   padding-bottom: 15vw;
   margin-top:-15vw;
   margin-bottom:-15vw;
-  overflow-x: hidden !important;
-  overflow-y: visible !important;
+  overflow: hidden !important;
 }
 
 // add boostrap classes
@@ -128,61 +127,65 @@ body {
   }
   .woodenbanner-sizing {
     width: 100%;
+    max-width:680px;
   }
 }
 @include media-breakpoint-between(lg, xl) {
   .countdown-sizing {
     // border: 1px solid blue;
     h1 { 
-      text-shadow: -5px 8px 0px rgba(0, 0, 0, 0.15);
-      font-size: 5rem !important; 
+      text-shadow: -.2rem .4rem 0px rgba(0, 0, 0, 0.15);
+      font-size: 4rem !important; 
     }
     .btn { 
-      font-size: 1.5rem;
-      margin-top: 2rem;
-      width: 25%;
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
+      width: 30%;
      }
-     bottom: 50px;
+     bottom: 35px;
   }
   .woodenbanner-sizing {
-    width: 90%;
+    width: 100%;
+    max-width:680px;
   }
 }
 @include media-breakpoint-between(xl, xxl) {
   .countdown-sizing {
     // border: 1px solid red;
     h1 { 
-      text-shadow: -7px 10px 0px rgba(0, 0, 0, 0.15);
-      font-size: 6rem !important;
+      text-shadow: -.2rem .4rem 0px rgba(0, 0, 0, 0.15);
+      font-size: 4rem !important; 
     }
     .btn { 
-      font-size: 1.8rem;
-      margin-top: 2.3rem;
-      width: 25%;
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
+      width: 30%;
      }
-     bottom: 65px;
+     bottom: 35px;
   }
   .woodenbanner-sizing {
-    width: 90%;
+    width: 100%;
+    max-width:680px;
   }
 }
 
 @include media-breakpoint-up(xxl) {
   .countdown-sizing {
     // border: 1px solid magenta;
-    h1 {
-      text-shadow: -7px 10px 0px rgba(0, 0, 0, 0.15); 
-      font-size: 6.5rem !important; 
+    h1 { 
+      text-shadow: -.2rem .4rem 0px rgba(0, 0, 0, 0.15);
+      font-size: 4rem !important; 
     }
     .btn { 
-      font-size: 2rem;
-      margin-top: 2.5rem;
-      width: 25%;
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
+      width: 30%;
      }
-     bottom: 75px;
+     bottom: 35px;
   }
   .woodenbanner-sizing {
-    width: 90%;
+    width: 100%;
+    max-width:680px;
   }
 }
 
