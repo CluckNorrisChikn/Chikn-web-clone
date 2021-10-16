@@ -226,13 +226,14 @@ const IndexPage = () => {
             <Col xs={12} sm={8}>
               <h1>Welcome to chikn. Bgaark!</h1>
               <p>
-                <b>chikn</b> is an NFT that lays $egg.
+                <b>chikn</b> are not just NFTs that lay $egg.
                 <br />
-                <b>chikn</b> is an entire ecosystem built around this NFT.
+                <b>chikn</b> is an entire ecosystem built around these NFTs -
+                encompassing novel Tri-Token Architecture.
                 <br />
-                <b>chikn</b> is Tri-Token Architecture for NFTs on Avalanche,
-                extending the utility of Public Minting, a Marketplace, and
-                Farming for emerging NFT+token creators.
+                <b>chikn</b> is extending the utility of Public Minting, a
+                Marketplace, and Farming for emerging NFT+token creators on
+                Avalanche.
               </p>
               <p>
                 NFTs have the unique ability to combine utility with the power
