@@ -79,7 +79,7 @@ const Corn01 = styled(Corn01Image)`
   position: absolute !important;
   right: 50px;
   bottom: -60px;
-  width: 150px;
+  width: 120px;
   transform: rotate(235deg);
 `
 
@@ -218,7 +218,7 @@ const IndexPage = () => {
         {/* welcome to the farm */}
 
         <Container className="position-relative">
-          <Corn01 className="d-none d-lg-block" />
+          <Corn01 className="d-none d-xl-block" />
           <Row>
             <Col xs={12} sm={4}>
               <ChickenKernelImage />
