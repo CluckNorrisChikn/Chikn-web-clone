@@ -45,6 +45,14 @@ h1,h2,h3,h4,h5,h6 {
 body {
   background: white;
 }
+.overflowx-hidden {
+  padding-top: 15vw;
+  padding-bottom: 15vw;
+  margin-top:-15vw;
+  margin-bottom:-15vw;
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+}
 
 // add boostrap classes
 

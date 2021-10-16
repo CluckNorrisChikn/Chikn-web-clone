@@ -40,6 +40,7 @@ const ChickenColonel = styled(ChickenColonelImage)`
   width: 30vw;
   transform: scaleX(-1);
   z-index: 1003;
+  max-width: 900px;
 `
 
 const Egg01 = styled(Egg01Image)`
@@ -49,6 +50,7 @@ const Egg01 = styled(Egg01Image)`
   width: 10vw;
   z-index: 1003;
   transform: rotate(320deg);
+  max-width: 300px;
 `
 
 const Egg02 = styled(Egg02Image)`
@@ -58,6 +60,7 @@ const Egg02 = styled(Egg02Image)`
   width: 18vw;
   z-index: 1002;
   transform: rotate(345deg);
+  max-width: 500px;
 `
 
 const ScratchesWhite = styled(({ src = null, className = '', ...props }) => (
@@ -115,14 +118,16 @@ const IndexPage = () => {
       {/* banner */}
       <ChickenBannerImage />
 
-      {/* countdown */}
-      <Section pad={false} className="position-relative">
-        <Egg01 className="d-none d-xxl-block" />
-        <Egg02 className="d-none d-xxl-block" />
-        <Corn02 className="d-none d-xxl-block" />
-        <ChickenColonel className="d-none d-xxl-block" />
-        <CountdownSectionv2 date={'2021-01-01T10:00:00+1100'} />
-      </Section>
+      <div className="overflowx-hidden">
+        {/* countdown */}
+        <Section pad={false} className="position-relative">
+          <Egg01 className="d-none d-xxl-block" />
+          <Egg02 className="d-none d-xxl-block" />
+          <Corn02 className="d-none d-xxl-block" />
+          <ChickenColonel className="d-none d-xxl-block" />
+          <CountdownSectionv2 date={'2021-01-01T10:00:00+1100'} />
+        </Section>
+      </div>
 
       <StackCol className="gap-8 py-8">
         {/* {enableCountdownAndMinting && (
