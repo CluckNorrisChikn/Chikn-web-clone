@@ -17,7 +17,6 @@ const HelmetMeta = ({ pageName }) => {
       {/* <!-- meta --> */}
       <meta name="title" content={siteConfig.title} />
       <meta name="description" content={siteConfig.description} />
-      <meta name="author" content={siteConfig.author} />
       <meta name="keywords" content={siteConfig.keywords} />
       <meta name="image" content={siteConfig.imageUrl} />
       <meta name="url" content={siteConfig.url} />
