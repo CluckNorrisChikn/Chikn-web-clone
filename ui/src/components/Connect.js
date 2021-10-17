@@ -53,7 +53,7 @@ export const KEYS = {
   CONTRACT: () => ['contract'],
   CONTRACT_CURRENTSUPPLY: () => ['supply'],
   CONTRACT_TOKEN: (tokenId) => ['token', tokenId],
-  ALLTOKEN: () => 'web3Token',
+  ALLTOKEN: () => ['web3Token'],
   TOKEN: (tokenId) => ['web3Token', tokenId],
   RECENT_ACTIVITY: () => ['recent_activity'],
   MARKET: () => ['market'],
@@ -216,12 +216,7 @@ export const useGetAllTokensForSaleQuery = (contract, account, enabled = true) =
       return tokensIds
     },
     {
-      enabled: !isUndef(contract) && !isUndef(account) && enabled,
-      cacheTime: TIMEOUT_1_MIN * 30,
-      staleTime: TIMEOUT_1_MIN * 30,
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false
+      enabled: !isUndef(contract) && !isUndef(account) && enabled
     }
   )
 }
@@ -231,6 +226,7 @@ const FormatAvaxPrice = (price) => {
 }
 
 export const useGetWeb3TokenDetail = (contract, enabled = true, tokenId) => {
+  console.log('Get new token detail')
   return useQuery(
     KEYS.TOKEN(tokenId),
     async () => {

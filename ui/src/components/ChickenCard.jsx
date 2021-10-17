@@ -553,7 +553,7 @@ export const ChickenCardOwnerDetails = ({ tokenId = '' }) => {
                 )}
                 {isOwner && isForSale && (
                   <MenuButton onClick={() => setShowModal(true)}>
-                    Lower price
+                    Change price
                   </MenuButton> // modify listing - TOTALLY OPTIONAL, just copying open sea.
                 )}
                 {isOwner && isForSale && (

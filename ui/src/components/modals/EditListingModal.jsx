@@ -37,7 +37,7 @@ const Page = ({
   React.useEffect(() => {
     setEnabledListing(enabled)
     setListingPrice(price)
-  }, [enabled, price])
+  }, [enabled, price, showModal])
 
   const setPrice = (value) => {
     if (

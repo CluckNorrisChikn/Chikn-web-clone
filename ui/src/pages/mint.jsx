@@ -30,7 +30,7 @@ const IndexPage = () => {
   return (
     <Layout pageName="Mint">
       {/* Display transaction Toasterd */}
-      <TransactionProgress intialOnShow={false} />
+      {/* <TransactionProgress intialOnShow={false} /> */}
 
       <TotalMintedSection />
 
