@@ -25,6 +25,7 @@ import {
 import {
   useGetTokenQuery,
   useBuyTokenMutation,
+  useGetWeb3TokenDetail,
   useWeb3Contract,
   getErrorMessage
 } from './Connect'
@@ -220,8 +221,9 @@ export const SaleStatus = ({
 }
 
 const ShowHistory = ({ tokenId = '' }) => {
-  const getTokenQuery = useGetTokenQuery(tokenId)
-  const { data: { details = {} } = {} } = getTokenQuery
+  const { active, contract } = useWeb3Contract()
+  const getWeb3TokenDetail = useGetWeb3TokenDetail(contract, active, tokenId)
+  const { data: details = DETAILS_BLANK } = getWeb3TokenDetail
   return (
     <>
       <Properties fixed>
@@ -266,10 +268,11 @@ export const ChickenCardMarketplaceSummary = ({
   tokenId = '',
   onClick = null
 }) => {
-  const { account } = useWeb3Contract()
+  const { contract, active, account } = useWeb3Contract()
   const getTokenQuery = useGetTokenQuery(tokenId)
-  const { data: { properties = {}, details = {} } = {} } = getTokenQuery
-
+  const { data: { properties = {} } = {} } = getTokenQuery
+  const getWeb3TokenDetail = useGetWeb3TokenDetail(contract, active, tokenId)
+  const { data: details = DETAILS_BLANK } = getWeb3TokenDetail
   const isOwner = details.currentOwner === account
   const showForSale =
     details.forSale === true && details.currentOwner !== account
@@ -315,7 +318,12 @@ export const ChickenCardMarketplaceSummary = ({
 
 export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
   const getTokenQuery = useGetTokenQuery(tokenId)
-  const { data: { properties = {}, details = {} } = {} } = getTokenQuery
+  const { data: { properties = {} } = {} } = getTokenQuery
+
+  // use the token detail from web3 for real time data
+  const { active, contract } = useWeb3Contract()
+  const getWeb3TokenDetail = useGetWeb3TokenDetail(contract, active, tokenId)
+  const { data: { forSale = false } = {} } = getWeb3TokenDetail
   return (
     <>
       {getTokenQuery.isLoading && <ChickenCardShimmer />}
@@ -329,7 +337,7 @@ export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
                 <h6>
                   <ChiknText /> #{tokenId}
                 </h6>
-                <SaleStatus size="sm" forSale={details.forSale} />
+                <SaleStatus size="sm" forSale={forSale} />
               </StackCol>
             </Card.Body>
           </ChiknCard>
@@ -471,15 +479,23 @@ const MenuButton = styled(Button)`
  * @returns
  */
 export const ChickenCardOwnerDetails = ({ tokenId = '' }) => {
-  const { active, account } = useWeb3Contract()
+  const { active, account, contract } = useWeb3Contract()
   /** @type {{ data: { details: Details }}} */
   const getTokenQuery = useGetTokenQuery(tokenId)
-  const { data: { properties = {}, details = DETAILS_BLANK } = {} } =
+  const { data: { properties = {} } = {} } =
     getTokenQuery
+  const getWeb3TokenDetail = useGetWeb3TokenDetail(contract, active, tokenId)
+  const { data: details = DETAILS_BLANK } = getWeb3TokenDetail
   const isOwner = details.currentOwner === account
   const isForSale = details.forSale
 
   const [showModal, setShowModal] = React.useState(false)
+
+  const useBuyToken = useBuyTokenMutation(contract, active)
+
+  const buyToken = () => {
+    useBuyToken.mutate({ tokenId, salePrice: details.price })
+  }
 
   return (
     <>
@@ -487,6 +503,7 @@ export const ChickenCardOwnerDetails = ({ tokenId = '' }) => {
       <EditListingModal
         showModal={showModal}
         setShowModal={() => setShowModal(false)}
+        tokenId={tokenId}
         enableListing={isForSale}
         listingPrice={details.price}
       />
@@ -516,18 +533,20 @@ export const ChickenCardOwnerDetails = ({ tokenId = '' }) => {
 
               {/* actions */}
               <StackDynamic className="gap-1 flex-wrap">
-                {!isOwner && !isForSale && (
+                {active && !isOwner && !isForSale && (
                   <SaleStatus forSale={details.forSale} />
                 )}
-                {!active && isForSale && (
+                {!active && (
                   <GreyPill className="py-2 border">
                     Connect wallet to buy
                   </GreyPill>
                 )}
                 {active && !isOwner && isForSale && (
-                  <MenuButton disabled>Purchase</MenuButton> // purchase
+                  <MenuButton onClick={buyToken} disabled={useBuyToken.isLoading}>
+                    {useBuyToken.isLoading ? <Spinner size="sm" animation="border" /> : 'Purchase'}
+                  </MenuButton> // purchase
                 )}
-                {isOwner && !isForSale && (
+                {active && isOwner && !isForSale && (
                   <MenuButton onClick={() => setShowModal(true)}>
                     Sell
                   </MenuButton> // modify listing
@@ -544,6 +563,10 @@ export const ChickenCardOwnerDetails = ({ tokenId = '' }) => {
                 )}
               </StackDynamic>
 
+              {/* Error from purchase */}
+              {useBuyToken.isError && <Alert variant="danger" className="mt-4">
+                {useBuyToken.error.message}
+              </Alert> }
               {/* price */}
               {isForSale && (
                 <div>

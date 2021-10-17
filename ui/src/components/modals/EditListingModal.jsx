@@ -4,19 +4,35 @@ import {
   Modal,
   ToggleButton,
   ToggleButtonGroup,
-  Button
+  Button,
+  InputGroup,
+  Spinner,
+  Alert
 } from 'react-bootstrap'
+import AvaxSVG from '../../images/avalanche-avax-logo-trans.svg'
+import {
+  KEYS,
+  useSetTokenSalePriceMutation,
+  useWeb3Contract
+} from '../../components/Connect'
+import { useQueryClient } from 'react-query'
 
 // LINK -> // ui/src/pages/chikn/[tokenId].jsx (SELL)
 
 const Page = ({
   showModal,
   setShowModal,
-  enabledListing: enabled = false,
-  listingPrice: price = ''
+  enableListing: enabled = false,
+  listingPrice: price = '',
+  tokenId = ''
 }) => {
   const [enabledListing, setEnabledListing] = React.useState(enabled)
   const [listingPrice, setListingPrice] = React.useState(price) // N.B. this will be a string!
+
+  const { contract, active } = useWeb3Contract()
+
+  const useSetTokenSalePrice = useSetTokenSalePriceMutation(contract, active)
+  const queryClient = useQueryClient()
 
   React.useEffect(() => {
     setEnabledListing(enabled)
@@ -32,11 +48,39 @@ const Page = ({
     }
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const onSuccessCB = React.useCallback(() => {
+    setShowModal()
+    useSetTokenSalePrice.reset() // need to reset the query state to prevent infinite loop
+    // invalidate token
+    queryClient.invalidateQueries(KEYS.CONTRACT_TOKEN(tokenId))
+  })
+
+  const submit = () => {
+    let price = listingPrice
+    if (listingPrice === '') {
+      price = '0'
+    }
+    useSetTokenSalePrice.mutate(
+      {
+        tokenId,
+        newPrice: price,
+        isForSale: enabledListing
+      }
+    )
+  }
+
   const doHide = () => {
     setEnabledListing(false)
     setListingPrice('')
     setShowModal(false)
   }
+
+  React.useEffect(() => {
+    if (useSetTokenSalePrice.isSuccess) {
+      onSuccessCB()
+    }
+  }, [useSetTokenSalePrice, onSuccessCB])
 
   // TODO use react query to do mutation, use loading states for spinners / disabled buttons.
   // Show notification when successful, and close modal.
@@ -60,6 +104,7 @@ const Page = ({
                 defaultValue={enabledListing}
                 className="mb-2"
                 onChange={(e) => setEnabledListing(e)}
+                value={enabledListing}
               >
                 <ToggleButton
                   id="tbg-check-2"
@@ -73,7 +118,7 @@ const Page = ({
                 <ToggleButton
                   id="tbg-check-1"
                   variant={
-                    enabledListing === true ? 'primary' : 'outline-primary'
+                    enabledListing === true ? 'success' : 'outline-primary'
                   }
                   value={true}
                 >
@@ -90,12 +135,16 @@ const Page = ({
           {enabledListing && (
             <Form.Group className="mb-4" controlId="formBasicEmail">
               <Form.Label>Asking Price</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="0.00"
-                value={listingPrice}
-                onChange={(e) => setPrice(e.target.value)}
-              />
+              <InputGroup className="mb-3">
+                <InputGroup.Text id="basic-addon1" style={{ backgroundColor: 'transparent' }}><img src={AvaxSVG} style={{ width: '30px', height: '30px' }}/></InputGroup.Text>
+                <Form.Control
+                  type="text"
+                  placeholder="0.00"
+                  value={listingPrice}
+                  onChange={(e) => setPrice(e.target.value)}
+                />
+              </InputGroup>
+
               <Form.Text className="text-muted">
                 Please enter the price you would like to sell your chikn for.
               </Form.Text>
@@ -108,8 +157,12 @@ const Page = ({
           <>
             <pre>enabledListing={JSON.stringify(enabledListing, null, 2)}</pre>
             <pre>listingPrice={JSON.stringify(listingPrice, null, 2)}</pre>
+            <pre>tokenId={JSON.stringify(tokenId, null, 2)}</pre>
           </>
         )}
+        {useSetTokenSalePrice.isError && <Alert variant="danger" className="mt-4">
+          {useSetTokenSalePrice.error.message}
+        </Alert> }
       </Modal.Body>
 
       {/* buttons */}
@@ -117,7 +170,9 @@ const Page = ({
         <Button variant="outline-secondary" onClick={doHide}>
           Cancel
         </Button>
-        <Button variant="primary">Submit</Button>
+        <Button onClick={submit} variant="primary" disabled={!active || useSetTokenSalePrice.isLoading}>
+          {useSetTokenSalePrice.isLoading ? <Spinner size="sm" animation="border" /> : 'Submit'}
+        </Button>
       </Modal.Footer>
     </Modal>
   )

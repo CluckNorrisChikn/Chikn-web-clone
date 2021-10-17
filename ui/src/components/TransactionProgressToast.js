@@ -41,6 +41,7 @@ const TransactionProgress = ({ intialOnShow = false }) => {
           queryClient.invalidateQueries(KEYS.CONTRACT_CURRENTSUPPLY())
           queryClient.invalidateQueries(KEYS.RECENT_ACTIVITY())
           queryClient.invalidateQueries(KEYS.WALLET())
+          queryClient.invalidateQueries(KEYS.ALLTOKEN())
         }
       } catch (err) {
         setErrorMessage(err)
