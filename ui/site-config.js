@@ -24,7 +24,7 @@ const siteConfig = {
   imageWidthPx: '1200',
   imageHeightPx: '630',
   themeColour: '#DF3F3D',
-  keywords: 'avax,nft,chikn,chicken',
+  keywords: 'avalanche,avax,network,nft,chikn,chicken,chickn,chiken,gb,ecosystem,token,mint,minting,farm,farming,marketplace,$egg,$feed',
   author: `noreply@${host}`,
   links: {
     discord: 'https://discord.gg/chikn',
