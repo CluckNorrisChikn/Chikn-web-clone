@@ -1,5 +1,16 @@
 import * as React from 'react'
-import { Alert, Card, Button, Spinner, Row, Col } from 'react-bootstrap'
+import {
+  Alert,
+  Card,
+  Button,
+  Spinner,
+  Row,
+  Col,
+  Modal,
+  Form,
+  ToggleButtonGroup,
+  ToggleButton
+} from 'react-bootstrap'
 import Accordion from 'react-bootstrap/Accordion'
 import {
   ChiknText,
@@ -20,6 +31,7 @@ import {
 import styled from 'styled-components'
 import AvaxSvg from '../images/avalanche-avax-logo.svg'
 import siteConfig from '../../site-config'
+import EditListingModal from './modals/EditListingModal'
 
 /**
  * @typedef {Object} Details
@@ -396,6 +408,7 @@ const MenuButton = styled(Button)`
   padding-right: 30px !important;
 `
 
+// (BUY)
 /**
  * Displays the marketplace card.
  */
@@ -452,6 +465,11 @@ const MenuButton = styled(Button)`
 //   )
 // }
 
+/**
+ * Chicken Details page - this is where all actions happen, your view will change based on sell state, and ownership, and marketplace view.
+ * @param {*} param0
+ * @returns
+ */
 export const ChickenCardOwnerDetails = ({ tokenId = '' }) => {
   const { active, account } = useWeb3Contract()
   /** @type {{ data: { details: Details }}} */
@@ -460,8 +478,19 @@ export const ChickenCardOwnerDetails = ({ tokenId = '' }) => {
     getTokenQuery
   const isOwner = details.currentOwner === account
   const isForSale = details.forSale
+
+  const [showModal, setShowModal] = React.useState(false)
+
   return (
     <>
+      {/* modal */}
+      <EditListingModal
+        showModal={showModal}
+        setShowModal={() => setShowModal(false)}
+        enableListing={isForSale}
+        listingPrice={details.price}
+      />
+
       {getTokenQuery.isLoading && <ChickenCardShimmer />}
       {getTokenQuery.isError && <ShowError error={getTokenQuery.error} />}
       {getTokenQuery.isSuccess && (
@@ -496,16 +525,22 @@ export const ChickenCardOwnerDetails = ({ tokenId = '' }) => {
                   </GreyPill>
                 )}
                 {active && !isOwner && isForSale && (
-                  <MenuButton disabled>Purchase</MenuButton>
+                  <MenuButton disabled>Purchase</MenuButton> // purchase
                 )}
                 {isOwner && !isForSale && (
-                  <MenuButton disabled>Sell</MenuButton>
+                  <MenuButton onClick={() => setShowModal(true)}>
+                    Sell
+                  </MenuButton> // modify listing
                 )}
                 {isOwner && isForSale && (
-                  <MenuButton disabled>Lower price</MenuButton>
+                  <MenuButton onClick={() => setShowModal(true)}>
+                    Lower price
+                  </MenuButton> // modify listing - TOTALLY OPTIONAL, just copying open sea.
                 )}
                 {isOwner && isForSale && (
-                  <MenuButton disabled>Cancel listing</MenuButton>
+                  <MenuButton onClick={() => setShowModal(true)}>
+                    Cancel listing
+                  </MenuButton> // modify listing
                 )}
               </StackDynamic>
 

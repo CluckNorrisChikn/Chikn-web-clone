@@ -55,8 +55,8 @@ const NavGatsbyLink = ({ children, disabled, ...props }) => {
 }
 
 const links = isProd
-  ? 'home'.split(',')
-  : 'home,mint,market,farm,roost,wallet'.split(',')
+  ? 'home,market,wallet'.split(',') // prod
+  : 'home,mint,market,wallet'.split(',') // dev -  ,farm,roost
 
 const HeaderLinks = () =>
   links.map((link, idx) => (
