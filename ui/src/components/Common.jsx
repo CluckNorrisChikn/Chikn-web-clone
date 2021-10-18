@@ -4,7 +4,13 @@ import styled from 'styled-components'
 import siteConfig from '../../site-config'
 import ChickenIconSrc from '../images/Chikn_Logo_Wordmark.svg'
 
-import { FaDiscord, FaTwitter, FaShareAlt } from 'react-icons/fa'
+import {
+  FaDiscord,
+  FaTwitter,
+  FaShareAlt,
+  FaDownload,
+  FaSync
+} from 'react-icons/fa'
 
 // formatters
 
@@ -118,7 +124,7 @@ export const SocialShareLinkButton = ({
 
   return (
     <OverlayTrigger
-      placement="left"
+      placement="bottom"
       overlay={<Tooltip id="tooltip-disabled">{tooltipText}</Tooltip>}
     >
       <Button
@@ -126,7 +132,7 @@ export const SocialShareLinkButton = ({
         className={`${className}`}
         {...props}
         onClick={() => {
-          // TODO add images to share
+          // TODO add images to share?
           if (navigator.share) {
             navigator.share({
               title,
@@ -142,6 +148,53 @@ export const SocialShareLinkButton = ({
         }}
       >
         <FaShareAlt />
+      </Button>
+    </OverlayTrigger>
+  )
+}
+
+export const LinkButton = ({
+  className = '',
+  href = '',
+  tooltip = 'Download image',
+  ...props
+}) => {
+  return (
+    <OverlayTrigger
+      placement="bottom"
+      overlay={<Tooltip id="tooltip-disabled">{tooltip}</Tooltip>}
+    >
+      <a
+        className={`btn btn-outline-dark ${className}`}
+        {...props}
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <FaDownload />
+      </a>
+    </OverlayTrigger>
+  )
+}
+
+export const RefreshButton = ({
+  className = '',
+  onClick = '',
+  tooltip = 'Refresh',
+  ...props
+}) => {
+  return (
+    <OverlayTrigger
+      placement="bottom"
+      overlay={<Tooltip id="tooltip-disabled">{tooltip}</Tooltip>}
+    >
+      <Button
+        variant="outline-dark"
+        className={`${className}`}
+        {...props}
+        onClick={onClick}
+      >
+        <FaSync />
       </Button>
     </OverlayTrigger>
   )

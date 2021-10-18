@@ -9,12 +9,15 @@ import {
   Modal,
   Form,
   ToggleButtonGroup,
-  ToggleButton
+  ToggleButton,
+  ButtonGroup
 } from 'react-bootstrap'
 import Accordion from 'react-bootstrap/Accordion'
 import {
   ChiknText,
   fmtCurrency,
+  LinkButton,
+  RefreshButton,
   Section,
   SocialShareLinkButton,
   Stack,
@@ -27,12 +30,14 @@ import {
   useBuyTokenMutation,
   useGetWeb3TokenDetail,
   useWeb3Contract,
-  getErrorMessage
+  getErrorMessage,
+  KEYS
 } from './Connect'
 import styled from 'styled-components'
 import AvaxSvg from '../images/avalanche-avax-logo.svg'
 import siteConfig from '../../site-config'
 import EditListingModal from './modals/EditListingModal'
+import { useQueryClient } from 'react-query'
 
 /**
  * @typedef {Object} Details
@@ -257,9 +262,10 @@ const ShowHistory = ({ tokenId = '' }) => {
 }
 
 const ShowError = ({ error = {} }) => {
+  const { deactivate } = useWeb3Contract()
   return (
     <Alert variant="danger" className="mt-4">
-      {getErrorMessage(error)}
+      {getErrorMessage(error, deactivate)}
     </Alert>
   )
 }
@@ -479,11 +485,11 @@ const MenuButton = styled(Button)`
  * @returns
  */
 export const ChickenCardOwnerDetails = ({ tokenId = '' }) => {
-  const { active, account, contract } = useWeb3Contract()
+  const queryClient = useQueryClient()
+  const { active, account, contract, deactivate } = useWeb3Contract()
   /** @type {{ data: { details: Details }}} */
   const getTokenQuery = useGetTokenQuery(tokenId)
-  const { data: { properties = {} } = {} } =
-    getTokenQuery
+  const { data: { properties = {} } = {} } = getTokenQuery
   const getWeb3TokenDetail = useGetWeb3TokenDetail(contract, active, tokenId)
   const { data: details = DETAILS_BLANK } = getWeb3TokenDetail
   const isOwner = details.currentOwner === account
@@ -495,6 +501,11 @@ export const ChickenCardOwnerDetails = ({ tokenId = '' }) => {
 
   const buyToken = () => {
     useBuyToken.mutate({ tokenId, salePrice: details.price })
+  }
+
+  const refreshPage = () => {
+    queryClient.invalidateQueries(KEYS.CONTRACT_TOKEN(tokenId))
+    queryClient.invalidateQueries(KEYS.TOKEN(tokenId))
   }
 
   return (
@@ -524,11 +535,18 @@ export const ChickenCardOwnerDetails = ({ tokenId = '' }) => {
                 </h5>
 
                 {/* social */}
-                <SocialShareLinkButton
-                  title={`${siteConfig.nftName} #${tokenId}`}
-                  text={siteConfig.description}
-                  url={window.location.toString()}
-                />
+                <ButtonGroup>
+                  <SocialShareLinkButton
+                    title={`${siteConfig.nftName} #${tokenId}`}
+                    text={siteConfig.description}
+                    url={window.location.toString()}
+                  />
+                  <LinkButton
+                    href={properties.image}
+                    tooltip="Download image"
+                  />
+                  <RefreshButton onClick={refreshPage} />
+                </ButtonGroup>
               </StackRow>
 
               {/* actions */}
@@ -542,8 +560,17 @@ export const ChickenCardOwnerDetails = ({ tokenId = '' }) => {
                   </GreyPill>
                 )}
                 {active && !isOwner && isForSale && (
-                  <MenuButton onClick={buyToken} disabled={useBuyToken.isLoading}>
-                    {useBuyToken.isLoading ? <Spinner size="sm" animation="border" /> : 'Purchase'}
+                  <MenuButton
+                    onClick={buyToken}
+                    disabled={useBuyToken.isLoading}
+                  >
+                    {useBuyToken.isLoading
+                      ? (
+                        <Spinner size="sm" animation="border" />
+                      )
+                      : (
+                        'Purchase'
+                      )}
                   </MenuButton> // purchase
                 )}
                 {active && isOwner && !isForSale && (
@@ -564,9 +591,11 @@ export const ChickenCardOwnerDetails = ({ tokenId = '' }) => {
               </StackDynamic>
 
               {/* Error from purchase */}
-              {useBuyToken.isError && <Alert variant="danger" className="mt-4">
-                {useBuyToken.error.message}
-              </Alert> }
+              {useBuyToken.isError && (
+                <Alert variant="danger" className="mt-4">
+                  {useBuyToken.error.message}
+                </Alert>
+              )}
               {/* price */}
               {isForSale && (
                 <div>

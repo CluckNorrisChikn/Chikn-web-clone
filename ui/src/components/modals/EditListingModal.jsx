@@ -61,13 +61,11 @@ const Page = ({
     if (listingPrice === '') {
       price = '0'
     }
-    useSetTokenSalePrice.mutate(
-      {
-        tokenId,
-        newPrice: price,
-        isForSale: enabledListing
-      }
-    )
+    useSetTokenSalePrice.mutate({
+      tokenId,
+      newPrice: price,
+      isForSale: enabledListing
+    })
   }
 
   const doHide = () => {
@@ -92,24 +90,28 @@ const Page = ({
         <Modal.Title>Edit Listing</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        List item for sale.
         {/* form */}
-        <Form className="py-4">
-          <Form.Group className="mb-4" controlId="formBasicEmail">
-            <Form.Label>Enable / Disable Listing</Form.Label>
+        <Form>
+          {/* status */}
+          <Form.Group className="my-4" controlId="formBasicEmail">
+            <Form.Label>Status</Form.Label>
             <div>
               <ToggleButtonGroup
                 type="radio"
                 name="listingOptions"
                 defaultValue={enabledListing}
-                className="mb-2"
+                className="mb-2 d-flex"
                 onChange={(e) => setEnabledListing(e)}
                 value={enabledListing}
               >
                 <ToggleButton
                   id="tbg-check-2"
+                  className={`w-50 ${
+                    enabledListing === false ? 'text-white' : ''
+                  }`}
                   variant={
-                    enabledListing === false ? 'primary' : 'outline-primary'
+                    // enabledListing === false ? 'primary' : 'outline-primary'
+                    'outline-secondary'
                   }
                   value={false}
                 >
@@ -117,8 +119,12 @@ const Page = ({
                 </ToggleButton>
                 <ToggleButton
                   id="tbg-check-1"
+                  className={`w-50 ${
+                    enabledListing === true ? 'text-white' : ''
+                  }`}
                   variant={
-                    enabledListing === true ? 'success' : 'outline-primary'
+                    // enabledListing === true ? 'success' : 'outline-success'
+                    'outline-primary'
                   }
                   value={true}
                 >
@@ -131,12 +137,20 @@ const Page = ({
             </Form.Text>
           </Form.Group>
 
-          {/* only show if above is true */}
+          {/* price - only show if above is true */}
           {enabledListing && (
-            <Form.Group className="mb-4" controlId="formBasicEmail">
+            <Form.Group className="my-4" controlId="formBasicEmail">
               <Form.Label>Asking Price</Form.Label>
               <InputGroup className="mb-3">
-                <InputGroup.Text id="basic-addon1" style={{ backgroundColor: 'transparent' }}><img src={AvaxSVG} style={{ width: '30px', height: '30px' }}/></InputGroup.Text>
+                <InputGroup.Text
+                  id="basic-addon1"
+                  style={{ backgroundColor: 'transparent' }}
+                >
+                  <img
+                    src={AvaxSVG}
+                    style={{ width: '30px', height: '30px' }}
+                  />
+                </InputGroup.Text>
                 <Form.Control
                   type="text"
                   placeholder="0.00"
@@ -160,18 +174,31 @@ const Page = ({
             <pre>tokenId={JSON.stringify(tokenId, null, 2)}</pre>
           </>
         )}
-        {useSetTokenSalePrice.isError && <Alert variant="danger" className="mt-4">
-          {useSetTokenSalePrice.error.message}
-        </Alert> }
+        {useSetTokenSalePrice.isError && (
+          <Alert variant="danger" className="mt-4">
+            {useSetTokenSalePrice.error.message}
+          </Alert>
+        )}
       </Modal.Body>
 
       {/* buttons */}
       <Modal.Footer className="justify-content-between">
-        <Button variant="outline-secondary" onClick={doHide}>
+        <Button variant="outline-secondary" className="w-25" onClick={doHide}>
           Cancel
         </Button>
-        <Button onClick={submit} variant="primary" disabled={!active || useSetTokenSalePrice.isLoading}>
-          {useSetTokenSalePrice.isLoading ? <Spinner size="sm" animation="border" /> : 'Submit'}
+        <Button
+          variant="primary"
+          className="w-25"
+          onClick={submit}
+          disabled={!active || useSetTokenSalePrice.isLoading}
+        >
+          {useSetTokenSalePrice.isLoading
+            ? (
+              <Spinner size="sm" animation="border" />
+            )
+            : (
+              'Submit'
+            )}
         </Button>
       </Modal.Footer>
     </Modal>

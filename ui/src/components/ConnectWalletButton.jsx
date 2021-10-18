@@ -76,13 +76,14 @@ export const ConnectWalletButton = () => {
   const connectToWalletWithNotification = (activate) => {
     connectToWallet(activate)
       .then(() => {
-        setNotification({
-          title: 'Wallet connected',
-          body: 'Wallet connected successfully.',
-          show: true,
-          autoHide: true,
-          style: 'success'
-        })
+        // too chatty... disabling for now - Nick
+        // setNotification({
+        //   title: 'Wallet connected',
+        //   body: 'Wallet connected successfully.',
+        //   show: true,
+        //   autoHide: true,
+        //   style: 'success'
+        // })
       })
       .catch((err) => {
         const { stack } = err
