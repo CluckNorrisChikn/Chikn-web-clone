@@ -422,71 +422,14 @@ const MenuButton = styled(Button)`
   padding-right: 30px !important;
 `
 
-// (BUY)
-/**
- * Displays the marketplace card.
- */
-// const MarketPlaceSummary = ({ tokenId = '' }) => {
-//   const getTokenQuery = useGetTokenQuery(tokenId)
-//   const { data: { details = {} } = {} } = getTokenQuery
-//   const { contract, active, account } = useWeb3Contract()
-//   // const useBuyToken = useBuyTokenMutation(contract, active)
-
-//   // const buyNow = () => {
-//   //   useBuyToken.mutate({ tokenId, salePrice: details.price })
-//   // }
-//   // const showForSale =
-//   //   details.forSale === true && details.currentOwner !== account
-//   return (
-//     <>
-//       <h6 className="p-0">
-//         <ChiknText /> #{tokenId}
-//       </h6>
-//       <SaleStatus size="sm" forSale={details.forSale} />
-//       {showForSale && (
-//         <Properties>
-//           <dd>listing price</dd>
-//           <dt>
-//             <AvaxPill>{fmtCurrency(details.price)}</AvaxPill>
-//           </dt>
-//           <dd>last price</dd>
-//           <dt>
-//             <AvaxPill>{fmtCurrency(details.previousPrice)}</AvaxPill>
-//           </dt>
-//         </Properties>
-//       )}
-//       {/* {showForSale
-//         ? (
-//           <Button
-//             className="rounded-pill py-1"
-//             variant="outline-primary"
-//             disabled={useBuyToken.isLoading}
-//             onClick={() => buyNow()}
-//           >
-//             {useBuyToken.isLoading
-//               ? (
-//                 <Spinner size="sm" animation="border" />
-//               )
-//               : (
-//                 'Purchase'
-//               )}
-//           </Button>
-//         )
-//         : (
-//           <SaleStatus forSale={details.forSale} />
-//         )} */}
-//     </>
-//   )
-// }
-
 /**
  * Chicken Details page - this is where all actions happen, your view will change based on sell state, and ownership, and marketplace view.
  * @param {*} param0
  * @returns
  */
-export const ChickenCardOwnerDetails = ({ tokenId = '' }) => {
+export const ChickenCardDetails = ({ tokenId = '' }) => {
   const queryClient = useQueryClient()
-  const { active, account, contract, deactivate } = useWeb3Contract()
+  const { active, account, contract } = useWeb3Contract()
   /** @type {{ data: { details: Details }}} */
   const getTokenQuery = useGetTokenQuery(tokenId)
   const { data: { properties = {} } = {} } = getTokenQuery
@@ -581,7 +524,7 @@ export const ChickenCardOwnerDetails = ({ tokenId = '' }) => {
                 {isOwner && isForSale && (
                   <MenuButton onClick={() => setShowModal(true)}>
                     Change price
-                  </MenuButton> // modify listing - TOTALLY OPTIONAL, just copying open sea.
+                  </MenuButton> // modify listing
                 )}
                 {isOwner && isForSale && (
                   <MenuButton onClick={() => setShowModal(true)}>
