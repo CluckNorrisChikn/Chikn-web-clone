@@ -240,10 +240,10 @@ const IndexPage = () => {
         <Container className="position-relative">
           <Corn01 className="d-none d-xl-block" />
           <Row>
-            <Col xs={12} sm={4}>
+            <Col sm={12} md={4}>
               <ChickenKernelImage />
             </Col>
-            <Col xs={12} sm={8}>
+            <Col sm={12} md={8}>
               <h1>Welcome to chikn. Bgaark!</h1>
               <p>
                 <b>chikn</b> are not just NFTs that lay $egg.
@@ -273,8 +273,8 @@ const IndexPage = () => {
           <h3>Tri-Token Ecosystem</h3>
           <Row className="py-4">
             <Col
-              xs={12}
-              sm={6}
+              sm={12}
+              md={6}
               className="g-3"
               style={{ 'max-width': '600px' }}
             >
@@ -293,8 +293,8 @@ const IndexPage = () => {
                     <b>$egg</b>
                     <br />
                     The governance and utility token of the <b>chikn</b>
-                    <br />
-                    ecosystem. Hodl, use, or sell on the open market
+                    <br className="d-none d-lg-block" /> ecosystem. Hodl, use,
+                    or sell on the open market
                   </div>
                 </StackRow>
                 <StackRow className="gap-3">
@@ -302,8 +302,9 @@ const IndexPage = () => {
                   <div>
                     <b>$feed</b>
                     <br />
-                    Harvested at chikn.farm, eaten by <b>chikn</b>,<br /> or
-                    sold on the open market
+                    Harvested at chikn.farm, eaten by <b>chikn</b>,
+                    <br className="d-none d-lg-block" /> or sold on the open
+                    market
                   </div>
                 </StackRow>
                 {/* blue */}
@@ -313,8 +314,8 @@ const IndexPage = () => {
                     <b>Lay</b>
                     <br />
                     Roost your <b>chikn</b> and lay <b>$egg</b>.
-                    <br />
-                    <i>Biggr</i> <b>chikn</b> lay more <b>$egg</b>
+                    <br className="d-none d-lg-block" /> <i>Biggr</i>{' '}
+                    <b>chikn</b> lay more <b>$egg</b>
                   </div>
                 </StackRow>
                 <StackRow className="gap-3">
@@ -325,7 +326,8 @@ const IndexPage = () => {
                     <b>Farm</b>
                     <br />
                     Received <b>$egg</b> LP tokens are used
-                    <br /> to farm <b>$feed</b> at chikn.farm
+                    <br className="d-none d-lg-block" /> to farm <b>$feed</b> at
+                    chikn.farm
                   </div>
                 </StackRow>
                 <StackRow className="gap-3">
@@ -334,15 +336,18 @@ const IndexPage = () => {
                     <b>Size</b> (Kg / KillerGainz)
                     <br />
                     <b>$feed</b> permanently increases the size
-                    <br />
-                    of your <b>chikn</b>. It&apos;s written straight to the
-                    <br />
-                    metadata of your NFT
+                    <br className="d-none d-lg-block" /> of your <b>chikn</b>.
+                    It&apos;s written straight to the
+                    <br className="d-none d-lg-block" /> metadata of your NFT
                   </div>
                 </StackRow>
               </StackCol>
             </Col>
-            <Col xs={12} sm={6} className="d-flex align-items-center">
+            <Col
+              sm={12}
+              md={6}
+              className="d-flex align-items-center pt-4 pt-md-0"
+            >
               <TriTokenEcoMain />
             </Col>
           </Row>
