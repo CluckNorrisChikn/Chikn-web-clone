@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import moment from 'moment'
 import * as React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
@@ -11,13 +12,32 @@ import Egg01Image from '../components/images/Egg01'
 import Egg02Image from '../components/images/Egg02'
 import Corn01Image from '../components/images/Corn01'
 import Corn02Image from '../components/images/Corn02'
-import { AButton, Section, StackCol } from '../components/Common'
+import { AButton, Section, StackCol, StackRow } from '../components/Common'
 import { useWeb3Contract } from '../components/Connect'
 import Layout from '../components/Layout'
 import CountdownSectionv2 from '../components/sections/CountdownSectionv2'
 import Scratches1WhiteImage from '../images/Web_CarouselEdges_02_var6.png'
+import TriTokenEcoMainImage from '../images/Illustration_Ecosystem_Simple_01.png'
+import SVG_TriToken_Legend_03_blue_eggs from '../images/TriToken_Legend_03_blue_eggs.svg'
+import SVG_TriToken_Legend_03_blue_kg from '../images/TriToken_Legend_03_blue_kg.svg'
+import SVG_TriToken_Legend_03_blue_pitchfork from '../images/TriToken_Legend_03_blue_pitchfork.svg'
+import SVG_TriToken_Legend_03_chicken from '../images/TriToken_Legend_03_chicken.svg'
+import SVG_TriToken_Legend_03_egg from '../images/TriToken_Legend_03_egg.svg'
+import SVG_TriToken_Legend_03_worm from '../images/TriToken_Legend_03_worm.svg'
 
 // containers
+
+const TriTokenLegendIcon = styled.img`
+  width: 100%;
+  max-width: 70px;
+  max-height: 70px;
+`
+
+const TriTokenEcoMain = styled(({ className = '', ...props }) => (
+  <img src={TriTokenEcoMainImage} className={`${className} w-100`} />
+))`
+  object-fit: contain;
+`
 
 const LeftContainer = styled.div`
   position: absolute !important;
@@ -244,6 +264,86 @@ const IndexPage = () => {
               <p>
                 It&apos;s simple, really. Everyone knows that chikn lay $egg.
               </p>
+            </Col>
+          </Row>
+        </Container>
+
+        {/* tri token ecosystem */}
+        <Container>
+          <h3>Tri-Token Ecosystem</h3>
+          <Row className="py-4">
+            <Col
+              xs={12}
+              sm={6}
+              className="g-3"
+              style={{ 'max-width': '600px' }}
+            >
+              <StackCol className="gap-4">
+                <StackRow className="gap-3">
+                  <TriTokenLegendIcon src={SVG_TriToken_Legend_03_chicken} />
+                  <div>
+                    <b>chikn</b>
+                    <br />
+                    Your upgradeable <b>chikn</b> NFT, that lays <b>$egg</b>
+                  </div>
+                </StackRow>
+                <StackRow className="gap-3">
+                  <TriTokenLegendIcon src={SVG_TriToken_Legend_03_egg} />
+                  <div>
+                    <b>$egg</b>
+                    <br />
+                    The governance and utility token of the <b>chikn</b>
+                    <br />
+                    ecosystem. Hodl, use, or sell on the open market
+                  </div>
+                </StackRow>
+                <StackRow className="gap-3">
+                  <TriTokenLegendIcon src={SVG_TriToken_Legend_03_worm} />
+                  <div>
+                    <b>$feed</b>
+                    <br />
+                    Harvested at chikn.farm, eaten by <b>chikn</b>,<br /> or
+                    sold on the open market
+                  </div>
+                </StackRow>
+                {/* blue */}
+                <StackRow className="gap-3">
+                  <TriTokenLegendIcon src={SVG_TriToken_Legend_03_blue_eggs} />
+                  <div>
+                    <b>Lay</b>
+                    <br />
+                    Roost your <b>chikn</b> and lay <b>$egg</b>.
+                    <br />
+                    <i>Biggr</i> <b>chikn</b> lay more <b>$egg</b>
+                  </div>
+                </StackRow>
+                <StackRow className="gap-3">
+                  <TriTokenLegendIcon
+                    src={SVG_TriToken_Legend_03_blue_pitchfork}
+                  />
+                  <div>
+                    <b>Farm</b>
+                    <br />
+                    Received <b>$egg</b> LP tokens are used
+                    <br /> to farm <b>$feed</b> at chikn.farm
+                  </div>
+                </StackRow>
+                <StackRow className="gap-3">
+                  <TriTokenLegendIcon src={SVG_TriToken_Legend_03_blue_kg} />
+                  <div>
+                    <b>Size</b> (Kg / KillerGainz)
+                    <br />
+                    <b>$feed</b> permanently increases the size
+                    <br />
+                    of your <b>chikn</b>. It&apos;s written straight to the
+                    <br />
+                    metadata of your NFT
+                  </div>
+                </StackRow>
+              </StackCol>
+            </Col>
+            <Col xs={12} sm={6} className="d-flex align-items-center">
+              <TriTokenEcoMain />
             </Col>
           </Row>
         </Container>
