@@ -11,6 +11,17 @@ module.exports = {
     siteUrl: siteConfig.url
   },
   plugins: [
+    // includes private pages
+    ...(siteConfig.includePrivatePages
+      ? [
+        {
+          resolve: 'gatsby-plugin-page-creator',
+          options: {
+            path: 'src/private-pages'
+          }
+        }
+      ]
+      : []),
     {
       resolve: 'gatsby-plugin-google-tagmanager',
       options: {
