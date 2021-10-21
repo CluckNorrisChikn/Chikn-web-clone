@@ -270,6 +270,9 @@ const IndexPage = () => {
 
         {/* tri token ecosystem */}
         <Container>
+          <div className="d-block d-md-none pb-5">
+            <TriTokenEcoMain />
+          </div>
           <h3>Tri-Token Ecosystem</h3>
           <Row className="py-4">
             <Col
@@ -346,7 +349,7 @@ const IndexPage = () => {
             <Col
               sm={12}
               md={6}
-              className="d-flex align-items-center pt-4 pt-md-0"
+              className="d-flex align-items-center d-none d-md-flex"
             >
               <TriTokenEcoMain />
             </Col>
