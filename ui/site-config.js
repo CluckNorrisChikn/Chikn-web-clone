@@ -13,6 +13,7 @@ const gtm = {
 }
 
 const siteConfig = {
+  includePrivatePages: !isProd,
   nftName: 'chikn',
   title: 'chikn',
   description: '10,000 algorithmically generated, unique chikn NFTs that lay $egg',

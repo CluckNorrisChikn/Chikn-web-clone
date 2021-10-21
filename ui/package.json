@@ -11,7 +11,7 @@
   "scripts": {
     "develop": "gatsby develop",
     "start": "gatsby develop --host=0.0.0.0",
-    "build": "cp gatsby-browser.js gatsby-ssr.js && gatsby build && rm -rf .cache",
+    "build": "cp gatsby-browser.js gatsby-ssr.js && gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "deploy": "vercel --prod",
@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "gatsby-plugin-google-tagmanager": "3.14.0",
+    "gatsby-plugin-page-creator": "3.14.0",
     "react-scroll-parallax": "2.4.0",
     "web3-eth": "1.6.0"
   },
