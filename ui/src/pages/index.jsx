@@ -132,25 +132,25 @@ const ScratchesWhiteRight = styled((props) => (
 const releaseDateMoment = moment(siteConfig.releaseDate)
 
 const IndexPage = () => {
-  const { active } = useWeb3Contract()
+  // const { active } = useWeb3Contract()
 
-  const enableCountdownAndMinting = false
+  // const enableCountdownAndMinting = false
 
-  const [showCountdown, setShowCountdown] = React.useState(
-    releaseDateMoment.isAfter(Date.now())
-  )
+  // const [showCountdown, setShowCountdown] = React.useState(
+  //   releaseDateMoment.isAfter(Date.now())
+  // )
 
-  // watch for when timeout is done...
-  React.useEffect(() => {
-    let timeout
-    if (releaseDateMoment.isAfter(Date.now())) {
-      timeout = setTimeout(
-        () => setShowCountdown(false),
-        releaseDateMoment.diff(Date.now())
-      )
-    }
-    return () => clearTimeout(timeout)
-  }, [])
+  // // watch for when timeout is done...
+  // React.useEffect(() => {
+  //   let timeout
+  //   if (releaseDateMoment.isAfter(Date.now())) {
+  //     timeout = setTimeout(
+  //       () => setShowCountdown(false),
+  //       releaseDateMoment.diff(Date.now())
+  //     )
+  //   }
+  //   return () => clearTimeout(timeout)
+  // }, [])
 
   return (
     <Layout
@@ -173,7 +173,7 @@ const IndexPage = () => {
             <Corn02 />
             <ChickenColonel />
           </RightContainer>
-          <CountdownSectionv2 date={'2021-01-01T10:00:00+1100'} />
+          <CountdownSectionv2 date={siteConfig.releaseDate} />
         </Section>
       </div>
 

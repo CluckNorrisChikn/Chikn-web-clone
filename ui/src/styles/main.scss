@@ -1,17 +1,18 @@
-
 // 2. Include any default variable overrides here
 $body-bg: #fff;
 $body-color: #111;
-$font-size-base:  1.2rem;
-$h1-font-size:    $font-size-base * 2;
-$font-family-sans-serif: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$font-size-base: 1.2rem;
+$h1-font-size: $font-size-base * 2;
+$font-family-sans-serif: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto,
+  'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif,
+  'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 $primary: #df3f3d;
 $border-radius: 10px;
 $btn-border-radius-sm: 8px;
 $btn-border-radius-lg: 14px;
 $font-size-root: 14px;
 
-@import "bootstrap/scss/bootstrap";
+@import 'bootstrap/scss/bootstrap';
 
 // fix height
 
@@ -22,7 +23,7 @@ body,
   height: 100%;
 }
 p {
-  padding: .8rem 0;
+  padding: 0.8rem 0;
 }
 main {
   // N.B. this should match the height of the top navbar
@@ -39,7 +40,12 @@ b {
   --chikn-red: #df3f3d;
 }
 
-h1,h2,h3,h4,h5,h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: var(--chikn-red);
 }
 
@@ -51,8 +57,8 @@ body {
 .overflowx-hidden {
   padding-top: 15vw;
   padding-bottom: 15vw;
-  margin-top:-15vw;
-  margin-bottom:-15vw;
+  margin-top: -15vw;
+  margin-bottom: -15vw;
   overflow: hidden !important;
 }
 
@@ -77,38 +83,74 @@ body {
   }
 }
 
-.toast-header, .btn-primary {
+.toast-header,
+.btn-primary {
   color: white !important;
 }
 
-
 // used fixed width font for flip
 
-.countdown-monospace .flip-countdown.size-medium .flip-countdown-piece .flip-countdown-card .flip-countdown-card-sec {
+.countdown-monospace h1,
+.flip-countdown.size-medium,
+.flip-countdown-piece,
+.flip-countdown-card,
+.flip-countdown-card-sec {
   font-family: Courier, monospace !important;
 }
 
 .countdown-sizing {
+  .row {
+    max-width: 50rem;
+  }
+  .btn {
+    font-size: 1.2rem;
+    width: 30%;
+    margin-top: 0.5rem;
+  }
+  h1 {
+    font-size: 4rem !important;
+  }
+  bottom: 2rem;
   text-align: center;
-  position:absolute;
+  position: absolute;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  .h1,
+  .h2,
+  .h3,
+  .h4,
+  .h5 {
+    color: white !important;
+  }
 }
 .woodenbanner-sizing {
-  display:block;
+  display: block;
+}
+.highlight {
+  border: 1px solid magenta;
 }
 
 @include media-breakpoint-between(xs, md) {
   .countdown-sizing {
     // border: 1px solid orange;
-    h1 { 
-      font-size: 6vw !important; 
-      text-shadow: -.15rem .3rem 0px rgba(0, 0, 0, 0.15);
+    bottom: 0.75rem !important;
+    .row {
+      max-width: 50rem !important;
     }
-    .btn { 
-      font-size: 1rem;
-      margin-top: 4%;
-      width: 40%;
-     }
-     bottom: 5%;
+    h1 {
+      font-size: 6vw !important;
+      text-shadow: -0.15rem 0.3rem 0px rgba(0, 0, 0, 0.15) !important;
+    }
+    h4 {
+      font-size: 3vw !important;
+    }
+    .btn {
+      font-size: 1rem !important;
+      width: 40% !important;
+    }
   }
   .woodenbanner-sizing {
     width: 100%;
@@ -117,81 +159,52 @@ body {
 @include media-breakpoint-between(md, lg) {
   .countdown-sizing {
     // border: 1px solid yellow;
-    h1 { 
-      text-shadow: -.2rem .4rem 0px rgba(0, 0, 0, 0.15);
-      font-size: 4rem !important; 
+    h1 {
+      text-shadow: -0.2rem 0.4rem 0px rgba(0, 0, 0, 0.15);
     }
-    .btn { 
-      font-size: 1.2rem;
-      margin-top: 1.5rem;
-      width: 30%;
-     }
-     bottom: 35px;
   }
   .woodenbanner-sizing {
     width: 100%;
-    max-width:680px;
+    max-width: 680px;
   }
 }
 @include media-breakpoint-between(lg, xl) {
   .countdown-sizing {
     // border: 1px solid blue;
-    h1 { 
-      text-shadow: -.2rem .4rem 0px rgba(0, 0, 0, 0.15);
-      font-size: 4rem !important; 
+    h1 {
+      text-shadow: -0.2rem 0.4rem 0px rgba(0, 0, 0, 0.15);
     }
-    .btn { 
-      font-size: 1.2rem;
-      margin-top: 1.5rem;
-      width: 30%;
-     }
-     bottom: 35px;
   }
   .woodenbanner-sizing {
     width: 100%;
-    max-width:680px;
+    max-width: 680px;
   }
 }
 @include media-breakpoint-between(xl, xxl) {
   .countdown-sizing {
     // border: 1px solid red;
-    h1 { 
-      text-shadow: -.2rem .4rem 0px rgba(0, 0, 0, 0.15);
-      font-size: 4rem !important; 
+    h1 {
+      text-shadow: -0.2rem 0.4rem 0px rgba(0, 0, 0, 0.15);
     }
-    .btn { 
-      font-size: 1.2rem;
-      margin-top: 1.5rem;
-      width: 30%;
-     }
-     bottom: 35px;
   }
   .woodenbanner-sizing {
     width: 100%;
-    max-width:680px;
+    max-width: 680px;
   }
 }
 
 @include media-breakpoint-up(xxl) {
   .countdown-sizing {
     // border: 1px solid magenta;
-    h1 { 
-      text-shadow: -.2rem .4rem 0px rgba(0, 0, 0, 0.15);
-      font-size: 4rem !important; 
+    h1 {
+      text-shadow: -0.2rem 0.4rem 0px rgba(0, 0, 0, 0.15);
     }
-    .btn { 
-      font-size: 1.2rem;
-      margin-top: 1.5rem;
-      width: 30%;
-     }
-     bottom: 35px;
   }
   .woodenbanner-sizing {
     width: 100%;
-    max-width:680px;
+    max-width: 680px;
   }
 }
-
 
 // add shimmer
 
@@ -220,7 +233,7 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-input[type=number] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 
@@ -230,7 +243,9 @@ blockquote {
   background: var(--bs-light);
   padding: 15px 30px !important;
   border-left: 5px solid var(--bs-dark);
-  p { margin: 0 !important; }
+  p {
+    margin: 0 !important;
+  }
 }
 
 // media queries
@@ -262,8 +277,8 @@ blockquote {
   }
 }
 
-
-.card, .card-body {
+.card,
+.card-body {
   border-radius: 15px;
   .card-img-top {
     border-top-left-radius: 15px;

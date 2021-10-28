@@ -46,33 +46,29 @@ const Component = ({ date = MOCK_DATE }) => {
         center={false}
         className="d-flex flex-column align-items-center position-relative"
       >
-        <WoodenBannerOverlay className="countdown-sizing text-center">
-          <h1 className="text-white">Coming Soon</h1>
+        <WoodenBannerOverlay className="countdown-sizing woodenbanner-sizing text-center">
+          <Container className="d-flex flex-row justify-content-center countdown-monospace">
+            <Row>
+              <Col xs={3}>
+                <h1>{day}</h1>
+                <h4>DAY</h4>
+              </Col>
+              <Col xs={3}>
+                <h1>{hrs}</h1>
+                <h4>HRS</h4>
+              </Col>
+              <Col xs={3}>
+                <h1>{min}</h1>
+                <h4>MIN</h4>
+              </Col>
+              <Col xs={3}>
+                <h1>{sec}</h1>
+                <h4>SEC</h4>
+              </Col>
+            </Row>
+          </Container>
           <Button disabled>Mint</Button>
         </WoodenBannerOverlay>
-        {/* <Container className="countdown-sizing countdown-monospace text-center border position-absolute">
-          <Row>
-            <Col xs={3}>
-              <h1>{day}</h1>
-              <h4>DAY</h4>
-            </Col>
-            <Col xs={3}>
-              <h1>{hrs}</h1>
-              <h4>HRS</h4>
-            </Col>
-            <Col xs={3}>
-              <h1>{min}</h1>
-              <h4>MIN</h4>
-            </Col>
-            <Col xs={3}>
-              <h1>{sec}</h1>
-              <h4>SEC</h4>
-            </Col>
-          </Row>
-          <Button disabled className="w-50 mt-5" size="lg">
-            Mint
-          </Button>
-        </Container> */}
 
         <WoodenBanner className="woodenbanner-sizing" />
       </Section>

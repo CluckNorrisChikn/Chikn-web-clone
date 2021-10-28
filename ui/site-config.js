@@ -1,11 +1,13 @@
-
 // N.B. MUST BE IN THIS FORMAT!
 const GATSBY_CONFIG = process.env.GATSBY_CONFIG || 'production'
-const GATSBY_FT_CONNECT_WALLET_ENABLED = process.env.GATSBY_FT_CONNECT_WALLET_ENABLED || 'true'
+const GATSBY_FT_CONNECT_WALLET_ENABLED =
+  process.env.GATSBY_FT_CONNECT_WALLET_ENABLED || 'true'
 
 const isProd = GATSBY_CONFIG === 'production'
 
-const host = isProd ? 'chikn.farm' : 'chickenrun-git-dev-mountainpass.vercel.app'
+const host = isProd
+  ? 'chikn.farm'
+  : 'chickenrun-git-dev-mountainpass.vercel.app'
 
 // google tag manager configuration
 const gtm = {
@@ -16,16 +18,19 @@ const siteConfig = {
   includePrivatePages: !isProd,
   nftName: 'chikn',
   title: 'chikn',
-  description: '10,000 algorithmically generated, unique chikn NFTs that lay $egg',
+  description:
+    '10,000 algorithmically generated, unique chikn NFTs that lay $egg',
   url: `https://${host}`,
   imageUrl: `https://${host}/brand/banner_og-1200x630px.jpg`,
   image2by1Url: `https://${host}/brand/banner_og-1260x630px.jpg`,
   imageSquareUrl: `https://${host}/brand/banner_og-630x630px.jpg`,
-  imageAlt: 'A stylised farm scene showing grassy hills, two large red barns, free range chickens and the Chicken logo.',
+  imageAlt:
+    'A stylised farm scene showing grassy hills, two large red barns, free range chickens and the Chicken logo.',
   imageWidthPx: '1200',
   imageHeightPx: '630',
   themeColour: '#DF3F3D',
-  keywords: 'avalanche,avax,network,nft,chikn,chicken,chickn,chiken,gb,ecosystem,token,mint,minting,farm,farming,marketplace,$egg,$feed',
+  keywords:
+    'avalanche,avax,network,nft,chikn,chicken,chickn,chiken,gb,ecosystem,token,mint,minting,farm,farming,marketplace,$egg,$feed',
   author: `noreply@${host}`,
   links: {
     discord: 'https://discord.gg/chikn',
@@ -36,8 +41,7 @@ const siteConfig = {
   featureToggles: {
     connectWalledEnabled: GATSBY_FT_CONNECT_WALLET_ENABLED !== 'false'
   },
-  // releaseDate: '2021-10-09T00:00:00+10:00',
-  releaseDate: '2021-10-06T21:15:00+11:00',
+  releaseDate: '2021-11-12T22:00:00+0000',
   maxPerMint: 12,
   limitPerWallet: 50,
   // v1 - deprecatd
@@ -58,7 +62,8 @@ const siteConfig = {
       label: '3x',
       price: '7.197',
       requiredRemaining: 3,
-      description: 'Includes 3x organic, free range, gluten free, vegan friendly chikn.',
+      description:
+        'Includes 3x organic, free range, gluten free, vegan friendly chikn.',
       highlight: true
     }
   ],
