@@ -9,9 +9,7 @@ import {
   Spinner
 } from 'react-bootstrap'
 import Layout from '../../components/Layout'
-import ChickenCard, {
-  ChickenCardOwnerDetails
-} from '../../components/ChickenCard'
+import ChickenCard, { ChickenCardDetails } from '../../components/ChickenCard'
 import siteConfig from '../../../site-config'
 import styled from 'styled-components'
 import AvaxSvg from '../../images/avalanche-avax-logo.svg'
@@ -63,7 +61,7 @@ const Page = ({ tokenId }) => {
         <ChiknText /> #{tokenId}
       </h1>
 
-      <ChickenCardOwnerDetails tokenId={tokenId} />
+      <ChickenCardDetails tokenId={tokenId} />
       {/* <div>
         <h1>List item for sale</h1>
         <h2>Price</h2>

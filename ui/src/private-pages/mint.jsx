@@ -30,7 +30,7 @@ const IndexPage = () => {
   return (
     <Layout pageName="Mint">
       {/* Display transaction Toasterd */}
-      <TransactionProgress intialOnShow={false} />
+      {/* <TransactionProgress intialOnShow={false} /> */}
 
       <TotalMintedSection />
 
@@ -38,13 +38,13 @@ const IndexPage = () => {
       <MintYourOwnWalletNotConnected />
 
       {/* when active... */}
-      <MintYourOwnWalletConnected />
+      {/* <MintYourOwnWalletConnected /> */}
 
       <MintYourOwnWalletConnectedv2 />
 
       <RecentActivitySection />
 
-      <CountdownSection />
+      {/* <CountdownSection /> */}
 
       <Alert variant="warning" className="text-center">
         <h1>N.B. This page is for testing only.</h1>

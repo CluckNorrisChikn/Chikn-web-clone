@@ -18,6 +18,7 @@ import {
 } from './Common'
 import { ConnectWalletButton } from './ConnectWalletButton'
 import HelmetMeta from './HelmetMeta'
+import TransactionProgress from '../components/TransactionProgressToast'
 
 const AvaxLogoSmall = styled((props) => (
   <img src={AvalancheIconSrc} {...props} />
@@ -55,8 +56,8 @@ const NavGatsbyLink = ({ children, disabled, ...props }) => {
 }
 
 const links = isProd
-  ? 'home'.split(',')
-  : 'home,mint,market,farm,roost,wallet'.split(',')
+  ? 'home,market,wallet'.split(',') // prod
+  : 'home,mint,market,wallet'.split(',') // dev -  ,farm,roost
 
 const HeaderLinks = () =>
   links.map((link, idx) => (
@@ -136,6 +137,7 @@ const Layout = ({
                 padTop ? 'mt-5' : 'mt-0'
               } mb-5 d-flex flex-column`}
             >
+              <TransactionProgress intialOnShow={false} />
               {children}
             </Container>
           )
@@ -145,6 +147,7 @@ const Layout = ({
                 padTop ? 'mt-5' : 'mt-0'
               } mb-5 d-flex flex-column`}
             >
+              <TransactionProgress intialOnShow={false} />
               {children}
             </div>
           )}

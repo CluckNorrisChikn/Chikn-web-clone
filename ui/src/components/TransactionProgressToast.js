@@ -37,10 +37,15 @@ const TransactionProgress = ({ intialOnShow = false }) => {
         }
         setOnShow(true)
         if (receipt.confirmations >= 1) {
+          console.log('Invalidate all cache')
           // queryClient.invalidateQueries(KEYS.CONTRACT()) // Don't invalidate the whole contract, when you only need to update the supply.
           queryClient.invalidateQueries(KEYS.CONTRACT_CURRENTSUPPLY())
           queryClient.invalidateQueries(KEYS.RECENT_ACTIVITY())
           queryClient.invalidateQueries(KEYS.WALLET())
+          setTimeout(() => {
+            queryClient.invalidateQueries(KEYS.MARKET())
+            queryClient.invalidateQueries(KEYS.ALLTOKEN())
+          }, 2000)
         }
       } catch (err) {
         setErrorMessage(err)
