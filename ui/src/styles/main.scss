@@ -98,6 +98,7 @@ body {
   font-family: Courier, monospace !important;
 }
 
+// WOODEN BANNER and COUNTDOWN TIMER
 .countdown-sizing {
   .row {
     max-width: 50rem;
@@ -129,73 +130,49 @@ body {
 .woodenbanner-sizing {
   display: block;
 }
-.highlight {
-  border: 1px solid magenta;
-}
-
-@include media-breakpoint-between(xs, md) {
+// small
+@media only screen and (max-width: 574px) {
   .countdown-sizing {
-    // border: 1px solid orange;
-    bottom: 0.75rem !important;
-    .row {
-      max-width: 50rem !important;
-    }
+    // border: 1px solid magenta;
+    bottom: 1vw !important;
     h1 {
       font-size: 6vw !important;
       text-shadow: -0.15rem 0.3rem 0px rgba(0, 0, 0, 0.15) !important;
+      margin-bottom: 0.3vw !important;
+    }
+    h4 {
+      font-size: 3vw !important;
+      margin-bottom: 0.3vw !important;
+    }
+  }
+  .woodenbanner-sizing {
+    width: 100%;
+    max-width: 680px;
+  }
+}
+// medium
+@media only screen and (min-width: 575px) and (max-width: 767px) {
+  .countdown-sizing {
+    // border: 1px solid blue;
+    bottom: 1vw !important;
+    h1 {
+      font-size: 6vw !important;
+      text-shadow: -0.15rem 0.3rem 0px rgba(0, 0, 0, 0.15) !important;
+      margin-bottom: 0.5vw !important;
     }
     h4 {
       font-size: 3vw !important;
     }
-    .btn {
-      font-size: 1rem !important;
-      width: 40% !important;
-    }
-  }
-  .woodenbanner-sizing {
-    width: 100%;
-  }
-}
-@include media-breakpoint-between(md, lg) {
-  .countdown-sizing {
-    // border: 1px solid yellow;
-    h1 {
-      text-shadow: -0.2rem 0.4rem 0px rgba(0, 0, 0, 0.15);
-    }
   }
   .woodenbanner-sizing {
     width: 100%;
     max-width: 680px;
   }
 }
-@include media-breakpoint-between(lg, xl) {
-  .countdown-sizing {
-    // border: 1px solid blue;
-    h1 {
-      text-shadow: -0.2rem 0.4rem 0px rgba(0, 0, 0, 0.15);
-    }
-  }
-  .woodenbanner-sizing {
-    width: 100%;
-    max-width: 680px;
-  }
-}
-@include media-breakpoint-between(xl, xxl) {
+// large
+@media only screen and (min-width: 768px) {
   .countdown-sizing {
     // border: 1px solid red;
-    h1 {
-      text-shadow: -0.2rem 0.4rem 0px rgba(0, 0, 0, 0.15);
-    }
-  }
-  .woodenbanner-sizing {
-    width: 100%;
-    max-width: 680px;
-  }
-}
-
-@include media-breakpoint-up(xxl) {
-  .countdown-sizing {
-    // border: 1px solid magenta;
     h1 {
       text-shadow: -0.2rem 0.4rem 0px rgba(0, 0, 0, 0.15);
     }
