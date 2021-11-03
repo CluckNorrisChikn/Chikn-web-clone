@@ -33,7 +33,8 @@ const siteConfig = {
     'avalanche,avax,network,nft,chikn,chicken,chickn,chiken,gb,ecosystem,token,mint,minting,farm,farming,marketplace,$egg,$feed',
   author: `noreply@${host}`,
   links: {
-    discord: 'https://discord.gg/chikn',
+    // discord: 'https://discord.gg/chikn',
+    discord: 'https://discord.gg/9znHkBYjra',
     twitter: 'https://twitter.com/chikn_farm',
     twitterAt: '@chikn_farm',
     docs: 'https://docs.chikn.farm/'
