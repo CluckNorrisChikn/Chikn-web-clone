@@ -226,7 +226,6 @@ const FormatAvaxPrice = (price) => {
 }
 
 export const useGetWeb3TokenDetail = (contract, enabled = true, tokenId) => {
-  console.log('Get new token detail')
   return useQuery(
     KEYS.TOKEN(tokenId),
     async () => {

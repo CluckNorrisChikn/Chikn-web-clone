@@ -28,7 +28,7 @@ const Market = () => {
   const { contract, account, active } = useWeb3Contract()
   const useWalletTokens = useGetAllTokensForSaleQuery(contract, account, active)
   const { data: tokens = [] } = useWalletTokens
-  console.log('tokens', tokens)
+
   return (
     <Layout pageName="Wallet">
       <StackRow className="justify-content-between">
