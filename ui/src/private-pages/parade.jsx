@@ -40,10 +40,15 @@ const IndexPage = () => {
         </h5>
         <div className="d-flex flex-row gap-2 mb-2">
           <Button onClick={() => setPage((ps) => Math.max(ps - 1, 0))}>
-            Prev
+            Prev Page
           </Button>
           <Button onClick={() => setPage((ps) => Math.min(ps + 1, totalPages))}>
-            Next
+            Next Page
+          </Button>
+          <Button
+            onClick={() => setPage((ps) => Math.min(ps + 10, totalPages))}
+          >
+            Jump 10 Pages
           </Button>
         </div>
 
@@ -52,7 +57,8 @@ const IndexPage = () => {
             <a
               key={d.filename}
               href={siteConfig.cdnUrl + d.filename}
-              target="_blank" rel="noreferrer"
+              target="_blank"
+              rel="noreferrer"
             >
               <Image src={siteConfig.cdnUrl + d.filename} />
             </a>
