@@ -49,7 +49,13 @@ const IndexPage = () => {
 
         <Grid>
           {data.slice(from, to).map((d) => (
-            <Image key={d.filename} src={siteConfig.cdnUrl + d.filename} />
+            <a
+              key={d.filename}
+              href={siteConfig.cdnUrl + d.filename}
+              target="_blank" rel="noreferrer"
+            >
+              <Image src={siteConfig.cdnUrl + d.filename} />
+            </a>
           ))}
         </Grid>
       </StackCol>
