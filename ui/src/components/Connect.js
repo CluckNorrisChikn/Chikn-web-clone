@@ -3,16 +3,10 @@ import {
   NoEthereumProviderError,
   UserRejectedRequestError as UserRejectedRequestErrorInjected
 } from '@web3-react/injected-connector'
-import axios from 'axios'
 import { Contract, utils } from 'ethers'
 import React from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import ChickenRun from '../../contract/Chicken_Fuji.json'
-import { isProd } from './Common'
-
-const axiosClient = axios.create({
-  baseURL: isProd ? '/' : 'https://chickenrun-git-dev-mountainpass.vercel.app'
-})
 
 export const getErrorMessage = (error, deactivate) => {
   const { constructor: { name } = {} } = error
@@ -23,7 +17,7 @@ export const getErrorMessage = (error, deactivate) => {
   } else {
     errorMessage = error.message
   }
-  console.error(`${errorName} - ${errorMessage}`)
+  console.error(`${errorName} - ${errorMessage}`, error)
 
   if (error instanceof NoEthereumProviderError) {
     return 'No Ethereum browser extension detected, install MetaMask on desktop or visit from a dApp browser on mobile.'
@@ -64,36 +58,72 @@ export const KEYS = {
 }
 
 /**
- * Get's the minted / total count of tokens.
+ * ANCHOR Get's the minted / total count of tokens.
  */
 export const useGetSupplyQuery = () => {
-  return useQuery(KEYS.CONTRACT_CURRENTSUPPLY(), async () => axiosClient.get('/api/contract/supply').then(res => res.data), {
-    cacheTime: TIMEOUT_1_MIN,
-    staleTime: TIMEOUT_1_MIN
+  const { active, contract } = useWeb3Contract()
+  return useQuery(KEYS.CONTRACT_CURRENTSUPPLY(), async () => {
+    const [minted, total] = await Promise.all([
+      contract.totalSupply(),
+      contract.maxSupply()
+    ])
+    return { minted, total }
+  }, {
+    enabled: active === true
   })
 }
 
 /**
- * Get's metadata for the given token.
+ * Gets the latest X events for the contract off the blockchain, sorted by time descending.
+ * @param {*} limit
+ * @returns {object}
+ */
+const getLatestEvents = async (contract, limit = 12) => {
+  if (!contract) throw new Error('getLatestEvents - contract not yet initialised')
+  const PAGE_LIMIT = 10000
+  console.debug('contractkeys=' + JSON.stringify(Object.keys(contract)))
+  let to = await contract.getBlockNumber()
+  let from = to - PAGE_LIMIT
+
+  // look for events related to this contract...
+  let events = []
+  while (from > 0 && events.length < limit) {
+    console.debug(`searching range - ${JSON.stringify({ from, to, pageLimit: PAGE_LIMIT })} - eventsFound=${events.length}`)
+    const tmp = await contract.contract.getPastEvents('allEvents', { fromBlock: from, toBlock: to })
+    await contract.queryFilter
+    events = [...events, ...tmp]
+    // setup vars for next iteration...
+    to = from - 1
+    from = to - PAGE_LIMIT
+  }
+  // ensure they're in order...
+  return events.sort((a, b) => b.blockNumber - a.blockNumber).map(e => {
+    const { from, to, tokenId } = e.returnValues
+    return { from, to, tokenId: parseInt(tokenId) }
+  }).slice(0, limit)
+}
+
+/**
+ * ANCHOR Get's metadata for the given token.
  */
 export const useGetTokenQuery = (tokenId) => {
-  return useQuery(KEYS.CONTRACT_TOKEN(tokenId), async () => axiosClient.get(`/api/contract/tokens/${tokenId}`).then(res => res.data), {
-    cacheTime: TIMEOUT_1_MIN * 30,
-    staleTime: TIMEOUT_1_MIN * 30,
-    retry: 0
-  })
+  return useQuery(KEYS.CONTRACT_TOKEN(tokenId), async () => {
+    // TODO Not yet implemented
+  }, { enabled: false, retry: 0 })
 }
 
 /**
- * Get's latest contract activity.
+ * ANCHOR Get's latest contract activity.
  */
-export const useGetRecentActivityQuery = () => {
-  return useQuery(KEYS.RECENT_ACTIVITY(), async () => axiosClient.get('/api/contract/recentActivity').then(res => res.data), {
-    cacheTime: TIMEOUT_1_MIN * 30,
-    staleTime: TIMEOUT_1_MIN * 30,
-    retry: 0
-  })
+export const useGetRecentActivityQuery = ({ active, contract }) => {
+  return useQuery(KEYS.RECENT_ACTIVITY(), async () => {
+    return getLatestEvents(contract, 12)
+  }, { enabled: active === true }) // NOTE === true is important!
 }
+
+// TODO Chicken pricing
+// const { price, previousPrice, numberOfTransfers, ...details } = await this.contract.methods.allChickenRun(tokenId).call()
+// return { ...details, price: parseInt(price) / Math.pow(10, 18), previousPrice: parseInt(previousPrice) / Math.pow(10, 18), numberOfTransfers: parseInt(numberOfTransfers) }
 
 // export const getWalletTokensQuery = () => {
 //   return useQuery()
@@ -260,16 +290,6 @@ export const useGetWalletTokensQuery = (contract, account, enabled = true) => {
       // console.debug('wallet tokens', results)
 
       // // TODO go through all the tx on the block - sounds expensive, no? - Nick
-      // await Promise.all(
-      //   results.map(async current => {
-      //     const ownerToken = await contract.ownerOf(current.args.tokenId)
-      //     if (ownerToken === account) {
-      //       /** @type {BigNumber} */
-      //       const tokenId = current.args?.tokenId
-      //       tokensIds.push(tokenId.toNumber())
-      //     }
-      //   })
-      // )
       for (let i = 0; i < tokenCount.toNumber(); i++) {
         const token = await contract.tokenOfOwnerByIndex(account, i)
         tokensIds.push(token.toNumber())

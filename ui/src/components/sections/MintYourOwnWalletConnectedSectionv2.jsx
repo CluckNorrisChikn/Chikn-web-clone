@@ -35,44 +35,36 @@ const AvaxLogoImage = styled((props) => <img src={AvaxSvg} {...props} />)`
   margin-left: 5px;
 `
 
-const IndexPage = () => {
+const IndexPage = ({ priceConfig = {} }) => {
   const { library, contract, account, active } = useWeb3Contract()
 
   const getSupplyQuery = useGetSupplyQuery()
   const { data: { minted, total } = {} } = getSupplyQuery
-  const remainingChikn = total - minted
+  const remainingChikn = priceConfig.maxAllocation - minted
+  // const remainingChikn = total - minted
   // const useWalletBalance = useGetWalletBalanceQuery(library, account, active)
 
   const useMintToken = useMintTokenMutation(contract, active)
-
-  // TODO Sam - Do we want to show the user's balance? (Sam raised -> security?)
-  // const { balance = '-' } = useWalletBalance.isSuccess
-  //   ? useWalletBalance.data
-  //   : {}
 
   // TODO Sam - can we show validation failed notifcation? (e.g. when user rejects transaction)
   // TODO Sam - can we show more information in the notifcication? (current only txid)
   // TODO Sam - do we have options for the 2x and 3x buyer options? (validation: what happens if only <2 is left?)
   const mintToken = () => {
-    // TODO Sam - is this URL still correct/required? Can we remove it?
-    // const tokenURI = `${siteConfig.url}/api/contract/tokens/1`
-    // pass number of token and price
     useMintToken.mutate({ countOfChickens, totalPrice })
   }
 
   const [countOfChickens, setCountOfChickens] = React.useState('1')
   const [price, setPrice] = React.useState(
-    fmtCurrency(siteConfig.priceLookup(1))
+    fmtCurrency(priceConfig.priceLookup(1))
   )
   const [totalPrice, setTotalPrice] = React.useState(
-    fmtCurrency(siteConfig.priceLookup(1))
+    fmtCurrency(priceConfig.priceLookup(1))
   )
 
   const canGoLower = (count) => parseInt(count) > 1
-  const canGoHigher = (count) => parseInt(count) < siteConfig.maxPerMint
+  const canGoHigher = (count) => parseInt(count) < priceConfig.maxPerMint
 
   const onChangeCountOfChickens = (val) => {
-    console.debug('onChangeCountOfChickens', val)
     let tmp = parseInt(val)
     if (!isNaN(tmp) || val === '') {
       if (val === '') {
@@ -80,11 +72,11 @@ const IndexPage = () => {
         setPrice('-')
         setTotalPrice('-')
         return
-      } else if (tmp > siteConfig.maxPerMint) tmp = siteConfig.maxPerMint
+      } else if (tmp > priceConfig.maxPerMint) tmp = priceConfig.maxPerMint
       else if (tmp < 1) tmp = 1
       setCountOfChickens(tmp)
-      setPrice(fmtCurrency(siteConfig.priceLookup(tmp)))
-      setTotalPrice(fmtCurrency(siteConfig.priceLookup(tmp) * tmp))
+      setPrice(fmtCurrency(priceConfig.priceLookup(tmp)))
+      setTotalPrice(fmtCurrency(priceConfig.priceLookup(tmp) * tmp))
     }
   }
 
@@ -97,7 +89,7 @@ const IndexPage = () => {
         <StackCol className="gap-3 align-items-center">
           {remainingChikn <= 0 && (
             <>
-              <h3>Minting now closed.</h3>
+              <h3>{priceConfig.title_closed}</h3>
               <div>
                 To buy <ChiknText />, please check the{' '}
                 <Link to="/market">Market</Link>.
@@ -106,7 +98,7 @@ const IndexPage = () => {
           )}
           {remainingChikn > 0 && (
             <>
-              <h3>Minting now open!</h3>
+              <h3>{priceConfig.title_open}</h3>
               <div>
                 {fmtNumber(remainingChikn)} <ChiknText /> remaining.
               </div>
@@ -172,9 +164,9 @@ const IndexPage = () => {
                 </Alert>
               )}
               <small className="text-muted">
-                Max {siteConfig.maxPerMint} per mint.
+                Max {priceConfig.maxPerMint} per mint.
                 <br />
-                Limit {siteConfig.limitPerWallet} per wallet.
+                Limit {priceConfig.limitPerWallet} per wallet.
                 <br />
                 View your minted <ChiknText /> in your{' '}
                 <Link to="/wallet">Wallet</Link>.

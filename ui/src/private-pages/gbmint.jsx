@@ -8,25 +8,11 @@ import MintYourOwnWalletConnected from '../components/sections/MintYourOwnWallet
 import MintYourOwnWalletConnectedv2 from '../components/sections/MintYourOwnWalletConnectedSectionv2'
 import MintYourOwnWalletNotConnected from '../components/sections/MintYourOwnWalletNotConnectedSection'
 import TotalMintedSection from '../components/sections/TotalMintedSection'
-import RecentActivitySection from '../components/sections/RecentActivitySection'
 // import TransactionProgress from '../components/TransactionProgressToast'
 import siteConfig from '../../site-config'
 
-// TODO Remove pre GO-LIVE
 const IndexPage = () => {
-  const { active, address, contract } = useWeb3Contract()
-
-  const test = async () => {
-    const gbaddress = await contract.GB_erc20_contract()
-    const supply = await contract.maxSupply()
-    const currentMint = await contract.totalSupply()
-    console.log('Gb address', gbaddress)
-    console.log(' supplt', supply)
-    console.log('current mint', currentMint)
-  }
-  if (active) {
-    test()
-  }
+  const { active } = useWeb3Contract()
 
   return (
     <Layout pageName="Mint">
@@ -40,10 +26,8 @@ const IndexPage = () => {
 
       {/* wallet connected... */}
       {active && (
-        <MintYourOwnWalletConnectedv2 priceConfig={siteConfig.publicMint} />
+        <MintYourOwnWalletConnectedv2 priceConfig={siteConfig.gbMint} />
       )}
-
-      {/* <RecentActivitySection /> */}
     </Layout>
   )
 }

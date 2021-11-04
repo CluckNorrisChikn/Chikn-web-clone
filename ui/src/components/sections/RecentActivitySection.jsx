@@ -6,15 +6,22 @@ import {
   ChickenCardShimmerx4
 } from '../ChickenCard'
 import { Section, StackCol } from '../Common'
-import { getErrorMessage, useGetRecentActivityQuery } from '../Connect'
+import {
+  getErrorMessage,
+  useGetRecentActivityQuery,
+  useWeb3Contract
+} from '../Connect'
 
 const Component = () => {
-  const getRecentActivityQuery = useGetRecentActivityQuery()
+  const { active, contract } = useWeb3Contract()
+  const getRecentActivityQuery = useGetRecentActivityQuery({ active, contract })
   const { data: tokens = [] } = getRecentActivityQuery
   return (
     <Section className="border bg-white">
       <StackCol className="gap-3">
         <h3>Recent Activity</h3>
+
+        {!active && <div>Please connect your wallet to view.</div>}
 
         {/* loader */}
         {getRecentActivityQuery.isLoading && <ChickenCardShimmerx4 />}
