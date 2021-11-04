@@ -1,5 +1,5 @@
 {
-  "address": "0xb50F111494C622dD9EdfFb513ce55A5C153d0CE3",
+  "address": "0x2FE83E3109a2098372a19b09236Dbe4b4B5D7d48",
   "abi": [
     {
       "anonymous": false,
@@ -179,7 +179,7 @@
         },
         {
           "internalType": "uint256",
-          "name": "perchHeight",
+          "name": "kg",
           "type": "uint256"
         }
       ],
@@ -394,6 +394,16 @@
           "internalType": "address",
           "name": "_gbContractAddress",
           "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "_openForGB",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "_openForPublic",
+          "type": "bool"
         }
       ],
       "name": "initialize",
@@ -498,6 +508,32 @@
           "internalType": "string",
           "name": "",
           "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "openForGB",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "openForPublic",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
         }
       ],
       "stateMutability": "view",
@@ -631,11 +667,11 @@
         },
         {
           "internalType": "uint256",
-          "name": "_newPerchHeight",
+          "name": "_newKg",
           "type": "uint256"
         }
       ],
-      "name": "setPerchHeight",
+      "name": "setKg",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -693,6 +729,32 @@
         }
       ],
       "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bool",
+          "name": "status",
+          "type": "bool"
+        }
+      ],
+      "name": "toggleOpenForGB",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bool",
+          "name": "status",
+          "type": "bool"
+        }
+      ],
+      "name": "toggleOpenForPublic",
+      "outputs": [],
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
