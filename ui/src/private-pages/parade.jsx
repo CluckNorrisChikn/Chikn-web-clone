@@ -39,9 +39,7 @@ const IndexPage = () => {
           {total.toLocaleString()})
         </h5>
         <div className="d-flex flex-row gap-2 mb-2">
-          <Button
-            onClick={() => setPage((ps) => Math.min(ps - 10, totalPages))}
-          >
+          <Button onClick={() => setPage((ps) => Math.max(ps - 10, 0))}>
             Jump back 10 Pages
           </Button>
           <Button onClick={() => setPage((ps) => Math.max(ps - 1, 0))}>
