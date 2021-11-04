@@ -10,6 +10,7 @@ import MintYourOwnWalletNotConnected from '../components/sections/MintYourOwnWal
 import TotalMintedSection from '../components/sections/TotalMintedSection'
 import TransactionProgress from '../components/TransactionProgressToast'
 import RecentActivitySection from '../components/sections/RecentActivitySection'
+import siteConfig from '../../site-config'
 
 // TODO Remove pre GO-LIVE
 const IndexPage = () => {
@@ -40,7 +41,7 @@ const IndexPage = () => {
       {/* when active... */}
       {/* <MintYourOwnWalletConnected /> */}
 
-      <MintYourOwnWalletConnectedv2 />
+      <MintYourOwnWalletConnectedv2 priceConfig={siteConfig.publicMint} />
 
       <RecentActivitySection />
 
