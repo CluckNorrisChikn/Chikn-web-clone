@@ -111,7 +111,7 @@ const Market = () => {
 
       {/* filters */}
       <Accordion>
-        <Accordion.Item>
+        <Accordion.Item eventKey="0">
           <Accordion.Header>Filters</Accordion.Header>
           <Accordion.Body className="p-4">
             <h5>Properties</h5>
