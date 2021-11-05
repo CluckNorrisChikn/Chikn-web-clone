@@ -408,8 +408,8 @@ const ChickenImage = styled.img`
 `
 
 const Property = styled(({ className = 'bg-light text-dark', ...props }) => (
-  <small
-    className={`${className} px-3 border rounded-3 text-nowrap text-capitalize`}
+  <div
+    className={`${className} px-3 py-2 border rounded-3 text-nowrap text-capitalize`}
     {...props}
   />
 ))`
@@ -562,17 +562,17 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
                 <Accordion.Item eventKey="0">
                   <Accordion.Header>Attributes</Accordion.Header>
                   <Accordion.Body>
-                    <StackRow className="gap-1 flex-wrap">
-                      {'background,chicken,headwear,mouth,eyewear,neck,arms,tail,feet'
+                    <StackCol className="gap-1 flex-wrap">
+                      {'background,body,head,neck,arms,feet,tail,bgfx,trims'
                         .split(',')
                         .map((p) => {
                           return (
                             <Property key={p}>
-                              {p} : {properties[p]}
+                              <b>{p}</b>: {properties[p] || 'None'}
                             </Property>
                           )
                         })}
-                    </StackRow>
+                    </StackCol>
                   </Accordion.Body>
                 </Accordion.Item>
                 {/* history */}

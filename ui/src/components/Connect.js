@@ -7,6 +7,7 @@ import { Contract, utils } from 'ethers'
 import React from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import ChickenRun from '../../contract/Chicken_Fuji.json'
+import siteConfig from '../../site-config'
 import traits from '../components/traits/traits.json'
 
 export const getErrorMessage = (error, deactivate) => {
@@ -146,7 +147,13 @@ const getLatestEvents = async (contract, limit = 12) => {
  * ANCHOR Get's metadata for the given token.
  */
 export const useGetTokenQuery = (tokenId) => {
-  return useQuery(KEYS.CONTRACT_TOKEN(tokenId), () => traits[tokenId - 1], { enabled: !isNaN(tokenId) })
+  return useQuery(KEYS.CONTRACT_TOKEN(tokenId), () => {
+    const properties = traits[tokenId - 1]
+    if (properties && properties.filename) {
+      properties.image = siteConfig.cdnUrl + properties.filename
+    }
+    return { properties }
+  }, { enabled: !isNaN(tokenId) })
 }
 
 /**
