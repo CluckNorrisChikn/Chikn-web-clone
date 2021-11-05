@@ -79,9 +79,9 @@ const IndexPage = ({ type = 'public' }) => {
   const isMintOpen =
     (isGBMint ? gbMintOpen : publicMintOpen) && remainingChikn > 0
 
-  // TODO Sam - can we show validation failed notifcation? (e.g. when user rejects transaction)
   // TODO Sam - can we show more information in the notifcication? (current only txid)
   // TODO Sam - do we have options for the 2x and 3x buyer options? (validation: what happens if only <2 is left?)
+  // @nick the contract covers that, so dont worry
   const mintToken = () => {
     if (isGBMint) {
       useGBMintToken.mutate()

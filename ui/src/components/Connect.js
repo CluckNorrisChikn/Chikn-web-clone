@@ -61,7 +61,11 @@ export const KEYS = {
   WALLET: () => ['wallet'],
   WALLET_TOKEN: () => ['wallet', 'wallet_token'],
   WALLET_BALANCE: () => ['wallet', 'wallet_balance'],
-  TRANSACTION: () => ['transaction']
+  TRANSACTION: () => ['transaction'],
+  ADMIN: () => ['admin'],
+  ADMIN_GB_TOGGLE: () => ['admin', 'gb_toggle'],
+  ADMIN_PUBLIC_TOGGLE: () => ['admin', 'public_toggle'],
+  ADMIN_BASEURL: () => ['admin', 'baseurl']
 }
 
 /**
@@ -451,7 +455,36 @@ export const useStoreWorkingTxQuery = (currentTx) => {
 
 // admin functions
 
+export const useIsPublicMintOpenQuery = (contract, account, enabled = true) => {
+  return useQuery(
+    KEYS.ADMIN_PUBLIC_TOGGLE(),
+    async () => {
+      const publicStatus = await contract.openForPublic()
+      console.log('Public', publicStatus)
+      return publicStatus
+    },
+    {
+      enabled: !isUndef(contract) && !isUndef(account) && enabled
+    }
+  )
+}
+
+export const useIsGBMintOpenQuery = (contract, account, enabled = true) => {
+  return useQuery(
+    KEYS.ADMIN_GB_TOGGLE(),
+    async () => {
+      const gbStatus = await contract.openForGB()
+      console.log('Fetching GB open status', gbStatus)
+      return gbStatus
+    },
+    {
+      enabled: !isUndef(contract) && !isUndef(account) && enabled
+    }
+  )
+}
+
 export const useToggleOpenForGBMutation = (contract, enabled = true) => {
+  const queryClient = useQueryClient()
   return useMutation(async ({ isOpen }) => {
     return new Promise((resolve, reject) => {
       contract.toggleOpenForGB(isOpen)
@@ -467,11 +500,17 @@ export const useToggleOpenForGBMutation = (contract, enabled = true) => {
         })
     })
   }, {
-    enabled: !isUndef(contract) && enabled
+    enabled: !isUndef(contract) && enabled,
+    onSuccess: async (data) => {
+      setTimeout(() => {
+        queryClient.invalidateQueries(KEYS.ADMIN())
+      }, 2000)
+    }
   })
 }
 
 export const useToggleOpenForPublicMutation = (contract, enabled = true) => {
+  const queryClient = useQueryClient()
   return useMutation(async ({ isOpen }) => {
     return new Promise((resolve, reject) => {
       contract.toggleOpenForPublic(isOpen)
@@ -483,6 +522,31 @@ export const useToggleOpenForPublicMutation = (contract, enabled = true) => {
         })
         .catch((err) => {
           console.log('Toggle for public error', err)
+          reject(err)
+        })
+    })
+  }, {
+    enabled: !isUndef(contract) && enabled,
+    onSuccess: async (data) => {
+      setTimeout(() => {
+        queryClient.invalidateQueries(KEYS.ADMIN())
+      }, 2000)
+    }
+  })
+}
+
+export const useGetExcludedMutation = (contract, account, enabled = true) => {
+  return useMutation(async ({ address }) => {
+    return new Promise((resolve, reject) => {
+      contract.excludedList(address)
+        .then((data) => {
+          console.log(`Check exclusion list ${address}`, data)
+          resolve({
+            exist: data
+          })
+        })
+        .catch((err) => {
+          console.log('Check exclusion  error', err)
           reject(err)
         })
     })
@@ -513,7 +577,22 @@ export const useSetExcludedMutation = (contract, enabled = true) => {
   })
 }
 
+export const useBaseUrlQuery = (contract, account, enabled = true) => {
+  return useQuery(
+    KEYS.ADMIN_BASEURL(),
+    async () => {
+      const baseUrl = await contract.baseURL()
+      console.log('Get current base URL', baseUrl)
+      return baseUrl
+    },
+    {
+      enabled: !isUndef(contract) && !isUndef(account) && enabled
+    }
+  )
+}
+
 export const useChangeUrlMutation = (contract, enabled = true) => {
+  const queryClient = useQueryClient()
   // adress, wallet address
   // status : boolean
   return useMutation(async ({ url }) => {
@@ -527,6 +606,33 @@ export const useChangeUrlMutation = (contract, enabled = true) => {
         })
         .catch((err) => {
           console.log('Change based url error', err)
+          reject(err)
+        })
+    })
+  }, {
+    enabled: !isUndef(contract) && enabled,
+    onSuccess: async (data) => {
+      setTimeout(() => {
+        queryClient.invalidateQueries(KEYS.ADMIN())
+      }, 2000)
+    }
+  })
+}
+
+export const useAirdropMutation = (contract, enabled = true) => {
+  // adress, wallet address
+  // status : boolean
+  return useMutation(async ({ numberOfToken, address }) => {
+    return new Promise((resolve, reject) => {
+      contract.airdropTokens(numberOfToken, address)
+        .then((tx) => {
+          console.log(`Airdrop ${numberOfToken} tokens ${address}`, tx)
+          resolve({
+            ...tx
+          })
+        })
+        .catch((err) => {
+          console.log('Airdrop error', err)
           reject(err)
         })
     })
