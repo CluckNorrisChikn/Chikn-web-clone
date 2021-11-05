@@ -448,3 +448,89 @@ export const useStoreWorkingTxQuery = (currentTx) => {
       })
     })
 }
+
+// admin functions
+
+export const useToggleOpenForGBMutation = (contract, enabled = true) => {
+  return useMutation(async ({ isOpen }) => {
+    return new Promise((resolve, reject) => {
+      contract.toggleOpenForGB(isOpen)
+        .then((tx) => {
+          console.log(`Toggle GB ${isOpen}`, tx)
+          resolve({
+            ...tx
+          })
+        })
+        .catch((err) => {
+          console.log('Toggle GB error', err)
+          reject(err)
+        })
+    })
+  }, {
+    enabled: !isUndef(contract) && enabled
+  })
+}
+
+export const useToggleOpenForPublicMutation = (contract, enabled = true) => {
+  return useMutation(async ({ isOpen }) => {
+    return new Promise((resolve, reject) => {
+      contract.toggleOpenForPublic(isOpen)
+        .then((tx) => {
+          console.log(`Toggle for public ${isOpen}`, tx)
+          resolve({
+            ...tx
+          })
+        })
+        .catch((err) => {
+          console.log('Toggle for public error', err)
+          reject(err)
+        })
+    })
+  }, {
+    enabled: !isUndef(contract) && enabled
+  })
+}
+
+export const useSetExcludedMutation = (contract, enabled = true) => {
+  // adress, wallet address
+  // status : boolean
+  return useMutation(async ({ address, status }) => {
+    return new Promise((resolve, reject) => {
+      contract.setExcluded(address, status)
+        .then((tx) => {
+          console.log(`Update exclusion list ${address} - ${status}`, tx)
+          resolve({
+            ...tx
+          })
+        })
+        .catch((err) => {
+          console.log('Update exclusion  error', err)
+          reject(err)
+        })
+    })
+  }, {
+    enabled: !isUndef(contract) && enabled
+  })
+}
+
+export const useChangeUrlMutation = (contract, enabled = true) => {
+  // adress, wallet address
+  // status : boolean
+  return useMutation(async ({ url }) => {
+    return new Promise((resolve, reject) => {
+      contract.changeUrl(url)
+        .then((tx) => {
+          console.log(`Change based url to  ${url}`, tx)
+          resolve({
+            ...tx
+          })
+        })
+        .catch((err) => {
+          console.log('Change based url error', err)
+          reject(err)
+        })
+    })
+  }, {
+    enabled: !isUndef(contract) && enabled
+  })
+}
