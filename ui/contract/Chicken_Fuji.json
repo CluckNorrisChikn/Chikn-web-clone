@@ -1,5 +1,5 @@
 {
-  "address": "0x2FE83E3109a2098372a19b09236Dbe4b4B5D7d48",
+  "address": "0x1Fc68f0372714C1C906b39c4d4F95202d5961E99",
   "abi": [
     {
       "anonymous": false,
@@ -252,6 +252,19 @@
     {
       "inputs": [
         {
+          "internalType": "string",
+          "name": "url",
+          "type": "string"
+        }
+      ],
+      "name": "changeUrl",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "address",
           "name": "",
           "type": "address"
@@ -278,6 +291,19 @@
     {
       "inputs": [],
       "name": "gbHoldersMaxMint",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "gbTotalSupply",
       "outputs": [
         {
           "internalType": "uint256",
@@ -377,12 +403,12 @@
         },
         {
           "internalType": "uint256",
-          "name": "_mint2TokensFeeAmount",
+          "name": "_mint2TFeeAmount",
           "type": "uint256"
         },
         {
           "internalType": "uint256",
-          "name": "_mint3OrMoreBaseFeeAmount",
+          "name": "_mint3BaseFeeAmount",
           "type": "uint256"
         },
         {
@@ -463,7 +489,7 @@
     },
     {
       "inputs": [],
-      "name": "mint2TokensFeeAmount",
+      "name": "mint2TFeeAmount",
       "outputs": [
         {
           "internalType": "uint256",
@@ -476,7 +502,7 @@
     },
     {
       "inputs": [],
-      "name": "mint3OrMoreBaseFeeAmount",
+      "name": "mint3BaseFeeAmount",
       "outputs": [
         {
           "internalType": "uint256",
