@@ -338,27 +338,35 @@ export const useGetWalletTokensQuery = (contract, account, enabled = true) => {
   )
 }
 
-export const useMintTokenMutation = (contract, enabled = true) => {
+/**
+ * This is the public mint.
+ */
+export const usePublicMintTokenMutation = () => {
+  const { contract, active } = useWeb3Contract()
   const queryClient = useQueryClient()
   return useMutation(async ({ countOfChickens, totalPrice }) => {
-    return new Promise((resolve, reject) => {
-      contract.mint(countOfChickens, { value: utils.parseUnits(totalPrice, 'ether') })
-        .then((tx) => {
-          console.log('mint tx', tx)
-          resolve({
-            ...tx
-          })
-        })
-        .catch((err) => {
-          console.log('error', err)
-          reject(err)
-        })
-    })
+    return contract.mint(countOfChickens, { value: utils.parseUnits(totalPrice, 'ether') })
   }, {
-    enabled: !isUndef(contract) && enabled,
+    enabled: active === true,
     onSuccess: async (data) => {
-      console.log('Tx mint request', data)
-      // cancel anything in tranaction queue
+      console.debug('Tx mint request', data)
+      // cancel anything in transaction queue
+      await queryClient.cancelQueries(KEYS.TRANSACTION())
+      queryClient.setQueryData(KEYS.TRANSACTION(), data)
+    }
+  })
+}
+/**
+ * This is the gb mint.
+ */
+export const useGBMintTokenMutation = () => {
+  const { contract, active } = useWeb3Contract()
+  const queryClient = useQueryClient()
+  return useMutation(() => contract.gbHolderMint(), {
+    enabled: active === true,
+    onSuccess: async (data) => {
+      console.debug('Tx mint request', data)
+      // cancel anything in transaction queue
       await queryClient.cancelQueries(KEYS.TRANSACTION())
       queryClient.setQueryData(KEYS.TRANSACTION(), data)
     }

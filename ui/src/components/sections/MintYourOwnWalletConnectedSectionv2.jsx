@@ -21,8 +21,9 @@ import {
 } from '../Common'
 import {
   getErrorMessage,
+  useGBMintTokenMutation,
   useGetSupplyQuery,
-  useMintTokenMutation,
+  usePublicMintTokenMutation,
   useWeb3Contract
 } from '../Connect'
 import TransactionProgress from '../TransactionProgressToast'
@@ -40,7 +41,8 @@ const IndexPage = ({ type = 'public' }) => {
   const { library, contract, account, active } = useWeb3Contract()
 
   // react-query
-  const useMintToken = useMintTokenMutation(contract, active)
+  const usePublicMintToken = usePublicMintTokenMutation()
+  const useGBMintToken = useGBMintTokenMutation()
   const getSupplyQuery = useGetSupplyQuery()
   const {
     data: {
@@ -81,7 +83,11 @@ const IndexPage = ({ type = 'public' }) => {
   // TODO Sam - can we show more information in the notifcication? (current only txid)
   // TODO Sam - do we have options for the 2x and 3x buyer options? (validation: what happens if only <2 is left?)
   const mintToken = () => {
-    useMintToken.mutate({ countOfChickens, totalPrice })
+    if (isGBMint) {
+      useGBMintToken.mutate()
+    } else {
+      usePublicMintToken.mutate({ countOfChickens, totalPrice })
+    }
   }
 
   const [countOfChickens, setCountOfChickens] = React.useState('1')
@@ -189,11 +195,15 @@ const IndexPage = ({ type = 'public' }) => {
                 type="button"
                 size="lg"
                 variant={'outline-primary'}
-                disabled={!active || useMintToken.isLoading}
+                disabled={
+                  !active ||
+                  usePublicMintToken.isLoading ||
+                  useGBMintToken.isLoading
+                }
                 onClick={() => mintToken()}
                 className={'w-100 mb-3 w-md-300px'}
               >
-                {useMintToken.isLoading
+                {usePublicMintToken.isLoading || useGBMintToken.isLoading
                   ? (
                     <Spinner animation="border" />
                   )
@@ -201,9 +211,16 @@ const IndexPage = ({ type = 'public' }) => {
                     <span>Mint Now</span>
                   )}
               </Button>
-              {useMintToken.isError && (
+
+              {/* errors */}
+              {usePublicMintToken.isError && (
                 <Alert variant={'danger'}>
-                  {getErrorMessage(useMintToken.error)}
+                  {getErrorMessage(usePublicMintToken.error)}
+                </Alert>
+              )}
+              {useGBMintToken.isError && (
+                <Alert variant={'danger'}>
+                  {getErrorMessage(useGBMintToken.error)}
                 </Alert>
               )}
               <small className="text-muted">

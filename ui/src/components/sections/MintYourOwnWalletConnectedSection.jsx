@@ -13,7 +13,7 @@ import {
 } from '../Common'
 import {
   useGetSupplyQuery,
-  useMintTokenMutation,
+  usePublicMintTokenMutation,
   useWeb3Contract
 } from '../Connect'
 import TransactionProgress from '../TransactionProgressToast'
@@ -34,7 +34,7 @@ const IndexPage = () => {
   const remainingChikn = total - minted
   // const useWalletBalance = useGetWalletBalanceQuery(library, account, active)
 
-  const useMintToken = useMintTokenMutation(contract, active)
+  const useMintToken = usePublicMintTokenMutation()
 
   // TODO Sam - Do we want to show the user's balance? (Sam raised -> security?)
   // const { balance = '-' } = useWalletBalance.isSuccess
