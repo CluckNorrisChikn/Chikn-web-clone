@@ -321,7 +321,6 @@ export const useGetWalletTokensQuery = (contract, account, enabled = true) => {
       console.debug('refetching wallet tokens', { contract, account, enabled })
       const tokensIds = []
       const tokenCount = await contract.balanceOf(account)
-
       // const ownedTokensEvents = contract.filters.Transfer(null, account)
       // const results = await contract.queryFilter(ownedTokensEvents, 0, 'latest')
       // console.debug('wallet tokens', results)
