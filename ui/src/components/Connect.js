@@ -15,6 +15,11 @@ export const getErrorMessage = (error, deactivate) => {
   let errorMessage = null
   if (error.response && error.response.data && error.response.data.message) {
     errorMessage = error.response.data.message
+  } if (error.data && error.data.message) {
+    errorMessage = error.data.message
+    if (error.data.message.includes('insufficient funds for gas')) {
+      errorMessage = 'Insufficient funds for gas'
+    }
   } else {
     errorMessage = error.message
   }
@@ -32,7 +37,7 @@ export const getErrorMessage = (error, deactivate) => {
     if (typeof deactivate === 'function') deactivate()
     return 'Underlying network changed. Please reconnect your wallet.'
   } else {
-    return 'An unknown error occurred. ' + errorMessage
+    return 'Internal JSON-RPC eror: ' + errorMessage
   }
 }
 
