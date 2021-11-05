@@ -107,7 +107,8 @@ export const useGetSupplyQuery = () => {
       publicMintOpen
     }
   }, {
-    enabled: active === true
+    enabled: active === true,
+    refetchInterval: 60 * 1000
   })
 }
 
