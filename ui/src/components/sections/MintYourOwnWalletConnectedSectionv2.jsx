@@ -35,16 +35,47 @@ const AvaxLogoImage = styled((props) => <img src={AvaxSvg} {...props} />)`
   margin-left: 5px;
 `
 
-const IndexPage = ({ priceConfig = {} }) => {
+const IndexPage = ({ type = 'public' }) => {
+  // hooks
   const { library, contract, account, active } = useWeb3Contract()
 
-  const getSupplyQuery = useGetSupplyQuery()
-  const { data: { minted, total } = {} } = getSupplyQuery
-  const remainingChikn = priceConfig.maxAllocation - minted
-  // const remainingChikn = total - minted
-  // const useWalletBalance = useGetWalletBalanceQuery(library, account, active)
-
+  // react-query
   const useMintToken = useMintTokenMutation(contract, active)
+  const getSupplyQuery = useGetSupplyQuery()
+  const {
+    data: {
+      minted,
+      gbMintLimit,
+      publicMintLimit,
+      publicMintFeex1,
+      publicMintFeex2,
+      publicMintFeex3more,
+      publicMintOpen,
+      gbMintOpen
+    } = {}
+  } = getSupplyQuery
+
+  // local properties
+  const isGBMint = type === 'gb'
+  const maxAllocation = isGBMint ? gbMintLimit : publicMintLimit
+  const remainingChikn = maxAllocation - minted
+  const priceLookup = React.useCallback(
+    (count) => {
+      console.debug(`checking prices for ${count} chikn`, {
+        publicMintFeex1,
+        publicMintFeex2,
+        publicMintFeex3more
+      })
+      if (isGBMint) return 0
+      if (count === 1) return publicMintFeex1
+      if (count === 2) return publicMintFeex2
+      else return publicMintFeex3more
+    },
+    [isGBMint, publicMintFeex1, publicMintFeex2, publicMintFeex3more]
+  )
+  const priceConfig = isGBMint ? siteConfig.gbMint : siteConfig.publicMint
+  const isMintOpen =
+    (isGBMint ? gbMintOpen : publicMintOpen) && remainingChikn > 0
 
   // TODO Sam - can we show validation failed notifcation? (e.g. when user rejects transaction)
   // TODO Sam - can we show more information in the notifcication? (current only txid)
@@ -54,12 +85,16 @@ const IndexPage = ({ priceConfig = {} }) => {
   }
 
   const [countOfChickens, setCountOfChickens] = React.useState('1')
-  const [price, setPrice] = React.useState(
-    fmtCurrency(priceConfig.priceLookup(1))
-  )
+  const [price, setPrice] = React.useState(fmtCurrency(priceLookup(1)))
   const [totalPrice, setTotalPrice] = React.useState(
-    fmtCurrency(priceConfig.priceLookup(1))
+    fmtCurrency(priceLookup(1))
   )
+
+  React.useEffect(() => {
+    const price = priceLookup(countOfChickens)
+    setPrice(fmtCurrency(price))
+    setTotalPrice(fmtCurrency(price * countOfChickens))
+  }, [countOfChickens, priceLookup])
 
   const canGoLower = (count) => parseInt(count) > 1
   const canGoHigher = (count) => parseInt(count) < priceConfig.maxPerMint
@@ -75,8 +110,10 @@ const IndexPage = ({ priceConfig = {} }) => {
       } else if (tmp > priceConfig.maxPerMint) tmp = priceConfig.maxPerMint
       else if (tmp < 1) tmp = 1
       setCountOfChickens(tmp)
-      setPrice(fmtCurrency(priceConfig.priceLookup(tmp)))
-      setTotalPrice(fmtCurrency(priceConfig.priceLookup(tmp) * tmp))
+      const price = priceLookup(tmp)
+      console.debug('setting total price', { tmp, price })
+      setPrice(fmtCurrency(price))
+      setTotalPrice(fmtCurrency(price * tmp))
     }
   }
 
@@ -87,7 +124,11 @@ const IndexPage = ({ priceConfig = {} }) => {
 
       <Section className="border bg-white">
         <StackCol className="gap-3 align-items-center">
-          {remainingChikn <= 0 && (
+          {/* spinner */}
+          {getSupplyQuery.isLoading && <Spinner size="lg" animation="border" />}
+
+          {/* mint closed */}
+          {!getSupplyQuery.isLoading && !isMintOpen && (
             <>
               <h3>{priceConfig.title_closed}</h3>
               <div>
@@ -96,7 +137,9 @@ const IndexPage = ({ priceConfig = {} }) => {
               </div>
             </>
           )}
-          {remainingChikn > 0 && (
+
+          {/* mint open */}
+          {!getSupplyQuery.isLoading && isMintOpen && (
             <>
               <h3>{priceConfig.title_open}</h3>
               <div>
@@ -171,6 +214,38 @@ const IndexPage = ({ priceConfig = {} }) => {
                 View your minted <ChiknText /> in your{' '}
                 <Link to="/wallet">Wallet</Link>.
               </small>
+            </>
+          )}
+
+          {process.env.NODE_ENV !== 'production' && (
+            <>
+              <pre>
+                state=
+                {JSON.stringify(
+                  {
+                    countOfChickens,
+                    price,
+                    totalPrice
+                  },
+                  null,
+                  2
+                )}
+              </pre>
+              <pre>
+                data=
+                {JSON.stringify(
+                  {
+                    type,
+                    isGBMint,
+                    isMintOpen,
+                    maxAllocation,
+                    remainingChikn,
+                    priceConfig
+                  },
+                  null,
+                  2
+                )}
+              </pre>
             </>
           )}
         </StackCol>

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import * as React from 'react'
 import { Alert } from 'react-bootstrap'
-import { useWeb3Contract } from '../components/Connect'
+import { useGetSupplyQuery, useWeb3Contract } from '../components/Connect'
 import Layout from '../components/Layout'
 import CountdownSection from '../components/sections/CountdownSection'
 import MintYourOwnWalletConnected from '../components/sections/MintYourOwnWalletConnectedSection'
@@ -16,20 +16,12 @@ import siteConfig from '../../site-config'
 const IndexPage = () => {
   const { active, address, contract } = useWeb3Contract()
 
-  const test = async () => {
-    const gbaddress = await contract.GB_erc20_contract()
-    const supply = await contract.maxSupply()
-    const currentMint = await contract.totalSupply()
-    console.log('Gb address', gbaddress)
-    console.log(' supplt', supply)
-    console.log('current mint', currentMint)
-  }
-  if (active) {
-    test()
-  }
+  const getSupplyQuery = useGetSupplyQuery()
 
   return (
     <Layout pageName="Mint">
+      {/* show supply */}
+      <pre>{JSON.stringify(getSupplyQuery, null, 2)}</pre>
       {/* Display transaction Toasterd */}
       {/* <TransactionProgress intialOnShow={false} /> */}
 

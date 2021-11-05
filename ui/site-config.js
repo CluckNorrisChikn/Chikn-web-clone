@@ -46,23 +46,15 @@ const siteConfig = {
     title_open: 'Minting now open!',
     title_closed: 'Minting now closed.',
     releaseDate: '2021-11-12T22:00:00+0000',
-    maxAllocation: 10000,
     maxPerMint: 12,
-    limitPerWallet: 50,
-    priceLookup: (count) => {
-      if (count === 1) return 2.69
-      if (count === 2) return 2.495
-      else return 2.399
-    }
+    limitPerWallet: 50
   },
   gbMint: {
     title_open: 'GB Pre-Minting is now open!',
     title_closed: 'GB Pre-Minting is now closed.',
-    maxAllocation: 1000,
     releaseDate: '2021-11-10T22:00:00+0000',
     maxPerMint: 1,
-    limitPerWallet: 1,
-    priceLookup: () => 0
+    limitPerWallet: 1
   },
   gtm
 }

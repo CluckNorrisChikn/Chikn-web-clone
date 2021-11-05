@@ -7,6 +7,7 @@ import { Contract, utils } from 'ethers'
 import React from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import ChickenRun from '../../contract/Chicken_Fuji.json'
+import traits from '../components/traits/traits.json'
 
 export const getErrorMessage = (error, deactivate) => {
   const { constructor: { name } = {} } = error
@@ -63,11 +64,48 @@ export const KEYS = {
 export const useGetSupplyQuery = () => {
   const { active, contract } = useWeb3Contract()
   return useQuery(KEYS.CONTRACT_CURRENTSUPPLY(), async () => {
-    const [minted, total] = await Promise.all([
+    console.debug({ active, keys: Object.keys(contract) })
+    let [
+      minted,
+      publicMintLimit,
+      gbMintLimit,
+      // gbHolders,
+      publicMintFeex1,
+      publicMintFeex2,
+      publicMintFeex3more,
+      baseUrl,
+      gbMintOpen,
+      publicMintOpen
+    ] = await Promise.all([
       contract.totalSupply(),
-      contract.maxSupply()
+      contract.maxSupply(),
+      contract.gbHoldersMaxMint(),
+      // contract.gbholders(),
+      contract.mintFeeAmount(),
+      contract.mint2TokensFeeAmount(),
+      contract.mint3OrMoreBaseFeeAmount(),
+      contract.baseURL(), // e.g. https://cd1n.chikn.farm/tokens/
+      contract.openForGB(),
+      contract.openForPublic()
     ])
-    return { minted, total }
+    minted = parseInt(minted)
+    publicMintLimit = parseInt(publicMintLimit)
+    gbMintLimit = parseInt(gbMintLimit)
+    publicMintFeex1 = FormatAvaxPrice(publicMintFeex1)
+    publicMintFeex2 = FormatAvaxPrice(publicMintFeex2)
+    publicMintFeex3more = FormatAvaxPrice(publicMintFeex3more)
+    return {
+      minted,
+      publicMintLimit,
+      gbMintLimit,
+      // gbHolders,
+      publicMintFeex1,
+      publicMintFeex2,
+      publicMintFeex3more,
+      baseUrl,
+      gbMintOpen,
+      publicMintOpen
+    }
   }, {
     enabled: active === true
   })
@@ -107,9 +145,7 @@ const getLatestEvents = async (contract, limit = 12) => {
  * ANCHOR Get's metadata for the given token.
  */
 export const useGetTokenQuery = (tokenId) => {
-  return useQuery(KEYS.CONTRACT_TOKEN(tokenId), async () => {
-    // TODO Not yet implemented
-  }, { enabled: false, retry: 0 })
+  return useQuery(KEYS.CONTRACT_TOKEN(tokenId), () => traits[tokenId - 1], { enabled: !isNaN(tokenId) })
 }
 
 /**
@@ -121,7 +157,7 @@ export const useGetRecentActivityQuery = ({ active, contract }) => {
   }, { enabled: active === true }) // NOTE === true is important!
 }
 
-// TODO Chicken pricing
+// TODO Chicken pricing sale data
 // const { price, previousPrice, numberOfTransfers, ...details } = await this.contract.methods.allChickenRun(tokenId).call()
 // return { ...details, price: parseInt(price) / Math.pow(10, 18), previousPrice: parseInt(previousPrice) / Math.pow(10, 18), numberOfTransfers: parseInt(numberOfTransfers) }
 
@@ -297,12 +333,7 @@ export const useGetWalletTokensQuery = (contract, account, enabled = true) => {
       return tokensIds
     },
     {
-      enabled: !isUndef(contract) && !isUndef(account) && enabled,
-      cacheTime: TIMEOUT_1_MIN * 30,
-      staleTime: TIMEOUT_1_MIN * 30,
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false
+      enabled: !isUndef(contract) && !isUndef(account) && enabled
     }
   )
 }
