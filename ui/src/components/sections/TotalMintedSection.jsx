@@ -1,14 +1,21 @@
 import * as React from 'react'
 import { Spinner } from 'react-bootstrap'
 import { ChiknText, fmtNumber, Section } from '../Common'
-import { useGetSupplyQuery } from '../Connect'
+import { useGetSupplyQuery, useWeb3Contract } from '../Connect'
 
-const Component = () => {
+const Component = ({ type = 'public' }) => {
+  const { active } = useWeb3Contract()
   const getSupplyQuery = useGetSupplyQuery()
+  const { data: { minted, gbMintLimit, publicMintLimit } = {} } = getSupplyQuery
+
+  // local properties
+  const isGBMint = type === 'gb'
+  const maxAllocation = isGBMint ? gbMintLimit : publicMintLimit
+  // const remainingChikn = maxAllocation - minted
   return (
     <Section className="bg-light">
       <h3>
-        <ChiknText /> Minted:{' '}
+        <ChiknText /> minted:{' '}
         {getSupplyQuery.isLoading && (
           <>
             <Spinner animation="border" />
@@ -17,11 +24,11 @@ const Component = () => {
           </>
         )}
         {getSupplyQuery.isSuccess &&
-          `${fmtNumber(getSupplyQuery.data.minted)} / ${fmtNumber(
-            getSupplyQuery.data.total
-          )}`}
+          `${fmtNumber(minted)} / ${fmtNumber(maxAllocation)}`}
         {getSupplyQuery.isError && '-'}
       </h3>
+
+      {!active && <div>Please connect your wallet to view.</div>}
     </Section>
   )
 }

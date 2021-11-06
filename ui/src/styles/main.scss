@@ -13,6 +13,7 @@ $btn-border-radius-lg: 14px;
 $font-size-root: 14px;
 
 @import 'bootstrap/scss/bootstrap';
+@import 'react-bootstrap-typeahead/css/Typeahead.css';
 
 // fix height
 
@@ -65,6 +66,13 @@ body {
 // add boostrap classes
 
 @include media-breakpoint-down(md) {
+  .gap-7 {
+    gap: 3rem;
+  }
+  .py-7 {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
   .gap-8 {
     gap: 4rem;
   }
@@ -74,6 +82,13 @@ body {
   }
 }
 @include media-breakpoint-up(md) {
+  .gap-7 {
+    gap: 7rem;
+  }
+  .py-7 {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
   .gap-8 {
     gap: 8rem;
   }
@@ -95,7 +110,7 @@ body {
 .flip-countdown-piece,
 .flip-countdown-card,
 .flip-countdown-card-sec {
-  font-family: Courier, monospace !important;
+  font-family: 'Courier Prime', Courier, monospace !important;
 }
 
 // WOODEN BANNER and COUNTDOWN TIMER
@@ -260,5 +275,37 @@ blockquote {
   .card-img-top {
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
+  }
+}
+
+.close {
+  box-sizing: content-box;
+  padding: 3px 7px !important;
+  color: $btn-close-color;
+  background: transparent;
+  // background: transparent escape-svg($btn-close-bg) center / $btn-close-width
+  //   auto no-repeat; // include transparent for button elements
+  border: 0; // for button elements
+  top: 0 !important;
+  margin: 0 !important;
+  opacity: $btn-close-opacity;
+
+  // Override <a>'s hover style
+  &:hover {
+    color: $btn-close-color;
+    text-decoration: none;
+    opacity: $btn-close-hover-opacity;
+  }
+
+  &:focus {
+    outline: 0;
+    opacity: $btn-close-focus-opacity;
+  }
+
+  &:disabled,
+  &.disabled {
+    pointer-events: none;
+    user-select: none;
+    opacity: $btn-close-disabled-opacity;
   }
 }

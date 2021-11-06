@@ -18,6 +18,7 @@ const siteConfig = {
   includePrivatePages: !isProd,
   nftName: 'chikn',
   title: 'chikn',
+  cdnUrl: 'https://cdn1.chikn.farm/images/',
   description:
     '10,000 algorithmically generated, unique chikn NFTs that lay $egg',
   url: `https://${host}`,
@@ -42,37 +43,19 @@ const siteConfig = {
   featureToggles: {
     connectWalledEnabled: GATSBY_FT_CONNECT_WALLET_ENABLED !== 'false'
   },
-  releaseDate: '2021-11-12T22:00:00+0000',
-  maxPerMint: 12,
-  limitPerWallet: 50,
-  // v1 - deprecatd
-  pricing: [
-    {
-      label: '1x',
-      price: '2.69',
-      requiredRemaining: 1,
-      description: 'Includes 1x organic chikn.'
-    },
-    {
-      label: '2x',
-      price: '4.99',
-      requiredRemaining: 2,
-      description: 'Includes 2x organic, free range chikn.'
-    },
-    {
-      label: '3x',
-      price: '7.197',
-      requiredRemaining: 3,
-      description:
-        'Includes 3x organic, free range, gluten free, vegan friendly chikn.',
-      highlight: true
-    }
-  ],
-  // v2
-  priceLookup: (count) => {
-    if (count === 1) return 2.69
-    if (count === 2) return 2.495
-    else return 2.399
+  publicMint: {
+    title_open: 'Minting now open!',
+    title_closed: 'Minting now closed.',
+    releaseDate: '2021-11-12T22:00:00+0000',
+    maxPerMint: 12,
+    limitPerWallet: 50
+  },
+  gbMint: {
+    title_open: 'GB Pre-Minting is now open!',
+    title_closed: 'GB Pre-Minting is now closed.',
+    releaseDate: '2021-11-10T22:00:00+0000',
+    maxPerMint: 1,
+    limitPerWallet: 1
   },
   gtm
 }

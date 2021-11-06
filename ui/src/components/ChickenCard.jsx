@@ -213,13 +213,16 @@ export const ChickenCardShimmerx4 = () => {
 export const SaleStatus = ({
   size = 'lg',
   forSale = false,
-  isOwner = false
+  isOwner = false,
+  owner = ''
 }) => {
   const sizeClass = size === 'lg' ? 'py-2 px-3' : 'py-0 px-0'
   if (isOwner) {
     return <BluePill className={`${sizeClass}`}>Already owned</BluePill>
   } else if (forSale) {
     return <GreenPill className={`${sizeClass}`}>For sale</GreenPill>
+  } else if (owner === MINTED_FROM_ADDRESS) {
+    return <GreenPill className={`${sizeClass}`}>Unminted</GreenPill>
   } else {
     return <GreyPill className={`${sizeClass}`}>Not for sale</GreyPill>
   }
@@ -248,7 +251,11 @@ const ShowHistory = ({ tokenId = '' }) => {
         <dt>{details.numberOfTransfers}</dt>
         <dd>Sale Status</dd>
         <dt>
-          <SaleStatus size="sm" forSale={details.forSale} />
+          <SaleStatus
+            size="sm"
+            forSale={details.forSale}
+            owner={details.currentOwner}
+          />
         </dt>
         <dd>listing price</dd>
         <dt>
@@ -300,6 +307,7 @@ export const ChickenCardMarketplaceSummary = ({
                   size="sm"
                   forSale={details.forSale}
                   isOwner={isOwner}
+                  owner={details.currentOwner}
                 />
                 {showForSale && (
                   <Properties definitionAlign="right">
@@ -329,7 +337,7 @@ export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
   // use the token detail from web3 for real time data
   const { active, contract } = useWeb3Contract()
   const getWeb3TokenDetail = useGetWeb3TokenDetail(contract, active, tokenId)
-  const { data: { forSale = false } = {} } = getWeb3TokenDetail
+  const { data: { forSale = false, currentOwner } = {} } = getWeb3TokenDetail
   return (
     <>
       {getTokenQuery.isLoading && <ChickenCardShimmer />}
@@ -343,7 +351,7 @@ export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
                 <h6>
                   <ChiknText /> #{tokenId}
                 </h6>
-                <SaleStatus size="sm" forSale={forSale} />
+                <SaleStatus size="sm" forSale={forSale} owner={currentOwner} />
               </StackCol>
             </Card.Body>
           </ChiknCard>
@@ -353,13 +361,14 @@ export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
   )
 }
 
+const MINTED_FROM_ADDRESS = '0x0000000000000000000000000000000000000000'
+
 export const ChickenCardRecentActivitySummary = ({
   tokenId = '',
   from = '',
   to = '',
   onClick = null
 }) => {
-  const MINTED_FROM_ADDRESS = '0x0000000000000000000000000000000000000000'
   /** @type {{ data: { details: Details }}} */
   const getTokenQuery = useGetTokenQuery(tokenId)
   const { data: { properties = {}, details = DETAILS_BLANK } = {} } =
@@ -408,8 +417,8 @@ const ChickenImage = styled.img`
 `
 
 const Property = styled(({ className = 'bg-light text-dark', ...props }) => (
-  <small
-    className={`${className} px-3 border rounded-3 text-nowrap text-capitalize`}
+  <div
+    className={`${className} px-3 py-2 border rounded-3 text-nowrap text-capitalize`}
     {...props}
   />
 ))`
@@ -495,7 +504,10 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
               {/* actions */}
               <StackDynamic className="gap-1 flex-wrap">
                 {active && !isOwner && !isForSale && (
-                  <SaleStatus forSale={details.forSale} />
+                  <SaleStatus
+                    forSale={details.forSale}
+                    owner={details.currentOwner}
+                  />
                 )}
                 {!active && (
                   <GreyPill className="py-2 border">
@@ -562,17 +574,17 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
                 <Accordion.Item eventKey="0">
                   <Accordion.Header>Attributes</Accordion.Header>
                   <Accordion.Body>
-                    <StackRow className="gap-1 flex-wrap">
-                      {'background,chicken,headwear,mouth,eyewear,neck,arms,tail,feet'
+                    <StackCol className="gap-1 flex-wrap">
+                      {'background,body,head,neck,arms,feet,tail,bgfx,trims'
                         .split(',')
                         .map((p) => {
                           return (
                             <Property key={p}>
-                              {p} : {properties[p]}
+                              <b>{p}</b>: {properties[p] || 'None'}
                             </Property>
                           )
                         })}
-                    </StackRow>
+                    </StackCol>
                   </Accordion.Body>
                 </Accordion.Item>
                 {/* history */}

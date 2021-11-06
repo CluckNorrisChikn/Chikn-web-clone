@@ -4,19 +4,18 @@ import * as React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 import siteConfig from '../../site-config'
-import ChickenBannerImage from '../components/images/ChickenBannerImage'
+import { AvaxLogo } from '../components/AvaxLogo'
 import ChickenCarousel from '../components/ChickenCarousel'
-import ChickenKernelImage from '../components/images/ChickenSilhouette'
+import { AButton, Section, StackCol, StackRow } from '../components/Common'
+import ChickenBannerImage from '../components/images/ChickenBannerImage'
 import ChickenColonelImage from '../components/images/ChickenColonel'
-import Egg01Image from '../components/images/Egg01'
-import Egg02Image from '../components/images/Egg02'
+import ChickenKernelImage from '../components/images/ChickenSilhouette'
 import Corn01Image from '../components/images/Corn01'
 import Corn02Image from '../components/images/Corn02'
-import { AButton, Section, StackCol, StackRow } from '../components/Common'
-import { useWeb3Contract } from '../components/Connect'
+import Egg01Image from '../components/images/Egg01'
+import Egg02Image from '../components/images/Egg02'
 import Layout from '../components/Layout'
 import CountdownSectionv2 from '../components/sections/CountdownSectionv2'
-import Scratches1WhiteImage from '../images/Web_CarouselEdges_02_var6.png'
 import TriTokenEcoMainImage from '../images/Illustration_Ecosystem_Simple_01.png'
 import SVG_TriToken_Legend_03_blue_eggs from '../images/TriToken_Legend_03_blue_eggs.svg'
 import SVG_TriToken_Legend_03_blue_kg from '../images/TriToken_Legend_03_blue_kg.svg'
@@ -24,6 +23,7 @@ import SVG_TriToken_Legend_03_blue_pitchfork from '../images/TriToken_Legend_03_
 import SVG_TriToken_Legend_03_chicken from '../images/TriToken_Legend_03_chicken.svg'
 import SVG_TriToken_Legend_03_egg from '../images/TriToken_Legend_03_egg.svg'
 import SVG_TriToken_Legend_03_worm from '../images/TriToken_Legend_03_worm.svg'
+import Scratches1WhiteImage from '../images/Web_CarouselEdges_02_var6.png'
 
 // containers
 
@@ -177,7 +177,7 @@ const IndexPage = () => {
         </Section>
       </div>
 
-      <StackCol className="gap-8 py-8">
+      <StackCol className="gap-7 py-5">
         {/* {enableCountdownAndMinting && (
           <>
             {showCountdown && (
@@ -217,8 +217,19 @@ const IndexPage = () => {
           </>
         )} */}
 
+        <Container className="text-center">
+          <h1>
+            Price: 1 AVAX <AvaxLogo size="2.5rem" />
+          </h1>
+          <small className="text-muted">
+            Max {siteConfig.publicMint.maxPerMint} per mint.
+            <br />
+            Limit {siteConfig.publicMint.limitPerWallet} per wallet.
+          </small>
+        </Container>
+
         {/* carousel */}
-        <div className="py-3 py-md-5">
+        <div className="pb-3 pb-md-5">
           <Container className="pb-3 pb-md-5 text-center">
             <h1>
               10,000{' '}

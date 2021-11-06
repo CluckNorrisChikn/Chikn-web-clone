@@ -6,6 +6,11 @@ import { injected } from '../hooks/web3'
 import { KEYS, useWeb3Contract } from './Connect'
 import GenericToast from './GenericToast'
 import siteConfig from '../../site-config'
+import {
+  AVALANCHE_TESTNET_PARAMS,
+  AVALANCHE_MAINNET_PARAMS
+} from '../utils/network'
+import { isProd } from '../components/Common'
 
 const FixedWidthButton = styled(Button)`
   min-width: 180px;
@@ -143,6 +148,27 @@ export const ConnectWalletButton = () => {
     setButtonText(account ? shortFormAccountNum(account) : 'Connect Wallet')
   }, [account, setButtonText])
 
+  const addAvalancheNetwork = () => {
+    injected.getProvider().then(provider => {
+      console.log('provider injection', provider)
+      provider
+        .request({
+          method: 'wallet_addEthereumChain',
+          params: [isProd ? AVALANCHE_MAINNET_PARAMS : AVALANCHE_TESTNET_PARAMS]
+        })
+        .catch((error) => {
+          console.log('Unable to push wallet', error)
+        })
+    })
+    setNotification({
+      title: '',
+      body: '',
+      style: 'success',
+      autoHide: false,
+      show: false
+    })
+  }
+
   return (
     <>
       {/* notification */}
@@ -153,7 +179,12 @@ export const ConnectWalletButton = () => {
         autoHide={notification.autoHide}
         className={`bg-${notification.style}`}
       >
-        {notification.body}
+        <div>{notification.body}</div>
+        {notification.style === 'danger' && notification.body.includes('Unsupported chain') &&
+          <div className="d-flex justify-content-center pt-3">
+            <Button onClick={addAvalancheNetwork}>SWITCH TO MAINNET</Button>
+          </div>
+        }
       </GenericToast>
 
       {/* button */}

@@ -57,6 +57,13 @@ export const StackRow = ({ className = '', ...props }) => (
   <div className={`d-flex flex-row ${className}`} {...props} />
 )
 
+export const Grid = styled.div`
+  display: grid;
+  grid-template-columns: ${(props) => props.columns || 'auto auto'};
+  column-gap: ${(props) => props.columnGap || '10px'};
+  row-gap: ${(props) => props.rowGap || '10px'};
+`
+
 export const StyleDaChikn = ({ children = '' }) => {
   const split = children.split(new RegExp(`(${siteConfig.nftName})`))
   split.forEach((s, i) => {

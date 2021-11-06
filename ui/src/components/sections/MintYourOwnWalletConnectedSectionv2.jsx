@@ -21,8 +21,9 @@ import {
 } from '../Common'
 import {
   getErrorMessage,
+  useGBMintTokenMutation,
   useGetSupplyQuery,
-  useMintTokenMutation,
+  usePublicMintTokenMutation,
   useWeb3Contract
 } from '../Connect'
 import TransactionProgress from '../TransactionProgressToast'
@@ -35,44 +36,76 @@ const AvaxLogoImage = styled((props) => <img src={AvaxSvg} {...props} />)`
   margin-left: 5px;
 `
 
-const IndexPage = () => {
+const IndexPage = ({ type = 'public' }) => {
+  // hooks
   const { library, contract, account, active } = useWeb3Contract()
 
+  // react-query
+  const usePublicMintToken = usePublicMintTokenMutation()
+  const useGBMintToken = useGBMintTokenMutation()
   const getSupplyQuery = useGetSupplyQuery()
-  const { data: { minted, total } = {} } = getSupplyQuery
-  const remainingChikn = total - minted
-  // const useWalletBalance = useGetWalletBalanceQuery(library, account, active)
+  const {
+    data: {
+      minted,
+      gbMintLimit,
+      publicMintLimit,
+      publicMintFeex1,
+      publicMintFeex2,
+      publicMintFeex3more,
+      publicMintOpen,
+      gbMintOpen
+    } = {}
+  } = getSupplyQuery
 
-  const useMintToken = useMintTokenMutation(contract, active)
+  // local properties
+  const isGBMint = type === 'gb'
+  const maxAllocation = isGBMint ? gbMintLimit : publicMintLimit
+  const remainingChikn = maxAllocation - minted
+  const priceLookup = React.useCallback(
+    (count) => {
+      console.debug(`checking prices for ${count} chikn`, {
+        publicMintFeex1,
+        publicMintFeex2,
+        publicMintFeex3more
+      })
+      if (isGBMint) return 0
+      if (count === 1) return publicMintFeex1
+      if (count === 2) return publicMintFeex2
+      else return publicMintFeex3more
+    },
+    [isGBMint, publicMintFeex1, publicMintFeex2, publicMintFeex3more]
+  )
+  const priceConfig = isGBMint ? siteConfig.gbMint : siteConfig.publicMint
+  const isMintOpen =
+    (isGBMint ? gbMintOpen : publicMintOpen) && remainingChikn > 0
 
-  // TODO Sam - Do we want to show the user's balance? (Sam raised -> security?)
-  // const { balance = '-' } = useWalletBalance.isSuccess
-  //   ? useWalletBalance.data
-  //   : {}
-
-  // TODO Sam - can we show validation failed notifcation? (e.g. when user rejects transaction)
   // TODO Sam - can we show more information in the notifcication? (current only txid)
   // TODO Sam - do we have options for the 2x and 3x buyer options? (validation: what happens if only <2 is left?)
+  // @nick the contract covers that, so dont worry
   const mintToken = () => {
-    // TODO Sam - is this URL still correct/required? Can we remove it?
-    // const tokenURI = `${siteConfig.url}/api/contract/tokens/1`
-    // pass number of token and price
-    useMintToken.mutate({ countOfChickens, totalPrice })
+    if (isGBMint) {
+      useGBMintToken.mutate()
+    } else {
+      usePublicMintToken.mutate({ countOfChickens, totalPrice })
+    }
   }
 
   const [countOfChickens, setCountOfChickens] = React.useState('1')
-  const [price, setPrice] = React.useState(
-    fmtCurrency(siteConfig.priceLookup(1))
-  )
+  const [price, setPrice] = React.useState(fmtCurrency(priceLookup(1)))
   const [totalPrice, setTotalPrice] = React.useState(
-    fmtCurrency(siteConfig.priceLookup(1))
+    fmtCurrency(priceLookup(1))
   )
+
+  React.useEffect(() => {
+    const price = priceLookup(countOfChickens)
+    setPrice(fmtCurrency(price))
+    setTotalPrice(fmtCurrency(price * countOfChickens))
+  }, [countOfChickens, priceLookup])
 
   const canGoLower = (count) => parseInt(count) > 1
-  const canGoHigher = (count) => parseInt(count) < siteConfig.maxPerMint
+  const canGoHigher = (count) => parseInt(count) < priceConfig.maxPerMint
 
   const onChangeCountOfChickens = (val) => {
-    console.debug('onChangeCountOfChickens', val)
     let tmp = parseInt(val)
     if (!isNaN(tmp) || val === '') {
       if (val === '') {
@@ -80,11 +113,13 @@ const IndexPage = () => {
         setPrice('-')
         setTotalPrice('-')
         return
-      } else if (tmp > siteConfig.maxPerMint) tmp = siteConfig.maxPerMint
+      } else if (tmp > priceConfig.maxPerMint) tmp = priceConfig.maxPerMint
       else if (tmp < 1) tmp = 1
       setCountOfChickens(tmp)
-      setPrice(fmtCurrency(siteConfig.priceLookup(tmp)))
-      setTotalPrice(fmtCurrency(siteConfig.priceLookup(tmp) * tmp))
+      const price = priceLookup(tmp)
+      console.debug('setting total price', { tmp, price })
+      setPrice(fmtCurrency(price))
+      setTotalPrice(fmtCurrency(price * tmp))
     }
   }
 
@@ -95,18 +130,24 @@ const IndexPage = () => {
 
       <Section className="border bg-white">
         <StackCol className="gap-3 align-items-center">
-          {remainingChikn <= 0 && (
+          {/* spinner */}
+          {getSupplyQuery.isLoading && <Spinner size="lg" animation="border" />}
+
+          {/* mint closed */}
+          {!getSupplyQuery.isLoading && !isMintOpen && (
             <>
-              <h3>Minting now closed.</h3>
+              <h3>{priceConfig.title_closed}</h3>
               <div>
                 To buy <ChiknText />, please check the{' '}
                 <Link to="/market">Market</Link>.
               </div>
             </>
           )}
-          {remainingChikn > 0 && (
+
+          {/* mint open */}
+          {!getSupplyQuery.isLoading && isMintOpen && (
             <>
-              <h3>Minting now open!</h3>
+              <h3>{priceConfig.title_open}</h3>
               <div>
                 {fmtNumber(remainingChikn)} <ChiknText /> remaining.
               </div>
@@ -154,11 +195,15 @@ const IndexPage = () => {
                 type="button"
                 size="lg"
                 variant={'outline-primary'}
-                disabled={!active || useMintToken.isLoading}
+                disabled={
+                  !active ||
+                  usePublicMintToken.isLoading ||
+                  useGBMintToken.isLoading
+                }
                 onClick={() => mintToken()}
                 className={'w-100 mb-3 w-md-300px'}
               >
-                {useMintToken.isLoading
+                {usePublicMintToken.isLoading || useGBMintToken.isLoading
                   ? (
                     <Spinner animation="border" />
                   )
@@ -166,19 +211,58 @@ const IndexPage = () => {
                     <span>Mint Now</span>
                   )}
               </Button>
-              {useMintToken.isError && (
+
+              {/* errors */}
+              {usePublicMintToken.isError && (
                 <Alert variant={'danger'}>
-                  {getErrorMessage(useMintToken.error)}
+                  {getErrorMessage(usePublicMintToken.error)}
+                </Alert>
+              )}
+              {useGBMintToken.isError && (
+                <Alert variant={'danger'}>
+                  {getErrorMessage(useGBMintToken.error)}
                 </Alert>
               )}
               <small className="text-muted">
-                Max {siteConfig.maxPerMint} per mint.
+                Max {priceConfig.maxPerMint} per mint.
                 <br />
-                Limit {siteConfig.limitPerWallet} per wallet.
+                Limit {priceConfig.limitPerWallet} per wallet.
                 <br />
                 View your minted <ChiknText /> in your{' '}
                 <Link to="/wallet">Wallet</Link>.
               </small>
+            </>
+          )}
+
+          {process.env.NODE_ENV !== 'production' && (
+            <>
+              <pre>
+                state=
+                {JSON.stringify(
+                  {
+                    countOfChickens,
+                    price,
+                    totalPrice
+                  },
+                  null,
+                  2
+                )}
+              </pre>
+              <pre>
+                data=
+                {JSON.stringify(
+                  {
+                    type,
+                    isGBMint,
+                    isMintOpen,
+                    maxAllocation,
+                    remainingChikn,
+                    priceConfig
+                  },
+                  null,
+                  2
+                )}
+              </pre>
             </>
           )}
         </StackCol>

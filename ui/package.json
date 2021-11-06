@@ -18,8 +18,10 @@
     "deploy-staging": "vercel"
   },
   "dependencies": {
+    "@fontsource/courier-prime": "4.5.0",
     "gatsby-plugin-google-tagmanager": "3.14.0",
     "gatsby-plugin-page-creator": "3.14.0",
+    "react-bootstrap-typeahead": "6.0.0-alpha.4",
     "react-scroll-parallax": "2.4.0",
     "web3-eth": "1.6.0"
   },
@@ -34,7 +36,6 @@
     "@web3-react/core": "6.1.9",
     "@web3-react/injected-connector": "6.0.7",
     "assert": "2.0.0",
-    "axios": "0.22.0",
     "babel-plugin-styled-components": "1.13.2",
     "bootstrap": "5.1.1",
     "buffer": "6.0.3",
