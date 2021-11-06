@@ -66,6 +66,13 @@ body {
 // add boostrap classes
 
 @include media-breakpoint-down(md) {
+  .gap-7 {
+    gap: 3rem;
+  }
+  .py-7 {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
   .gap-8 {
     gap: 4rem;
   }
@@ -75,6 +82,13 @@ body {
   }
 }
 @include media-breakpoint-up(md) {
+  .gap-7 {
+    gap: 7rem;
+  }
+  .py-7 {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
   .gap-8 {
     gap: 8rem;
   }
@@ -96,7 +110,7 @@ body {
 .flip-countdown-piece,
 .flip-countdown-card,
 .flip-countdown-card-sec {
-  font-family: Courier, monospace !important;
+  font-family: 'Courier Prime', Courier, monospace !important;
 }
 
 // WOODEN BANNER and COUNTDOWN TIMER

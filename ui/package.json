@@ -18,6 +18,7 @@
     "deploy-staging": "vercel"
   },
   "dependencies": {
+    "@fontsource/courier-prime": "4.5.0",
     "gatsby-plugin-google-tagmanager": "3.14.0",
     "gatsby-plugin-page-creator": "3.14.0",
     "react-bootstrap-typeahead": "6.0.0-alpha.4",

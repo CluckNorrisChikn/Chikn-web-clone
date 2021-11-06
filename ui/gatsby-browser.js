@@ -1,5 +1,7 @@
 import '@fontsource/poppins'
 import '@fontsource/poppins/700.css'
+import '@fontsource/courier-prime'
+import '@fontsource/courier-prime/700.css'
 import './src/styles/main.scss'
 import { Web3ReactProvider } from '@web3-react/core'
 import { Web3Provider } from '@ethersproject/providers'

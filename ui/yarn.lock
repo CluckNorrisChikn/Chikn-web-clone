@@ -1521,6 +1521,11 @@
     "@ethersproject/properties" "^5.4.0"
     "@ethersproject/strings" "^5.4.0"
 
+"@fontsource/courier-prime@4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/courier-prime/-/courier-prime-4.5.0.tgz#049de98b6d4f7b32ffeaa1cab0387a0fc03b1fc3"
+  integrity sha512-pSm4w52hWo460nZCuluVW4uZl1f0V9IE426hKoSt1yTWFbbQ1qRJw1w0Z53hQo9BdBoH7YJLOaKOqbkgxyyI5g==
+
 "@fontsource/poppins@4.5.0":
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/@fontsource/poppins/-/poppins-4.5.0.tgz#a419697b85864afbf8363f5c247b1e9d1f117564"
