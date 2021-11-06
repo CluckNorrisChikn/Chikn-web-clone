@@ -173,7 +173,7 @@ const IndexPage = () => {
             <Corn02 />
             <ChickenColonel />
           </RightContainer>
-          <CountdownSectionv2 date={siteConfig.releaseDate} />
+          <CountdownSectionv2 date={siteConfig.publicMint.releaseDate} />
         </Section>
       </div>
 
