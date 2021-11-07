@@ -8,7 +8,7 @@ import {
   ChickenCardMarketplaceSummary,
   ChickenCardShimmerx4
 } from '../components/ChickenCard'
-import { ChiknText, Grid, Section, StackRow } from '../components/Common'
+import { ChiknText, Section, StackRow } from '../components/Common'
 import {
   getErrorMessage,
   KEYS,
@@ -78,15 +78,21 @@ const Market = () => {
       .filter((t) => {
         return (
           (isUndefOrEmpty(filters.background) ||
-            ~filters.background.indexOf(t.background)) &&
-          (isUndefOrEmpty(filters.body) || ~filters.body.indexOf(t.body)) &&
-          (isUndefOrEmpty(filters.head) || ~filters.head.indexOf(t.head)) &&
-          (isUndefOrEmpty(filters.neck) || ~filters.neck.indexOf(t.neck)) &&
-          (isUndefOrEmpty(filters.arms) || ~filters.arms.indexOf(t.arms)) &&
-          (isUndefOrEmpty(filters.feet) || ~filters.feet.indexOf(t.feet)) &&
-          (isUndefOrEmpty(filters.tail) || ~filters.tail.indexOf(t.tail)) &&
-          (isUndefOrEmpty(filters.bgfx) || ~filters.bgfx.indexOf(t.bgfx)) &&
-          (isUndefOrEmpty(filters.trims) || ~filters.trims.indexOf(t.trims))
+            ~filters.background.indexOf(t.background?.toLowerCase())) &&
+          (isUndefOrEmpty(filters.body) ||
+            ~filters.body.indexOf(t.body?.toLowerCase())) &&
+          (isUndefOrEmpty(filters.head) ||
+            ~filters.head.indexOf(t.head?.toLowerCase())) &&
+          (isUndefOrEmpty(filters.neck) ||
+            ~filters.neck.indexOf(t.neck?.toLowerCase())) &&
+          (isUndefOrEmpty(filters.torso) ||
+            ~filters.torso.indexOf(t.torso?.toLowerCase())) &&
+          (isUndefOrEmpty(filters.feet) ||
+            ~filters.feet.indexOf(t.feet?.toLowerCase())) &&
+          (isUndefOrEmpty(filters.tail) ||
+            ~filters.tail.indexOf(t.tail?.toLowerCase())) &&
+          (isUndefOrEmpty(filters.trim) ||
+            ~filters.trims.indexOf(t.trim?.toLowerCase()))
         )
       })
       .slice(0, 20)
