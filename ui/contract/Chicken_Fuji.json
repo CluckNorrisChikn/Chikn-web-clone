@@ -1,5 +1,5 @@
 {
-  "address": "0x1Fc68f0372714C1C906b39c4d4F95202d5961E99",
+  "address": "0x73DB2ecD19715eBC4E45975d9F4Ada2E65a98D87",
   "abi": [
     {
       "anonymous": false,
@@ -403,7 +403,7 @@
         },
         {
           "internalType": "uint256",
-          "name": "_mint2TFeeAmount",
+          "name": "_mint2BaseFeeAmount",
           "type": "uint256"
         },
         {
@@ -489,7 +489,7 @@
     },
     {
       "inputs": [],
-      "name": "mint2TFeeAmount",
+      "name": "mint2BaseFeeAmount",
       "outputs": [
         {
           "internalType": "uint256",

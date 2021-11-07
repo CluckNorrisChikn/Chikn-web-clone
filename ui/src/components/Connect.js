@@ -93,7 +93,7 @@ export const useGetSupplyQuery = () => {
       contract.gbHoldersMaxMint(),
       // contract.gbholders(),
       contract.mintFeeAmount(),
-      contract.mint2TFeeAmount(),
+      contract.mint2BaseFeeAmount(),
       contract.mint3BaseFeeAmount(),
       contract.baseURL(), // e.g. https://cd1n.chikn.farm/tokens/
       contract.openForGB(),
