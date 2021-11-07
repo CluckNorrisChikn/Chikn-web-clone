@@ -204,6 +204,40 @@ export const useWeb3Contract = () => {
   return state
 }
 
+export const useWeb3GBContract = () => {
+  const [state, setState] = React.useState({})
+  const web3react = useWeb3React()
+
+  React.useEffect(() => {
+    console.debug('GB watch contract', web3react)
+    let contract
+    if (web3react.library) {
+      const minABI = [
+        // balanceOf
+        {
+          constant: true,
+          inputs: [{ name: '_owner', type: 'address' }],
+          name: 'balanceOf',
+          outputs: [{ name: 'balance', type: 'uint256' }],
+          type: 'function'
+        },
+        // decimals
+        {
+          constant: true,
+          inputs: [],
+          name: 'decimals',
+          outputs: [{ name: '', type: 'uint8' }],
+          type: 'function'
+        }
+      ]
+      contract = new Contract('0x90842eb834cFD2A1DB0b1512B254a18E4D396215', minABI, web3react.library.getSigner())
+    }
+    setState({ ...web3react, contract })
+  }, [web3react])
+
+  return state
+}
+
 export const useGetContractQuery = () => ({})
 export const getContractQuery = () => ({})
 
@@ -671,6 +705,28 @@ export const useSetKGMutation = (contract, enabled = true) => {
         })
         .catch((err) => {
           console.log('Set token kg error ', err)
+          reject(err)
+        })
+    })
+  }, {
+    enabled: !isUndef(contract) && enabled
+  })
+}
+
+export const useCheckHasGBMutation = (contract, enabled = true) => {
+  // adress, wallet address
+  // status : boolean
+  return useMutation(async ({ address }) => {
+    return new Promise((resolve, reject) => {
+      contract.hasGB(address)
+        .then((tx) => {
+          console.log(`Address ${address}  has GB token >=900`, tx)
+          resolve({
+            ...tx
+          })
+        })
+        .catch((err) => {
+          console.log('Validating has GB error ', err)
           reject(err)
         })
     })

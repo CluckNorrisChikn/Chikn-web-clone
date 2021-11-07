@@ -12,7 +12,9 @@ import {
   useBaseUrlQuery,
   useGetAllSalesToken,
   useSetKGMutation,
-  getErrorMessage
+  getErrorMessage,
+  useCheckHasGBMutation,
+  useWeb3GBContract
 } from '../components/Connect'
 import Layout from '../components/Layout'
 import {
@@ -27,6 +29,7 @@ import {
 
 const Admin = () => {
   const { contract, account, active } = useWeb3Contract()
+  const { contract: GBContract } = useWeb3GBContract()
   const { isLoading: publicLoading, data: publicStatus } = useIsPublicMintOpenQuery(contract, account, active)
   const { isLoading: gbLoading, data: gbStatus } = useIsGBMintOpenQuery(contract, account, active)
   const { data: currentBaseURL } = useBaseUrlQuery(contract, account, active)
@@ -48,6 +51,7 @@ const Admin = () => {
   const useSendAirdrop = useAirdropMutation(contract, active)
   const useChangeUrl = useChangeUrlMutation(contract, active)
   const useSetKg = useSetKGMutation(contract, active)
+  const useHasGB = useCheckHasGBMutation(contract, active)
 
   const toggleGB = () => {
     useToggleGB.mutate({ isOpen: !gbStatus })
@@ -86,6 +90,15 @@ const Admin = () => {
       tokenId: tokenId,
       kg: kg
     })
+  }
+
+  const checkHasGB = () => {
+    useHasGB.mutate({ address: account })
+  }
+
+  const test = async () => {
+    const balance = await GBContract.balanceOf(account)
+    console.log('GB Test--', balance.toString())
   }
 
   return (
@@ -130,6 +143,34 @@ const Admin = () => {
         </Alert>
       }
       </div>
+
+      <hr />
+      <h2>Check have 900 or more GB token</h2>
+      <Button
+        title="GB Check"
+        variant="success"
+        disabled={!active || useHasGB.isLoading}
+        onClick={checkHasGB}>
+        {useHasGB.isLoading ? <Spinner animation="border" /> : 'Check'}
+      </Button>
+      {
+        useHasGB.isSuccess && <Alert variant="success" className="mt-4">
+          {JSON.stringify(useHasGB.data)}
+        </Alert>
+      }
+      {
+        useHasGB.isError && <Alert variant="danger" className="mt-4">
+          {JSON.stringify(getErrorMessage(useHasGB.error))}
+        </Alert>
+      }
+
+      <Button
+        title="Test GB"
+        variant="success"
+        disabled={!active || useTogglePublic.isLoading}
+        onClick={test}>
+        {useTogglePublic.isLoading ? <Spinner animation="border" /> : 'Call GB contract directly (Check console log)'}
+      </Button>
 
       <hr />
       {/* Check excluded list */}
