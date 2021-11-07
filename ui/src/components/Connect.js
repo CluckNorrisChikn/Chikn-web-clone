@@ -6,7 +6,8 @@ import {
 import { Contract, utils } from 'ethers'
 import React from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import ChickenRun from '../../contract/Chicken_Fuji.json'
+// import ChickenRun from '../../contract/Chicken_Fuji.json'
+import ChickenRun from '../../contract/Chicken_Mainnet.json'
 import siteConfig from '../../site-config'
 import traits from '../components/traits/traits.json'
 

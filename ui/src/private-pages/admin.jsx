@@ -11,7 +11,8 @@ import {
   useChangeUrlMutation,
   useBaseUrlQuery,
   useGetAllSalesToken,
-  useSetKGMutation
+  useSetKGMutation,
+  getErrorMessage
 } from '../components/Connect'
 import Layout from '../components/Layout'
 import {
@@ -106,7 +107,7 @@ const Admin = () => {
       </Button>
       {
         useToggleGB.isError && <Alert variant="danger" className="mt-4">
-          {JSON.stringify(useToggleGB.error.data.message)}
+          {JSON.stringify(getErrorMessage(useToggleGB.error))}
         </Alert>
       }
       </div>
@@ -125,7 +126,7 @@ const Admin = () => {
       </Button>
       {
         useTogglePublic.isError && <Alert variant="danger" className="mt-4">
-          {JSON.stringify(useTogglePublic.error.data.message)}
+          {JSON.stringify(getErrorMessage(useTogglePublic.error))}
         </Alert>
       }
       </div>
@@ -219,7 +220,7 @@ const Admin = () => {
         }
         {
           useSetExclude.isError && <Alert variant="danger" className="mt-4">
-            {JSON.stringify(useSetExclude.error.data.message)}
+            {JSON.stringify(getErrorMessage(useSetExclude.error))}
           </Alert>
         }
       </div>
@@ -260,7 +261,7 @@ const Admin = () => {
       }
       {
         useSendAirdrop.isError && <Alert variant="danger" className="mt-4">
-          {JSON.stringify(useSendAirdrop.error.data.message)}
+          {JSON.stringify(getErrorMessage(useSendAirdrop.error))}
         </Alert>
       }
 
@@ -292,7 +293,7 @@ const Admin = () => {
       }
       {
         useChangeUrl.isError && <Alert variant="danger" className="mt-4">
-          {JSON.stringify(useChangeUrl.error.data.message)}
+          {JSON.stringify(getErrorMessage(useChangeUrl.error))}
         </Alert>
       }
 
@@ -335,7 +336,7 @@ const Admin = () => {
       }
       {
         useSetKg.isError && <Alert variant="danger" className="mt-4">
-          {JSON.stringify(useSetKg.error.data.message)}
+          {JSON.stringify(getErrorMessage(useSetKg.error))}
         </Alert>
       }
     </Layout >
