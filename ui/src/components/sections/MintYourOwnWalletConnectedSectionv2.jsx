@@ -68,7 +68,6 @@ const IndexPage = ({ type = 'public' }) => {
         publicMintFeex2,
         publicMintFeex3more
       })
-      console.log('count === 1', count === 1)
       if (isGBMint) return 0
       if (count === 1) return publicMintFeex1
       if (count === 2) return publicMintFeex2
@@ -99,7 +98,6 @@ const IndexPage = ({ type = 'public' }) => {
 
   React.useEffect(() => {
     const price = priceLookup(countOfChickens)
-    console.log('price', price, countOfChickens)
     setPrice(fmtCurrency(price))
     setTotalPrice(fmtCurrency(price * countOfChickens))
   }, [countOfChickens, priceLookup])
