@@ -9,7 +9,9 @@ import {
   useSetExcludedMutation,
   useAirdropMutation,
   useChangeUrlMutation,
-  useBaseUrlQuery
+  useBaseUrlQuery,
+  useGetAllSalesToken,
+  useSetKGMutation
 } from '../components/Connect'
 import Layout from '../components/Layout'
 import {
@@ -27,6 +29,7 @@ const Admin = () => {
   const { isLoading: publicLoading, data: publicStatus } = useIsPublicMintOpenQuery(contract, account, active)
   const { isLoading: gbLoading, data: gbStatus } = useIsGBMintOpenQuery(contract, account, active)
   const { data: currentBaseURL } = useBaseUrlQuery(contract, account, active)
+  const { isLoading: tokenForSaleIsLoading, data: tokensforSales } = useGetAllSalesToken(contract, account, active)
 
   const [address, setAddress] = React.useState('')
   const [freeAddress, setFreeAddress] = React.useState('')
@@ -34,6 +37,8 @@ const Admin = () => {
   const [baseUrl, setBaseUrl] = React.useState('')
   const [airdropAddress, setAirdropAddress] = React.useState('')
   const [numberOfAirDrop, setNumberOfAirDrop] = React.useState(1)
+  const [tokenId, setTokenId] = React.useState('')
+  const [kg, setKg] = React.useState(null)
 
   const useToggleGB = useToggleOpenForGBMutation(contract, active)
   const useTogglePublic = useToggleOpenForPublicMutation(contract, active)
@@ -41,6 +46,7 @@ const Admin = () => {
   const useSetExclude = useSetExcludedMutation(contract, active)
   const useSendAirdrop = useAirdropMutation(contract, active)
   const useChangeUrl = useChangeUrlMutation(contract, active)
+  const useSetKg = useSetKGMutation(contract, active)
 
   const toggleGB = () => {
     useToggleGB.mutate({ isOpen: !gbStatus })
@@ -71,6 +77,13 @@ const Admin = () => {
   const updateBaseUrl = () => {
     useChangeUrl.mutate({
       url: baseUrl
+    })
+  }
+
+  const updateChiknKg = () => {
+    useSetKg.mutate({
+      tokenId: tokenId,
+      kg: kg
     })
   }
 
@@ -280,6 +293,49 @@ const Admin = () => {
       {
         useChangeUrl.isError && <Alert variant="danger" className="mt-4">
           {JSON.stringify(useChangeUrl.error.data.message)}
+        </Alert>
+      }
+
+      <hr />
+      <h2>Token for sale</h2>
+      {tokenForSaleIsLoading ? <Spinner animation="border" /> : <pre>{JSON.stringify(tokensforSales)}</pre>}
+
+      <hr />
+      <h2>Set Chikn KG</h2>
+      <Form.Group className="my-4" controlId="formBasicEmail">
+        <Form.Label>Set Chikn new KG</Form.Label>
+        <InputGroup className="mb-3">
+          <Form.Control
+            type="number"
+            placeholder="Token number"
+            value={tokenId}
+            onChange={(e) => setTokenId(e.target.value)}
+          />
+        </InputGroup>
+        <InputGroup className="mb-3">
+          <Form.Control
+            type="number"
+            placeholder="set kg"
+            value={kg}
+            onChange={(e) => setKg(e.target.value)}
+          />
+        </InputGroup>
+      </Form.Group>
+      <Button
+        title="set chikn new kg"
+        variant="success"
+        disabled={!active || useSetKg.isLoading}
+        onClick={updateChiknKg}>
+        {useSetKg.isLoading ? <Spinner animation="border" /> : 'Update'}
+      </Button>
+      {
+        useSetKg.isSuccess && <Alert variant="success" className="mt-4">
+          {JSON.stringify(useSetKg.data)}
+        </Alert>
+      }
+      {
+        useSetKg.isError && <Alert variant="danger" className="mt-4">
+          {JSON.stringify(useSetKg.error.data.message)}
         </Alert>
       }
     </Layout >

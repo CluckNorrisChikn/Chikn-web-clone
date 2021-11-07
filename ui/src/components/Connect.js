@@ -65,7 +65,8 @@ export const KEYS = {
   ADMIN: () => ['admin'],
   ADMIN_GB_TOGGLE: () => ['admin', 'gb_toggle'],
   ADMIN_PUBLIC_TOGGLE: () => ['admin', 'public_toggle'],
-  ADMIN_BASEURL: () => ['admin', 'baseurl']
+  ADMIN_BASEURL: () => ['admin', 'baseurl'],
+  SALES: () => ['admin', 'sales']
 }
 
 /**
@@ -633,6 +634,42 @@ export const useAirdropMutation = (contract, enabled = true) => {
         })
         .catch((err) => {
           console.log('Airdrop error', err)
+          reject(err)
+        })
+    })
+  }, {
+    enabled: !isUndef(contract) && enabled
+  })
+}
+
+export const useGetAllSalesToken = (contract, account, enabled = true) => {
+  return useQuery(
+    KEYS.SALES(),
+    async () => {
+      const tokensForSale = await contract.getAllSaleTokens()
+      //  need to filter out any value that is greater than 0
+      return tokensForSale.filter((t) => t > 0).map(t => t.toString())
+    },
+    {
+      enabled: !isUndef(contract) && !isUndef(account) && enabled
+    }
+  )
+}
+
+export const useSetKGMutation = (contract, enabled = true) => {
+  // adress, wallet address
+  // status : boolean
+  return useMutation(async ({ tokenId, kg }) => {
+    return new Promise((resolve, reject) => {
+      contract.setKg(parseInt(tokenId), parseInt(kg))
+        .then((tx) => {
+          console.log(`Set token #${tokenId} to ${kg} KG `, tx)
+          resolve({
+            ...tx
+          })
+        })
+        .catch((err) => {
+          console.log('Set token kg error ', err)
           reject(err)
         })
     })
