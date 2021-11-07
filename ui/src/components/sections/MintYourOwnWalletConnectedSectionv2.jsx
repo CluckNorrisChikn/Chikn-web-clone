@@ -90,7 +90,7 @@ const IndexPage = ({ type = 'public' }) => {
     }
   }
 
-  const [countOfChickens, setCountOfChickens] = React.useState('1')
+  const [countOfChickens, setCountOfChickens] = React.useState(1)
   const [price, setPrice] = React.useState(fmtCurrency(priceLookup(1)))
   const [totalPrice, setTotalPrice] = React.useState(
     fmtCurrency(priceLookup(1))

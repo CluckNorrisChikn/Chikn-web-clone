@@ -6,7 +6,8 @@ import {
 import { Contract, utils } from 'ethers'
 import React from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import ChickenRun from '../../contract/Chicken_Fuji.json'
+// import ChickenRun from '../../contract/Chicken_Fuji.json'
+import ChickenRun from '../../contract/Chicken_Mainnet.json'
 import siteConfig from '../../site-config'
 import traits from '../components/traits/traits.json'
 
@@ -65,7 +66,8 @@ export const KEYS = {
   ADMIN: () => ['admin'],
   ADMIN_GB_TOGGLE: () => ['admin', 'gb_toggle'],
   ADMIN_PUBLIC_TOGGLE: () => ['admin', 'public_toggle'],
-  ADMIN_BASEURL: () => ['admin', 'baseurl']
+  ADMIN_BASEURL: () => ['admin', 'baseurl'],
+  SALES: () => ['admin', 'sales']
 }
 
 /**
@@ -92,7 +94,7 @@ export const useGetSupplyQuery = () => {
       contract.gbHoldersMaxMint(),
       // contract.gbholders(),
       contract.mintFeeAmount(),
-      contract.mint2TFeeAmount(),
+      contract.mint2BaseFeeAmount(),
       contract.mint3BaseFeeAmount(),
       contract.baseURL(), // e.g. https://cd1n.chikn.farm/tokens/
       contract.openForGB(),
@@ -195,6 +197,40 @@ export const useWeb3Contract = () => {
     if (web3react.library) {
       const { abi, address } = ChickenRun
       contract = new Contract(address, abi, web3react.library.getSigner())
+    }
+    setState({ ...web3react, contract })
+  }, [web3react])
+
+  return state
+}
+
+export const useWeb3GBContract = () => {
+  const [state, setState] = React.useState({})
+  const web3react = useWeb3React()
+
+  React.useEffect(() => {
+    console.debug('GB watch contract', web3react)
+    let contract
+    if (web3react.library) {
+      const minABI = [
+        // balanceOf
+        {
+          constant: true,
+          inputs: [{ name: '_owner', type: 'address' }],
+          name: 'balanceOf',
+          outputs: [{ name: 'balance', type: 'uint256' }],
+          type: 'function'
+        },
+        // decimals
+        {
+          constant: true,
+          inputs: [],
+          name: 'decimals',
+          outputs: [{ name: '', type: 'uint8' }],
+          type: 'function'
+        }
+      ]
+      contract = new Contract('0x90842eb834cFD2A1DB0b1512B254a18E4D396215', minABI, web3react.library.getSigner())
     }
     setState({ ...web3react, contract })
   }, [web3react])
@@ -633,6 +669,64 @@ export const useAirdropMutation = (contract, enabled = true) => {
         })
         .catch((err) => {
           console.log('Airdrop error', err)
+          reject(err)
+        })
+    })
+  }, {
+    enabled: !isUndef(contract) && enabled
+  })
+}
+
+export const useGetAllSalesToken = (contract, account, enabled = true) => {
+  return useQuery(
+    KEYS.SALES(),
+    async () => {
+      const tokensForSale = await contract.getAllSaleTokens()
+      //  need to filter out any value that is greater than 0
+      return tokensForSale.filter((t) => t > 0).map(t => t.toString())
+    },
+    {
+      enabled: !isUndef(contract) && !isUndef(account) && enabled
+    }
+  )
+}
+
+export const useSetKGMutation = (contract, enabled = true) => {
+  // adress, wallet address
+  // status : boolean
+  return useMutation(async ({ tokenId, kg }) => {
+    return new Promise((resolve, reject) => {
+      contract.setKg(parseInt(tokenId), parseInt(kg))
+        .then((tx) => {
+          console.log(`Set token #${tokenId} to ${kg} KG `, tx)
+          resolve({
+            ...tx
+          })
+        })
+        .catch((err) => {
+          console.log('Set token kg error ', err)
+          reject(err)
+        })
+    })
+  }, {
+    enabled: !isUndef(contract) && enabled
+  })
+}
+
+export const useCheckHasGBMutation = (contract, enabled = true) => {
+  // adress, wallet address
+  // status : boolean
+  return useMutation(async ({ address }) => {
+    return new Promise((resolve, reject) => {
+      contract.hasGB(address)
+        .then((tx) => {
+          console.log(`Address ${address}  has GB token >=900`, tx)
+          resolve({
+            ...tx
+          })
+        })
+        .catch((err) => {
+          console.log('Validating has GB error ', err)
           reject(err)
         })
     })

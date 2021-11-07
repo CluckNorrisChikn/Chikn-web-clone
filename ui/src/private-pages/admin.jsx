@@ -9,7 +9,12 @@ import {
   useSetExcludedMutation,
   useAirdropMutation,
   useChangeUrlMutation,
-  useBaseUrlQuery
+  useBaseUrlQuery,
+  useGetAllSalesToken,
+  useSetKGMutation,
+  getErrorMessage,
+  useCheckHasGBMutation,
+  useWeb3GBContract
 } from '../components/Connect'
 import Layout from '../components/Layout'
 import {
@@ -24,9 +29,11 @@ import {
 
 const Admin = () => {
   const { contract, account, active } = useWeb3Contract()
+  const { contract: GBContract } = useWeb3GBContract()
   const { isLoading: publicLoading, data: publicStatus } = useIsPublicMintOpenQuery(contract, account, active)
   const { isLoading: gbLoading, data: gbStatus } = useIsGBMintOpenQuery(contract, account, active)
   const { data: currentBaseURL } = useBaseUrlQuery(contract, account, active)
+  const { isLoading: tokenForSaleIsLoading, data: tokensforSales } = useGetAllSalesToken(contract, account, active)
 
   const [address, setAddress] = React.useState('')
   const [freeAddress, setFreeAddress] = React.useState('')
@@ -34,6 +41,8 @@ const Admin = () => {
   const [baseUrl, setBaseUrl] = React.useState('')
   const [airdropAddress, setAirdropAddress] = React.useState('')
   const [numberOfAirDrop, setNumberOfAirDrop] = React.useState(1)
+  const [tokenId, setTokenId] = React.useState('')
+  const [kg, setKg] = React.useState(null)
 
   const useToggleGB = useToggleOpenForGBMutation(contract, active)
   const useTogglePublic = useToggleOpenForPublicMutation(contract, active)
@@ -41,6 +50,8 @@ const Admin = () => {
   const useSetExclude = useSetExcludedMutation(contract, active)
   const useSendAirdrop = useAirdropMutation(contract, active)
   const useChangeUrl = useChangeUrlMutation(contract, active)
+  const useSetKg = useSetKGMutation(contract, active)
+  const useHasGB = useCheckHasGBMutation(contract, active)
 
   const toggleGB = () => {
     useToggleGB.mutate({ isOpen: !gbStatus })
@@ -74,6 +85,22 @@ const Admin = () => {
     })
   }
 
+  const updateChiknKg = () => {
+    useSetKg.mutate({
+      tokenId: tokenId,
+      kg: kg
+    })
+  }
+
+  const checkHasGB = () => {
+    useHasGB.mutate({ address: account })
+  }
+
+  const test = async () => {
+    const balance = await GBContract.balanceOf(account)
+    console.log('GB Test--', balance.toString())
+  }
+
   return (
     <Layout pageName="Admin">
       <h1>-- Admin --</h1>
@@ -93,7 +120,7 @@ const Admin = () => {
       </Button>
       {
         useToggleGB.isError && <Alert variant="danger" className="mt-4">
-          {JSON.stringify(useToggleGB.error.data.message)}
+          {JSON.stringify(getErrorMessage(useToggleGB.error))}
         </Alert>
       }
       </div>
@@ -112,10 +139,38 @@ const Admin = () => {
       </Button>
       {
         useTogglePublic.isError && <Alert variant="danger" className="mt-4">
-          {JSON.stringify(useTogglePublic.error.data.message)}
+          {JSON.stringify(getErrorMessage(useTogglePublic.error))}
         </Alert>
       }
       </div>
+
+      <hr />
+      <h2>Check have 900 or more GB token</h2>
+      <Button
+        title="GB Check"
+        variant="success"
+        disabled={!active || useHasGB.isLoading}
+        onClick={checkHasGB}>
+        {useHasGB.isLoading ? <Spinner animation="border" /> : 'Check'}
+      </Button>
+      {
+        useHasGB.isSuccess && <Alert variant="success" className="mt-4">
+          {JSON.stringify(useHasGB.data)}
+        </Alert>
+      }
+      {
+        useHasGB.isError && <Alert variant="danger" className="mt-4">
+          {JSON.stringify(getErrorMessage(useHasGB.error))}
+        </Alert>
+      }
+
+      <Button
+        title="Test GB"
+        variant="success"
+        disabled={!active || useTogglePublic.isLoading}
+        onClick={test}>
+        {useTogglePublic.isLoading ? <Spinner animation="border" /> : 'Call GB contract directly (Check console log)'}
+      </Button>
 
       <hr />
       {/* Check excluded list */}
@@ -206,7 +261,7 @@ const Admin = () => {
         }
         {
           useSetExclude.isError && <Alert variant="danger" className="mt-4">
-            {JSON.stringify(useSetExclude.error.data.message)}
+            {JSON.stringify(getErrorMessage(useSetExclude.error))}
           </Alert>
         }
       </div>
@@ -247,7 +302,7 @@ const Admin = () => {
       }
       {
         useSendAirdrop.isError && <Alert variant="danger" className="mt-4">
-          {JSON.stringify(useSendAirdrop.error.data.message)}
+          {JSON.stringify(getErrorMessage(useSendAirdrop.error))}
         </Alert>
       }
 
@@ -279,7 +334,50 @@ const Admin = () => {
       }
       {
         useChangeUrl.isError && <Alert variant="danger" className="mt-4">
-          {JSON.stringify(useChangeUrl.error.data.message)}
+          {JSON.stringify(getErrorMessage(useChangeUrl.error))}
+        </Alert>
+      }
+
+      <hr />
+      <h2>Token for sale</h2>
+      {tokenForSaleIsLoading ? <Spinner animation="border" /> : <pre>{JSON.stringify(tokensforSales)}</pre>}
+
+      <hr />
+      <h2>Set Chikn KG</h2>
+      <Form.Group className="my-4" controlId="formBasicEmail">
+        <Form.Label>Set Chikn new KG</Form.Label>
+        <InputGroup className="mb-3">
+          <Form.Control
+            type="number"
+            placeholder="Token number"
+            value={tokenId}
+            onChange={(e) => setTokenId(e.target.value)}
+          />
+        </InputGroup>
+        <InputGroup className="mb-3">
+          <Form.Control
+            type="number"
+            placeholder="set kg"
+            value={kg}
+            onChange={(e) => setKg(e.target.value)}
+          />
+        </InputGroup>
+      </Form.Group>
+      <Button
+        title="set chikn new kg"
+        variant="success"
+        disabled={!active || useSetKg.isLoading}
+        onClick={updateChiknKg}>
+        {useSetKg.isLoading ? <Spinner animation="border" /> : 'Update'}
+      </Button>
+      {
+        useSetKg.isSuccess && <Alert variant="success" className="mt-4">
+          {JSON.stringify(useSetKg.data)}
+        </Alert>
+      }
+      {
+        useSetKg.isError && <Alert variant="danger" className="mt-4">
+          {JSON.stringify(getErrorMessage(useSetKg.error))}
         </Alert>
       }
     </Layout >
