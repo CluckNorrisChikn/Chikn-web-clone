@@ -137,7 +137,7 @@ const Layout = ({
                 padTop ? 'mt-5' : 'mt-0'
               } mb-5 d-flex flex-column`}
             >
-              <TransactionProgress intialOnShow={false} />
+              {/* <TransactionProgress intialOnShow={true} /> */}
               {children}
             </Container>
           )
@@ -147,7 +147,7 @@ const Layout = ({
                 padTop ? 'mt-5' : 'mt-0'
               } mb-5 d-flex flex-column`}
             >
-              <TransactionProgress intialOnShow={false} />
+              {/* <TransactionProgress intialOnShow={false} /> */}
               {children}
             </div>
           )}

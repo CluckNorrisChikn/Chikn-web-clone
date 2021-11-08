@@ -683,7 +683,7 @@ export const useGetAllSalesToken = (contract, account, enabled = true) => {
     async () => {
       const tokensForSale = await contract.getAllSaleTokens()
       //  need to filter out any value that is greater than 0
-      return tokensForSale.filter((t) => t > 0).map(t => t.toString())
+      return tokensForSale.filter((t) => t > 0).map(t => Number(t))
     },
     {
       enabled: !isUndef(contract) && !isUndef(account) && enabled

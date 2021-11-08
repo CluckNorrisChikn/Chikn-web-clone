@@ -15,7 +15,7 @@ const TransactionProgress = ({ intialOnShow = false }) => {
   const useTransaction = useStoreWorkingTxQuery()
   const queryClient = useQueryClient()
 
-  const [onShow, setOnShow] = React.useState(intialOnShow)
+  const [onShow, setOnShow] = React.useState(false)
   const [errorMessage, setErrorMessage] = React.useState(null)
   const [title, setTitle] = React.useState('Transaction submitted')
   const transactionRef = React.useRef(null)
@@ -46,6 +46,9 @@ const TransactionProgress = ({ intialOnShow = false }) => {
             queryClient.invalidateQueries(KEYS.MARKET())
             queryClient.invalidateQueries(KEYS.ALLTOKEN())
           }, 2000)
+          setTimeout(() => {
+            setOnShow(false)
+          }, 5000)
         }
       } catch (err) {
         setErrorMessage(err)
@@ -70,7 +73,7 @@ const TransactionProgress = ({ intialOnShow = false }) => {
       title={title}
       show={onShow}
       setShow={(show) => setOnShow(show)}
-      autoHide={true}
+      autoHide={false}
       className={`bg-${backgroundColor} text-white`}
     >
       {errorMessage || (transactionRef.current &&
