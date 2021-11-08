@@ -217,14 +217,18 @@ export const SaleStatus = ({
   owner = ''
 }) => {
   const sizeClass = size === 'lg' ? 'py-2 px-3' : 'py-0 px-0'
-  if (isOwner) {
-    return <BluePill className={`${sizeClass}`}>Already owned</BluePill>
-  } else if (forSale) {
-    return <GreenPill className={`${sizeClass}`}>For sale</GreenPill>
+  if (owner === '') {
+    return <GreyPill className={`${sizeClass}`}>Connect wallet</GreyPill>
   } else if (owner === MINTED_FROM_ADDRESS) {
     return <GreenPill className={`${sizeClass}`}>Unminted</GreenPill>
-  } else {
+  } else if (isOwner) {
+    return <BluePill className={`${sizeClass}`}>Already owned</BluePill>
+  } else if (forSale === true) {
+    return <GreenPill className={`${sizeClass}`}>For sale</GreenPill>
+  } else if (forSale === false) {
     return <GreyPill className={`${sizeClass}`}>Not for sale</GreyPill>
+  } else {
+    return <GreyPill className={`${sizeClass}`}>-</GreyPill>
   }
 }
 

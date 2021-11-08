@@ -128,7 +128,10 @@ export const ConnectWalletButton = () => {
         style: 'success'
       })
       // give wallet state time to clear (and propagate)...
-      setTimeout(() => queryClient.resetQueries(KEYS.WALLET()), 500)
+      setTimeout(() => {
+        queryClient.resetQueries(KEYS.WALLET())
+        queryClient.resetQueries(KEYS.TOKEN())
+      }, 500)
     }
   }
 
@@ -149,7 +152,7 @@ export const ConnectWalletButton = () => {
   }, [account, setButtonText])
 
   const addAvalancheNetwork = () => {
-    injected.getProvider().then(provider => {
+    injected.getProvider().then((provider) => {
       console.log('provider injection', provider)
       provider
         .request({
@@ -180,11 +183,12 @@ export const ConnectWalletButton = () => {
         className={`bg-${notification.style}`}
       >
         <div>{notification.body}</div>
-        {notification.style === 'danger' && notification.body.includes('Unsupported chain') &&
+        {notification.style === 'danger' &&
+          notification.body.includes('Unsupported chain') && (
           <div className="d-flex justify-content-center pt-3">
             <Button onClick={addAvalancheNetwork}>SWITCH TO MAINNET</Button>
           </div>
-        }
+        )}
       </GenericToast>
 
       {/* button */}

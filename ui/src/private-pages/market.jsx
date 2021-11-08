@@ -17,7 +17,7 @@ import {
 } from '../components/Connect'
 import Layout from '../components/Layout'
 import metadata from '../components/traits/metadata.json'
-import traitsdata from '../components/traits/traits.json'
+import traitsdata from '../components/traits/combinations.json'
 import { stringArraysNotEqual } from '../components/utils/utils'
 
 const TraitsSelector = ({
@@ -107,7 +107,6 @@ const Market = () => {
           <Button
             title="Refresh"
             variant="light"
-            disabled={!active}
             onClick={() => queryClient.invalidateQueries(KEYS.MARKET())}
           >
             <FaSync />
@@ -163,30 +162,28 @@ const Market = () => {
 
       <Section className="border bg-white" center={true}>
         {/* no wallet */}
-        {!active && (
+        {/* {!active && (
           <span>
             Please connect your wallet, to view market <ChiknText />.
           </span>
-        )}
+        )} */}
         {/* loading */}
-        {active && useWalletTokens.isFetching && <ChickenCardShimmerx4 />}
+        {/* {useWalletTokens.isFetching && <ChickenCardShimmerx4 />}
 
         {/* wallet connected - error */}
-        {active && !useWalletTokens.isFetching && useWalletTokens.isError && (
+        {/* {!useWalletTokens.isFetching && useWalletTokens.isError && (
           <Alert variant="danger">
             {getErrorMessage(useWalletTokens.error)}
           </Alert>
-        )}
+        )} */}
 
         {/* wallet connected - no data */}
-        {active &&
-          !useWalletTokens.isFetching &&
+        {/* {!useWalletTokens.isFetching &&
           useWalletTokens.isSuccess &&
-          tokens.length === 0 && <h5>No chikns available.</h5>}
+          tokens.length === 0 && <h5>No chikns available.</h5>} */}
 
         {/* wallet connected - data */}
-        {active &&
-          !useWalletTokens.isFetching &&
+        {/* {!useWalletTokens.isFetching &&
           useWalletTokens.isSuccess &&
           tokens.length > 0 && (
           <Row className="gy-3 gx-3">
@@ -199,6 +196,21 @@ const Market = () => {
               </Col>
             ))}
           </Row>
+        )} */}
+
+        <Row className="gy-3 gx-3">
+          {chikns.map((token) => (
+            <Col key={token} sm={6} md={4} lg={3}>
+              <ChickenCardMarketplaceSummary
+                tokenId={token}
+                onClick={() => navigate(`/chikn/${token}`)}
+              />
+            </Col>
+          ))}
+        </Row>
+
+        {process.env.NODE_ENV !== 'production' && (
+          <pre>useWalletTokens={JSON.stringify(useWalletTokens, null, 2)}</pre>
         )}
       </Section>
     </Layout>

@@ -9,7 +9,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 import ChickenRun from '../../contract/Chicken_Fuji.json'
 // import ChickenRun from '../../contract/Chicken_Mainnet.json'
 import siteConfig from '../../site-config'
-import traits from '../components/traits/traits.json'
+import traits from '../components/traits/combinations.json'
 
 export const getErrorMessage = (error, deactivate) => {
   const { constructor: { name } = {} } = error
@@ -56,7 +56,7 @@ export const KEYS = {
   CONTRACT_CURRENTSUPPLY: () => ['supply'],
   CONTRACT_TOKEN: (tokenId) => ['token', tokenId],
   ALLTOKEN: () => ['web3Token'],
-  TOKEN: (tokenId) => ['web3Token', tokenId],
+  TOKEN: (tokenId) => tokenId ? ['web3Token', tokenId] : ['web3Token'],
   RECENT_ACTIVITY: () => ['recent_activity'],
   MARKET: () => ['market'],
   WALLET: () => ['wallet'],
