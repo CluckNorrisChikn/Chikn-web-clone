@@ -734,3 +734,53 @@ export const useCheckHasGBMutation = (contract, enabled = true) => {
     enabled: !isUndef(contract) && enabled
   })
 }
+
+export const useGetTokenURIMutation = (contract, enabled = true) => {
+  // adress, wallet address
+  // status : boolean
+  return useMutation(async ({ tokenId }) => {
+    return new Promise((resolve, reject) => {
+      contract.tokenURI(parseInt(tokenId))
+        .then((data) => {
+          console.log(`Get TokenUri ${tokenId}`, data)
+          resolve(data)
+        })
+        .catch((err) => {
+          console.log('Get TokenUri error ', err)
+          reject(err)
+        })
+    })
+  }, {
+    enabled: !isUndef(contract) && enabled
+  })
+}
+
+// for admin only (i know its similar to the one at the op)
+export const useGetChickenDetailMutation = (contract, enabled = true) => {
+  // adress, wallet address
+  // status : boolean
+  return useMutation(async ({ tokenId }) => {
+    return new Promise((resolve, reject) => {
+      contract.allChickenRun(parseInt(tokenId))
+        .then((tokenDetail) => {
+          console.log(`Get Chicken detail ${tokenId}`, tokenDetail)
+          resolve({
+            currentOwner: tokenDetail.currentOwner,
+            forSale: tokenDetail.forSale,
+            mintedBy: tokenDetail.mintedBy,
+            numberOfTransfers: parseInt(tokenDetail.numberOfTransfers),
+            perchHeight: tokenDetail.perchHeight,
+            previousPrice: FormatAvaxPrice(tokenDetail.previousPrice),
+            price: FormatAvaxPrice(tokenDetail.price),
+            tokenId: tokenDetail.tokenId
+          })
+        })
+        .catch((err) => {
+          console.log('Get Chicken detail error ', err)
+          reject(err)
+        })
+    })
+  }, {
+    enabled: !isUndef(contract) && enabled
+  })
+}

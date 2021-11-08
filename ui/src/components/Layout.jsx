@@ -18,7 +18,6 @@ import {
 } from './Common'
 import { ConnectWalletButton } from './ConnectWalletButton'
 import HelmetMeta from './HelmetMeta'
-import TransactionProgress from '../components/TransactionProgressToast'
 
 const AvaxLogoSmall = styled((props) => (
   <img src={AvalancheIconSrc} {...props} />

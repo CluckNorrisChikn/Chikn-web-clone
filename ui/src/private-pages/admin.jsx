@@ -14,7 +14,9 @@ import {
   useSetKGMutation,
   getErrorMessage,
   useCheckHasGBMutation,
-  useWeb3GBContract
+  useWeb3GBContract,
+  useGetTokenURIMutation,
+  useGetChickenDetailMutation
 } from '../components/Connect'
 import Layout from '../components/Layout'
 import {
@@ -43,6 +45,8 @@ const Admin = () => {
   const [numberOfAirDrop, setNumberOfAirDrop] = React.useState(1)
   const [tokenId, setTokenId] = React.useState('')
   const [kg, setKg] = React.useState(null)
+  const [tokenIdForUrl, setTokenIdForUrl] = React.useState('')
+  const [tokenIdForChikn, setTokenIdForChikn] = React.useState('')
 
   const useToggleGB = useToggleOpenForGBMutation(contract, active)
   const useTogglePublic = useToggleOpenForPublicMutation(contract, active)
@@ -52,6 +56,8 @@ const Admin = () => {
   const useChangeUrl = useChangeUrlMutation(contract, active)
   const useSetKg = useSetKGMutation(contract, active)
   const useHasGB = useCheckHasGBMutation(contract, active)
+  const useGetTokenUri = useGetTokenURIMutation(contract, active)
+  const useGetChikenDetail = useGetChickenDetailMutation(contract, active)
 
   const toggleGB = () => {
     useToggleGB.mutate({ isOpen: !gbStatus })
@@ -101,6 +107,13 @@ const Admin = () => {
     console.log('GB Test--', balance.toString())
   }
 
+  const getTokenUri = async () => {
+    useGetTokenUri.mutate({ tokenId: tokenIdForUrl })
+  }
+
+  const getChiknById = async () => {
+    useGetChikenDetail.mutate({ tokenId: tokenIdForChikn })
+  }
   return (
     <Layout pageName="Admin">
       <h1>-- Admin --</h1>
@@ -247,6 +260,76 @@ const Admin = () => {
       <hr />
       <h2>Token for sale</h2>
       {tokenForSaleIsLoading ? <Spinner animation="border" /> : <pre>{JSON.stringify(tokensforSales)}</pre>}
+
+      <hr />
+      {/* Check detail token id */}
+      <h2>Check chikn detail by Id</h2>
+      <div>
+        <span></span>
+        <Form.Group className="my-4" controlId="formBasicEmail">
+          <Form.Label>Check chikn detail </Form.Label>
+          <InputGroup className="mb-3">
+            <Form.Control
+              type="text"
+              placeholder="token id "
+              value={tokenIdForChikn}
+              onChange={(e) => setTokenIdForChikn(e.target.value)}
+            />
+            <Button
+              title="Check Token uri"
+              variant="success"
+              disabled={!active || useGetChikenDetail.isLoading}
+              onClick={getChiknById}>
+              {useGetChikenDetail.isLoading ? <Spinner animation="border" /> : 'Check'}
+            </Button>
+          </InputGroup>
+        </Form.Group>
+        {
+          useGetChikenDetail.isSuccess && <Alert variant="success" className="mt-4">
+            <pre>{JSON.stringify(useGetChikenDetail.data, null, 4)}</pre>
+          </Alert>
+        }
+        {
+          useGetChikenDetail.isError && <Alert variant="danger" className="mt-4">
+            {JSON.stringify(getErrorMessage(useGetChikenDetail.error))}
+          </Alert>
+        }
+      </div>
+
+      <hr />
+      {/* Check token Uri by id */}
+      <h2>Check Token Uri by Id</h2>
+      <div>
+        <span></span>
+        <Form.Group className="my-4" controlId="formBasicEmail">
+          <Form.Label>Check token Uri by token id </Form.Label>
+          <InputGroup className="mb-3">
+            <Form.Control
+              type="text"
+              placeholder="token id "
+              value={tokenIdForUrl}
+              onChange={(e) => setTokenIdForUrl(e.target.value)}
+            />
+            <Button
+              title="Check Token uri"
+              variant="success"
+              disabled={!active || useGetTokenUri.isLoading}
+              onClick={getTokenUri}>
+              {useGetTokenUri.isLoading ? <Spinner animation="border" /> : 'Check'}
+            </Button>
+          </InputGroup>
+        </Form.Group>
+        {
+          useGetTokenUri.isSuccess && <Alert variant="success" className="mt-4">
+            <pre>{JSON.stringify(useGetTokenUri.data, null, 4)}</pre>
+          </Alert>
+        }
+        {
+          useGetTokenUri.isError && <Alert variant="danger" className="mt-4">
+            {JSON.stringify(getErrorMessage(useGetTokenUri.error))}
+          </Alert>
+        }
+      </div>
 
       <hr />
       <h2>Set Chikn KG</h2>
