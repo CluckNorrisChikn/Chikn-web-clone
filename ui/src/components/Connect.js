@@ -9,7 +9,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 import ChickenRun from '../../contract/Chicken_Fuji.json'
 // import ChickenRun from '../../contract/Chicken_Mainnet.json'
 import siteConfig from '../../site-config'
-import traits from '../components/traits/traits.json'
+import traits from '../components/traits/combinations.json'
 
 export const getErrorMessage = (error, deactivate) => {
   const { constructor: { name } = {} } = error

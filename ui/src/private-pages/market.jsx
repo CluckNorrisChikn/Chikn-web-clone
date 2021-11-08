@@ -17,7 +17,7 @@ import {
 } from '../components/Connect'
 import Layout from '../components/Layout'
 import metadata from '../components/traits/metadata.json'
-import traitsdata from '../components/traits/traits.json'
+import traitsdata from '../components/traits/combinations.json'
 import { stringArraysNotEqual } from '../components/utils/utils'
 
 const TraitsSelector = ({
