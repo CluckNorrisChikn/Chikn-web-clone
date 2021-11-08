@@ -169,102 +169,8 @@ const Admin = () => {
         variant="success"
         disabled={!active || useTogglePublic.isLoading}
         onClick={test}>
-        {useTogglePublic.isLoading ? <Spinner animation="border" /> : 'Call GB contract directly (Check console log)'}
+        Call GB contract directly (Check console log)
       </Button>
-
-      <hr />
-      {/* Check excluded list */}
-      <h2>Check Excluded list</h2>
-      <div>
-        <span></span>
-        <Form.Group className="my-4" controlId="formBasicEmail">
-          <Form.Label>Check address is in exclude list or not </Form.Label>
-          <InputGroup className="mb-3">
-            <Form.Control
-              type="text"
-              placeholder="0x..."
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
-            <Button
-              title="Public Toggle"
-              variant="success"
-              disabled={!active || useGetExcluded.isLoading}
-              onClick={checkExclude}>
-              {useGetExcluded.isLoading ? <Spinner animation="border" /> : 'Check'}
-            </Button>
-          </InputGroup>
-        </Form.Group>
-        {
-          useGetExcluded.isSuccess && <Alert variant="success" className="mt-4">
-            {JSON.stringify(useGetExcluded.data)}
-          </Alert>
-        }
-      </div>
-
-      <hr />
-      {/* Free excluding (add / remove) */}
-      <h2>Free Excluding (Add/Remove)</h2>
-      <div>
-        <Form.Group className="my-4" controlId="formBasicEmail">
-          <Form.Label>Add / remove wallet address to the exclude list (Free minting)</Form.Label>
-          <InputGroup className="mb-3">
-            <Form.Control
-              type="text"
-              placeholder="0x..."
-              value={freeAddress}
-              onChange={(e) => setFreeAddress(e.target.value)}
-            />
-          </InputGroup>
-
-          <ToggleButtonGroup
-            type="radio"
-            name="excludeList"
-            defaultValue={includeInWhiteList}
-            className="mb-2 d-flex"
-            onChange={(e) => setIncludeInWhiteList(e)}
-            value={includeInWhiteList}>
-            <ToggleButton
-              id="tbg-check-2"
-              className={`w-50 ${includeInWhiteList === true ? 'text-white' : ''
-              }`}
-              variant={
-                'outline-success'
-              }
-              value={true}>
-              Add
-            </ToggleButton>
-            <ToggleButton
-              id="tbg-check-1"
-              className={`w-50 ${includeInWhiteList === false ? 'text-white' : ''
-              }`}
-              variant={
-                // enabledListing === true ? 'success' : 'outline-success'
-                'outline-primary'
-              }
-              value={false}>
-              Remove
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </Form.Group>
-        <Button
-          title="Update Exclude session"
-          variant="success"
-          disabled={!active || useSetExclude.isLoading}
-          onClick={setExclude}>
-          {useSetExclude.isLoading ? <Spinner animation="border" /> : 'Update'}
-        </Button>
-        {
-          useSetExclude.isSuccess && <Alert variant="success" className="mt-4">
-            {JSON.stringify(useSetExclude.data)}
-          </Alert>
-        }
-        {
-          useSetExclude.isError && <Alert variant="danger" className="mt-4">
-            {JSON.stringify(getErrorMessage(useSetExclude.error))}
-          </Alert>
-        }
-      </div>
 
       <hr />
       {/* AIRDROP */}
@@ -380,6 +286,100 @@ const Admin = () => {
           {JSON.stringify(getErrorMessage(useSetKg.error))}
         </Alert>
       }
+
+      <hr />
+      {/* Check excluded list */}
+      <h2>Check Excluded list</h2>
+      <div>
+        <span></span>
+        <Form.Group className="my-4" controlId="formBasicEmail">
+          <Form.Label>Check address is in exclude list or not </Form.Label>
+          <InputGroup className="mb-3">
+            <Form.Control
+              type="text"
+              placeholder="0x..."
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+            <Button
+              title="Public Toggle"
+              variant="success"
+              disabled={!active || useGetExcluded.isLoading}
+              onClick={checkExclude}>
+              {useGetExcluded.isLoading ? <Spinner animation="border" /> : 'Check'}
+            </Button>
+          </InputGroup>
+        </Form.Group>
+        {
+          useGetExcluded.isSuccess && <Alert variant="success" className="mt-4">
+            {JSON.stringify(useGetExcluded.data)}
+          </Alert>
+        }
+      </div>
+
+      <hr />
+      {/* Free excluding (add / remove) */}
+      <h2>Free Excluding (Add/Remove)</h2>
+      <div>
+        <Form.Group className="my-4" controlId="formBasicEmail">
+          <Form.Label>Add / remove wallet address to the exclude list (Free minting)</Form.Label>
+          <InputGroup className="mb-3">
+            <Form.Control
+              type="text"
+              placeholder="0x..."
+              value={freeAddress}
+              onChange={(e) => setFreeAddress(e.target.value)}
+            />
+          </InputGroup>
+
+          <ToggleButtonGroup
+            type="radio"
+            name="excludeList"
+            defaultValue={includeInWhiteList}
+            className="mb-2 d-flex"
+            onChange={(e) => setIncludeInWhiteList(e)}
+            value={includeInWhiteList}>
+            <ToggleButton
+              id="tbg-check-2"
+              className={`w-50 ${includeInWhiteList === true ? 'text-white' : ''
+              }`}
+              variant={
+                'outline-success'
+              }
+              value={true}>
+              Add
+            </ToggleButton>
+            <ToggleButton
+              id="tbg-check-1"
+              className={`w-50 ${includeInWhiteList === false ? 'text-white' : ''
+              }`}
+              variant={
+                // enabledListing === true ? 'success' : 'outline-success'
+                'outline-primary'
+              }
+              value={false}>
+              Remove
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </Form.Group>
+        <Button
+          title="Update Exclude session"
+          variant="success"
+          disabled={!active || useSetExclude.isLoading}
+          onClick={setExclude}>
+          {useSetExclude.isLoading ? <Spinner animation="border" /> : 'Update'}
+        </Button>
+        {
+          useSetExclude.isSuccess && <Alert variant="success" className="mt-4">
+            {JSON.stringify(useSetExclude.data)}
+          </Alert>
+        }
+        {
+          useSetExclude.isError && <Alert variant="danger" className="mt-4">
+            {JSON.stringify(getErrorMessage(useSetExclude.error))}
+          </Alert>
+        }
+      </div>
     </Layout >
   )
 }

@@ -9,7 +9,7 @@ import { Web3Provider } from '@ethersproject/providers'
 import React from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
-
+import TransactionProgress from './src/components/TransactionProgressToast'
 /**
  * Implement Gatsby's Browser APIs in this file.
  *
@@ -39,6 +39,7 @@ export const wrapRootElement = ({ element }) => {
     <QueryClientProvider client={queryClient}>
 
       <Web3ReactProvider getLibrary={getLibrary}>
+        <TransactionProgress intialOnShow={true} />
         {element}
       </Web3ReactProvider>
 
