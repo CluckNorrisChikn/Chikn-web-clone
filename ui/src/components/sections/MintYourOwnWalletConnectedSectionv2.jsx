@@ -50,8 +50,6 @@ const IndexPage = ({ type = 'public' }) => {
       gbMintLimit,
       publicMintLimit,
       publicMintFeex1,
-      publicMintFeex2,
-      publicMintFeex3more,
       publicMintOpen,
       gbMintOpen
     } = {}
@@ -64,16 +62,12 @@ const IndexPage = ({ type = 'public' }) => {
   const priceLookup = React.useCallback(
     (count) => {
       console.debug(`checking prices for ${count} chikn`, {
-        publicMintFeex1,
-        publicMintFeex2,
-        publicMintFeex3more
+        publicMintFeex1
       })
       if (isGBMint) return 0
-      if (count === 1) return publicMintFeex1
-      if (count === 2) return publicMintFeex2
-      else return publicMintFeex3more
+      return publicMintFeex1
     },
-    [isGBMint, publicMintFeex1, publicMintFeex2, publicMintFeex3more]
+    [isGBMint, publicMintFeex1]
   )
   const priceConfig = isGBMint ? siteConfig.gbMint : siteConfig.publicMint
   const isMintOpen =

@@ -83,8 +83,6 @@ export const useGetSupplyQuery = () => {
       gbMintLimit,
       // gbHolders,
       publicMintFeex1,
-      publicMintFeex2,
-      publicMintFeex3more,
       baseUrl,
       gbMintOpen,
       publicMintOpen
@@ -94,8 +92,6 @@ export const useGetSupplyQuery = () => {
       contract.gbHoldersMaxMint(),
       // contract.gbholders(),
       contract.mintFeeAmount(),
-      contract.mint2BaseFeeAmount(),
-      contract.mint3BaseFeeAmount(),
       contract.baseURL(), // e.g. https://cd1n.chikn.farm/tokens/
       contract.openForGB(),
       contract.openForPublic()
@@ -104,16 +100,12 @@ export const useGetSupplyQuery = () => {
     publicMintLimit = parseInt(publicMintLimit)
     gbMintLimit = parseInt(gbMintLimit)
     publicMintFeex1 = FormatAvaxPrice(publicMintFeex1)
-    publicMintFeex2 = FormatAvaxPrice(publicMintFeex2)
-    publicMintFeex3more = FormatAvaxPrice(publicMintFeex3more)
     return {
       minted,
       publicMintLimit,
       gbMintLimit,
       // gbHolders,
       publicMintFeex1,
-      publicMintFeex2,
-      publicMintFeex3more,
       baseUrl,
       gbMintOpen,
       publicMintOpen
