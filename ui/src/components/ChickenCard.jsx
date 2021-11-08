@@ -517,15 +517,19 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
 
                 {/* social */}
                 <ButtonGroup>
-                  <SocialShareLinkButton
-                    title={`${siteConfig.nftName} #${tokenId}`}
-                    text={siteConfig.description}
-                    url={window.location.toString()}
-                  />
-                  <LinkButton
-                    href={properties.image}
-                    tooltip="Download image"
-                  />
+                  {isRevealed && (
+                    <SocialShareLinkButton
+                      title={`${siteConfig.nftName} #${tokenId}`}
+                      text={siteConfig.description}
+                      url={window.location.toString()}
+                    />
+                  )}
+                  {isRevealed && (
+                    <LinkButton
+                      href={properties.image}
+                      tooltip="Download image"
+                    />
+                  )}
                   <RefreshButton onClick={refreshPage} />
                 </ButtonGroup>
               </StackRow>
