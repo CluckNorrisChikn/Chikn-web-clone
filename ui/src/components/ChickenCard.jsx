@@ -31,13 +31,15 @@ import {
   useGetWeb3TokenDetail,
   useWeb3Contract,
   getErrorMessage,
-  KEYS
+  KEYS,
+  useGetSupplyQuery
 } from './Connect'
 import styled from 'styled-components'
 import AvaxSvg from '../images/avalanche-avax-logo.svg'
 import siteConfig from '../../site-config'
 import EditListingModal from './modals/EditListingModal'
 import { useQueryClient } from 'react-query'
+import ChickenUnrevealedImage from '../images/chicken_unrevealed.jpg'
 
 /**
  * @typedef {Object} Details
@@ -54,9 +56,11 @@ import { useQueryClient } from 'react-query'
 /** @type {Details} */
 const DETAILS_BLANK = {}
 
-const AvaxLogo = styled((props) => <img src={AvaxSvg} {...props} />)`
-  width: ${(props) => props.logoSize || '15px'};
-  height: ${(props) => props.logoSize || '15px'};
+const AvaxLogo = styled(({ logoSize = '15px', ...props }) => (
+  <img src={AvaxSvg} logosize={logoSize} {...props} />
+))`
+  width: ${(props) => props.logosize || '15px'};
+  height: ${(props) => props.logosize || '15px'};
   margin-left: 5px;
   position: relative;
   top: -2px;
@@ -144,6 +148,11 @@ const AvaxPill = ({
     {children}
     <AvaxLogo logoSize={logoSize} />
   </span>
+)
+
+export const ConnectWalletPrompt = () => <GreyPill>Connect wallet</GreyPill>
+export const ConnectWalletPromptText = () => (
+  <i className="text-muted">Connect wallet to view</i>
 )
 
 const shortAccount = (acct) => {
@@ -287,6 +296,8 @@ export const ChickenCardMarketplaceSummary = ({
 }) => {
   const { contract, active, account } = useWeb3Contract()
   const getTokenQuery = useGetTokenQuery(tokenId)
+  const { data: { minted } = {} } = useGetSupplyQuery()
+  const isRevealed = tokenId <= minted
   const { data: { properties = {} } = {} } = getTokenQuery
   const getWeb3TokenDetail = useGetWeb3TokenDetail(contract, active, tokenId)
   const { data: details = DETAILS_BLANK } = getWeb3TokenDetail
@@ -301,7 +312,9 @@ export const ChickenCardMarketplaceSummary = ({
       {getTokenQuery.isSuccess && (
         <>
           <ChiknCard onClick={onClick}>
-            <CardImage src={properties.image} />
+            <CardImage
+              src={isRevealed ? properties.image : ChickenUnrevealedImage}
+            />
             <Card.Body>
               <StackCol className="gap-2 justify-content-between">
                 <h6 className="p-0">
@@ -342,6 +355,8 @@ export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
   const { active, contract } = useWeb3Contract()
   const getWeb3TokenDetail = useGetWeb3TokenDetail(contract, active, tokenId)
   const { data: { forSale = false, currentOwner } = {} } = getWeb3TokenDetail
+  const { data: { minted } = {} } = useGetSupplyQuery()
+  const isRevealed = tokenId <= minted
   return (
     <>
       {getTokenQuery.isLoading && <ChickenCardShimmer />}
@@ -349,7 +364,9 @@ export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
       {getTokenQuery.isSuccess && (
         <>
           <ChiknCard onClick={onClick}>
-            <CardImage src={properties.image} />
+            <CardImage
+              src={isRevealed ? properties.image : ChickenUnrevealedImage}
+            />
             <Card.Body>
               <StackCol className="justify-content-between">
                 <h6>
@@ -377,6 +394,8 @@ export const ChickenCardRecentActivitySummary = ({
   const getTokenQuery = useGetTokenQuery(tokenId)
   const { data: { properties = {}, details = DETAILS_BLANK } = {} } =
     getTokenQuery
+  const { data: { minted } = {} } = useGetSupplyQuery()
+  const isRevealed = tokenId <= minted
   return (
     <>
       {getTokenQuery.isLoading && <ChickenCardShimmer />}
@@ -384,7 +403,9 @@ export const ChickenCardRecentActivitySummary = ({
       {getTokenQuery.isSuccess && (
         <>
           <ChiknCard onClick={onClick}>
-            <CardImage src={properties.image} />
+            <CardImage
+              src={isRevealed ? properties.image : ChickenUnrevealedImage}
+            />
             <Card.Body>
               <StackCol className="gap-2">
                 <h6>
@@ -446,6 +467,8 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
   /** @type {{ data: { details: Details }}} */
   const getTokenQuery = useGetTokenQuery(tokenId)
   const { data: { properties = {} } = {} } = getTokenQuery
+  const { data: { minted } = {} } = useGetSupplyQuery()
+  const isRevealed = tokenId <= minted
   const getWeb3TokenDetail = useGetWeb3TokenDetail(contract, active, tokenId)
   const { data: details = DETAILS_BLANK } = getWeb3TokenDetail
   const isOwner = details.currentOwner === account
@@ -481,7 +504,9 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
         <Section className="bg-white border" center={false}>
           <StackDynamic className="gap-5 flex-grow-1">
             <div>
-              <ChickenImage src={properties.image} />
+              <ChickenImage
+                src={isRevealed ? properties.image : ChickenUnrevealedImage}
+              />
             </div>
             <StackCol className="w-exact60pc gap-4">
               <StackRow className="justify-content-between">
@@ -507,7 +532,7 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
 
               {/* actions */}
               <StackDynamic className="gap-1 flex-wrap">
-                {active && !isOwner && !isForSale && (
+                {active && ( // !isOwner && !isForSale &&
                   <SaleStatus
                     forSale={details.forSale}
                     owner={details.currentOwner}
@@ -539,12 +564,7 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
                 )}
                 {isOwner && isForSale && (
                   <MenuButton onClick={() => setShowModal(true)}>
-                    Change price
-                  </MenuButton> // modify listing
-                )}
-                {isOwner && isForSale && (
-                  <MenuButton onClick={() => setShowModal(true)}>
-                    Cancel listing
+                    Change listing
                   </MenuButton> // modify listing
                 )}
               </StackDynamic>
@@ -573,32 +593,34 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
                 lay <b>$egg</b>.
               </i>
 
-              <Accordion defaultActiveKey="0" flush>
-                {/* attributes */}
-                <Accordion.Item eventKey="0">
-                  <Accordion.Header>Attributes</Accordion.Header>
-                  <Accordion.Body>
-                    <StackCol className="gap-1 flex-wrap">
-                      {'background,body,head,neck,arms,feet,tail,bgfx,trims'
-                        .split(',')
-                        .map((p) => {
-                          return (
-                            <Property key={p}>
-                              <b>{p}</b>: {properties[p] || 'None'}
-                            </Property>
-                          )
-                        })}
-                    </StackCol>
-                  </Accordion.Body>
-                </Accordion.Item>
-                {/* history */}
-                <Accordion.Item eventKey="1">
-                  <Accordion.Header>History</Accordion.Header>
-                  <Accordion.Body>
-                    <ShowHistory tokenId={tokenId} />
-                  </Accordion.Body>
-                </Accordion.Item>
-              </Accordion>
+              {isRevealed && (
+                <Accordion defaultActiveKey="0" flush>
+                  {/* attributes */}
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Attributes</Accordion.Header>
+                    <Accordion.Body>
+                      <StackCol className="gap-1 flex-wrap">
+                        {'background,body,head,neck,arms,feet,tail,bgfx,trims'
+                          .split(',')
+                          .map((p) => {
+                            return (
+                              <Property key={p}>
+                                <b>{p}</b>: {properties[p] || 'None'}
+                              </Property>
+                            )
+                          })}
+                      </StackCol>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                  {/* history */}
+                  <Accordion.Item eventKey="1">
+                    <Accordion.Header>History</Accordion.Header>
+                    <Accordion.Body>
+                      <ShowHistory tokenId={tokenId} />
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+              )}
             </StackCol>
           </StackDynamic>
         </Section>

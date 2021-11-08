@@ -129,6 +129,7 @@ export const ConnectWalletButton = () => {
       })
       // give wallet state time to clear (and propagate)...
       setTimeout(() => {
+        queryClient.resetQueries(KEYS.SALES())
         queryClient.resetQueries(KEYS.WALLET())
         queryClient.resetQueries(KEYS.TOKEN())
       }, 500)
