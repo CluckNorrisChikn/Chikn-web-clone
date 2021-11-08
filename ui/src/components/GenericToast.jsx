@@ -10,6 +10,7 @@ const CenterToaster = styled.div`
   top: 100px;
   left: 0;
   right: 0;
+  z-index: 9999;
 `
 
 const CloseButton = styled(Button)`
