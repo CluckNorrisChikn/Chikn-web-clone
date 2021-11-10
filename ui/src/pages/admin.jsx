@@ -301,7 +301,7 @@ const Admin = () => {
           onChange={(e) => setIsForSale(e)}
           value={isForSale}>
           <ToggleButton
-            id="tbg-check-2"
+            id="isFOrSale-check-2"
             className={`w-50 ${isForSale === true ? 'text-white' : ''
             }`}
             variant={
@@ -311,7 +311,7 @@ const Admin = () => {
               For Sale
           </ToggleButton>
           <ToggleButton
-            id="tbg-check-1"
+            id="isFOrSale-check-1"
             className={`w-50 ${isForSale === false ? 'text-white' : ''
             }`}
             variant={
@@ -503,7 +503,7 @@ const Admin = () => {
             onChange={(e) => setIncludeInWhiteList(e)}
             value={includeInWhiteList}>
             <ToggleButton
-              id="tbg-check-2"
+              id="excludeList-check-2"
               className={`w-50 ${includeInWhiteList === true ? 'text-white' : ''
               }`}
               variant={
@@ -513,7 +513,7 @@ const Admin = () => {
               Add
             </ToggleButton>
             <ToggleButton
-              id="tbg-check-1"
+              id="excludeList-check-1"
               className={`w-50 ${includeInWhiteList === false ? 'text-white' : ''
               }`}
               variant={
