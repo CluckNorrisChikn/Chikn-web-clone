@@ -5,7 +5,7 @@ const Component = () => {
   return (
     <Section className="border bg-white">
       <StackCol className="gap-3">
-        <h3>Minting now open!</h3>
+        {/* <h3>Minting now open!</h3> */}
         <div>
           Please connect your wallet, to mint your own <ChiknText />.
         </div>
