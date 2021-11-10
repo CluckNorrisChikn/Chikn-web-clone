@@ -45,6 +45,7 @@ const TransactionProgress = ({ intialOnShow = false }) => {
           setTimeout(() => {
             queryClient.invalidateQueries(KEYS.MARKET())
             queryClient.invalidateQueries(KEYS.ALLTOKEN())
+            queryClient.invalidateQueries(KEYS.CONTRACT_TOKEN())
           }, 2000)
           setTimeout(() => {
             setOnShow(false)

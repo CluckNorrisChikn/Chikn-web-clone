@@ -14,19 +14,21 @@ const Component = ({ type = 'public' }) => {
   // const remainingChikn = maxAllocation - minted
   return (
     <Section className="bg-light">
-      <h3>
-        <ChiknText /> minted:{' '}
-        {getSupplyQuery.isLoading && (
-          <>
-            <Spinner animation="border" />
-            <span> / </span>
-            <Spinner animation="border" />
-          </>
-        )}
-        {getSupplyQuery.isSuccess &&
-          `${fmtNumber(minted)} / ${fmtNumber(maxAllocation)}`}
-        {getSupplyQuery.isError && '-'}
-      </h3>
+      {active && (
+        <h3>
+          <ChiknText /> minted:{' '}
+          {getSupplyQuery.isLoading && (
+            <>
+              <Spinner animation="border" />
+              <span> / </span>
+              <Spinner animation="border" />
+            </>
+          )}
+          {getSupplyQuery.isSuccess &&
+            `${fmtNumber(minted)} / ${fmtNumber(maxAllocation)}`}
+          {getSupplyQuery.isError && '-'}
+        </h3>
+      )}
 
       {!active && <div>Please connect your wallet to view.</div>}
     </Section>

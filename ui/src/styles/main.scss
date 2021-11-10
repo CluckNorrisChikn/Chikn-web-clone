@@ -309,3 +309,8 @@ blockquote {
     opacity: $btn-close-disabled-opacity;
   }
 }
+
+// toggle button - make selected primary text white
+.btn-check:checked + .btn-outline-primary {
+  color: white !important;
+}

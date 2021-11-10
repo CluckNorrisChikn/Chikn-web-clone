@@ -53,8 +53,8 @@ const TIMEOUT_1_MIN = 60 * 1000
 
 export const KEYS = {
   CONTRACT: () => ['contract'],
-  CONTRACT_CURRENTSUPPLY: () => ['supply'],
-  CONTRACT_TOKEN: (tokenId) => ['token', tokenId],
+  CONTRACT_CURRENTSUPPLY: () => ['token', 'supply'],
+  CONTRACT_TOKEN: (tokenId) => tokenId ? ['token', tokenId] : ['token'],
   ALLTOKEN: () => ['web3Token'],
   TOKEN: (tokenId) => tokenId ? ['web3Token', tokenId] : ['web3Token'],
   RECENT_ACTIVITY: () => ['recent_activity'],
@@ -112,6 +112,8 @@ export const useGetSupplyQuery = () => {
     }
   }, {
     enabled: active === true,
+    cacheTime: 5 * 1000,
+    staleTime: 5 * 1000,
     refetchInterval: 60 * 1000
   })
 }
@@ -168,14 +170,6 @@ export const useGetRecentActivityQuery = ({ active, contract }) => {
   }, { enabled: active === true }) // NOTE === true is important!
 }
 
-// TODO Chicken pricing sale data
-// const { price, previousPrice, numberOfTransfers, ...details } = await this.contract.methods.allChickenRun(tokenId).call()
-// return { ...details, price: parseInt(price) / Math.pow(10, 18), previousPrice: parseInt(previousPrice) / Math.pow(10, 18), numberOfTransfers: parseInt(numberOfTransfers) }
-
-// export const getWalletTokensQuery = () => {
-//   return useQuery()
-// }
-
 /**
  * @returns {}
  */
@@ -184,7 +178,7 @@ export const useWeb3Contract = () => {
   const web3react = useWeb3React()
 
   React.useEffect(() => {
-    console.debug('watch contract', web3react)
+    // console.debug('watch contract', web3react)
     let contract
     if (web3react.library) {
       const { abi, address } = ChickenRun
@@ -669,7 +663,8 @@ export const useAirdropMutation = (contract, enabled = true) => {
   })
 }
 
-export const useGetAllSalesToken = (contract, account, enabled = true) => {
+export const useGetAllSalesToken = () => {
+  const { contract } = useWeb3Contract()
   return useQuery(
     KEYS.SALES(),
     async () => {
@@ -678,7 +673,7 @@ export const useGetAllSalesToken = (contract, account, enabled = true) => {
       return tokensForSale.filter((t) => t > 0).map(t => Number(t))
     },
     {
-      enabled: !isUndef(contract) && !isUndef(account) && enabled
+      enabled: !isUndef(contract)
     }
   )
 }
