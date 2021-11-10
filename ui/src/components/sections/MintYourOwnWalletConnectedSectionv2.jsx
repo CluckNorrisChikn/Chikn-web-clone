@@ -47,8 +47,9 @@ const IndexPage = ({ type = 'public' }) => {
   const {
     data: {
       minted,
-      gbMintLimit,
-      publicMintLimit,
+      gbminted,
+      publicMintLimit, // e.g. 10,000
+      gbMintLimit, // e.g. 900
       publicMintFeex1,
       publicMintOpen,
       gbMintOpen
@@ -58,7 +59,9 @@ const IndexPage = ({ type = 'public' }) => {
   // local properties
   const isGBMint = type === 'gb'
   const maxAllocation = isGBMint ? gbMintLimit : publicMintLimit
-  const remainingChikn = maxAllocation - minted
+  const remainingChikn = isGBMint
+    ? gbMintLimit - gbminted
+    : publicMintLimit - minted
   const priceLookup = React.useCallback(
     (count) => {
       console.debug(`checking prices for ${count} chikn`, {

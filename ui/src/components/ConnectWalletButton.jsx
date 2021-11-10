@@ -183,11 +183,24 @@ export const ConnectWalletButton = () => {
         autoHide={notification.autoHide}
         className={`bg-${notification.style}`}
       >
-        <div>{notification.body}</div>
+        {/* unsupported network */}
+        {notification.body.includes('Unsupported chain') && (
+          <div className="py-4">
+            Unsupported network. Please switch your wallet to the Avalanche
+            Network.
+          </div>
+        )}
+        {/* generic message */}
+        {!notification.body.includes('Unsupported chain') && (
+          <div className="py-4">{notification.body}</div>
+        )}
+
         {notification.style === 'danger' &&
           notification.body.includes('Unsupported chain') && (
           <div className="d-flex justify-content-center pt-3">
-            <Button onClick={addAvalancheNetwork}>SWITCH TO MAINNET</Button>
+            <Button className="w-100" onClick={addAvalancheNetwork}>
+                Switch to correct network
+            </Button>
           </div>
         )}
       </GenericToast>

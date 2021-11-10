@@ -6,12 +6,17 @@ import { useGetSupplyQuery, useWeb3Contract } from '../Connect'
 const Component = ({ type = 'public' }) => {
   const { active } = useWeb3Contract()
   const getSupplyQuery = useGetSupplyQuery()
-  const { data: { minted, gbMintLimit, publicMintLimit } = {} } = getSupplyQuery
+  const { data: { minted, gbminted, gbMintLimit, publicMintLimit } = {} } =
+    getSupplyQuery
 
   // local properties
   const isGBMint = type === 'gb'
   const maxAllocation = isGBMint ? gbMintLimit : publicMintLimit
-  // const remainingChikn = maxAllocation - minted
+  const mintedCount = isGBMint ? gbminted : minted
+  // const remainingChikn = isGBMint
+  //   ? gbMintLimit - gbminted
+  //   : publicMintLimit - minted
+
   return (
     <Section className="bg-light">
       {active && (
@@ -25,7 +30,7 @@ const Component = ({ type = 'public' }) => {
             </>
           )}
           {getSupplyQuery.isSuccess &&
-            `${fmtNumber(minted)} / ${fmtNumber(maxAllocation)}`}
+            `${fmtNumber(mintedCount)} / ${fmtNumber(maxAllocation)}`}
           {getSupplyQuery.isError && '-'}
         </h3>
       )}

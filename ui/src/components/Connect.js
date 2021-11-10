@@ -79,6 +79,7 @@ export const useGetSupplyQuery = () => {
     console.debug({ active, keys: Object.keys(contract) })
     let [
       minted,
+      gbminted,
       publicMintLimit,
       gbMintLimit,
       // gbHolders,
@@ -87,9 +88,10 @@ export const useGetSupplyQuery = () => {
       gbMintOpen,
       publicMintOpen
     ] = await Promise.all([
-      contract.totalSupply(),
-      contract.maxSupply(),
-      contract.gbHoldersMaxMint(),
+      contract.totalSupply(), // <- how many are minted overall
+      contract.gbTotalSupply(), // <- how many minted from gb supply (i.e. 5 / 900)
+      contract.maxSupply(), // <- how many total (i.e. 10k)
+      contract.gbHoldersMaxMint(), // <- how many total from gb supply (i.e. 900)
       // contract.gbholders(),
       contract.mintFeeAmount(),
       contract.baseURL(), // e.g. https://cd1n.chikn.farm/tokens/
@@ -102,6 +104,7 @@ export const useGetSupplyQuery = () => {
     publicMintFeex1 = FormatAvaxPrice(publicMintFeex1)
     return {
       minted,
+      gbminted,
       publicMintLimit,
       gbMintLimit,
       // gbHolders,
