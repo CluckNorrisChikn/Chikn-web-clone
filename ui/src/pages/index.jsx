@@ -215,8 +215,8 @@ const IndexPage = () => {
           </>
         )} */}
 
-        <Container className="text-center">
-          <div className="d-flex flex-row gap-5 justify-content-evenly">
+        <Container className="d-flex justify-content-center">
+          <div className="d-flex flex-row gap-5 justify-content-evenly woodenbanner-sizing">
             <div className="text-center pr-5">
               <h3>GB Mint</h3>
               <h5>
