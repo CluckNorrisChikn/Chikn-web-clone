@@ -13,9 +13,7 @@ const WoodenBannerOverlay = Container
 
 const Component = () => {
   // react-query
-  const {
-    data: { gbMintOpen, publicMintOpen }
-  } = useGetSupplyQuery()
+  const { data: { gbMintOpen, publicMintOpen } = {} } = useGetSupplyQuery()
   const { active } = useWeb3Contract()
 
   const [date, setDate] = React.useState(siteConfig.publicMint.releaseDate)
