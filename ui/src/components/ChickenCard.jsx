@@ -604,7 +604,7 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
                     <Accordion.Header>Attributes</Accordion.Header>
                     <Accordion.Body>
                       <StackCol className="gap-1 flex-wrap">
-                        {'background,body,head,neck,arms,feet,tail,bgfx,trims'
+                        {'background,body,head,neck,torso,feet,tail,trim'
                           .split(',')
                           .map((p) => {
                             return (
