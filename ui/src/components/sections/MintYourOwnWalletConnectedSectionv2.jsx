@@ -148,6 +148,7 @@ const IndexPage = ({ type = 'public' }) => {
               <div>
                 {fmtNumber(remainingChikn)} <ChiknText /> remaining.
               </div>
+              {isGBMint && <div>Requires 900 GB tokens in Wallet</div>}
               <div>
                 Select how many <ChiknText /> you want to mint:
               </div>
@@ -239,7 +240,9 @@ const IndexPage = ({ type = 'public' }) => {
                   {
                     countOfChickens,
                     price,
-                    totalPrice
+                    totalPrice,
+                    gbMintOpen,
+                    publicMintOpen
                   },
                   null,
                   2

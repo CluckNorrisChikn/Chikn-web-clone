@@ -5,7 +5,7 @@ import { Button, Col, Container, Row } from 'react-bootstrap'
 import siteConfig from '../../../site-config'
 import WoodenBannerImage from '../../images/Wooden-Sign-Hanging.png'
 import { Section } from '../Common'
-import { useGetSupplyQuery } from '../Connect'
+import { useGetSupplyQuery, useWeb3Contract } from '../Connect'
 
 const WoodenBanner = (props) => <img src={WoodenBannerImage} {...props} />
 
@@ -13,7 +13,10 @@ const WoodenBannerOverlay = Container
 
 const Component = () => {
   // react-query
-  const { gbMintOpen, publicMintOpen } = useGetSupplyQuery()
+  const {
+    data: { gbMintOpen, publicMintOpen }
+  } = useGetSupplyQuery()
+  const { active } = useWeb3Contract()
 
   const [date, setDate] = React.useState(siteConfig.publicMint.releaseDate)
   const [day, setDay] = React.useState('--')
@@ -86,25 +89,41 @@ const Component = () => {
             </Row>
           </Container>
           <div className="d-flex flex-row gap-3 justify-content-center">
-            <Link
-              className={`btn btn-primary ${gbMintOpen ? '' : 'disabled'}`}
-              disabled={!gbMintOpen}
-              to="/gbmint"
-            >
-              GB Pre-Mint
-            </Link>
-            <Link
-              className={`btn btn-primary ${publicMintOpen ? '' : 'disabled'}`}
-              disabled={!publicMintOpen}
-              to="/mint"
-            >
-              Public Mint
-            </Link>
+            {!active && (
+              <Button className="px-4" disabled>
+                Connect wallet to Mint
+              </Button>
+            )}
+            {active && (
+              <>
+                <Link
+                  className={`btn btn-primary px-4 ${
+                    gbMintOpen ? '' : 'disabled'
+                  }`}
+                  disabled={!gbMintOpen}
+                  to="/gbmint"
+                >
+                  GB Pre-Mint
+                </Link>
+                <Link
+                  className={`btn btn-primary px-4 ${
+                    publicMintOpen ? '' : 'disabled'
+                  }`}
+                  disabled={!publicMintOpen}
+                  to="/mint"
+                >
+                  Public Mint
+                </Link>
+              </>
+            )}
           </div>
         </WoodenBannerOverlay>
 
         <WoodenBanner className="woodenbanner-sizing" />
       </Section>
+      {/* {process.env.NODE_ENV !== 'production' && (
+        <pre>data={JSON.stringify({ gbMintOpen, publicMintOpen })}</pre>
+      )} */}
     </>
   )
 }
