@@ -148,7 +148,7 @@ const IndexPage = ({ type = 'public' }) => {
               <div>
                 {fmtNumber(remainingChikn)} <ChiknText /> remaining.
               </div>
-              {isGBMint && <div>Requires 900 GB tokens in Wallet</div>}
+              {isGBMint && <div>Requires 900 $GB tokens in Wallet</div>}
               <div>
                 Select how many <ChiknText /> you want to mint:
               </div>
@@ -184,7 +184,7 @@ const IndexPage = ({ type = 'public' }) => {
                 </Button>
               </InputGroup>
               <h3 className="mb-0 pb-0">
-                Total: {totalPrice} <AvaxLogoImage />
+                Total: {totalPrice} <AvaxLogoImage /> <small>(+gas)</small>
               </h3>
               <small className="text-muted mb-3">
                 ({price}/{siteConfig.nftName})

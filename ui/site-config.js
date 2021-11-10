@@ -51,8 +51,8 @@ const siteConfig = {
     limitPerWallet: 50
   },
   gbMint: {
-    title_open: 'GB Pre-Minting is open!',
-    title_closed: 'GB Pre-Minting closed.',
+    title_open: '$GB Pre-Minting is open!',
+    title_closed: '$GB Pre-Minting closed.',
     releaseDate: '2021-11-10T22:00:00+0000',
     maxPerMint: 1,
     limitPerWallet: 1
