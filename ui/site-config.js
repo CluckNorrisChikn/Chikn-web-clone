@@ -53,7 +53,7 @@ const siteConfig = {
   gbMint: {
     title_open: '$GB Pre-Minting is open!',
     title_closed: '$GB Pre-Minting closed.',
-    releaseDate: '2021-11-10T22:00:00+0000',
+    releaseDate: '2021-11-12T22:00:00+0000',
     maxPerMint: 1,
     limitPerWallet: 1
   },

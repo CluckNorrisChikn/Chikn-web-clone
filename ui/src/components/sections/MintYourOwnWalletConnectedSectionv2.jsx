@@ -136,7 +136,7 @@ const IndexPage = ({ type = 'public' }) => {
               <h3>{priceConfig.title_closed}</h3>
               <div>
                 To buy <ChiknText />, please check the{' '}
-                <Link to="/market">Market</Link>.
+                <Link to="/market">Market</Link> (coming soon).
               </div>
             </>
           )}
