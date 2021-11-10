@@ -72,6 +72,8 @@ export const KEYS = {
 
 /**
  * ANCHOR Get's the minted / total count of tokens.
+ *
+ * Refetches every minute.
  */
 export const useGetSupplyQuery = () => {
   const { active, contract } = useWeb3Contract()

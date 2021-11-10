@@ -1,21 +1,38 @@
+import { Link } from 'gatsby'
 import moment from 'moment-timezone'
 import * as React from 'react'
 import { Button, Col, Container, Row } from 'react-bootstrap'
-import styled from 'styled-components'
+import siteConfig from '../../../site-config'
 import WoodenBannerImage from '../../images/Wooden-Sign-Hanging.png'
 import { Section } from '../Common'
-
-const MOCK_DATE = '2021-01-25T00:00:00+1000'
+import { useGetSupplyQuery } from '../Connect'
 
 const WoodenBanner = (props) => <img src={WoodenBannerImage} {...props} />
 
 const WoodenBannerOverlay = Container
 
-const Component = ({ date = MOCK_DATE }) => {
+const Component = () => {
+  // react-query
+  const { gbMintOpen, publicMintOpen } = useGetSupplyQuery()
+
+  const [date, setDate] = React.useState(siteConfig.publicMint.releaseDate)
   const [day, setDay] = React.useState('--')
   const [hrs, setHrs] = React.useState('--')
   const [min, setMin] = React.useState('--')
   const [sec, setSec] = React.useState('--')
+
+  // watch the contract, show date based on the open mint...
+  React.useEffect(() => {
+    if (gbMintOpen && publicMintOpen) {
+      setDate(siteConfig.publicMint.releaseDate)
+    } else if (!gbMintOpen && publicMintOpen) {
+      setDate(siteConfig.publicMint.releaseDate)
+    } else if (gbMintOpen && !publicMintOpen) {
+      setDate(siteConfig.publicMint.releaseDate)
+    } else if (!gbMintOpen && !publicMintOpen) {
+      setDate(siteConfig.gbMint.releaseDate) // gbmint date
+    }
+  }, [gbMintOpen, publicMintOpen])
 
   const setTime = (diffms, intervalRef) => {
     const d = new Date(diffms)
@@ -33,6 +50,7 @@ const Component = ({ date = MOCK_DATE }) => {
     }
   }
 
+  // timer - updates every second...
   React.useEffect(() => {
     setTime(moment(date).diff())
     const ref = setInterval(() => setTime(moment(date).diff()), 1000)
@@ -67,7 +85,22 @@ const Component = ({ date = MOCK_DATE }) => {
               </Col>
             </Row>
           </Container>
-          <Button disabled>Mint</Button>
+          <div className="d-flex flex-row gap-3 justify-content-center">
+            <Link
+              className={`btn btn-primary ${gbMintOpen ? '' : 'disabled'}`}
+              disabled={!gbMintOpen}
+              to="/gbmint"
+            >
+              GB Pre-Mint
+            </Link>
+            <Link
+              className={`btn btn-primary ${publicMintOpen ? '' : 'disabled'}`}
+              disabled={!publicMintOpen}
+              to="/mint"
+            >
+              Public Mint
+            </Link>
+          </div>
         </WoodenBannerOverlay>
 
         <WoodenBanner className="woodenbanner-sizing" />

@@ -44,15 +44,15 @@ const siteConfig = {
     connectWalledEnabled: GATSBY_FT_CONNECT_WALLET_ENABLED !== 'false'
   },
   publicMint: {
-    title_open: 'Minting now open!',
-    title_closed: 'Minting now closed.',
+    title_open: 'Minting is open!',
+    title_closed: 'Minting closed.',
     releaseDate: '2021-11-12T22:00:00+0000',
     maxPerMint: 12,
     limitPerWallet: 50
   },
   gbMint: {
-    title_open: 'GB Pre-Minting is now open!',
-    title_closed: 'GB Pre-Minting is now closed.',
+    title_open: 'GB Pre-Minting is open!',
+    title_closed: 'GB Pre-Minting closed.',
     releaseDate: '2021-11-10T22:00:00+0000',
     maxPerMint: 1,
     limitPerWallet: 1

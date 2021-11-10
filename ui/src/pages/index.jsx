@@ -129,8 +129,6 @@ const ScratchesWhiteRight = styled((props) => (
 
 // page
 
-const releaseDateMoment = moment(siteConfig.releaseDate)
-
 const IndexPage = () => {
   // const { active } = useWeb3Contract()
 
@@ -173,7 +171,7 @@ const IndexPage = () => {
             <Corn02 />
             <ChickenColonel />
           </RightContainer>
-          <CountdownSectionv2 date={siteConfig.publicMint.releaseDate} />
+          <CountdownSectionv2 />
         </Section>
       </div>
 
