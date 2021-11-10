@@ -101,7 +101,7 @@ const Component = () => {
                   disabled={!gbMintOpen}
                   to="/gbmint"
                 >
-                  GB Pre-Mint
+                  $GB Pre-Mint
                 </Link>
                 <Link
                   className={`btn btn-primary px-4 ${
