@@ -101,6 +101,10 @@ body {
 .toast-header,
 .btn-primary {
   color: white !important;
+  font-size: var(--bs-body-font-size) !important;
+}
+.toast {
+  font-size: var(--bs-body-font-size) !important;
 }
 
 // used fixed width font for flip
@@ -120,7 +124,7 @@ body {
   }
   .btn {
     font-size: 1.2rem;
-    width: 30%;
+    // width: 30%;
     margin-top: 0.5rem;
   }
   h1 {

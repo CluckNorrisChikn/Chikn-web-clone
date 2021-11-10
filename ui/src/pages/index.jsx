@@ -129,8 +129,6 @@ const ScratchesWhiteRight = styled((props) => (
 
 // page
 
-const releaseDateMoment = moment(siteConfig.releaseDate)
-
 const IndexPage = () => {
   // const { active } = useWeb3Contract()
 
@@ -173,7 +171,7 @@ const IndexPage = () => {
             <Corn02 />
             <ChickenColonel />
           </RightContainer>
-          <CountdownSectionv2 date={siteConfig.publicMint.releaseDate} />
+          <CountdownSectionv2 />
         </Section>
       </div>
 
@@ -217,15 +215,33 @@ const IndexPage = () => {
           </>
         )} */}
 
-        <Container className="text-center">
-          <h1>
-            Price: 1 AVAX <AvaxLogo size="2.5rem" />
-          </h1>
-          <small className="text-muted">
-            Max {siteConfig.publicMint.maxPerMint} per mint.
-            <br />
-            Limit {siteConfig.publicMint.limitPerWallet} per wallet.
-          </small>
+        <Container className="d-flex justify-content-center">
+          <div className="d-flex flex-row gap-5 justify-content-evenly woodenbanner-sizing">
+            <div className="text-center pr-5">
+              <h3>GB Mint</h3>
+              <h5>
+                0 AVAX <AvaxLogo size="1.5rem" />
+              </h5>
+              <small className="text-muted">
+                Max {siteConfig.gbMint.maxPerMint} per mint.
+                <br />
+                Limit {siteConfig.gbMint.limitPerWallet} per wallet.
+                <br />
+                Requires 900 GB tokens.
+              </small>
+            </div>
+            <div className="text-center pl-5">
+              <h3>Public Mint</h3>
+              <h5>
+                1 AVAX <AvaxLogo size="1.5rem" />
+              </h5>
+              <small className="text-muted">
+                Max {siteConfig.publicMint.maxPerMint} per mint.
+                <br />
+                Limit {siteConfig.publicMint.limitPerWallet} per wallet.
+              </small>
+            </div>
+          </div>
         </Container>
 
         {/* carousel */}

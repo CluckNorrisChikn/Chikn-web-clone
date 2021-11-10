@@ -47,8 +47,9 @@ const IndexPage = ({ type = 'public' }) => {
   const {
     data: {
       minted,
-      gbMintLimit,
-      publicMintLimit,
+      gbminted,
+      publicMintLimit, // e.g. 10,000
+      gbMintLimit, // e.g. 900
       publicMintFeex1,
       publicMintOpen,
       gbMintOpen
@@ -58,7 +59,9 @@ const IndexPage = ({ type = 'public' }) => {
   // local properties
   const isGBMint = type === 'gb'
   const maxAllocation = isGBMint ? gbMintLimit : publicMintLimit
-  const remainingChikn = maxAllocation - minted
+  const remainingChikn = isGBMint
+    ? gbMintLimit - gbminted
+    : publicMintLimit - minted
   const priceLookup = React.useCallback(
     (count) => {
       console.debug(`checking prices for ${count} chikn`, {
@@ -145,6 +148,7 @@ const IndexPage = ({ type = 'public' }) => {
               <div>
                 {fmtNumber(remainingChikn)} <ChiknText /> remaining.
               </div>
+              {isGBMint && <div>Requires 900 GB tokens in Wallet</div>}
               <div>
                 Select how many <ChiknText /> you want to mint:
               </div>
@@ -236,7 +240,9 @@ const IndexPage = ({ type = 'public' }) => {
                   {
                     countOfChickens,
                     price,
-                    totalPrice
+                    totalPrice,
+                    gbMintOpen,
+                    publicMintOpen
                   },
                   null,
                   2
