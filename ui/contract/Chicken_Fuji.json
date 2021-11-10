@@ -392,6 +392,11 @@
           "type": "address"
         },
         {
+          "internalType": "address",
+          "name": "_royaltyReceiver",
+          "type": "address"
+        },
+        {
           "internalType": "uint256",
           "name": "_royaltyPercentage",
           "type": "uint256"
