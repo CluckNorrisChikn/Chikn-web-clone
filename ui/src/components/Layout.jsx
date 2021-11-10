@@ -54,9 +54,7 @@ const NavGatsbyLink = ({ children, disabled, ...props }) => {
   )
 }
 
-const links = isProd
-  ? 'home'.split(',') // prod
-  : 'home,mint,market,wallet'.split(',') // dev -  ,farm,roost
+const links = 'home,mint,market,wallet'.split(',') // dev -  ,farm,roost
 
 const HeaderLinks = () =>
   links.map((link, idx) => (
@@ -129,27 +127,25 @@ const Layout = ({
       </header>
       {/* main */}
       <main className="flex-grow-1">
-        {constrainWidth
-          ? (
-            <Container
-              className={`${className} ${
-                padTop ? 'mt-5' : 'mt-0'
-              } mb-5 d-flex flex-column`}
-            >
-              {/* <TransactionProgress intialOnShow={true} /> */}
-              {children}
-            </Container>
-          )
-          : (
-            <div
-              className={`${className} ${
-                padTop ? 'mt-5' : 'mt-0'
-              } mb-5 d-flex flex-column`}
-            >
-              {/* <TransactionProgress intialOnShow={false} /> */}
-              {children}
-            </div>
-          )}
+        {constrainWidth ? (
+          <Container
+            className={`${className} ${
+              padTop ? 'mt-5' : 'mt-0'
+            } mb-5 d-flex flex-column`}
+          >
+            {/* <TransactionProgress intialOnShow={true} /> */}
+            {children}
+          </Container>
+        ) : (
+          <div
+            className={`${className} ${
+              padTop ? 'mt-5' : 'mt-0'
+            } mb-5 d-flex flex-column`}
+          >
+            {/* <TransactionProgress intialOnShow={false} /> */}
+            {children}
+          </div>
+        )}
       </main>
 
       {/* footer */}
