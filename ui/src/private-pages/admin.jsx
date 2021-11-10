@@ -16,7 +16,8 @@ import {
   useCheckHasGBMutation,
   useWeb3GBContract,
   useGetTokenURIMutation,
-  useGetChickenDetailMutation
+  useGetChickenDetailMutation,
+  useSetTokenSalePriceMutation
 } from '../components/Connect'
 import Layout from '../components/Layout'
 import {
@@ -48,6 +49,10 @@ const Admin = () => {
   const [tokenIdForUrl, setTokenIdForUrl] = React.useState('')
   const [tokenIdForChikn, setTokenIdForChikn] = React.useState('')
 
+  const [saleTokenId, setSaleTokenId] = React.useState('')
+  const [newSalePrice, setNewSalePrice] = React.useState(null)
+  const [isForSale, setIsForSale] = React.useState(false)
+
   const useToggleGB = useToggleOpenForGBMutation(contract, active)
   const useTogglePublic = useToggleOpenForPublicMutation(contract, active)
   const useGetExcluded = useGetExcludedMutation(contract, active)
@@ -58,6 +63,7 @@ const Admin = () => {
   const useHasGB = useCheckHasGBMutation(contract, active)
   const useGetTokenUri = useGetTokenURIMutation(contract, active)
   const useGetChikenDetail = useGetChickenDetailMutation(contract, active)
+  const useSetTokenSale = useSetTokenSalePriceMutation(contract, active)
 
   const toggleGB = () => {
     useToggleGB.mutate({ isOpen: !gbStatus })
@@ -100,6 +106,10 @@ const Admin = () => {
 
   const checkHasGB = () => {
     useHasGB.mutate({ address: account })
+  }
+
+  const submiSaleToken = () => {
+    useSetTokenSale.mutate({ tokenId: saleTokenId, newPrice: newSalePrice, isForSale })
   }
 
   const test = async () => {
@@ -260,6 +270,76 @@ const Admin = () => {
       <hr />
       <h2>Token for sale</h2>
       {tokenForSaleIsLoading ? <Spinner animation="border" /> : <pre>{JSON.stringify(tokensforSales)}</pre>}
+
+      <hr />
+      {/* Set token for sale */}
+      <h2>Set Token for sale</h2>
+      <Form.Group className="my-4" controlId="formBasicEmail">
+        <Form.Label>Token id</Form.Label>
+        <InputGroup className="mb-3">
+          <Form.Control
+            type="text"
+            placeholder="token id"
+            value={saleTokenId}
+            onChange={(e) => setSaleTokenId(e.target.value)}
+          />
+        </InputGroup>
+        <Form.Label>Price</Form.Label>
+        <InputGroup className="mb-3">
+          <Form.Control
+            type="text"
+            placeholder="0"
+            value={newSalePrice}
+            onChange={(e) => setNewSalePrice(e.target.value)}
+          />
+        </InputGroup>
+        <ToggleButtonGroup
+          type="radio"
+          name="isFOrSale"
+          defaultValue={isForSale}
+          className="mb-2 d-flex"
+          onChange={(e) => setIsForSale(e)}
+          value={isForSale}>
+          <ToggleButton
+            id="tbg-check-2"
+            className={`w-50 ${isForSale === true ? 'text-white' : ''
+            }`}
+            variant={
+              'outline-success'
+            }
+            value={true}>
+              For Sale
+          </ToggleButton>
+          <ToggleButton
+            id="tbg-check-1"
+            className={`w-50 ${isForSale === false ? 'text-white' : ''
+            }`}
+            variant={
+              // enabledListing === true ? 'success' : 'outline-success'
+              'outline-primary'
+            }
+            value={false}>
+              Remove from market
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </Form.Group>
+      <Button
+        title="Set sale price"
+        variant="success"
+        disabled={!active || useSetTokenSale.isLoading}
+        onClick={submiSaleToken}>
+        {useSetTokenSale.isLoading ? <Spinner animation="border" /> : 'Set sale'}
+      </Button>
+      {
+        useSetTokenSale.isSuccess && <Alert variant="success" className="mt-4">
+          {JSON.stringify(useSetTokenSale.data)}
+        </Alert>
+      }
+      {
+        useSetTokenSale.isError && <Alert variant="danger" className="mt-4">
+          {JSON.stringify(getErrorMessage(useSetTokenSale.error))}
+        </Alert>
+      }
 
       <hr />
       {/* Check detail token id */}
