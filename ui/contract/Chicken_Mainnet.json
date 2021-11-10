@@ -1,5 +1,5 @@
 {
-  "address": "0x5cd88E64A12B11D13eB0226a48822C607f698285",
+  "address": "0x8927985B358692815E18F2138964679DcA5d3b79",
   "abi": [
     {
       "anonymous": false,
@@ -381,7 +381,7 @@
           "type": "bool"
         }
       ],
-      "stateMutability": "nonpayable",
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -392,6 +392,11 @@
           "type": "address"
         },
         {
+          "internalType": "address",
+          "name": "_royaltyReceiver",
+          "type": "address"
+        },
+        {
           "internalType": "uint256",
           "name": "_royaltyPercentage",
           "type": "uint256"
@@ -399,16 +404,6 @@
         {
           "internalType": "uint256",
           "name": "_mintFeeAmount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_mint2BaseFeeAmount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_mint3BaseFeeAmount",
           "type": "uint256"
         },
         {
@@ -485,32 +480,6 @@
       "name": "mint",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "mint2BaseFeeAmount",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "mint3BaseFeeAmount",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
       "type": "function"
     },
     {
