@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import { InjectedConnector } from '@web3-react/injected-connector'
+import { isProd } from '../components/Common'
 
 export const injected = new InjectedConnector({
-  supportedChainIds: [43114, 43113, 43112]
+  supportedChainIds: isProd ? [43114] : [43114, 43113, 43112]
 })
 
 export const useEagerConnect = () => {
