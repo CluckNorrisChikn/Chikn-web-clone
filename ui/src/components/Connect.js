@@ -340,8 +340,10 @@ export const useGetWeb3TokenDetail = (contract, enabled = true, tokenId) => {
     KEYS.TOKEN(tokenId),
     async () => {
       const tokenDetail = await contract.allChickenRun(tokenId)
+      const ownerWalletAddress = await contract.ownerOf(tokenId)
       return {
-        currentOwner: tokenDetail.currentOwner,
+        // currentOwner: tokenDetail.currentOwner,
+        currentOwner: ownerWalletAddress,
         forSale: tokenDetail.forSale,
         mintedBy: tokenDetail.mintedBy,
         numberOfTransfers: parseInt(tokenDetail.numberOfTransfers),
