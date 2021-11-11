@@ -10,7 +10,6 @@ import {
   AVALANCHE_TESTNET_PARAMS,
   AVALANCHE_MAINNET_PARAMS
 } from '../utils/network'
-import { isProd } from '../components/Common'
 
 const FixedWidthButton = styled(Button)`
   min-width: 180px;
@@ -158,7 +157,7 @@ export const ConnectWalletButton = () => {
       provider
         .request({
           method: 'wallet_addEthereumChain',
-          params: [isProd ? AVALANCHE_MAINNET_PARAMS : AVALANCHE_TESTNET_PARAMS]
+          params: [!siteConfig.useAvaxTestnet ? AVALANCHE_MAINNET_PARAMS : AVALANCHE_TESTNET_PARAMS]
         })
         .catch((error) => {
           console.log('Unable to push wallet', error)

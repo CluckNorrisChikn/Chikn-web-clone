@@ -10,7 +10,7 @@ import ChickenCard, {
   ChickenCardShimmerx4,
   ChickenCardWalletSummary
 } from '../components/ChickenCard'
-import { ChiknText, isProd, Section, StackRow } from '../components/Common'
+import { ChiknText, Section, StackRow } from '../components/Common'
 import {
   getErrorMessage,
   KEYS,

@@ -15,6 +15,7 @@ const gtm = {
 }
 
 const siteConfig = {
+  useAvaxTestnet: !isProd,
   includePrivatePages: !isProd,
   nftName: 'chikn',
   title: 'chikn',
