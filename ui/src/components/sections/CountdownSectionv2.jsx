@@ -94,7 +94,7 @@ const Component = () => {
             )}
             {active && (
               <>
-                <Link
+                {/* <Link
                   className={`btn btn-primary px-4 ${
                     gbMintOpen ? '' : 'disabled'
                   }`}
@@ -102,7 +102,7 @@ const Component = () => {
                   to="/gbmint"
                 >
                   $GB Pre-Mint
-                </Link>
+                </Link> */}
                 <Link
                   className={`btn btn-primary px-4 ${
                     publicMintOpen ? '' : 'disabled'
