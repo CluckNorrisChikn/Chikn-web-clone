@@ -10,6 +10,7 @@ import {
   AVALANCHE_TESTNET_PARAMS,
   AVALANCHE_MAINNET_PARAMS
 } from '../utils/network'
+import siteConfig from '../../site-config'
 
 const TransactionProgress = ({ intialOnShow = false }) => {
   const useTransaction = useStoreWorkingTxQuery()
@@ -22,7 +23,7 @@ const TransactionProgress = ({ intialOnShow = false }) => {
 
   const { data } = useTransaction
 
-  const networkExplorer = 1 === 1 ? AVALANCHE_TESTNET_PARAMS : AVALANCHE_MAINNET_PARAMS
+  const networkExplorer = siteConfig.useAvaxTestnet ? AVALANCHE_TESTNET_PARAMS : AVALANCHE_MAINNET_PARAMS
 
   React.useEffect(() => {
     // async function
