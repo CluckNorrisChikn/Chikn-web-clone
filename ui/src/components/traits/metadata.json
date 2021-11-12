@@ -48,7 +48,8 @@
     "super saiyan",
     "top of the morning",
     "tungsten cube",
-    "uniquehorn"
+    "uniquehorn",
+    "?"
   ],
   "neck": [
     "avax bling",
@@ -69,7 +70,8 @@
     "red bandana",
     "red bowtie",
     "second head",
-    "wage slave"
+    "wage slave",
+    "?"
   ],
   "torso": [
     "a fresh baguette",
@@ -91,7 +93,8 @@
     "peacemaker",
     "popsicle",
     "spell wand",
-    "summer days"
+    "summer days",
+    "?"
   ],
   "feet": [
     "black vans",
@@ -107,7 +110,8 @@
     "red leather boots",
     "red vans",
     "rollerderby",
-    "swashbucklers"
+    "swashbucklers",
+    "?"
   ],
   "tail": [
     "big mama fat pipes",
@@ -119,7 +123,8 @@
     "nyan",
     "orange plumage",
     "red plumage",
-    "very fresh egg"
+    "very fresh egg",
+    "?"
   ],
   "body": [
     "bullion",
@@ -131,9 +136,17 @@
     "nightstalker blue",
     "passion red",
     "pixel-chan",
-    "rustic brown"
+    "rustic brown",
+    "?"
   ],
-  "trim": ["avax trim", "black trim", "blue trim", "cloud trim", "space trim"],
+  "trim": [
+    "avax trim",
+    "black trim",
+    "blue trim",
+    "cloud trim",
+    "space trim",
+    "?"
+  ],
   "background": [
     "cloud",
     "cornhusk",
@@ -150,6 +163,7 @@
     "turquoisey",
     "venus",
     "vermillion",
-    "vibe"
+    "vibe",
+    "?"
   ]
 }
