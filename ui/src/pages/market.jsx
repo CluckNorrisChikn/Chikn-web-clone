@@ -101,7 +101,7 @@ const Market = () => {
       array = array.filter(({ token }) => token <= minted)
     }
 
-    // filter by the selected properties...
+    // filter by the selected properties... 'background,body,head,neck,torso,feet,tail,trim'
     return array
       .filter((t) => {
         return (
@@ -120,7 +120,7 @@ const Market = () => {
           (isUndefOrEmpty(filters.tail) ||
             ~filters.tail.indexOf(t.tail?.toLowerCase())) &&
           (isUndefOrEmpty(filters.trim) ||
-            ~filters.trims.indexOf(t.trim?.toLowerCase()))
+            ~filters.trim.indexOf(t.trim?.toLowerCase()))
         )
       })
       .slice(0, 20)
@@ -136,7 +136,6 @@ const Market = () => {
     filters.tail,
     filters.torso,
     filters.trim,
-    filters.trims,
     forSaleTokens
   ])
 
