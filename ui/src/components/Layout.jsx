@@ -9,7 +9,6 @@ import { KEYS } from '../components/Connect'
 import AvalancheIconSrc from '../images/avalanche-avax-logo-black.svg'
 import {
   ChickenIcon,
-  isProd,
   SocialDiscordButton,
   SocialTwitterButton,
   StackCol,

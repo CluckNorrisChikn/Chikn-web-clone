@@ -14,7 +14,8 @@ import {
 
 // formatters
 
-export const isProd = process.env.NODE_ENV === 'production'
+// Use the site config instead
+// export const isProd = process.env.NODE_ENV === 'production'
 
 export const fmtNumber = (o) => parseFloat(o).toLocaleString()
 
