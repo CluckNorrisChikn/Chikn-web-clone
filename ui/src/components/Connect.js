@@ -6,7 +6,7 @@ import {
 import { Contract, utils } from 'ethers'
 import React from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-// import ChickenRun from '../../contract/Chicken_Fuji.json'
+import ChickenRunTestNet from '../../contract/Chicken_Fuji.json'
 import ChickenRun from '../../contract/Chicken_Mainnet.json'
 import siteConfig from '../../site-config'
 import traits from '../components/traits/combinations.json'
@@ -186,7 +186,7 @@ export const useWeb3Contract = () => {
     // console.debug('watch contract', web3react)
     let contract
     if (web3react.library) {
-      const { abi, address } = ChickenRun
+      const { abi, address } = siteConfig.useAvaxTestnet ? ChickenRunTestNet : ChickenRun
       contract = new Contract(address, abi, web3react.library.getSigner())
     }
     setState({ ...web3react, contract })

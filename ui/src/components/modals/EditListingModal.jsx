@@ -7,7 +7,9 @@ import {
   Button,
   InputGroup,
   Spinner,
-  Alert
+  Alert,
+  OverlayTrigger,
+  Tooltip
 } from 'react-bootstrap'
 import AvaxSVG from '../../images/avalanche-avax-logo-trans.svg'
 import {
@@ -17,6 +19,8 @@ import {
   useWeb3Contract
 } from '../../components/Connect'
 import { useQueryClient } from 'react-query'
+
+import { FaInfoCircle } from 'react-icons/fa'
 
 // LINK -> // ui/src/pages/chikn/[tokenId].jsx (SELL)
 
@@ -174,6 +178,21 @@ const Page = ({
                 </Form.Text>
               </Form.Group>
             )}
+
+            <OverlayTrigger
+              placement="bottom"
+              overlay={
+                <Tooltip id="tooltip-disabled">
+                  We collect a 6% royalty on all sales through the marketplace,
+                  which goes towards the ongoing maintenance of the chikn
+                  ecosystem.
+                </Tooltip>
+              }
+            >
+              <small className="text-muted">
+                <FaInfoCircle /> Royalties information.
+              </small>
+            </OverlayTrigger>
 
             {/* end form */}
           </Form>
