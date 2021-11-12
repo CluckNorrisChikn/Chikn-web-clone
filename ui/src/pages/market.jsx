@@ -83,7 +83,7 @@ const Market = () => {
   const queryClient = useQueryClient()
   const { active } = useWeb3Contract()
   const { data: forSaleTokens = [] } = useGetAllSalesToken()
-  const [filterSalesStatus, setFilterSalesStatus] = React.useState(['show_all'])
+  const [filterSalesStatus, setFilterSalesStatus] = React.useState('for_sale')
   const [filters, setFilters] = React.useState({})
   const { data: { minted } = {} } = useGetSupplyQuery()
 
