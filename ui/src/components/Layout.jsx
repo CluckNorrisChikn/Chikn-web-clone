@@ -53,7 +53,7 @@ const NavGatsbyLink = ({ children, disabled, ...props }) => {
   )
 }
 
-const links = 'home,market,wallet'.split(',') // dev -  ,farm,roost
+const links = 'home,mint,market,wallet'.split(',') // dev -  ,farm,roost
 // post public mint...
 // const links = 'home,mint,market,wallet'.split(',') // dev -  ,farm,roost
 

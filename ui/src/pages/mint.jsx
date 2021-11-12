@@ -6,7 +6,6 @@ import MintYourOwnWalletConnectedv2 from '../components/sections/MintYourOwnWall
 import MintYourOwnWalletNotConnected from '../components/sections/MintYourOwnWalletNotConnectedSection'
 import TotalMintedSection from '../components/sections/TotalMintedSection'
 
-// TODO Remove pre GO-LIVE
 const IndexPage = () => {
   const { active } = useWeb3Contract()
 
