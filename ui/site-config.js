@@ -37,8 +37,8 @@ const siteConfig = {
   links: {
     // discord: 'https://discord.gg/chikn',
     discord: 'https://discord.gg/9znHkBYjra',
-    twitter: 'https://twitter.com/chikn_farm',
-    twitterAt: '@chikn_farm',
+    twitter: 'https://twitter.com/chikn_nft',
+    twitterAt: '@chikn_nft',
     docs: 'https://docs.chikn.farm/'
   },
   featureToggles: {
