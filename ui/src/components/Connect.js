@@ -195,6 +195,7 @@ export const useWeb3Contract = () => {
   return state
 }
 
+// CHECK GB Contract
 export const useWeb3GBContract = () => {
   const [state, setState] = React.useState({})
   const web3react = useWeb3React()
