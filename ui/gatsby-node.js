@@ -4,6 +4,8 @@ const webpack = require('webpack')
 exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
   actions.setWebpackConfig({
 
+    devtool: false,
+
     resolve: {
       fallback: {
         crypto: require.resolve('crypto-browserify'),
