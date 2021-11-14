@@ -4,9 +4,7 @@ import * as React from 'react'
 import { Alert, Button, Col, Row } from 'react-bootstrap'
 import { FaSync } from 'react-icons/fa'
 import { useQueryClient } from 'react-query'
-import ChickenCard, {
-  ChickenCardMarketplaceSummary,
-  ChickenCardShimmer,
+import {
   ChickenCardShimmerx4,
   ChickenCardWalletSummary
 } from '../components/ChickenCard'
@@ -42,37 +40,56 @@ const IndexPage = () => {
         </div>
       </StackRow>
       <Section className="border bg-white">
+        {/* wallet disconnected */}
         {!active && (
           <span>
             Please connect your wallet, to view your <ChiknText />.
           </span>
         )}
+
+        {/* wallet loading */}
         {active && useWalletTokens.isFetching && <ChickenCardShimmerx4 />}
+
+        {/* wallet error */}
         {active && !useWalletTokens.isFetching && useWalletTokens.isError && (
           <Alert variant="danger">
             {getErrorMessage(useWalletTokens.error, deactivate)}
           </Alert>
         )}
+
+        {/* wallet loaded - no tokens */}
         {active &&
           !useWalletTokens.isFetching &&
           useWalletTokens.isSuccess &&
           tokens.length === 0 && <h5>No tokens found in your wallet.</h5>}
+
+        {/* wallet loaded - no tokens */}
         {active &&
           !useWalletTokens.isFetching &&
           useWalletTokens.isSuccess &&
           tokens.length > 0 && (
-          <Row className="gy-3 gx-3">
-            {tokens
-              .sort((a, b) => a - b)
-              .map((tokenId) => (
-                <Col key={tokenId} sm={6} md={4} lg={3}>
-                  <ChickenCardWalletSummary
-                    tokenId={tokenId}
-                    onClick={() => navigate(`/chikn/${tokenId}`)}
-                  />
-                </Col>
-              ))}
-          </Row>
+          <>
+            <h5>Total: {tokens.length.toLocaleString()}</h5>
+            <Row className="gy-3 gx-3 mt-4">
+              {tokens
+                .sort((a, b) => a - b)
+                .map((tokenId) => (
+                  <Col key={tokenId} sm={6} md={4} lg={3}>
+                    <ChickenCardWalletSummary
+                      tokenId={tokenId}
+                      onClick={() =>
+                        navigate(`/chikn/${tokenId}`, {
+                          state: {
+                            backLink: '/wallet',
+                            backLabel: 'Back to Wallet'
+                          }
+                        })
+                      }
+                    />
+                  </Col>
+                ))}
+            </Row>
+          </>
         )}
       </Section>
     </Layout>

@@ -50,7 +50,7 @@ const AvaxLogo = styled(({ logoSize = '15px', ...props }) => (
 const TraitsSelector = ({
   parentValues = [],
   options = [],
-  updateParent = () => { }
+  updateParent = () => {}
 }) => {
   const ref = React.useRef()
   const [values, setValues] = React.useState([])
@@ -104,7 +104,8 @@ const Market = () => {
   const [filterSalesStatus, setFilterSalesStatus] = React.useState('for_sale')
   const [filters, setFilters] = React.useState({})
   const { isLoading: statLoading, data: statPrice = {} } = useGetStatQuery()
-  const { isLoading: holderLoading, data: holders = {} } = useTotalHoldersQuery()
+  const { isLoading: holderLoading, data: holders = {} } =
+    useTotalHoldersQuery()
 
   console.log('holder---', holders)
   const getSupplyQuery = useGetSupplyQuery()
@@ -202,26 +203,71 @@ const Market = () => {
           </Button>
         </div>
       </StackRow>
+
+      {/* ANCHOR floor price */}
       <StackRow className="justify-content-around">
         <Card>
           <Card.Body>
             <StackRow>
-              <div style={{ width: '120px', padding: '0px 10px', borderRight: '1px solid rgba(0, 0, 0, 0.125)' }} className="d-flex flex-column align-items-center">
-                <div>{statLoading ? <Spinner variant="primary" animation="border" /> : statPrice.items}</div>
+              <div
+                style={{
+                  width: '120px',
+                  padding: '0px 10px',
+                  borderRight: '1px solid rgba(0, 0, 0, 0.125)'
+                }}
+                className="d-flex flex-column align-items-center"
+              >
+                <div>
+                  {statLoading
+                    ? (
+                      <Spinner variant="primary" animation="border" size="sm" />
+                    )
+                    : (
+                      statPrice.items
+                    )}
+                </div>
                 <div>Items</div>
               </div>
-              <div style={{ width: '120px', padding: '0px 10px', borderRight: '1px solid rgba(0, 0, 0, 0.125)' }} className="d-flex flex-column align-items-center">
-                <div>{holderLoading ? <Spinner variant="primary" animation="border" /> : holders.data.pagination.total_count}</div>
+              <div
+                style={{
+                  width: '120px',
+                  padding: '0px 10px',
+                  borderRight: '1px solid rgba(0, 0, 0, 0.125)'
+                }}
+                className="d-flex flex-column align-items-center"
+              >
+                <div>
+                  {holderLoading
+                    ? (
+                      <Spinner variant="primary" animation="border" size="sm" />
+                    )
+                    : (
+                      holders.data.pagination.total_count
+                    )}
+                </div>
                 <div>Owners</div>
               </div>
-              <div style={{ width: '120px', padding: '0px 10px' }} className="d-flex flex-column align-items-center">
-                <div><span>{statLoading ? <Spinner variant="primary" animation="border" /> : statPrice.floor} <AvaxLogo /></span></div>
+              <div
+                style={{ width: '120px', padding: '0px 10px' }}
+                className="d-flex flex-column align-items-center"
+              >
+                <div>
+                  <span>
+                    {statLoading
+                      ? (
+                        <Spinner variant="primary" animation="border" size="sm" />
+                      )
+                      : (
+                        statPrice.floor
+                      )}{' '}
+                    <AvaxLogo />
+                  </span>
+                </div>
                 <div>Floor price</div>
               </div>
             </StackRow>
           </Card.Body>
         </Card>
-
       </StackRow>
 
       {/* ANCHOR wallet not connected */}
@@ -369,7 +415,14 @@ const Market = () => {
                     <Col key={token} sm={6} md={4} lg={3}>
                       <ChickenCardMarketplaceSummary
                         tokenId={token}
-                        onClick={() => navigate(`/chikn/${token}`)}
+                        onClick={() =>
+                          navigate(`/chikn/${token}`, {
+                            state: {
+                              backLink: '/market',
+                              backLabel: 'Back to Market'
+                            }
+                          })
+                        }
                       />
                     </Col>
                   ))}
