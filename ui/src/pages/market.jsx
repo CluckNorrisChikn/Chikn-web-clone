@@ -278,11 +278,11 @@ const Market = () => {
           {/* success */}
           {chikns.length > 0 && (
             <>
-              <h5>
-                Page {(pageNumber + 1).toLocaleString()} of{' '}
-                {(maxPageNumber + 1).toLocaleString()}
-              </h5>
-              <div className="d-flex flex-row justify-content-center mb-3">
+              <div className="d-flex flex-column align-items-center mb-5">
+                <h5>
+                  Page {(pageNumber + 1).toLocaleString()} of{' '}
+                  {(maxPageNumber + 1).toLocaleString()}
+                </h5>
                 <Pagination>
                   <Pagination.First
                     disabled={pageNumber === 0}
@@ -314,6 +314,30 @@ const Market = () => {
                     </Col>
                   ))}
               </Row>
+              <div className="d-flex flex-column align-items-center mt-5">
+                <h5>
+                  Page {(pageNumber + 1).toLocaleString()} of{' '}
+                  {(maxPageNumber + 1).toLocaleString()}
+                </h5>
+                <Pagination>
+                  <Pagination.First
+                    disabled={pageNumber === 0}
+                    onClick={() => setPage(0)}
+                  />
+                  <Pagination.Prev
+                    disabled={pageNumber === 0}
+                    onClick={() => setPage(pageNumber - 1)}
+                  />
+                  <Pagination.Next
+                    disabled={pageNumber === maxPageNumber}
+                    onClick={() => setPage(pageNumber + 1)}
+                  />
+                  <Pagination.Last
+                    disabled={pageNumber === maxPageNumber}
+                    onClick={() => setPage(999999)}
+                  />
+                </Pagination>
+              </div>
             </>
           )}
         </Section>
