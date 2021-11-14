@@ -17,6 +17,7 @@ import {
 } from './Common'
 import { ConnectWalletButton } from './ConnectWalletButton'
 import HelmetMeta from './HelmetMeta'
+import { injected } from '../hooks/web3'
 
 const AvaxLogoSmall = styled((props) => (
   <img src={AvalancheIconSrc} {...props} />
@@ -72,7 +73,7 @@ const Layout = ({
   className = 'gap-4'
 }) => {
   // add useEffect to monitor change in wallet
-  const { library, account, chainId } = useWeb3React()
+  const { library, account, chainId, activate } = useWeb3React()
   const queryClient = useQueryClient()
 
   React.useEffect(() => {
@@ -90,6 +91,14 @@ const Layout = ({
     update()
     // eslint-disable-next-line
   }, [chainId, account, library])
+
+  React.useEffect(() => {
+    const checkConnection = async () => {
+      console.debug('Auto connect', injected)
+      await activate(injected)
+    }
+    checkConnection()
+  }, [activate])
 
   return (
     <FullHeight>
