@@ -107,7 +107,6 @@ const Market = () => {
   const { isLoading: holderLoading, data: holders = {} } =
     useTotalHoldersQuery()
 
-  console.log('holder---', holders)
   const getSupplyQuery = useGetSupplyQuery()
   const { data: { minted } = {} } = getSupplyQuery
   const showForSale = filterSalesStatus === 'for_sale'
