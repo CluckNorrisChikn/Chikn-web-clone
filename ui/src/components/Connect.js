@@ -674,7 +674,7 @@ export const useAirdropMutation = (contract, enabled = true) => {
   })
 }
 
-export const useGetAllSalesToken = () => {
+export const useGetAllSalesTokenQuery = () => {
   const { contract } = useWeb3Contract()
   return useQuery(
     KEYS.SALES(),

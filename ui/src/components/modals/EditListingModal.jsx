@@ -56,7 +56,10 @@ const Page = ({
   const setPrice = (value) => {
     if (
       value === '' ||
-      (/^\d*\.?\d*$/.test(value) && !isNaN(parseFloat(value)))
+      value === '.' ||
+      (/^\d*\.?\d*$/.test(value) &&
+        !isNaN(parseFloat(value)) &&
+        parseFloat(value) < 99999999999)
     ) {
       setListingPrice(value)
     }

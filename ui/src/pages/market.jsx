@@ -4,9 +4,9 @@ import {
   Accordion,
   Spinner,
   Button,
-  ButtonGroup,
   Col,
   Form,
+  Pagination,
   Row,
   ToggleButton,
   ToggleButtonGroup,
@@ -14,27 +14,25 @@ import {
 } from 'react-bootstrap'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import { FaSync } from 'react-icons/fa'
+import { BiFilter } from 'react-icons/bi'
 import { useQueryClient } from 'react-query'
 import {
   ChickenCardMarketplaceSummary,
   ChickenCardShimmerx4,
-  ConnectWalletPrompt,
   ConnectWalletPromptText
 } from '../components/ChickenCard'
-import { ChiknText, Section, StackRow } from '../components/Common'
+import { Section, StackRow } from '../components/Common'
 import {
-  getErrorMessage,
   KEYS,
-  useGetAllSalesToken,
-  useGetAllTokensForSaleQuery,
+  useGetAllSalesTokenQuery,
   useGetSupplyQuery,
   useWeb3Contract,
   useGetStatQuery,
   useTotalHoldersQuery
 } from '../components/Connect'
 import Layout from '../components/Layout'
-import metadata from '../components/traits/metadata.json'
 import traitsdata from '../components/traits/combinations.json'
+import metadata from '../components/traits/metadata.json'
 import { stringArraysNotEqual } from '../components/utils/utils'
 import styled from 'styled-components'
 import AvaxSvg from '../images/avalanche-avax-logo.svg'
@@ -95,23 +93,30 @@ const TraitsSelector = ({
 const isUndefOrEmpty = (o) => typeof o === 'undefined' || o.length === 0
 
 const Market = () => {
+  // react-state
+  const scrollToTopRef = React.useRef()
+
+  // react-query
   const queryClient = useQueryClient()
   const { active } = useWeb3Contract()
-  const { data: forSaleTokens = [] } = useGetAllSalesToken()
+  const getAllSalesTokenQuery = useGetAllSalesTokenQuery()
+  const { data: forSaleTokens = [] } = getAllSalesTokenQuery
   const [filterSalesStatus, setFilterSalesStatus] = React.useState('for_sale')
   const [filters, setFilters] = React.useState({})
-  const { data: { minted } = {} } = useGetSupplyQuery()
   const { isLoading: statLoading, data: statPrice = {} } = useGetStatQuery()
   const { isLoading: holderLoading, data: holders = {} } = useTotalHoldersQuery()
 
   console.log('holder---', holders)
+  const getSupplyQuery = useGetSupplyQuery()
+  const { data: { minted } = {} } = getSupplyQuery
+  const showForSale = filterSalesStatus === 'for_sale'
 
   // todo pagination?
   const chikns = React.useMemo(() => {
     let array = traitsdata
 
     // create new map of ONLY tokens that are for sale...
-    if (filterSalesStatus === 'for_sale') {
+    if (showForSale && forSaleTokens.length > 0) {
       array = forSaleTokens.map((token) => traitsdata[token - 1])
     }
 
@@ -142,11 +147,10 @@ const Market = () => {
             ~filters.trim.indexOf(t.trim?.toLowerCase()))
         )
       })
-      .slice(0, 20)
       .map((t) => t.token)
   }, [
     minted,
-    filterSalesStatus,
+    showForSale,
     filters.background,
     filters.body,
     filters.feet,
@@ -158,8 +162,29 @@ const Market = () => {
     forSaleTokens
   ])
 
+  // handles all the pagination!
+  const PAGE_SIZE = 16
+  const [pageNumber, setInternalPageNumber] = React.useState(0)
+  const maxPageNumber = React.useMemo(() => {
+    const total = chikns.length
+    const remainder = total % PAGE_SIZE
+    const maxPage = parseInt(total / PAGE_SIZE) + (remainder > 0 ? 0 : -1)
+    return maxPage
+  }, [chikns])
+
+  const setPage = React.useCallback(
+    (page) => {
+      if (page < 0) setInternalPageNumber(0)
+      else if (page > maxPageNumber) setInternalPageNumber(maxPageNumber)
+      else setInternalPageNumber(page)
+      scrollToTopRef.current.scrollIntoView()
+    },
+    [maxPageNumber]
+  )
+
   return (
     <Layout pageName="Wallet">
+      {/* ANCHOR header */}
       <StackRow className="justify-content-between">
         <h1>Market</h1>
         <div>
@@ -199,19 +224,25 @@ const Market = () => {
 
       </StackRow>
 
-      {/* wallet not connected */}
+      {/* ANCHOR wallet not connected */}
       {!active && (
         <Section className="border bg-white" center={true}>
           <span>Please connect your wallet, to view the market.</span>
         </Section>
       )}
 
-      {/* filters */}
+      {/* ANCHOR filters */}
       {active && (
-        <Accordion>
+        <Accordion ref={scrollToTopRef}>
           <Accordion.Item eventKey="0">
-            <Accordion.Header>Filters</Accordion.Header>
+            <Accordion.Header className="gap-3">
+              <div className="d-flex flex-row align-items-center gap-2">
+                <BiFilter className="fs-4" />
+                <span>Filters</span>
+              </div>
+            </Accordion.Header>
             <Accordion.Body className="p-4">
+              {/* sales */}
               <h5>Sales</h5>
               <Row className="my-3">
                 <Col xs={12} sm={12} md={6} lg={4}>
@@ -245,6 +276,7 @@ const Market = () => {
                   )}
                 </Col>
               </Row>
+              {/* properties */}
               <h5>Properties</h5>
               <Row>
                 {Object.entries(metadata).map(([layer, traits]) => (
@@ -268,6 +300,7 @@ const Market = () => {
                   </Col>
                 ))}
               </Row>
+              {/* clear button */}
               <Row>
                 <Col
                   xs={12}
@@ -290,24 +323,82 @@ const Market = () => {
         </Accordion>
       )}
 
-      {/* search results */}
+      {/* ANCHOR search results */}
       {active && (
         <Section className="border bg-white" center={true}>
           {/* no data */}
           {chikns.length === 0 && <h5>No chikns available.</h5>}
 
+          {/* for sale and loading */}
+          {((showForSale && getAllSalesTokenQuery.isLoading) ||
+            getSupplyQuery.isLoading) && <ChickenCardShimmerx4 />}
+
           {/* success */}
-          {chikns.length > 0 && (
-            <Row className="gy-3 gx-3">
-              {chikns.map((token) => (
-                <Col key={token} sm={6} md={4} lg={3}>
-                  <ChickenCardMarketplaceSummary
-                    tokenId={token}
-                    onClick={() => navigate(`/chikn/${token}`)}
+          {chikns.length > 0 &&
+            (!showForSale || getAllSalesTokenQuery.isSuccess) &&
+            getSupplyQuery.isSuccess && (
+            <>
+              <div className="d-flex flex-column align-items-center mb-5">
+                <h5>
+                    Page {(pageNumber + 1).toLocaleString()} of{' '}
+                  {(maxPageNumber + 1).toLocaleString()}
+                </h5>
+                <Pagination>
+                  <Pagination.First
+                    disabled={pageNumber === 0}
+                    onClick={() => setPage(0)}
                   />
-                </Col>
-              ))}
-            </Row>
+                  <Pagination.Prev
+                    disabled={pageNumber === 0}
+                    onClick={() => setPage(pageNumber - 1)}
+                  />
+                  <Pagination.Next
+                    disabled={pageNumber === maxPageNumber}
+                    onClick={() => setPage(pageNumber + 1)}
+                  />
+                  <Pagination.Last
+                    disabled={pageNumber === maxPageNumber}
+                    onClick={() => setPage(999999)}
+                  />
+                </Pagination>
+              </div>
+              <Row className="gy-3 gx-3">
+                {chikns
+                  .slice(pageNumber * PAGE_SIZE, (pageNumber + 1) * PAGE_SIZE)
+                  .map((token) => (
+                    <Col key={token} sm={6} md={4} lg={3}>
+                      <ChickenCardMarketplaceSummary
+                        tokenId={token}
+                        onClick={() => navigate(`/chikn/${token}`)}
+                      />
+                    </Col>
+                  ))}
+              </Row>
+              <div className="d-flex flex-column align-items-center mt-5">
+                <h5>
+                    Page {(pageNumber + 1).toLocaleString()} of{' '}
+                  {(maxPageNumber + 1).toLocaleString()}
+                </h5>
+                <Pagination>
+                  <Pagination.First
+                    disabled={pageNumber === 0}
+                    onClick={() => setPage(0)}
+                  />
+                  <Pagination.Prev
+                    disabled={pageNumber === 0}
+                    onClick={() => setPage(pageNumber - 1)}
+                  />
+                  <Pagination.Next
+                    disabled={pageNumber === maxPageNumber}
+                    onClick={() => setPage(pageNumber + 1)}
+                  />
+                  <Pagination.Last
+                    disabled={pageNumber === maxPageNumber}
+                    onClick={() => setPage(999999)}
+                  />
+                </Pagination>
+              </div>
+            </>
           )}
         </Section>
       )}

@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-import moment from 'moment'
 import * as React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import styled from 'styled-components'
@@ -130,26 +129,6 @@ const ScratchesWhiteRight = styled((props) => (
 // page
 
 const IndexPage = () => {
-  // const { active } = useWeb3Contract()
-
-  // const enableCountdownAndMinting = false
-
-  // const [showCountdown, setShowCountdown] = React.useState(
-  //   releaseDateMoment.isAfter(Date.now())
-  // )
-
-  // // watch for when timeout is done...
-  // React.useEffect(() => {
-  //   let timeout
-  //   if (releaseDateMoment.isAfter(Date.now())) {
-  //     timeout = setTimeout(
-  //       () => setShowCountdown(false),
-  //       releaseDateMoment.diff(Date.now())
-  //     )
-  //   }
-  //   return () => clearTimeout(timeout)
-  // }, [])
-
   return (
     <Layout
       pageName="Home"
@@ -176,60 +155,8 @@ const IndexPage = () => {
       </div>
 
       <StackCol className="gap-7 py-5">
-        {/* {enableCountdownAndMinting && (
-          <>
-            {showCountdown && (
-              <Container>
-                <Section className="bg-light">
-                  <h3>Countdown to release:</h3>
-                  <h1 className="py-4">
-                    <FlipCountdown
-                      hideYear
-                      hideMonth
-                      dayTitle="Days"
-                      hourTitle="Hours"
-                      minuteTitle="Minutes"
-                      secondTitle="Seconds"
-                      endAtZero
-                      size="medium"
-                      titlePosition="bottom"
-                      endAt={siteConfig.releaseDate} // Date/Time
-                    />
-                  </h1>
-                  <small>
-                    {moment.utc(siteConfig.releaseDate).format('LLLL')} (UTC)
-                  </small>
-                </Section>
-              </Container>
-            )}
-
-            {!showCountdown && (
-              <StackCol className="gap-3">
-                <TotalMintedSection />
-                {!active && <MintYourOwnWalletNotConnectedSection />}
-                {active && <MintYourOwnWalletConnectedSection />}
-              </StackCol>
-            )}
-
-            {!showCountdown && <RecentActivitySection />}
-          </>
-        )} */}
-
         <Container className="d-flex justify-content-center">
           <div className="d-flex flex-row gap-5 justify-content-evenly woodenbanner-sizing">
-            {/* <div className="text-center pr-5">
-              <h3>$GB Mint</h3>
-              <h5>
-                0 AVAX <AvaxLogo size="1.5rem" /> <small>(+gas)</small>
-              </h5>
-              <small className="text-muted">
-                Max {siteConfig.gbMint.maxPerMint} per mint.
-                <br />
-                Limit {siteConfig.gbMint.limitPerWallet} per wallet.
-                <br />
-                Requires 900 $GB tokens.
-              </small>
-            </div> */}
             <div className="text-center pl-5">
               <h3>Public Mint</h3>
               <h5>
@@ -237,8 +164,6 @@ const IndexPage = () => {
               </h5>
               <small className="text-muted">
                 Max {siteConfig.publicMint.maxPerMint} per mint.
-                <br />
-                Limit {siteConfig.publicMint.limitPerWallet} per wallet.
               </small>
             </div>
           </div>

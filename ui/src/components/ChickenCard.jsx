@@ -145,7 +145,9 @@ const AvaxPill = ({
     className={`${className} px-3 bg-light text-dark rounded-pill text-nowrap`}
     {...props}
   >
-    {children}
+    {typeof children === 'string' && children.length > 15
+      ? `${children.substring(0, 15)}…`
+      : children}
     <AvaxLogo logoSize={logoSize} />
   </span>
 )
