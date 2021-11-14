@@ -1,8 +1,11 @@
 //  has to add all of these due to webpack 5
 const webpack = require('webpack')
+const siteConfig = require('./site-config')
 
 exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
   actions.setWebpackConfig({
+
+    devtool: !siteConfig.isProd,
 
     resolve: {
       fallback: {
@@ -38,13 +41,4 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
       }
     })
   }
-//   if (stage === 'build-html') {
-//     actions.setWebpackConfig({
-//       resolve: {
-//         alias: {
-//           process: 'process/browser'
-//         }
-//       }
-//     })
-//   }
 }

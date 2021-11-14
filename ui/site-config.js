@@ -15,6 +15,7 @@ const gtm = {
 }
 
 const siteConfig = {
+  isProd,
   useAvaxTestnet: !isProd,
   includePrivatePages: !isProd,
   nftName: 'chikn',
@@ -61,7 +62,7 @@ const siteConfig = {
   gtm
 }
 
-console.log(`Using env: ${JSON.stringify(process.env, null, 2)}`)
-console.log(`Using siteConfig: ${JSON.stringify(siteConfig, null, 2)}`)
+// console.log(`Using env: ${JSON.stringify(process.env, null, 2)}`)
+// console.log(`Using siteConfig: ${JSON.stringify(siteConfig, null, 2)}`)
 
 module.exports = siteConfig
