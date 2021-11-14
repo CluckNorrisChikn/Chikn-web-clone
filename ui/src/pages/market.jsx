@@ -2,37 +2,33 @@ import { navigate } from 'gatsby-link'
 import * as React from 'react'
 import {
   Accordion,
-  Alert,
   Button,
-  ButtonGroup,
   Col,
   Form,
+  Pagination,
   Row,
   ToggleButton,
-  ToggleButtonGroup,
-  Pagination
+  ToggleButtonGroup
 } from 'react-bootstrap'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import { FaSync } from 'react-icons/fa'
+import { BiFilter } from 'react-icons/bi'
 import { useQueryClient } from 'react-query'
 import {
   ChickenCardMarketplaceSummary,
   ChickenCardShimmerx4,
-  ConnectWalletPrompt,
   ConnectWalletPromptText
 } from '../components/ChickenCard'
-import { ChiknText, Section, StackRow } from '../components/Common'
+import { Section, StackRow } from '../components/Common'
 import {
-  getErrorMessage,
   KEYS,
-  useGetAllSalesToken,
-  useGetAllTokensForSaleQuery,
+  useGetAllSalesTokenQuery,
   useGetSupplyQuery,
   useWeb3Contract
 } from '../components/Connect'
 import Layout from '../components/Layout'
-import metadata from '../components/traits/metadata.json'
 import traitsdata from '../components/traits/combinations.json'
+import metadata from '../components/traits/metadata.json'
 import { stringArraysNotEqual } from '../components/utils/utils'
 
 const TraitsSelector = ({
@@ -81,19 +77,26 @@ const TraitsSelector = ({
 const isUndefOrEmpty = (o) => typeof o === 'undefined' || o.length === 0
 
 const Market = () => {
+  // react-state
+  const scrollToTopRef = React.useRef()
+
+  // react-query
   const queryClient = useQueryClient()
   const { active } = useWeb3Contract()
-  const { data: forSaleTokens = [] } = useGetAllSalesToken()
+  const getAllSalesTokenQuery = useGetAllSalesTokenQuery()
+  const { data: forSaleTokens = [] } = getAllSalesTokenQuery
   const [filterSalesStatus, setFilterSalesStatus] = React.useState('for_sale')
   const [filters, setFilters] = React.useState({})
-  const { data: { minted } = {} } = useGetSupplyQuery()
+  const getSupplyQuery = useGetSupplyQuery()
+  const { data: { minted } = {} } = getSupplyQuery
+  const showForSale = filterSalesStatus === 'for_sale'
 
   // todo pagination?
   const chikns = React.useMemo(() => {
     let array = traitsdata
 
     // create new map of ONLY tokens that are for sale...
-    if (filterSalesStatus === 'for_sale') {
+    if (showForSale && forSaleTokens.length > 0) {
       array = forSaleTokens.map((token) => traitsdata[token - 1])
     }
 
@@ -127,7 +130,7 @@ const Market = () => {
       .map((t) => t.token)
   }, [
     minted,
-    filterSalesStatus,
+    showForSale,
     filters.background,
     filters.body,
     filters.feet,
@@ -154,12 +157,14 @@ const Market = () => {
       if (page < 0) setInternalPageNumber(0)
       else if (page > maxPageNumber) setInternalPageNumber(maxPageNumber)
       else setInternalPageNumber(page)
+      scrollToTopRef.current.scrollIntoView()
     },
     [maxPageNumber]
   )
 
   return (
     <Layout pageName="Wallet">
+      {/* ANCHOR header */}
       <StackRow className="justify-content-between">
         <h1>Market</h1>
         <div>
@@ -178,19 +183,25 @@ const Market = () => {
         </div>
       </StackRow>
 
-      {/* wallet not connected */}
+      {/* ANCHOR wallet not connected */}
       {!active && (
         <Section className="border bg-white" center={true}>
           <span>Please connect your wallet, to view the market.</span>
         </Section>
       )}
 
-      {/* filters */}
+      {/* ANCHOR filters */}
       {active && (
-        <Accordion>
+        <Accordion ref={scrollToTopRef}>
           <Accordion.Item eventKey="0">
-            <Accordion.Header>Filters</Accordion.Header>
+            <Accordion.Header className="gap-3">
+              <div className="d-flex flex-row align-items-center gap-2">
+                <BiFilter className="fs-4" />
+                <span>Filters</span>
+              </div>
+            </Accordion.Header>
             <Accordion.Body className="p-4">
+              {/* sales */}
               <h5>Sales</h5>
               <Row className="my-3">
                 <Col xs={12} sm={12} md={6} lg={4}>
@@ -224,6 +235,7 @@ const Market = () => {
                   )}
                 </Col>
               </Row>
+              {/* properties */}
               <h5>Properties</h5>
               <Row>
                 {Object.entries(metadata).map(([layer, traits]) => (
@@ -247,6 +259,7 @@ const Market = () => {
                   </Col>
                 ))}
               </Row>
+              {/* clear button */}
               <Row>
                 <Col
                   xs={12}
@@ -269,18 +282,24 @@ const Market = () => {
         </Accordion>
       )}
 
-      {/* search results */}
+      {/* ANCHOR search results */}
       {active && (
         <Section className="border bg-white" center={true}>
           {/* no data */}
           {chikns.length === 0 && <h5>No chikns available.</h5>}
 
+          {/* for sale and loading */}
+          {((showForSale && getAllSalesTokenQuery.isLoading) ||
+            getSupplyQuery.isLoading) && <ChickenCardShimmerx4 />}
+
           {/* success */}
-          {chikns.length > 0 && (
+          {chikns.length > 0 &&
+            (!showForSale || getAllSalesTokenQuery.isSuccess) &&
+            getSupplyQuery.isSuccess && (
             <>
               <div className="d-flex flex-column align-items-center mb-5">
                 <h5>
-                  Page {(pageNumber + 1).toLocaleString()} of{' '}
+                    Page {(pageNumber + 1).toLocaleString()} of{' '}
                   {(maxPageNumber + 1).toLocaleString()}
                 </h5>
                 <Pagination>
@@ -316,7 +335,7 @@ const Market = () => {
               </Row>
               <div className="d-flex flex-column align-items-center mt-5">
                 <h5>
-                  Page {(pageNumber + 1).toLocaleString()} of{' '}
+                    Page {(pageNumber + 1).toLocaleString()} of{' '}
                   {(maxPageNumber + 1).toLocaleString()}
                 </h5>
                 <Pagination>

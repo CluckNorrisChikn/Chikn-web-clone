@@ -10,7 +10,7 @@ import {
   useAirdropMutation,
   useChangeUrlMutation,
   useBaseUrlQuery,
-  useGetAllSalesToken,
+  useGetAllSalesTokenQuery,
   useSetKGMutation,
   getErrorMessage,
   useCheckHasGBMutation,
@@ -33,10 +33,16 @@ import {
 const Admin = () => {
   const { contract, account, active } = useWeb3Contract()
   const { contract: GBContract } = useWeb3GBContract()
-  const { isLoading: publicLoading, data: publicStatus } = useIsPublicMintOpenQuery(contract, account, active)
-  const { isLoading: gbLoading, data: gbStatus } = useIsGBMintOpenQuery(contract, account, active)
+  const { isLoading: publicLoading, data: publicStatus } =
+    useIsPublicMintOpenQuery(contract, account, active)
+  const { isLoading: gbLoading, data: gbStatus } = useIsGBMintOpenQuery(
+    contract,
+    account,
+    active
+  )
   const { data: currentBaseURL } = useBaseUrlQuery(contract, account, active)
-  const { isLoading: tokenForSaleIsLoading, data: tokensforSales } = useGetAllSalesToken(contract, account, active)
+  const { isLoading: tokenForSaleIsLoading, data: tokensforSales } =
+    useGetAllSalesTokenQuery(contract, account, active)
 
   const [address, setAddress] = React.useState('')
   const [freeAddress, setFreeAddress] = React.useState('')
@@ -109,7 +115,11 @@ const Admin = () => {
   }
 
   const submiSaleToken = () => {
-    useSetTokenSale.mutate({ tokenId: saleTokenId, newPrice: newSalePrice, isForSale })
+    useSetTokenSale.mutate({
+      tokenId: saleTokenId,
+      newPrice: newSalePrice,
+      isForSale
+    })
   }
 
   const test = async () => {
@@ -129,42 +139,50 @@ const Admin = () => {
       <h1>-- Admin --</h1>
 
       <h2>Opening for market</h2>
-      <div>Is GB mint open: <span>{publicLoading
-        ? (
-          <Spinner animation="border" />
-        )
-        : `${gbStatus}`} </span>
-      <Button
-        title="GB Toggle"
-        variant="success"
-        disabled={!active || useToggleGB.isLoading}
-        onClick={toggleGB}>
-        {useToggleGB.isLoading ? <Spinner animation="border" /> : 'Toggle'}
-      </Button>
-      {
-        useToggleGB.isError && <Alert variant="danger" className="mt-4">
-          {JSON.stringify(getErrorMessage(useToggleGB.error))}
-        </Alert>
-      }
+      <div>
+        Is GB mint open:{' '}
+        <span>
+          {publicLoading ? <Spinner animation="border" /> : `${gbStatus}`}{' '}
+        </span>
+        <Button
+          title="GB Toggle"
+          variant="success"
+          disabled={!active || useToggleGB.isLoading}
+          onClick={toggleGB}
+        >
+          {useToggleGB.isLoading ? <Spinner animation="border" /> : 'Toggle'}
+        </Button>
+        {useToggleGB.isError && (
+          <Alert variant="danger" className="mt-4">
+            {JSON.stringify(getErrorMessage(useToggleGB.error))}
+          </Alert>
+        )}
       </div>
 
-      <div>Is Public mint open: <span>{gbLoading
-        ? (
-          <Spinner animation="border" />
-        )
-        : `${publicStatus}`} </span>
-      <Button
-        title="Public Toggle"
-        variant="success"
-        disabled={!active || useTogglePublic.isLoading}
-        onClick={togglePublic}>
-        {useTogglePublic.isLoading ? <Spinner animation="border" /> : 'Toggle'}
-      </Button>
-      {
-        useTogglePublic.isError && <Alert variant="danger" className="mt-4">
-          {JSON.stringify(getErrorMessage(useTogglePublic.error))}
-        </Alert>
-      }
+      <div>
+        Is Public mint open:{' '}
+        <span>
+          {gbLoading ? <Spinner animation="border" /> : `${publicStatus}`}{' '}
+        </span>
+        <Button
+          title="Public Toggle"
+          variant="success"
+          disabled={!active || useTogglePublic.isLoading}
+          onClick={togglePublic}
+        >
+          {useTogglePublic.isLoading
+            ? (
+              <Spinner animation="border" />
+            )
+            : (
+              'Toggle'
+            )}
+        </Button>
+        {useTogglePublic.isError && (
+          <Alert variant="danger" className="mt-4">
+            {JSON.stringify(getErrorMessage(useTogglePublic.error))}
+          </Alert>
+        )}
       </div>
 
       <hr />
@@ -173,25 +191,27 @@ const Admin = () => {
         title="GB Check"
         variant="success"
         disabled={!active || useHasGB.isLoading}
-        onClick={checkHasGB}>
+        onClick={checkHasGB}
+      >
         {useHasGB.isLoading ? <Spinner animation="border" /> : 'Check'}
       </Button>
-      {
-        useHasGB.isSuccess && <Alert variant="success" className="mt-4">
+      {useHasGB.isSuccess && (
+        <Alert variant="success" className="mt-4">
           {JSON.stringify(useHasGB.data)}
         </Alert>
-      }
-      {
-        useHasGB.isError && <Alert variant="danger" className="mt-4">
+      )}
+      {useHasGB.isError && (
+        <Alert variant="danger" className="mt-4">
           {JSON.stringify(getErrorMessage(useHasGB.error))}
         </Alert>
-      }
+      )}
 
       <Button
         title="Test GB"
         variant="success"
         disabled={!active || useTogglePublic.isLoading}
-        onClick={test}>
+        onClick={test}
+      >
         Call GB contract directly (Check console log)
       </Button>
 
@@ -221,19 +241,20 @@ const Admin = () => {
         title="Send airdrop"
         variant="success"
         disabled={!active || useSendAirdrop.isLoading}
-        onClick={sendAirdrop}>
+        onClick={sendAirdrop}
+      >
         {useSendAirdrop.isLoading ? <Spinner animation="border" /> : 'Send'}
       </Button>
-      {
-        useSendAirdrop.isSuccess && <Alert variant="success" className="mt-4">
+      {useSendAirdrop.isSuccess && (
+        <Alert variant="success" className="mt-4">
           {JSON.stringify(useSendAirdrop.data)}
         </Alert>
-      }
-      {
-        useSendAirdrop.isError && <Alert variant="danger" className="mt-4">
+      )}
+      {useSendAirdrop.isError && (
+        <Alert variant="danger" className="mt-4">
           {JSON.stringify(getErrorMessage(useSendAirdrop.error))}
         </Alert>
-      }
+      )}
 
       <hr />
       {/* Change Base URL */}
@@ -253,23 +274,30 @@ const Admin = () => {
         title="Update base url"
         variant="success"
         disabled={!active || useChangeUrl.isLoading}
-        onClick={updateBaseUrl}>
+        onClick={updateBaseUrl}
+      >
         {useChangeUrl.isLoading ? <Spinner animation="border" /> : 'Update'}
       </Button>
-      {
-        useChangeUrl.isSuccess && <Alert variant="success" className="mt-4">
+      {useChangeUrl.isSuccess && (
+        <Alert variant="success" className="mt-4">
           {JSON.stringify(useChangeUrl.data)}
         </Alert>
-      }
-      {
-        useChangeUrl.isError && <Alert variant="danger" className="mt-4">
+      )}
+      {useChangeUrl.isError && (
+        <Alert variant="danger" className="mt-4">
           {JSON.stringify(getErrorMessage(useChangeUrl.error))}
         </Alert>
-      }
+      )}
 
       <hr />
       <h2>Token for sale</h2>
-      {tokenForSaleIsLoading ? <Spinner animation="border" /> : <pre>{JSON.stringify(tokensforSales)}</pre>}
+      {tokenForSaleIsLoading
+        ? (
+          <Spinner animation="border" />
+        )
+        : (
+          <pre>{JSON.stringify(tokensforSales)}</pre>
+        )}
 
       <hr />
       {/* Set token for sale */}
@@ -299,27 +327,26 @@ const Admin = () => {
           defaultValue={isForSale}
           className="mb-2 d-flex"
           onChange={(e) => setIsForSale(e)}
-          value={isForSale}>
+          value={isForSale}
+        >
           <ToggleButton
             id="isFOrSale-check-2"
-            className={`w-50 ${isForSale === true ? 'text-white' : ''
-            }`}
-            variant={
-              'outline-success'
-            }
-            value={true}>
-              For Sale
+            className={`w-50 ${isForSale === true ? 'text-white' : ''}`}
+            variant={'outline-success'}
+            value={true}
+          >
+            For Sale
           </ToggleButton>
           <ToggleButton
             id="isFOrSale-check-1"
-            className={`w-50 ${isForSale === false ? 'text-white' : ''
-            }`}
+            className={`w-50 ${isForSale === false ? 'text-white' : ''}`}
             variant={
               // enabledListing === true ? 'success' : 'outline-success'
               'outline-primary'
             }
-            value={false}>
-              Remove from market
+            value={false}
+          >
+            Remove from market
           </ToggleButton>
         </ToggleButtonGroup>
       </Form.Group>
@@ -327,19 +354,26 @@ const Admin = () => {
         title="Set sale price"
         variant="success"
         disabled={!active || useSetTokenSale.isLoading}
-        onClick={submiSaleToken}>
-        {useSetTokenSale.isLoading ? <Spinner animation="border" /> : 'Set sale'}
+        onClick={submiSaleToken}
+      >
+        {useSetTokenSale.isLoading
+          ? (
+            <Spinner animation="border" />
+          )
+          : (
+            'Set sale'
+          )}
       </Button>
-      {
-        useSetTokenSale.isSuccess && <Alert variant="success" className="mt-4">
+      {useSetTokenSale.isSuccess && (
+        <Alert variant="success" className="mt-4">
           {JSON.stringify(useSetTokenSale.data)}
         </Alert>
-      }
-      {
-        useSetTokenSale.isError && <Alert variant="danger" className="mt-4">
+      )}
+      {useSetTokenSale.isError && (
+        <Alert variant="danger" className="mt-4">
           {JSON.stringify(getErrorMessage(useSetTokenSale.error))}
         </Alert>
-      }
+      )}
 
       <hr />
       {/* Check detail token id */}
@@ -359,21 +393,28 @@ const Admin = () => {
               title="Check Token uri"
               variant="success"
               disabled={!active || useGetChikenDetail.isLoading}
-              onClick={getChiknById}>
-              {useGetChikenDetail.isLoading ? <Spinner animation="border" /> : 'Check'}
+              onClick={getChiknById}
+            >
+              {useGetChikenDetail.isLoading
+                ? (
+                  <Spinner animation="border" />
+                )
+                : (
+                  'Check'
+                )}
             </Button>
           </InputGroup>
         </Form.Group>
-        {
-          useGetChikenDetail.isSuccess && <Alert variant="success" className="mt-4">
+        {useGetChikenDetail.isSuccess && (
+          <Alert variant="success" className="mt-4">
             <pre>{JSON.stringify(useGetChikenDetail.data, null, 4)}</pre>
           </Alert>
-        }
-        {
-          useGetChikenDetail.isError && <Alert variant="danger" className="mt-4">
+        )}
+        {useGetChikenDetail.isError && (
+          <Alert variant="danger" className="mt-4">
             {JSON.stringify(getErrorMessage(useGetChikenDetail.error))}
           </Alert>
-        }
+        )}
       </div>
 
       <hr />
@@ -394,21 +435,28 @@ const Admin = () => {
               title="Check Token uri"
               variant="success"
               disabled={!active || useGetTokenUri.isLoading}
-              onClick={getTokenUri}>
-              {useGetTokenUri.isLoading ? <Spinner animation="border" /> : 'Check'}
+              onClick={getTokenUri}
+            >
+              {useGetTokenUri.isLoading
+                ? (
+                  <Spinner animation="border" />
+                )
+                : (
+                  'Check'
+                )}
             </Button>
           </InputGroup>
         </Form.Group>
-        {
-          useGetTokenUri.isSuccess && <Alert variant="success" className="mt-4">
+        {useGetTokenUri.isSuccess && (
+          <Alert variant="success" className="mt-4">
             <pre>{JSON.stringify(useGetTokenUri.data, null, 4)}</pre>
           </Alert>
-        }
-        {
-          useGetTokenUri.isError && <Alert variant="danger" className="mt-4">
+        )}
+        {useGetTokenUri.isError && (
+          <Alert variant="danger" className="mt-4">
             {JSON.stringify(getErrorMessage(useGetTokenUri.error))}
           </Alert>
-        }
+        )}
       </div>
 
       <hr />
@@ -436,19 +484,20 @@ const Admin = () => {
         title="set chikn new kg"
         variant="success"
         disabled={!active || useSetKg.isLoading}
-        onClick={updateChiknKg}>
+        onClick={updateChiknKg}
+      >
         {useSetKg.isLoading ? <Spinner animation="border" /> : 'Update'}
       </Button>
-      {
-        useSetKg.isSuccess && <Alert variant="success" className="mt-4">
+      {useSetKg.isSuccess && (
+        <Alert variant="success" className="mt-4">
           {JSON.stringify(useSetKg.data)}
         </Alert>
-      }
-      {
-        useSetKg.isError && <Alert variant="danger" className="mt-4">
+      )}
+      {useSetKg.isError && (
+        <Alert variant="danger" className="mt-4">
           {JSON.stringify(getErrorMessage(useSetKg.error))}
         </Alert>
-      }
+      )}
 
       <hr />
       {/* Check excluded list */}
@@ -468,16 +517,23 @@ const Admin = () => {
               title="Public Toggle"
               variant="success"
               disabled={!active || useGetExcluded.isLoading}
-              onClick={checkExclude}>
-              {useGetExcluded.isLoading ? <Spinner animation="border" /> : 'Check'}
+              onClick={checkExclude}
+            >
+              {useGetExcluded.isLoading
+                ? (
+                  <Spinner animation="border" />
+                )
+                : (
+                  'Check'
+                )}
             </Button>
           </InputGroup>
         </Form.Group>
-        {
-          useGetExcluded.isSuccess && <Alert variant="success" className="mt-4">
+        {useGetExcluded.isSuccess && (
+          <Alert variant="success" className="mt-4">
             {JSON.stringify(useGetExcluded.data)}
           </Alert>
-        }
+        )}
       </div>
 
       <hr />
@@ -485,7 +541,9 @@ const Admin = () => {
       <h2>Free Excluding (Add/Remove)</h2>
       <div>
         <Form.Group className="my-4" controlId="formBasicEmail">
-          <Form.Label>Add / remove wallet address to the exclude list (Free minting)</Form.Label>
+          <Form.Label>
+            Add / remove wallet address to the exclude list (Free minting)
+          </Form.Label>
           <InputGroup className="mb-3">
             <Form.Control
               type="text"
@@ -501,26 +559,29 @@ const Admin = () => {
             defaultValue={includeInWhiteList}
             className="mb-2 d-flex"
             onChange={(e) => setIncludeInWhiteList(e)}
-            value={includeInWhiteList}>
+            value={includeInWhiteList}
+          >
             <ToggleButton
               id="excludeList-check-2"
-              className={`w-50 ${includeInWhiteList === true ? 'text-white' : ''
+              className={`w-50 ${
+                includeInWhiteList === true ? 'text-white' : ''
               }`}
-              variant={
-                'outline-success'
-              }
-              value={true}>
+              variant={'outline-success'}
+              value={true}
+            >
               Add
             </ToggleButton>
             <ToggleButton
               id="excludeList-check-1"
-              className={`w-50 ${includeInWhiteList === false ? 'text-white' : ''
+              className={`w-50 ${
+                includeInWhiteList === false ? 'text-white' : ''
               }`}
               variant={
                 // enabledListing === true ? 'success' : 'outline-success'
                 'outline-primary'
               }
-              value={false}>
+              value={false}
+            >
               Remove
             </ToggleButton>
           </ToggleButtonGroup>
@@ -529,21 +590,22 @@ const Admin = () => {
           title="Update Exclude session"
           variant="success"
           disabled={!active || useSetExclude.isLoading}
-          onClick={setExclude}>
+          onClick={setExclude}
+        >
           {useSetExclude.isLoading ? <Spinner animation="border" /> : 'Update'}
         </Button>
-        {
-          useSetExclude.isSuccess && <Alert variant="success" className="mt-4">
+        {useSetExclude.isSuccess && (
+          <Alert variant="success" className="mt-4">
             {JSON.stringify(useSetExclude.data)}
           </Alert>
-        }
-        {
-          useSetExclude.isError && <Alert variant="danger" className="mt-4">
+        )}
+        {useSetExclude.isError && (
+          <Alert variant="danger" className="mt-4">
             {JSON.stringify(getErrorMessage(useSetExclude.error))}
           </Alert>
-        }
+        )}
       </div>
-    </Layout >
+    </Layout>
   )
 }
 
