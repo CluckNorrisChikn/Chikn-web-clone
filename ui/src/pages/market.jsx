@@ -9,7 +9,8 @@ import {
   Form,
   Row,
   ToggleButton,
-  ToggleButtonGroup
+  ToggleButtonGroup,
+  Pagination
 } from 'react-bootstrap'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import { FaSync } from 'react-icons/fa'
@@ -123,7 +124,6 @@ const Market = () => {
             ~filters.trim.indexOf(t.trim?.toLowerCase()))
         )
       })
-      .slice(0, 20)
       .map((t) => t.token)
   }, [
     minted,
@@ -138,6 +138,25 @@ const Market = () => {
     filters.trim,
     forSaleTokens
   ])
+
+  // handles all the pagination!
+  const PAGE_SIZE = 16
+  const [pageNumber, setInternalPageNumber] = React.useState(0)
+  const maxPageNumber = React.useMemo(() => {
+    const total = chikns.length
+    const remainder = total % PAGE_SIZE
+    const maxPage = parseInt(total / PAGE_SIZE) + (remainder > 0 ? 0 : -1)
+    return maxPage
+  }, [chikns])
+
+  const setPage = React.useCallback(
+    (page) => {
+      if (page < 0) setInternalPageNumber(0)
+      else if (page > maxPageNumber) setInternalPageNumber(maxPageNumber)
+      else setInternalPageNumber(page)
+    },
+    [maxPageNumber]
+  )
 
   return (
     <Layout pageName="Wallet">
@@ -258,16 +277,44 @@ const Market = () => {
 
           {/* success */}
           {chikns.length > 0 && (
-            <Row className="gy-3 gx-3">
-              {chikns.map((token) => (
-                <Col key={token} sm={6} md={4} lg={3}>
-                  <ChickenCardMarketplaceSummary
-                    tokenId={token}
-                    onClick={() => navigate(`/chikn/${token}`)}
+            <>
+              <h5>
+                Page {(pageNumber + 1).toLocaleString()} of{' '}
+                {(maxPageNumber + 1).toLocaleString()}
+              </h5>
+              <div className="d-flex flex-row justify-content-center mb-3">
+                <Pagination>
+                  <Pagination.First
+                    disabled={pageNumber === 0}
+                    onClick={() => setPage(0)}
                   />
-                </Col>
-              ))}
-            </Row>
+                  <Pagination.Prev
+                    disabled={pageNumber === 0}
+                    onClick={() => setPage(pageNumber - 1)}
+                  />
+                  <Pagination.Next
+                    disabled={pageNumber === maxPageNumber}
+                    onClick={() => setPage(pageNumber + 1)}
+                  />
+                  <Pagination.Last
+                    disabled={pageNumber === maxPageNumber}
+                    onClick={() => setPage(999999)}
+                  />
+                </Pagination>
+              </div>
+              <Row className="gy-3 gx-3">
+                {chikns
+                  .slice(pageNumber * PAGE_SIZE, (pageNumber + 1) * PAGE_SIZE)
+                  .map((token) => (
+                    <Col key={token} sm={6} md={4} lg={3}>
+                      <ChickenCardMarketplaceSummary
+                        tokenId={token}
+                        onClick={() => navigate(`/chikn/${token}`)}
+                      />
+                    </Col>
+                  ))}
+              </Row>
+            </>
           )}
         </Section>
       )}
