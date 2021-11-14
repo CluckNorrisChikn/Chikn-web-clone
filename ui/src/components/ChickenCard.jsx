@@ -114,7 +114,7 @@ const CardImage = styled((props) => <Card.Img variant="top" {...props} />)`
   max-height: 500px;
 `
 
-const GreyPill = ({ className = '', ...props }) => (
+export const GreyPill = ({ className = '', ...props }) => (
   <span
     className={`${className} px-3 bg-light text-muted border rounded-pill text-nowrap`}
     {...props}
@@ -135,7 +135,7 @@ const BluePill = ({ className = '', ...props }) => (
   />
 )
 
-const AvaxPill = ({
+export const AvaxPill = ({
   className = '',
   children = undefined,
   logoSize,

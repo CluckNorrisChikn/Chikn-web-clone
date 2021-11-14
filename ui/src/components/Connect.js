@@ -804,7 +804,7 @@ export const useGetStatQuery = () => {
       })
       console.log('result floor', FormatAvaxPrice(result[0].price))
       return {
-        items: `${saletokens.length} / ${all.length}`,
+        items: `${saletokens.length.toLocaleString()} / ${all.length.toLocaleString()}`,
         floor: FormatAvaxPrice(result[0].price),
         ceiling: FormatAvaxPrice(result[saletokens.length - 1].price)
       }

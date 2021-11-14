@@ -2,21 +2,22 @@ import { navigate } from 'gatsby-link'
 import * as React from 'react'
 import {
   Accordion,
-  Spinner,
   Button,
+  Card,
   Col,
   Form,
   Pagination,
   Row,
+  Spinner,
   ToggleButton,
-  ToggleButtonGroup,
-  Card
+  ToggleButtonGroup
 } from 'react-bootstrap'
 import { Typeahead } from 'react-bootstrap-typeahead'
-import { FaSync } from 'react-icons/fa'
 import { BiFilter } from 'react-icons/bi'
+import { FaSync } from 'react-icons/fa'
 import { useQueryClient } from 'react-query'
 import {
+  AvaxPill,
   ChickenCardMarketplaceSummary,
   ChickenCardShimmerx4,
   ConnectWalletPromptText
@@ -25,29 +26,18 @@ import { Section, StackRow } from '../components/Common'
 import {
   KEYS,
   useGetAllSalesTokenQuery,
-  useGetSupplyQuery,
-  useWeb3Contract,
   useGetStatQuery,
-  useTotalHoldersQuery
+  useGetSupplyQuery,
+  useTotalHoldersQuery,
+  useWeb3Contract
 } from '../components/Connect'
 import Layout from '../components/Layout'
 import traitsdata from '../components/traits/combinations.json'
 import metadata from '../components/traits/metadata.json'
 import { stringArraysNotEqual } from '../components/utils/utils'
-import styled from 'styled-components'
-import AvaxSvg from '../images/avalanche-avax-logo.svg'
-
-const AvaxLogo = styled(({ logoSize = '15px', ...props }) => (
-  <img src={AvaxSvg} logosize={logoSize} {...props} />
-))`
-  width: ${(props) => props.logosize || '15px'};
-  height: ${(props) => props.logosize || '15px'};
-  margin-left: 5px;
-  position: relative;
-  top: -2px;
-`
 
 const TraitsSelector = ({
+  id = null,
   parentValues = [],
   options = [],
   updateParent = () => {}
@@ -70,12 +60,13 @@ const TraitsSelector = ({
     <>
       <Typeahead
         multiple
-        id="properties"
+        id={id}
         onChange={(selected) => {
           setValues(selected)
           updateParent(selected)
           if (selected.length > 0) ref.current.toggleMenu(true)
         }}
+        onBlur={() => ref.current.toggleMenu(false)}
         clearButton={true}
         options={options}
         ref={ref}
@@ -172,12 +163,18 @@ const Market = () => {
     return maxPage
   }, [chikns])
 
+  // fix for when filters change the max page number...
+  React.useEffect(() => {
+    if (pageNumber > maxPageNumber) setInternalPageNumber(0)
+  }, [pageNumber, maxPageNumber])
+
   const setPage = React.useCallback(
-    (page) => {
+    (page, jumpToTop = false) => {
       if (page < 0) setInternalPageNumber(0)
       else if (page > maxPageNumber) setInternalPageNumber(maxPageNumber)
       else setInternalPageNumber(page)
-      scrollToTopRef.current.scrollIntoView()
+      // only jump to top if coming from bottom...
+      if (jumpToTop) scrollToTopRef.current.scrollIntoView()
     },
     [maxPageNumber]
   )
@@ -241,7 +238,7 @@ const Market = () => {
                       <Spinner variant="primary" animation="border" size="sm" />
                     )
                     : (
-                      holders.data.pagination.total_count
+                      holders.data.pagination.total_count.toLocaleString()
                     )}
                 </div>
                 <div>Owners</div>
@@ -257,9 +254,8 @@ const Market = () => {
                         <Spinner variant="primary" animation="border" size="sm" />
                       )
                       : (
-                        statPrice.floor
-                      )}{' '}
-                    <AvaxLogo />
+                        <AvaxPill>{statPrice.floor}</AvaxPill>
+                      )}
                   </span>
                 </div>
                 <div>Floor price</div>
@@ -331,6 +327,7 @@ const Market = () => {
                         {layer}
                       </Form.Label>
                       <TraitsSelector
+                        id={layer}
                         options={traits}
                         updateParent={(selections) => {
                           if (
@@ -434,19 +431,19 @@ const Market = () => {
                 <Pagination>
                   <Pagination.First
                     disabled={pageNumber === 0}
-                    onClick={() => setPage(0)}
+                    onClick={() => setPage(0, true)}
                   />
                   <Pagination.Prev
                     disabled={pageNumber === 0}
-                    onClick={() => setPage(pageNumber - 1)}
+                    onClick={() => setPage(pageNumber - 1, true)}
                   />
                   <Pagination.Next
                     disabled={pageNumber === maxPageNumber}
-                    onClick={() => setPage(pageNumber + 1)}
+                    onClick={() => setPage(pageNumber + 1, true)}
                   />
                   <Pagination.Last
                     disabled={pageNumber === maxPageNumber}
-                    onClick={() => setPage(999999)}
+                    onClick={() => setPage(999999, true)}
                   />
                 </Pagination>
               </div>
