@@ -224,8 +224,6 @@ const IndexPage = ({ type = 'public' }) => {
               <small className="text-muted">
                 Max {priceConfig.maxPerMint} per mint.
                 <br />
-                Limit {priceConfig.limitPerWallet} per wallet.
-                <br />
                 View your minted <ChiknText /> in your{' '}
                 <Link to="/wallet">Wallet</Link>.
               </small>

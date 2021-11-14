@@ -225,8 +225,6 @@ const IndexPage = () => {
               <small className="text-muted">
                 Max {siteConfig.gbMint.maxPerMint} per mint.
                 <br />
-                Limit {siteConfig.gbMint.limitPerWallet} per wallet.
-                <br />
                 Requires 900 $GB tokens.
               </small>
             </div> */}
