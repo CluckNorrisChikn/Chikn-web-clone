@@ -2,14 +2,15 @@ import { navigate } from 'gatsby-link'
 import * as React from 'react'
 import {
   Accordion,
-  Alert,
+  Spinner,
   Button,
   ButtonGroup,
   Col,
   Form,
   Row,
   ToggleButton,
-  ToggleButtonGroup
+  ToggleButtonGroup,
+  Card
 } from 'react-bootstrap'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import { FaSync } from 'react-icons/fa'
@@ -27,17 +28,31 @@ import {
   useGetAllSalesToken,
   useGetAllTokensForSaleQuery,
   useGetSupplyQuery,
-  useWeb3Contract
+  useWeb3Contract,
+  useGetStatQuery,
+  useTotalHoldersQuery
 } from '../components/Connect'
 import Layout from '../components/Layout'
 import metadata from '../components/traits/metadata.json'
 import traitsdata from '../components/traits/combinations.json'
 import { stringArraysNotEqual } from '../components/utils/utils'
+import styled from 'styled-components'
+import AvaxSvg from '../images/avalanche-avax-logo.svg'
+
+const AvaxLogo = styled(({ logoSize = '15px', ...props }) => (
+  <img src={AvaxSvg} logosize={logoSize} {...props} />
+))`
+  width: ${(props) => props.logosize || '15px'};
+  height: ${(props) => props.logosize || '15px'};
+  margin-left: 5px;
+  position: relative;
+  top: -2px;
+`
 
 const TraitsSelector = ({
   parentValues = [],
   options = [],
-  updateParent = () => {}
+  updateParent = () => { }
 }) => {
   const ref = React.useRef()
   const [values, setValues] = React.useState([])
@@ -86,6 +101,10 @@ const Market = () => {
   const [filterSalesStatus, setFilterSalesStatus] = React.useState('for_sale')
   const [filters, setFilters] = React.useState({})
   const { data: { minted } = {} } = useGetSupplyQuery()
+  const { isLoading: statLoading, data: statPrice = {} } = useGetStatQuery()
+  const { isLoading: holderLoading, data: holders = {} } = useTotalHoldersQuery()
+
+  console.log('holder---', holders)
 
   // todo pagination?
   const chikns = React.useMemo(() => {
@@ -157,6 +176,27 @@ const Market = () => {
             <FaSync />
           </Button>
         </div>
+      </StackRow>
+      <StackRow className="justify-content-around">
+        <Card>
+          <Card.Body>
+            <StackRow>
+              <div style={{ width: '120px', padding: '0px 10px', borderRight: '1px solid rgba(0, 0, 0, 0.125)' }} className="d-flex flex-column align-items-center">
+                <div>{statLoading ? <Spinner variant="primary" animation="border" /> : statPrice.items}</div>
+                <div>Items</div>
+              </div>
+              <div style={{ width: '120px', padding: '0px 10px', borderRight: '1px solid rgba(0, 0, 0, 0.125)' }} className="d-flex flex-column align-items-center">
+                <div>{holderLoading ? <Spinner variant="primary" animation="border" /> : holders.data.pagination.total_count}</div>
+                <div>Owners</div>
+              </div>
+              <div style={{ width: '120px', padding: '0px 10px' }} className="d-flex flex-column align-items-center">
+                <div><span>{statLoading ? <Spinner variant="primary" animation="border" /> : statPrice.floor} <AvaxLogo /></span></div>
+                <div>Floor price</div>
+              </div>
+            </StackRow>
+          </Card.Body>
+        </Card>
+
       </StackRow>
 
       {/* wallet not connected */}

@@ -10,6 +10,7 @@ import ChickenRunTestNet from '../../contract/Chicken_Fuji.json'
 import ChickenRun from '../../contract/Chicken_Mainnet.json'
 import siteConfig from '../../site-config'
 import traits from '../components/traits/combinations.json'
+import axios from 'axios'
 
 export const getErrorMessage = (error, deactivate) => {
   const { constructor: { name } = {} } = error
@@ -67,7 +68,9 @@ export const KEYS = {
   ADMIN_GB_TOGGLE: () => ['admin', 'gb_toggle'],
   ADMIN_PUBLIC_TOGGLE: () => ['admin', 'public_toggle'],
   ADMIN_BASEURL: () => ['admin', 'baseurl'],
-  SALES: () => ['admin', 'sales']
+  SALES: () => ['admin', 'sales'],
+  FLOOR: () => ['market', 'floor'],
+  HOLDERS: () => ['market', 'holders']
 }
 
 /**
@@ -78,7 +81,7 @@ export const KEYS = {
 export const useGetSupplyQuery = () => {
   const { active, contract } = useWeb3Contract()
   return useQuery(KEYS.CONTRACT_CURRENTSUPPLY(), async () => {
-    console.debug({ active, keys: Object.keys(contract) })
+    // console.debug({ active, keys: Object.keys(contract) })
     let [
       minted,
       gbminted,
@@ -778,4 +781,57 @@ export const useGetChickenDetailMutation = (contract, enabled = true) => {
   }, {
     enabled: !isUndef(contract) && enabled
   })
+}
+
+export const useGetStatQuery = () => {
+  const { contract } = useWeb3Contract()
+  return useQuery(
+    KEYS.FLOOR(),
+    async () => {
+      const all = await contract.getAllSaleTokens()
+      //  need to filter out any value that is greater than 0
+      const saletokens = all.filter((t) => t > 0).map(t => Number(t))
+      const promises = []
+      saletokens.forEach(t => promises.push(contract.allChickenRun(t)))
+      const result = await Promise.all(promises)
+
+      result.sort((a, b) => {
+        const priceA = FormatAvaxPrice(a.price)
+        const priceB = FormatAvaxPrice(b.price)
+        if (priceA > priceB) return 1
+        if (priceB > priceA) return -1
+        return 0
+      })
+      console.log('result floor', FormatAvaxPrice(result[0].price))
+      return {
+        items: `${saletokens.length} / ${all.length}`,
+        floor: FormatAvaxPrice(result[0].price),
+        ceiling: FormatAvaxPrice(result[saletokens.length - 1].price)
+      }
+    },
+    {
+      enabled: !isUndef(contract),
+      cacheTime: 5 * 1000,
+      staleTime: 5 * 1000
+    }
+  )
+}
+
+export const useTotalHoldersQuery = () => {
+  return useQuery(
+    KEYS.HOLDERS(),
+    async () => {
+      const holders = await axios.get('https://api.covalenthq.com/v1/43114/tokens/0x8927985B358692815E18F2138964679DcA5d3b79/token_holders/', {
+        headers: {
+          Authorization: 'Basic Y2tleV82Yzk5ZmQ5MjE0MmE0MzJkYWVmYTdmODViODI6'
+        }
+      })
+      console.log('holders', holders.data)
+      return holders.data
+    },
+    {
+      cacheTime: 5 * 1000,
+      staleTime: 5 * 1000
+    }
+  )
 }
