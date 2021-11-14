@@ -110,7 +110,7 @@ const Component = () => {
                   disabled={!publicMintOpen}
                   to="/mint"
                 >
-                  Public Mint
+                  Public Mint Now Open
                 </Link>
               </>
             )}
