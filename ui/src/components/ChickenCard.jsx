@@ -10,7 +10,8 @@ import {
   Form,
   ToggleButtonGroup,
   ToggleButton,
-  ButtonGroup
+  ButtonGroup,
+  Badge
 } from 'react-bootstrap'
 import Accordion from 'react-bootstrap/Accordion'
 import {
@@ -40,6 +41,7 @@ import siteConfig from '../../site-config'
 import EditListingModal from './modals/EditListingModal'
 import { useQueryClient } from 'react-query'
 import ChickenUnrevealedImage from '../images/chicken_unrevealed.jpg'
+import metadata from '../components/traits/metadata.json'
 
 /**
  * @typedef {Object} Details
@@ -178,16 +180,6 @@ const RenderAddress = ({ address }) => {
   )
 }
 
-const RenderOwnedByAddress = ({ address, ...props }) => {
-  const { account } = useWeb3Contract()
-  return (
-    <Property {...props}>
-      Owned by{' '}
-      {address === account ? 'You' : address ? shortAccount(address) : '-'}
-    </Property>
-  )
-}
-
 const ChickenCardShimmer = () => {
   return (
     <ChiknCard>
@@ -319,9 +311,12 @@ export const ChickenCardMarketplaceSummary = ({
             />
             <Card.Body>
               <StackCol className="gap-2 justify-content-between">
-                <h6 className="p-0">
+                <h6 className="p-0 mb-0">
                   <ChiknText /> #{tokenId}
                 </h6>
+                <small className="text-muted">
+                  Rank: {properties.rank.toLocaleString()}
+                </small>
                 <SaleStatus
                   size="sm"
                   forSale={details.forSale}
@@ -370,10 +365,13 @@ export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
               src={isRevealed ? properties.image : ChickenUnrevealedImage}
             />
             <Card.Body>
-              <StackCol className="justify-content-between">
-                <h6>
+              <StackCol className="justify-content-between gap-2">
+                <h6 className="mb-0">
                   <ChiknText /> #{tokenId}
                 </h6>
+                <small className="text-muted">
+                  Rank: {properties.rank.toLocaleString()}
+                </small>
                 <SaleStatus size="sm" forSale={forSale} owner={currentOwner} />
               </StackCol>
             </Card.Body>
@@ -443,14 +441,43 @@ const ChickenImage = styled.img`
   border-radius: 15px;
 `
 
-const Property = styled(({ className = 'bg-light text-dark', ...props }) => (
-  <div
-    className={`${className} px-3 py-2 border rounded-3 text-nowrap text-capitalize`}
-    {...props}
-  />
-))`
-  // background: purple;
-`
+const Property = (props) => {
+  const {
+    layer = 'None',
+    trait = 'None',
+    percentage = 0,
+    className = '',
+    ...otherProps
+  } = props
+
+  // NOTE head = x4
+  const percent = layer === 'head' ? percentage * 3 : percentage
+
+  const background =
+    percent <= 0.0009 // unique (red)
+      ? 'primary'
+      : percent <= 0.0128 // legendary (orange)
+        ? 'warning'
+        : percent <= 0.0394 // epic (green)
+          ? 'success'
+          : percent <= 0.2558 // uncommon (blue)
+            ? 'info'
+            : 'secondary' // common (grey)
+
+  return (
+    <div
+      className={`${className} px-3 py-2 rounded-3 text-nowrap border text-dark text-capitalize d-flex flex-row justify-content-between align-items-center`}
+      {...otherProps}
+    >
+      <span>
+        <b>{layer}</b>: {trait}
+      </span>
+      <Badge bg={background} className="px-3 py-2">
+        {(percent * 100).toFixed(2)}%
+      </Badge>
+    </div>
+  )
+}
 
 const MenuButton = styled(Button)`
   min-width: 200px !important;
@@ -536,6 +563,11 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
                 </ButtonGroup>
               </StackRow>
 
+              {/* Rank */}
+              <div className="text-muted">
+                Rank: {properties.rank.toLocaleString()}
+              </div>
+
               {/* actions */}
               <StackDynamic className="gap-1 flex-wrap">
                 {active && ( // !isOwner && !isForSale &&
@@ -608,13 +640,18 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
                       <StackCol className="gap-1 flex-wrap">
                         {'background,body,head,neck,torso,feet,tail,trim'
                           .split(',')
-                          .map((p) => {
-                            return (
-                              <Property key={p}>
-                                <b>{p}</b>: {properties[p] || 'None'}
-                              </Property>
-                            )
-                          })}
+                          .map((p) => (
+                            <>
+                              <Property
+                                key={p}
+                                layer={p}
+                                trait={properties[p] || 'None'}
+                                percentage={
+                                  metadata[p][properties[p]] / metadata._total
+                                }
+                              />
+                            </>
+                          ))}
                       </StackCol>
                     </Accordion.Body>
                   </Accordion.Item>
