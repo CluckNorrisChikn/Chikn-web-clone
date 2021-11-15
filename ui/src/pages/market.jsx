@@ -320,32 +320,27 @@ const Market = () => {
               {/* properties */}
               <h5>Properties</h5>
               <Row>
-                {Object.entries(metadata)
-                  .filter(([layer]) => !layer.startsWith('_'))
-                  .map(([layer, traits]) => (
-                    <Col xs={12} sm={12} md={6} lg={4} key={layer}>
-                      <Form.Group>
-                        <Form.Label className="mt-2 mb-1 text-capitalize">
-                          {layer}
-                        </Form.Label>
-                        <TraitsSelector
-                          id={layer}
-                          options={Object.keys(traits)}
-                          updateParent={(selections) => {
-                            if (
-                              stringArraysNotEqual(selections, filters[layer])
-                            ) {
-                              setFilters((ps) => ({
-                                ...ps,
-                                [layer]: selections
-                              }))
-                            }
-                          }}
-                          parentValues={filters[layer]}
-                        />
-                      </Form.Group>
-                    </Col>
-                  ))}
+                {Object.entries(metadata).map(([layer, traits]) => (
+                  <Col xs={12} sm={12} md={6} lg={4} key={layer}>
+                    <Form.Group>
+                      <Form.Label className="mt-2 mb-1 text-capitalize">
+                        {layer}
+                      </Form.Label>
+                      <TraitsSelector
+                        id={layer}
+                        options={traits}
+                        updateParent={(selections) => {
+                          if (
+                            stringArraysNotEqual(selections, filters[layer])
+                          ) {
+                            setFilters((ps) => ({ ...ps, [layer]: selections }))
+                          }
+                        }}
+                        parentValues={filters[layer]}
+                      />
+                    </Form.Group>
+                  </Col>
+                ))}
               </Row>
               {/* clear button */}
               <Row>
