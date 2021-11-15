@@ -314,9 +314,9 @@ export const ChickenCardMarketplaceSummary = ({
                 <h6 className="p-0 mb-0">
                   <ChiknText /> #{tokenId}
                 </h6>
-                <small className="text-muted">
+                {/* <small className="text-muted">
                   Rank: {properties.rank.toLocaleString()}
-                </small>
+                </small> */}
                 <SaleStatus
                   size="sm"
                   forSale={details.forSale}
@@ -369,9 +369,9 @@ export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
                 <h6 className="mb-0">
                   <ChiknText /> #{tokenId}
                 </h6>
-                <small className="text-muted">
+                {/* <small className="text-muted">
                   Rank: {properties.rank.toLocaleString()}
-                </small>
+                </small> */}
                 <SaleStatus size="sm" forSale={forSale} owner={currentOwner} />
               </StackCol>
             </Card.Body>
@@ -564,9 +564,9 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
               </StackRow>
 
               {/* Rank */}
-              <div className="text-muted">
+              {/* <div className="text-muted">
                 Rank: {properties.rank.toLocaleString()}
-              </div>
+              </div> */}
 
               {/* actions */}
               <StackDynamic className="gap-1 flex-wrap">
