@@ -92,7 +92,8 @@ const Market = () => {
   const { active } = useWeb3Contract()
   const getAllSalesTokenQuery = useGetAllSalesTokenQuery()
   const { data: forSaleTokens = [] } = getAllSalesTokenQuery
-  const [filterSalesStatus, setFilterSalesStatus] = React.useState('for_sale')
+  const [filterSalesStatus, setFilterSalesStatus] = React.useState('show_all')
+  const showForSale = filterSalesStatus === 'for_sale'
   const [filters, setFilters] = React.useState({})
   const { isLoading: statLoading, data: statPrice = {} } = useGetStatQuery()
   const { isLoading: holderLoading, data: holders = {} } =
@@ -100,7 +101,6 @@ const Market = () => {
 
   const getSupplyQuery = useGetSupplyQuery()
   const { data: { minted } = {} } = getSupplyQuery
-  const showForSale = filterSalesStatus === 'for_sale'
 
   // todo pagination?
   const chikns = React.useMemo(() => {
