@@ -451,16 +451,16 @@ const Property = (props) => {
   } = props
 
   // NOTE head = x4
-  const percent = layer === 'head' ? percentage * 3 : percentage
+  const weightedPercentForColouring = layer === 'head' ? percentage * 3 : percentage
 
   const background =
-    percent <= 0.0009 // unique (red)
+    weightedPercentForColouring <= 0.0009 // unique (red)
       ? 'primary'
-      : percent <= 0.0128 // legendary (orange)
+      : weightedPercentForColouring <= 0.0128 // legendary (orange)
         ? 'warning'
-        : percent <= 0.0394 // epic (green)
+        : weightedPercentForColouring <= 0.0394 // epic (green)
           ? 'success'
-          : percent <= 0.2558 // uncommon (blue)
+          : weightedPercentForColouring <= 0.2558 // uncommon (blue)
             ? 'info'
             : 'secondary' // common (grey)
 
@@ -473,7 +473,7 @@ const Property = (props) => {
         <b>{layer}</b>: {trait}
       </span>
       <Badge bg={background} className="px-3 py-2">
-        {(percent * 100).toFixed(2)}%
+        {(percentage * 100).toFixed(2)}%
       </Badge>
     </div>
   )
