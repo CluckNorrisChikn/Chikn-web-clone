@@ -6,7 +6,7 @@ import ChiknDetailsRouter from './routes/ChiknDetailsRouter'
 
 const app = express()
 app.use(morgan('dev'))
-const port = 3000
+const port = 8888
 
 app.use(SupplyRouter)
 app.use(MarketplaceRouter)
