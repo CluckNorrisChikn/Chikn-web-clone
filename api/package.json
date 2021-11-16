@@ -8,8 +8,8 @@
     "build": "tsc --build",
     "build:clean": "tsc --build --clean",
     "start": "node dist/index.js",
-    "start:dev": "dotenv -e .env ts-node index.ts",
-    "start:watch": "dotenv -e .env nodemon index.ts"
+    "start:dev": "dotenv -e .env ts-node src/index.ts",
+    "start:watch": "dotenv -e .env nodemon src/index.ts"
   },
   "license": "ISC",
   "dependencies": {

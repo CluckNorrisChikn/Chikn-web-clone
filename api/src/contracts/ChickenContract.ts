@@ -51,6 +51,15 @@ class ChickenContract {
         return response
     }
 
+    async getChikn(id) {
+        return await this.contract.methods.allChickenRun(id).call()
+    }
+
+    async allForSale() {
+        const response = await this.contract.methods.getAllSaleTokens().call()
+        return response
+    }
+
     /**
    * @returns {Promise<ChickenDetails>} details of the chicken.
    */
