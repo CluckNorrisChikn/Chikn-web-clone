@@ -1,7 +1,7 @@
 // const Web3 = require('web3')
-import contractTestnet from './contracts/Chicken_Fuji.json'
-import contractMainnet from './contracts/Chicken_Mainnet.json'
-import { PerformanceTimer } from './PerformanceTimer'
+import contractTestnet from './Chicken_Fuji.json'
+import contractMainnet from './Chicken_Mainnet.json'
+import { PerformanceTimer } from '../PerformanceTimer'
 import chalk from 'chalk'
 const Web3Eth = require('web3-eth')
 
