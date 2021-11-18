@@ -352,7 +352,7 @@ const FormatAvaxPrice = (price) => {
 
 export const useGetWeb3TokenDetail = (contract, enabled = true, tokenId) => {
   // owner query for nonexistent token
-  console.log(`useGetWeb3TokenDetail - '${tokenId}' (${typeof tokenId})`)
+  console.log(`useGetWeb3TokenDetail - '${tokenId}'`, { contract, enabled })
   return useQuery(
     KEYS.TOKEN(tokenId),
     async () => {

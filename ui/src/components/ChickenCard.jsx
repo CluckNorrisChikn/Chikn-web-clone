@@ -1,19 +1,21 @@
 import * as React from 'react'
 import {
   Alert,
-  Card,
+  Badge,
   Button,
-  Spinner,
-  Row,
-  Col,
-  Modal,
-  Form,
-  ToggleButtonGroup,
-  ToggleButton,
   ButtonGroup,
-  Badge
+  Card,
+  Col,
+  Row,
+  Spinner
 } from 'react-bootstrap'
 import Accordion from 'react-bootstrap/Accordion'
+import { useQueryClient } from 'react-query'
+import styled from 'styled-components'
+import siteConfig from '../../site-config'
+import metadata from '../components/traits/metadata.json'
+import AvaxSvg from '../images/avalanche-avax-logo.svg'
+import ChickenUnrevealedImage from '../images/chicken_unrevealed.jpg'
 import {
   ChiknText,
   fmtCurrency,
@@ -21,27 +23,19 @@ import {
   RefreshButton,
   Section,
   SocialShareLinkButton,
-  Stack,
   StackCol,
   StackDynamic,
   StackRow
 } from './Common'
 import {
-  useGetTokenQuery,
-  useBuyTokenMutation,
-  useGetWeb3TokenDetail,
-  useWeb3Contract,
   getErrorMessage,
   KEYS,
-  useGetSupplyQuery
+  useBuyTokenMutation,
+  useGetTokenQuery,
+  useGetWeb3TokenDetail,
+  useWeb3Contract
 } from './Connect'
-import styled from 'styled-components'
-import AvaxSvg from '../images/avalanche-avax-logo.svg'
-import siteConfig from '../../site-config'
 import EditListingModal from './modals/EditListingModal'
-import { useQueryClient } from 'react-query'
-import ChickenUnrevealedImage from '../images/chicken_unrevealed.jpg'
-import metadata from '../components/traits/metadata.json'
 
 /**
  * @typedef {Object} Details
