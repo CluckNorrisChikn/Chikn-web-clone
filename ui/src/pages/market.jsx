@@ -199,7 +199,7 @@ const Market = () => {
                       <Spinner variant="primary" animation="border" size="sm" />
                     )
                     : (
-                      marketData.mintedCount.toLocaleString()
+                      marketData?.mintedCount?.toLocaleString()
                     )}
                 </div>
                 <div>Items</div>
@@ -218,7 +218,7 @@ const Market = () => {
                       <Spinner variant="primary" animation="border" size="sm" />
                     )
                     : (
-                      holders.data.pagination.total_count.toLocaleString()
+                      holders.data?.pagination?.total_count?.toLocaleString()
                     )}
                 </div>
                 <div>Owners</div>

@@ -290,8 +290,7 @@ export const ChickenCardMarketplaceSummary = ({
 }) => {
   const { contract, active, account } = useWeb3Contract()
   const getTokenQuery = useGetTokenQuery(tokenId)
-  const { data: { minted } = {} } = useGetSupplyQuery()
-  const isRevealed = tokenId <= minted
+  const isRevealed = getTokenQuery.isSuccess
   const { data: { properties = {} } = {} } = getTokenQuery
   const getWeb3TokenDetail = useGetWeb3TokenDetail(contract, active, tokenId)
   const { data: details = DETAILS_BLANK } = getWeb3TokenDetail
@@ -352,8 +351,7 @@ export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
   const { active, contract } = useWeb3Contract()
   const getWeb3TokenDetail = useGetWeb3TokenDetail(contract, active, tokenId)
   const { data: { forSale = false, currentOwner } = {} } = getWeb3TokenDetail
-  const { data: { minted } = {} } = useGetSupplyQuery()
-  const isRevealed = tokenId <= minted
+  const isRevealed = getTokenQuery.isSuccess
   return (
     <>
       {getTokenQuery.isLoading && <ChickenCardShimmer />}
@@ -394,8 +392,7 @@ export const ChickenCardRecentActivitySummary = ({
   const getTokenQuery = useGetTokenQuery(tokenId)
   const { data: { properties = {}, details = DETAILS_BLANK } = {} } =
     getTokenQuery
-  const { data: { minted } = {} } = useGetSupplyQuery()
-  const isRevealed = tokenId <= minted
+  const isRevealed = getTokenQuery.isSuccess
   return (
     <>
       {getTokenQuery.isLoading && <ChickenCardShimmer />}
@@ -496,8 +493,7 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
   /** @type {{ data: { details: Details }}} */
   const getTokenQuery = useGetTokenQuery(tokenId)
   const { data: { properties = {} } = {} } = getTokenQuery
-  const { data: { minted } = {} } = useGetSupplyQuery()
-  const isRevealed = tokenId <= minted
+  const isRevealed = getTokenQuery.isSuccess // apply this everywhere
   const getWeb3TokenDetail = useGetWeb3TokenDetail(contract, active, tokenId)
   const { data: details = DETAILS_BLANK } = getWeb3TokenDetail
   const isOwner = details.currentOwner === account
