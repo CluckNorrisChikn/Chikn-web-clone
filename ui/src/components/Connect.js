@@ -70,7 +70,8 @@ export const KEYS = {
   ADMIN_BASEURL: () => ['admin', 'baseurl'],
   SALES: () => ['admin', 'sales'],
   FLOOR: () => ['market', 'floor'],
-  HOLDERS: () => ['market', 'holders']
+  HOLDERS: () => ['market', 'holders'],
+  APIMARKET: () => ['api', 'market']
 }
 
 /**
@@ -832,6 +833,20 @@ export const useTotalHoldersQuery = () => {
     {
       cacheTime: 5 * 1000,
       staleTime: 5 * 1000
+    }
+  )
+}
+
+export const useAPIMarketStat = () => {
+  return useQuery(
+    KEYS.APIMARKET(),
+    async () => {
+      const market = await axios.get('http://localhost:3000/market/list')
+      return market.data
+    },
+    {
+      cacheTime: 3 * 1000,
+      staleTime: 3 * 1000
     }
   )
 }

@@ -26,7 +26,7 @@ import { Section, StackRow } from '../components/Common'
 import {
   KEYS,
   useGetAllSalesTokenQuery,
-  useGetStatQuery,
+  useAPIMarketStat,
   useGetSupplyQuery,
   useTotalHoldersQuery,
   useWeb3Contract
@@ -95,7 +95,7 @@ const Market = () => {
   const [filterSalesStatus, setFilterSalesStatus] = React.useState('show_all')
   const showForSale = filterSalesStatus === 'for_sale'
   const [filters, setFilters] = React.useState({})
-  const { isLoading: statLoading, data: statPrice = {} } = useGetStatQuery()
+  const { isLoading: marketDataLoading, data: marketData = {} } = useAPIMarketStat()
   const { isLoading: holderLoading, data: holders = {} } =
     useTotalHoldersQuery()
 
@@ -214,12 +214,12 @@ const Market = () => {
                 className="d-flex flex-column align-items-center"
               >
                 <div>
-                  {statLoading
+                  {marketDataLoading
                     ? (
                       <Spinner variant="primary" animation="border" size="sm" />
                     )
                     : (
-                      statPrice.items
+                      marketData.minted
                     )}
                 </div>
                 <div>Items</div>
@@ -249,12 +249,12 @@ const Market = () => {
               >
                 <div>
                   <span>
-                    {statLoading
+                    {marketDataLoading
                       ? (
                         <Spinner variant="primary" animation="border" size="sm" />
                       )
                       : (
-                        <AvaxPill>{statPrice.floor}</AvaxPill>
+                        <AvaxPill>{marketData.floor}</AvaxPill>
                       )}
                   </span>
                 </div>
