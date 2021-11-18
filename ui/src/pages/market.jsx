@@ -96,28 +96,27 @@ const Market = () => {
   const chikns = React.useMemo(() => {
     // filter by the selected properties... 'background,body,head,neck,torso,feet,tail,trim'
     if (marketData && marketData.chikn) {
-      return marketData.chikn
-        .filter((t) => {
-          return (
-            (isUndefOrEmpty(filters.background) ||
-              ~filters.background.indexOf(t.background?.toLowerCase())) &&
-            (isUndefOrEmpty(filters.body) ||
-              ~filters.body.indexOf(t.body?.toLowerCase())) &&
-            (isUndefOrEmpty(filters.head) ||
-              ~filters.head.indexOf(t.head?.toLowerCase())) &&
-            (isUndefOrEmpty(filters.neck) ||
-              ~filters.neck.indexOf(t.neck?.toLowerCase())) &&
-            (isUndefOrEmpty(filters.torso) ||
-              ~filters.torso.indexOf(t.torso?.toLowerCase())) &&
-            (isUndefOrEmpty(filters.feet) ||
-              ~filters.feet.indexOf(t.feet?.toLowerCase())) &&
-            (isUndefOrEmpty(filters.tail) ||
-              ~filters.tail.indexOf(t.tail?.toLowerCase())) &&
-            (isUndefOrEmpty(filters.trim) ||
-              ~filters.trim.indexOf(t.trim?.toLowerCase()))
-          )
-        })
-        .map((t) => t.token)
+      return marketData.chikn.filter((t) => {
+        return (
+          (isUndefOrEmpty(filters.background) ||
+            ~filters.background.indexOf(t.background?.toLowerCase())) &&
+          (isUndefOrEmpty(filters.body) ||
+            ~filters.body.indexOf(t.body?.toLowerCase())) &&
+          (isUndefOrEmpty(filters.head) ||
+            ~filters.head.indexOf(t.head?.toLowerCase())) &&
+          (isUndefOrEmpty(filters.neck) ||
+            ~filters.neck.indexOf(t.neck?.toLowerCase())) &&
+          (isUndefOrEmpty(filters.torso) ||
+            ~filters.torso.indexOf(t.torso?.toLowerCase())) &&
+          (isUndefOrEmpty(filters.feet) ||
+            ~filters.feet.indexOf(t.feet?.toLowerCase())) &&
+          (isUndefOrEmpty(filters.tail) ||
+            ~filters.tail.indexOf(t.tail?.toLowerCase())) &&
+          (isUndefOrEmpty(filters.trim) ||
+            ~filters.trim.indexOf(t.trim?.toLowerCase()))
+        )
+      })
+      // .map((t) => t.token)
     } else {
       return []
     }
@@ -379,18 +378,23 @@ const Market = () => {
             <Row className="gy-3 gx-3">
               {chikns
                 .slice(pageNumber * PAGE_SIZE, (pageNumber + 1) * PAGE_SIZE)
-                .map((token) => (
-                  <Col key={token} sm={6} md={4} lg={3}>
+                .map((chikn) => (
+                  <Col key={chikn.token} sm={6} md={4} lg={3}>
                     <ChickenCardMarketplaceSummary
-                      tokenId={token}
+                      tokenId={chikn.token}
                       onClick={() =>
-                        navigate(`/chikn/${token}`, {
+                        navigate(`/chikn/${chikn.token}`, {
                           state: {
                             backLink: '/market',
                             backLabel: 'Back to Market'
                           }
                         })
                       }
+                      forSale={chikn.forSale}
+                      currentOwner={chikn.owner}
+                      price={chikn.salePrice}
+                      previousPrice={chikn.previousPrice}
+                      {...chikn}
                     />
                   </Col>
                 ))}

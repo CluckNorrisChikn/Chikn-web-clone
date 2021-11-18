@@ -280,17 +280,18 @@ const ShowError = ({ error = {} }) => {
 
 export const ChickenCardMarketplaceSummary = ({
   tokenId = '',
-  onClick = null
+  onClick = null,
+  ...props
 }) => {
-  const { contract, active, account } = useWeb3Contract()
+  const { account } = useWeb3Contract()
   const getTokenQuery = useGetTokenQuery(tokenId)
   const isRevealed = getTokenQuery.isSuccess
   const { data: { properties = {} } = {} } = getTokenQuery
-  const getWeb3TokenDetail = useGetWeb3TokenDetail(contract, active, tokenId)
-  const { data: details = DETAILS_BLANK } = getWeb3TokenDetail
-  const isOwner = details.currentOwner === account
+  // const getWeb3TokenDetail = useGetWeb3TokenDetail(contract, active, tokenId)
+  // const { data: details = DETAILS_BLANK } = getWeb3TokenDetail
+  const isOwner = props.currentOwner === account
   const showForSale =
-    details.forSale === true && details.currentOwner !== account
+    props.forSale === true && props.currentOwner !== account
 
   return (
     <>
@@ -312,19 +313,19 @@ export const ChickenCardMarketplaceSummary = ({
                 </small> */}
                 <SaleStatus
                   size="sm"
-                  forSale={details.forSale}
+                  forSale={props.forSale}
                   isOwner={isOwner}
-                  owner={details.currentOwner}
+                  owner={props.currentOwner}
                 />
                 {showForSale && (
                   <Properties definitionAlign="right">
                     <dd>price</dd>
                     <dt>
-                      <AvaxPill>{fmtCurrency(details.price)}</AvaxPill>
+                      <AvaxPill>{fmtCurrency(props.price)}</AvaxPill>
                     </dt>
                     <dd>last price</dd>
                     <dt>
-                      <AvaxPill>{fmtCurrency(details.previousPrice)}</AvaxPill>
+                      <AvaxPill>{fmtCurrency(props.previousPrice)}</AvaxPill>
                     </dt>
                   </Properties>
                 )}

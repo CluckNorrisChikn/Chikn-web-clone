@@ -364,7 +364,7 @@ export const useGetWeb3TokenDetail = (contract, enabled = true, tokenId) => {
         forSale: tokenDetail.forSale,
         mintedBy: tokenDetail.mintedBy,
         numberOfTransfers: parseInt(tokenDetail.numberOfTransfers),
-        perchHeight: tokenDetail.perchHeight,
+        // perchHeight: tokenDetail.perchHeight,
         previousPrice: FormatAvaxPrice(tokenDetail.previousPrice),
         price: FormatAvaxPrice(tokenDetail.price),
         tokenId: tokenDetail.tokenId
