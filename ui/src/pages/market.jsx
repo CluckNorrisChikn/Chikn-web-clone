@@ -35,7 +35,7 @@ const TraitsSelector = ({
   id = null,
   parentValues = [],
   options = [],
-  updateParent = () => {}
+  updateParent = () => { }
 }) => {
   const ref = React.useRef()
   const [values, setValues] = React.useState([])
@@ -85,6 +85,7 @@ const Market = () => {
   // react-query
   const queryClient = useQueryClient()
   const [filterSalesStatus, setFilterSalesStatus] = React.useState('show_all')
+  const [sortSalesBy, setSortSalesBy] = React.useState('token')
   const showForSale = filterSalesStatus === 'for_sale'
   const [filters, setFilters] = React.useState({})
   const apiMarketStatQuery = useAPIMarketStat(showForSale)
@@ -115,6 +116,25 @@ const Market = () => {
           (isUndefOrEmpty(filters.trim) ||
             ~filters.trim.indexOf(t.trim?.toLowerCase()))
         )
+      }).sort((a, b) => {
+        const aPrice = parseInt(a.salePrice)
+        const bPrice = parseInt(b.salePrice)
+        if (sortSalesBy === 'token') {
+          // sort by token id
+          if (a.token > b.token) return 1
+          if (a.token < b.token) return -1
+          return 0
+        } else if (sortSalesBy === 'lowest') {
+          // sort by lowest
+          if (aPrice > bPrice) return 1
+          if (aPrice < bPrice) return -1
+          return 0
+        } else {
+          // sort by highest price
+          if (aPrice > bPrice) return -1
+          if (aPrice < bPrice) return 1
+          return 0
+        }
       })
       // .map((t) => t.token)
     } else {
@@ -129,7 +149,8 @@ const Market = () => {
     filters.neck,
     filters.tail,
     filters.torso,
-    filters.trim
+    filters.trim,
+    sortSalesBy
   ])
 
   // handles all the pagination!
@@ -146,6 +167,10 @@ const Market = () => {
   React.useEffect(() => {
     if (pageNumber > maxPageNumber) setInternalPageNumber(0)
   }, [pageNumber, maxPageNumber])
+
+  React.useEffect(() => {
+    setSortSalesBy('token')
+  }, [filterSalesStatus])
 
   const setPage = React.useCallback(
     (page, jumpToTop = false) => {
@@ -285,6 +310,50 @@ const Market = () => {
                 </ToggleButtonGroup>
               </Col>
             </Row>
+            {
+              filterSalesStatus === 'for_sale' &&
+              <>
+                {/* Sort for Sale */}
+                <h5>Sort by</h5>
+                <Row className="my-3">
+                  <Col xs={12} sm={12} md={8} lg={6}>
+                    <ToggleButtonGroup
+                      name="sortBy"
+                      defaultValue="token"
+                      value={sortSalesBy}
+                      onChange={setSortSalesBy}
+                      type="radio"
+                      className="w-100"
+                    >
+                      <ToggleButton
+                        className="w-50"
+                        variant="outline-primary"
+                        id="lowest"
+                        value="lowest"
+                      >
+                        Lowest price
+                      </ToggleButton>
+                      <ToggleButton
+                        className="w-50"
+                        variant="outline-primary"
+                        id="highest"
+                        value="highest"
+                      >
+                        Highest price
+                      </ToggleButton>
+                      <ToggleButton
+                        className="w-50"
+                        variant="outline-primary"
+                        id="token"
+                        value="token"
+                      >
+                        Chikn #
+                      </ToggleButton>
+                    </ToggleButtonGroup>
+                  </Col>
+                </Row>
+              </>
+            }
             {/* properties */}
             <h5>Properties</h5>
             <Row>

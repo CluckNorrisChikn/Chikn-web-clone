@@ -215,7 +215,9 @@ export const SaleStatus = ({
 }) => {
   const sizeClass = size === 'lg' ? 'py-2 px-3' : 'py-0 px-0'
   if (owner === '') {
-    return <GreyPill className={`${sizeClass}`}>Connect wallet</GreyPill>
+    // return <GreyPill className={`${sizeClass}`}>Connect wallet</GreyPill>
+    // the back end call which does not have owner so assume its not for sale
+    return <GreyPill className={`${sizeClass}`}>Not for sale</GreyPill>
   } else if (owner === MINTED_FROM_ADDRESS) {
     return <GreenPill className={`${sizeClass}`}>Unminted</GreenPill>
   } else if (isOwner) {
@@ -624,10 +626,10 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
                       <StackCol className="gap-1 flex-wrap">
                         {'background,body,head,neck,torso,feet,tail,trim'
                           .split(',')
-                          .map((p) => (
+                          .map((p, inx) => (
                             <>
                               <Property
-                                key={p}
+                                key={inx}
                                 layer={p}
                                 trait={properties[p] || 'None'}
                                 percentage={
