@@ -633,10 +633,10 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
                       <StackCol className="gap-1 flex-wrap">
                         {'background,body,head,neck,torso,feet,tail,trim'
                           .split(',')
-                          .map((p) => (
+                          .map((p, inx) => (
                             <>
                               <Property
-                                key={p}
+                                key={inx}
                                 layer={p}
                                 trait={properties[p] || 'None'}
                                 percentage={
