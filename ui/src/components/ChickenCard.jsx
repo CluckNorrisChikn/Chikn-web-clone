@@ -169,7 +169,7 @@ const RenderAddress = ({ address }) => {
   const { account } = useWeb3Contract()
   return (
     <GreyPill>
-      {address === account ? 'You' : address ? shortAccount(address) : '-'}
+      {typeof account === 'undefined' ? '-' : (address === account ? 'You' : address ? shortAccount(address) : '-')}
     </GreyPill>
   )
 }
@@ -235,6 +235,7 @@ const ShowHistory = ({ tokenId = '' }) => {
   const { active, contract } = useWeb3Contract()
   const getWeb3TokenDetail = useGetWeb3TokenDetail(contract, active, tokenId)
   const { data: details = DETAILS_BLANK } = getWeb3TokenDetail
+  console.log('details', details)
   return (
     <>
       <Properties fixed>
@@ -248,10 +249,10 @@ const ShowHistory = ({ tokenId = '' }) => {
         </dt>
         <dd>last price</dd>
         <dt>
-          <AvaxPill>{fmtCurrency(details.previousPrice)}</AvaxPill>
+          <AvaxPill>{details.previousPrice ? fmtCurrency(details.previousPrice) : '-'}</AvaxPill>
         </dt>
         <dd>Transfers</dd>
-        <dt>{details.numberOfTransfers}</dt>
+        <dt>{details.numberOfTransfers ? details.numberOfTransfers : '-'}</dt>
         <dd>Sale Status</dd>
         <dt>
           <SaleStatus
