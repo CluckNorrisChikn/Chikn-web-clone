@@ -85,13 +85,14 @@ const Market = ({ location = {} }) => {
       ? location.state
       : {}
   // react-state
-  const { filterSalesStatus: filteredSale = 'show_all', sortSalesBy: saleSorted = 'token', filters: filtered = {}, pageNumber: pagedSelected = 0 } = filterState
+  const { filterSalesStatus: filteredSale = 'show_all', sortSalesBy: saleSorted = 'token', filters: filtered = {}, pageNumber: pagedSelected = 0, sortByRank: sortedRank = 'default' } = filterState
   const scrollToTopRef = React.useRef()
 
   // react-query
   const queryClient = useQueryClient()
   const [filterSalesStatus, setFilterSalesStatus] = React.useState(filteredSale)
   const [sortSalesBy, setSortSalesBy] = React.useState(saleSorted)
+  const [sortByRank, setSortByRank] = React.useState(sortedRank)
   const showForSale = filterSalesStatus === 'for_sale'
   const [filters, setFilters] = React.useState(filtered)
   const apiMarketStatQuery = useAPIMarketStat(showForSale)
@@ -101,7 +102,6 @@ const Market = ({ location = {} }) => {
 
   // todo pagination?
   const chikns = React.useMemo(() => {
-    console.log('sortSalesBy', sortSalesBy)
     // filter by the selected properties... 'background,body,head,neck,torso,feet,tail,trim'
     if (marketData && marketData.chikn) {
       return marketData.chikn.filter((t) => {
@@ -142,6 +142,22 @@ const Market = ({ location = {} }) => {
           if (aPrice < bPrice) return 1
           return 0
         }
+      }).sort((a, b) => {
+        const aRarityRank = parseInt(a.rank)
+        const bRarityRank = parseInt(b.rank)
+        if (sortByRank === 'default') {
+          if (a.token > b.token) return 1
+          if (a.token < b.token) return -1
+          return 0
+        } else if (sortByRank === 'lowest') {
+          if (aRarityRank > bRarityRank) return 1
+          if (aRarityRank < bRarityRank) return -1
+          return 0
+        } else {
+          if (aRarityRank > bRarityRank) return -1
+          if (aRarityRank < bRarityRank) return 1
+          return 0
+        }
       })
       // .map((t) => t.token)
     } else {
@@ -157,7 +173,8 @@ const Market = ({ location = {} }) => {
     filters.tail,
     filters.torso,
     filters.trim,
-    sortSalesBy
+    sortSalesBy,
+    sortByRank
   ])
 
   // handles all the pagination!
@@ -361,6 +378,45 @@ const Market = ({ location = {} }) => {
                 </Row>
               </>
             }
+            {/* Rarity ranking */}
+            <h5>Rarity score</h5>
+            <Row className="my-3">
+              <Col xs={12} sm={12} md={8} lg={6}>
+                <ToggleButtonGroup
+                  name="rankBy"
+                  defaultValue="default"
+                  value={sortByRank}
+                  onChange={setSortByRank}
+                  type="radio"
+                  className="w-100"
+                >
+                  <ToggleButton
+                    className="w-50"
+                    variant="outline-primary"
+                    id="low"
+                    value="lowest"
+                  >
+                    Lowest
+                  </ToggleButton>
+                  <ToggleButton
+                    className="w-50"
+                    variant="outline-primary"
+                    id="high"
+                    value="highest"
+                  >
+                    Highest
+                  </ToggleButton>
+                  <ToggleButton
+                    className="w-50"
+                    variant="outline-primary"
+                    id="default"
+                    value="default"
+                  >
+                    Default
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </Col>
+            </Row>
             {/* properties */}
             <h5>Properties</h5>
             <Row>
@@ -467,7 +523,8 @@ const Market = ({ location = {} }) => {
                               filterSalesStatus: filterSalesStatus,
                               sortSalesBy: sortSalesBy,
                               filters: filters,
-                              pageNumber: pageNumber
+                              pageNumber: pageNumber,
+                              sortByRank: sortByRank
                             }
                           }
                         })
