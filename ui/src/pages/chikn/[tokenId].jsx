@@ -7,16 +7,17 @@ import Layout from '../../components/Layout'
 import TransactionProgress from '../../components/TransactionProgressToast'
 
 const Page = ({ tokenId, location = {} }) => {
-  const { backLink, backLabel } =
+  const { backLink, backLabel, filterState } =
     typeof location.state !== 'undefined' && location.state !== null
       ? location.state
       : {}
+
   return (
     <Layout pageName={`${siteConfig.nftName} #${tokenId}`}>
       <TransactionProgress intialOnShow={false} />
       {backLink && (
         <div>
-          <Link to={backLink} className="btn btn-primary px-5">
+          <Link to={backLink} state={{ filterState }} className="btn btn-primary px-5">
             &laquo;&nbsp;{backLabel || 'Go back'}
           </Link>
         </div>

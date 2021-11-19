@@ -56,6 +56,7 @@ const TraitsSelector = ({
       <Typeahead
         multiple
         id={id}
+        selected={values}
         onChange={(selected) => {
           setValues(selected)
           updateParent(selected)
@@ -78,16 +79,21 @@ const TraitsSelector = ({
 
 const isUndefOrEmpty = (o) => typeof o === 'undefined' || o.length === 0
 
-const Market = () => {
+const Market = ({ location = {} }) => {
+  const { filterState = {} } =
+    typeof location.state !== 'undefined' && location.state !== null
+      ? location.state
+      : {}
   // react-state
+  const { filterSalesStatus: filteredSale = 'show_all', sortSalesBy: saleSorted = 'token', filters: filtered = {}, pageNumber: pagedSelected = 0 } = filterState
   const scrollToTopRef = React.useRef()
 
   // react-query
   const queryClient = useQueryClient()
-  const [filterSalesStatus, setFilterSalesStatus] = React.useState('show_all')
-  const [sortSalesBy, setSortSalesBy] = React.useState('token')
+  const [filterSalesStatus, setFilterSalesStatus] = React.useState(filteredSale)
+  const [sortSalesBy, setSortSalesBy] = React.useState(saleSorted)
   const showForSale = filterSalesStatus === 'for_sale'
-  const [filters, setFilters] = React.useState({})
+  const [filters, setFilters] = React.useState(filtered)
   const apiMarketStatQuery = useAPIMarketStat(showForSale)
   const { data: marketData = {} } = apiMarketStatQuery
   const { isLoading: holderLoading, data: holders = {} } =
@@ -95,6 +101,7 @@ const Market = () => {
 
   // todo pagination?
   const chikns = React.useMemo(() => {
+    console.log('sortSalesBy', sortSalesBy)
     // filter by the selected properties... 'background,body,head,neck,torso,feet,tail,trim'
     if (marketData && marketData.chikn) {
       return marketData.chikn.filter((t) => {
@@ -155,7 +162,7 @@ const Market = () => {
 
   // handles all the pagination!
   const PAGE_SIZE = 16
-  const [pageNumber, setInternalPageNumber] = React.useState(0)
+  const [pageNumber, setInternalPageNumber] = React.useState(pagedSelected)
   const maxPageNumber = React.useMemo(() => {
     const total = chikns.length
     const remainder = total % PAGE_SIZE
@@ -169,8 +176,8 @@ const Market = () => {
   }, [pageNumber, maxPageNumber])
 
   React.useEffect(() => {
-    setSortSalesBy('token')
-  }, [filterSalesStatus])
+    setSortSalesBy(saleSorted)
+  }, [filterSalesStatus, saleSorted])
 
   const setPage = React.useCallback(
     (page, jumpToTop = false) => {
@@ -455,7 +462,13 @@ const Market = () => {
                         navigate(`/chikn/${chikn.token}`, {
                           state: {
                             backLink: '/market',
-                            backLabel: 'Back to Market'
+                            backLabel: 'Back to Market',
+                            filterState: {
+                              filterSalesStatus: filterSalesStatus,
+                              sortSalesBy: sortSalesBy,
+                              filters: filters,
+                              pageNumber: pageNumber
+                            }
                           }
                         })
                       }
