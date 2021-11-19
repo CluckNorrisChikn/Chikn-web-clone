@@ -292,8 +292,7 @@ export const ChickenCardMarketplaceSummary = ({
   // const getWeb3TokenDetail = useGetWeb3TokenDetail(contract, active, tokenId)
   // const { data: details = DETAILS_BLANK } = getWeb3TokenDetail
   const isOwner = props.currentOwner === account
-  const showForSale =
-    props.forSale === true && props.currentOwner !== account
+  const showForSale = props.forSale === true && props.currentOwner !== account
 
   return (
     <>
@@ -310,9 +309,7 @@ export const ChickenCardMarketplaceSummary = ({
                 <h6 className="p-0 mb-0">
                   <ChiknText /> #{tokenId}
                 </h6>
-                {/* <small className="text-muted">
-                  Rank: {properties.rank.toLocaleString()}
-                </small> */}
+                <small className="text-muted">Rank: {properties.rank}</small>
                 <SaleStatus
                   size="sm"
                   forSale={props.forSale}
@@ -364,9 +361,7 @@ export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
                 <h6 className="mb-0">
                   <ChiknText /> #{tokenId}
                 </h6>
-                {/* <small className="text-muted">
-                  Rank: {properties.rank.toLocaleString()}
-                </small> */}
+                <small className="text-muted">Rank: {properties.rank}</small>
                 <SaleStatus size="sm" forSale={forSale} owner={currentOwner} />
               </StackCol>
             </Card.Body>
@@ -558,9 +553,7 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
               </StackRow>
 
               {/* Rank */}
-              {/* <div className="text-muted">
-                Rank: {properties.rank.toLocaleString()}
-              </div> */}
+              <div className="text-muted">Rank: {properties.rank}</div>
 
               {/* actions */}
               <StackDynamic className="gap-1 flex-wrap">
