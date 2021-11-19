@@ -316,7 +316,7 @@ const Market = () => {
                 {/* Sort for Sale */}
                 <h5>Sort by</h5>
                 <Row className="my-3">
-                  <Col xs={12} sm={12} md={6} lg={4}>
+                  <Col xs={12} sm={12} md={8} lg={6}>
                     <ToggleButtonGroup
                       name="sortBy"
                       defaultValue="token"
@@ -331,7 +331,7 @@ const Market = () => {
                         id="lowest"
                         value="lowest"
                       >
-                        Lowest
+                        Lowest price
                       </ToggleButton>
                       <ToggleButton
                         className="w-50"
@@ -339,7 +339,7 @@ const Market = () => {
                         id="highest"
                         value="highest"
                       >
-                        Highest
+                        Highest price
                       </ToggleButton>
                       <ToggleButton
                         className="w-50"
