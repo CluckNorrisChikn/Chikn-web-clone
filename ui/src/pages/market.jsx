@@ -125,8 +125,8 @@ const Market = ({ location = {} }) => {
       }).sort((a, b) => {
         const aPrice = parseFloat(a.salePrice)
         const bPrice = parseFloat(b.salePrice)
-        const aRarityRank = parseInt(a.rank)
-        const bRarityRank = parseInt(b.rank)
+        const aRarityRank = a.rank === '?' ? 0 : parseInt(a.rank)
+        const bRarityRank = b.rank === '?' ? 0 : parseInt(b.rank)
         // sort rank
         if (sortSalesBy === 'lowestRank') {
           if (aRarityRank > bRarityRank) return 1
