@@ -378,8 +378,8 @@ const Market = ({ location = {} }) => {
                 </Row>
               </>
             }
-            {/* Rarity ranking */}
-            <h5>Rarity score</h5>
+            {/* Rank ranking */}
+            <h5>Rank score</h5>
             <Row className="my-3">
               <Col xs={12} sm={12} md={8} lg={6}>
                 <ToggleButtonGroup
