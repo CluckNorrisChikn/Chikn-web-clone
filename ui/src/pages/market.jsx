@@ -123,8 +123,8 @@ const Market = ({ location = {} }) => {
             ~filters.trim.indexOf(t.trim?.toLowerCase()))
         )
       }).sort((a, b) => {
-        const aPrice = parseInt(a.salePrice)
-        const bPrice = parseInt(b.salePrice)
+        const aPrice = parseFloat(a.salePrice)
+        const bPrice = parseFloat(b.salePrice)
         const aRarityRank = parseInt(a.rank)
         const bRarityRank = parseInt(b.rank)
         // sort rank
