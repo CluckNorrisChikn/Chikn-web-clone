@@ -472,11 +472,11 @@ const Market = ({ location = {} }) => {
                           }
                         })
                       }
+                      rank={chikn.rank}
                       forSale={chikn.forSale}
                       currentOwner={chikn.owner}
                       price={chikn.salePrice}
                       previousPrice={chikn.previousPrice}
-                      {...chikn}
                     />
                   </Col>
                 ))}
