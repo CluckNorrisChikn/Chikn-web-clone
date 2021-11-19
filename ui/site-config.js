@@ -15,7 +15,7 @@ const gtm = {
 }
 
 const siteConfig = {
-  useAvaxTestnet: !isProd,
+  useAvaxTestnet: false, // !isProd, always true - this is PROD!
   includePrivatePages: !isProd,
   nftName: 'chikn',
   title: 'chikn',

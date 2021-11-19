@@ -1,19 +1,21 @@
 import * as React from 'react'
 import {
   Alert,
-  Card,
+  Badge,
   Button,
-  Spinner,
-  Row,
-  Col,
-  Modal,
-  Form,
-  ToggleButtonGroup,
-  ToggleButton,
   ButtonGroup,
-  Badge
+  Card,
+  Col,
+  Row,
+  Spinner
 } from 'react-bootstrap'
 import Accordion from 'react-bootstrap/Accordion'
+import { useQueryClient } from 'react-query'
+import styled from 'styled-components'
+import siteConfig from '../../site-config'
+import metadata from '../components/traits/metadata.json'
+import AvaxSvg from '../images/avalanche-avax-logo.svg'
+import ChickenUnrevealedImage from '../images/chicken_unrevealed.jpg'
 import {
   ChiknText,
   fmtCurrency,
@@ -21,27 +23,19 @@ import {
   RefreshButton,
   Section,
   SocialShareLinkButton,
-  Stack,
   StackCol,
   StackDynamic,
   StackRow
 } from './Common'
 import {
-  useGetTokenQuery,
-  useBuyTokenMutation,
-  useGetWeb3TokenDetail,
-  useWeb3Contract,
   getErrorMessage,
   KEYS,
-  useGetSupplyQuery
+  useBuyTokenMutation,
+  useGetTokenQuery,
+  useGetWeb3TokenDetail,
+  useWeb3Contract
 } from './Connect'
-import styled from 'styled-components'
-import AvaxSvg from '../images/avalanche-avax-logo.svg'
-import siteConfig from '../../site-config'
 import EditListingModal from './modals/EditListingModal'
-import { useQueryClient } from 'react-query'
-import ChickenUnrevealedImage from '../images/chicken_unrevealed.jpg'
-import metadata from '../components/traits/metadata.json'
 
 /**
  * @typedef {Object} Details
@@ -221,7 +215,9 @@ export const SaleStatus = ({
 }) => {
   const sizeClass = size === 'lg' ? 'py-2 px-3' : 'py-0 px-0'
   if (owner === '') {
-    return <GreyPill className={`${sizeClass}`}>Connect wallet</GreyPill>
+    // return <GreyPill className={`${sizeClass}`}>Connect wallet</GreyPill>
+    // the back end call which does not have owner so assume its not for sale
+    return <GreyPill className={`${sizeClass}`}>Not for sale</GreyPill>
   } else if (owner === MINTED_FROM_ADDRESS) {
     return <GreenPill className={`${sizeClass}`}>Unminted</GreenPill>
   } else if (isOwner) {
@@ -286,18 +282,18 @@ const ShowError = ({ error = {} }) => {
 
 export const ChickenCardMarketplaceSummary = ({
   tokenId = '',
-  onClick = null
+  onClick = null,
+  ...props
 }) => {
-  const { contract, active, account } = useWeb3Contract()
+  const { account } = useWeb3Contract()
   const getTokenQuery = useGetTokenQuery(tokenId)
-  const { data: { minted } = {} } = useGetSupplyQuery()
-  const isRevealed = tokenId <= minted
+  const isRevealed = getTokenQuery.isSuccess
   const { data: { properties = {} } = {} } = getTokenQuery
-  const getWeb3TokenDetail = useGetWeb3TokenDetail(contract, active, tokenId)
-  const { data: details = DETAILS_BLANK } = getWeb3TokenDetail
-  const isOwner = details.currentOwner === account
+  // const getWeb3TokenDetail = useGetWeb3TokenDetail(contract, active, tokenId)
+  // const { data: details = DETAILS_BLANK } = getWeb3TokenDetail
+  const isOwner = props.currentOwner === account
   const showForSale =
-    details.forSale === true && details.currentOwner !== account
+    props.forSale === true && props.currentOwner !== account
 
   return (
     <>
@@ -319,19 +315,19 @@ export const ChickenCardMarketplaceSummary = ({
                 </small> */}
                 <SaleStatus
                   size="sm"
-                  forSale={details.forSale}
+                  forSale={props.forSale}
                   isOwner={isOwner}
-                  owner={details.currentOwner}
+                  owner={props.currentOwner}
                 />
                 {showForSale && (
                   <Properties definitionAlign="right">
                     <dd>price</dd>
                     <dt>
-                      <AvaxPill>{fmtCurrency(details.price)}</AvaxPill>
+                      <AvaxPill>{fmtCurrency(props.price)}</AvaxPill>
                     </dt>
                     <dd>last price</dd>
                     <dt>
-                      <AvaxPill>{fmtCurrency(details.previousPrice)}</AvaxPill>
+                      <AvaxPill>{fmtCurrency(props.previousPrice)}</AvaxPill>
                     </dt>
                   </Properties>
                 )}
@@ -352,8 +348,7 @@ export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
   const { active, contract } = useWeb3Contract()
   const getWeb3TokenDetail = useGetWeb3TokenDetail(contract, active, tokenId)
   const { data: { forSale = false, currentOwner } = {} } = getWeb3TokenDetail
-  const { data: { minted } = {} } = useGetSupplyQuery()
-  const isRevealed = tokenId <= minted
+  const isRevealed = getTokenQuery.isSuccess
   return (
     <>
       {getTokenQuery.isLoading && <ChickenCardShimmer />}
@@ -394,8 +389,7 @@ export const ChickenCardRecentActivitySummary = ({
   const getTokenQuery = useGetTokenQuery(tokenId)
   const { data: { properties = {}, details = DETAILS_BLANK } = {} } =
     getTokenQuery
-  const { data: { minted } = {} } = useGetSupplyQuery()
-  const isRevealed = tokenId <= minted
+  const isRevealed = getTokenQuery.isSuccess
   return (
     <>
       {getTokenQuery.isLoading && <ChickenCardShimmer />}
@@ -497,8 +491,7 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
   /** @type {{ data: { details: Details }}} */
   const getTokenQuery = useGetTokenQuery(tokenId)
   const { data: { properties = {} } = {} } = getTokenQuery
-  const { data: { minted } = {} } = useGetSupplyQuery()
-  const isRevealed = tokenId <= minted
+  const isRevealed = getTokenQuery.isSuccess // apply this everywhere
   const getWeb3TokenDetail = useGetWeb3TokenDetail(contract, active, tokenId)
   const { data: details = DETAILS_BLANK } = getWeb3TokenDetail
   const isOwner = details.currentOwner === account
@@ -641,10 +634,10 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
                       <StackCol className="gap-1 flex-wrap">
                         {'background,body,head,neck,torso,feet,tail,trim'
                           .split(',')
-                          .map((p) => (
+                          .map((p, inx) => (
                             <>
                               <Property
-                                key={p}
+                                key={inx}
                                 layer={p}
                                 trait={properties[p] || 'None'}
                                 percentage={

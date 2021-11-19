@@ -2,10 +2,12 @@
 import * as React from 'react'
 import { StackCol, StackRow } from '../components/Common'
 import Layout from '../components/Layout'
-import data from '../components/traits/combinations.json'
 import siteConfig from '../../site-config'
 import styled from 'styled-components'
 import { Button } from 'react-bootstrap'
+
+// NOTE parade disabled
+const data = []
 
 const size = 200
 

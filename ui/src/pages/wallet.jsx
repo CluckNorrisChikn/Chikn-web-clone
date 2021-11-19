@@ -69,7 +69,7 @@ const IndexPage = () => {
           useWalletTokens.isSuccess &&
           tokens.length > 0 && (
           <>
-            <h5>Total: {tokens.length.toLocaleString()}</h5>
+            <h5>({tokens.length.toLocaleString()})</h5>
             <Row className="gy-3 gx-3 mt-4">
               {tokens
                 .sort((a, b) => a - b)

@@ -9,8 +9,12 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 import ChickenRunTestNet from '../../contract/Chicken_Fuji.json'
 import ChickenRun from '../../contract/Chicken_Mainnet.json'
 import siteConfig from '../../site-config'
-import traits from '../components/traits/combinations.json'
+// import traits from '../components/traits/combinations.json'
 import axios from 'axios'
+
+// CD1 - points to the nginx server
+// CD2 - points to the node api server
+const API_URL = process.env.NODE_ENV === 'production' ? 'https://cdn2.chikn.farm' : 'http://localhost:3000'
 
 export const getErrorMessage = (error, deactivate) => {
   const { constructor: { name } = {} } = error
@@ -70,7 +74,8 @@ export const KEYS = {
   ADMIN_BASEURL: () => ['admin', 'baseurl'],
   SALES: () => ['admin', 'sales'],
   FLOOR: () => ['market', 'floor'],
-  HOLDERS: () => ['market', 'holders']
+  HOLDERS: () => ['market', 'holders'],
+  APIMARKET: (showForSale) => typeof showForSale === 'undefined' ? ['api', 'market'] : ['api', 'market', showForSale ? 'forSale' : 'showAll']
 }
 
 /**
@@ -160,13 +165,15 @@ const getLatestEvents = async (contract, limit = 12) => {
  * ANCHOR Get's metadata for the given token.
  */
 export const useGetTokenQuery = (tokenId) => {
-  return useQuery(KEYS.CONTRACT_TOKEN(tokenId), () => {
-    const properties = traits[tokenId - 1]
-    if (properties && properties.filename) {
-      properties.image = siteConfig.cdnUrl + properties.filename
-    }
-    return { properties }
-  }, { enabled: !isNaN(tokenId) })
+  return useQuery(
+    KEYS.CONTRACT_TOKEN(tokenId),
+    async () => {
+      const properties = await axios.get(`${API_URL}/api/chikn/${tokenId}/details`).then(res => res.data)
+      if (properties && properties.filename) {
+        properties.image = siteConfig.cdnUrl + properties.filename
+      }
+      return { properties }
+    }, { enabled: !isNaN(tokenId) })
 }
 
 /**
@@ -175,7 +182,11 @@ export const useGetTokenQuery = (tokenId) => {
 export const useGetRecentActivityQuery = ({ active, contract }) => {
   return useQuery(KEYS.RECENT_ACTIVITY(), async () => {
     return getLatestEvents(contract, 12)
-  }, { enabled: active === true }) // NOTE === true is important!
+  }, {
+    enabled: active === true, // NOTE === true is important!
+    cacheTime: 15 * 1000,
+    staleTime: 15 * 1000
+  })
 }
 
 /**
@@ -343,6 +354,8 @@ export const useGetWeb3TokenDetail = (contract, enabled = true, tokenId) => {
   return useQuery(
     KEYS.TOKEN(tokenId),
     async () => {
+      // owner query for nonexistent token
+      console.log(`useGetWeb3TokenDetail - '${tokenId}'`, { contract, enabled })
       const tokenDetail = await contract.allChickenRun(tokenId)
       const ownerWalletAddress = await contract.ownerOf(tokenId)
       return {
@@ -351,7 +364,7 @@ export const useGetWeb3TokenDetail = (contract, enabled = true, tokenId) => {
         forSale: tokenDetail.forSale,
         mintedBy: tokenDetail.mintedBy,
         numberOfTransfers: parseInt(tokenDetail.numberOfTransfers),
-        perchHeight: tokenDetail.perchHeight,
+        // perchHeight: tokenDetail.perchHeight,
         previousPrice: FormatAvaxPrice(tokenDetail.previousPrice),
         price: FormatAvaxPrice(tokenDetail.price),
         tokenId: tokenDetail.tokenId
@@ -832,6 +845,17 @@ export const useTotalHoldersQuery = () => {
     {
       cacheTime: 5 * 1000,
       staleTime: 5 * 1000
+    }
+  )
+}
+
+export const useAPIMarketStat = (showForSale = false) => {
+  return useQuery(
+    KEYS.APIMARKET(showForSale),
+    async () => axios.get(`${API_URL}/api/market/list?forSale=${showForSale ? 'true' : 'false'}`).then(res => res.data),
+    {
+      cacheTime: 15 * 1000,
+      staleTime: 15 * 1000
     }
   )
 }
