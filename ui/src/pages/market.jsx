@@ -87,7 +87,7 @@ const Market = ({ location = {} }) => {
   // react-state
   const { filterSalesStatus: filteredSale = 'show_all', sortSalesBy: saleSorted = 'token', filters: filtered = {}, pageNumber: pagedSelected = 0 } = filterState
   const scrollToTopRef = React.useRef()
-
+  console.log('Filter back ', filterState)
   // react-query
   const queryClient = useQueryClient()
   const [filterSalesStatus, setFilterSalesStatus] = React.useState(filteredSale)
@@ -184,7 +184,10 @@ const Market = ({ location = {} }) => {
 
   // fix for when filters change the max page number...
   React.useEffect(() => {
-    if (pageNumber > maxPageNumber) setInternalPageNumber(0)
+    // check for -1 due to chikn may need to be reload from server which cause the maxPage to be -1
+    if (maxPageNumber !== -1) {
+      if (pageNumber > maxPageNumber) setInternalPageNumber(0)
+    }
   }, [pageNumber, maxPageNumber])
 
   React.useEffect(() => {

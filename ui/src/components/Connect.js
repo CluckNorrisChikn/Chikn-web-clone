@@ -14,7 +14,7 @@ import axios from 'axios'
 
 // CD1 - points to the nginx server
 // CD2 - points to the node api server
-const API_URL = process.env.NODE_ENV === 'production' ? 'https://cdn2.chikn.farm' : 'http://localhost:3000'
+const API_URL = process.env.NODE_ENV === 'production' ? 'https://cdn2.chikn.farm' : 'https://cdn2.chikn.farm'
 
 export const getErrorMessage = (error, deactivate) => {
   const { constructor: { name } = {} } = error
