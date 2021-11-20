@@ -35,7 +35,7 @@ const TraitsSelector = ({
   id = null,
   parentValues = [],
   options = [],
-  updateParent = () => { }
+  updateParent = () => {}
 }) => {
   const ref = React.useRef()
   const [values, setValues] = React.useState([])
@@ -85,7 +85,12 @@ const Market = ({ location = {} }) => {
       ? location.state
       : {}
   // react-state
-  const { filterSalesStatus: filteredSale = 'show_all', sortSalesBy: saleSorted = 'token', filters: filtered = {}, pageNumber: pagedSelected = 0 } = filterState
+  const {
+    filterSalesStatus: filteredSale = 'show_all',
+    sortSalesBy: saleSorted = 'token',
+    filters: filtered = {},
+    pageNumber: pagedSelected = 0
+  } = filterState
   const scrollToTopRef = React.useRef()
   console.log('Filter back ', filterState)
   // react-query
@@ -99,62 +104,68 @@ const Market = ({ location = {} }) => {
   const { isLoading: holderLoading, data: holders = {} } =
     useTotalHoldersQuery()
 
-  // todo pagination?
+  const [pageNumber, setInternalPageNumber] = React.useState(pagedSelected)
+
+  // responsible for applying client side filtering/sorting to the returned dataset.
   const chikns = React.useMemo(() => {
     // filter by the selected properties... 'background,body,head,neck,torso,feet,tail,trim'
     if (marketData && marketData.chikn) {
-      return marketData.chikn.filter((t) => {
-        return (
-          (isUndefOrEmpty(filters.background) ||
-            ~filters.background.indexOf(t.background?.toLowerCase())) &&
-          (isUndefOrEmpty(filters.body) ||
-            ~filters.body.indexOf(t.body?.toLowerCase())) &&
-          (isUndefOrEmpty(filters.head) ||
-            ~filters.head.indexOf(t.head?.toLowerCase())) &&
-          (isUndefOrEmpty(filters.neck) ||
-            ~filters.neck.indexOf(t.neck?.toLowerCase())) &&
-          (isUndefOrEmpty(filters.torso) ||
-            ~filters.torso.indexOf(t.torso?.toLowerCase())) &&
-          (isUndefOrEmpty(filters.feet) ||
-            ~filters.feet.indexOf(t.feet?.toLowerCase())) &&
-          (isUndefOrEmpty(filters.tail) ||
-            ~filters.tail.indexOf(t.tail?.toLowerCase())) &&
-          (isUndefOrEmpty(filters.trim) ||
-            ~filters.trim.indexOf(t.trim?.toLowerCase()))
-        )
-      }).sort((a, b) => {
-        const aPrice = parseFloat(a.salePrice)
-        const bPrice = parseFloat(b.salePrice)
-        const aRarityRank = a.rank === '?' ? 0 : parseInt(a.rank)
-        const bRarityRank = b.rank === '?' ? 0 : parseInt(b.rank)
-        // sort rank
-        if (sortSalesBy === 'lowestRank') {
-          if (aRarityRank > bRarityRank) return 1
-          if (aRarityRank < bRarityRank) return -1
-          return 0
-        } else if (sortSalesBy === 'highestRank') {
-          if (aRarityRank > bRarityRank) return -1
-          if (aRarityRank < bRarityRank) return 1
-          return 0
-        }
-        // sort sale
-        if (sortSalesBy === 'token') {
-          // sort by token id
-          if (a.token > b.token) return 1
-          if (a.token < b.token) return -1
-          return 0
-        } else if (sortSalesBy === 'lowest') {
-          // sort by lowest
-          if (aPrice > bPrice) return 1
-          if (aPrice < bPrice) return -1
-          return 0
-        } else {
-          // sort by highest price
-          if (aPrice > bPrice) return -1
-          if (aPrice < bPrice) return 1
-          return 0
-        }
-      })
+      // if filters or sort changes, set the page back to the first page i.e. 0
+      setInternalPageNumber(0)
+      return marketData.chikn
+        .filter((t) => {
+          return (
+            (isUndefOrEmpty(filters.background) ||
+              ~filters.background.indexOf(t.background?.toLowerCase())) &&
+            (isUndefOrEmpty(filters.body) ||
+              ~filters.body.indexOf(t.body?.toLowerCase())) &&
+            (isUndefOrEmpty(filters.head) ||
+              ~filters.head.indexOf(t.head?.toLowerCase())) &&
+            (isUndefOrEmpty(filters.neck) ||
+              ~filters.neck.indexOf(t.neck?.toLowerCase())) &&
+            (isUndefOrEmpty(filters.torso) ||
+              ~filters.torso.indexOf(t.torso?.toLowerCase())) &&
+            (isUndefOrEmpty(filters.feet) ||
+              ~filters.feet.indexOf(t.feet?.toLowerCase())) &&
+            (isUndefOrEmpty(filters.tail) ||
+              ~filters.tail.indexOf(t.tail?.toLowerCase())) &&
+            (isUndefOrEmpty(filters.trim) ||
+              ~filters.trim.indexOf(t.trim?.toLowerCase()))
+          )
+        })
+        .sort((a, b) => {
+          const aPrice = parseFloat(a.salePrice)
+          const bPrice = parseFloat(b.salePrice)
+          const aRarityRank = a.rank === '?' ? 0 : parseInt(a.rank)
+          const bRarityRank = b.rank === '?' ? 0 : parseInt(b.rank)
+          // sort rank
+          if (sortSalesBy === 'lowestRank') {
+            if (aRarityRank > bRarityRank) return 1
+            if (aRarityRank < bRarityRank) return -1
+            return 0
+          } else if (sortSalesBy === 'highestRank') {
+            if (aRarityRank > bRarityRank) return -1
+            if (aRarityRank < bRarityRank) return 1
+            return 0
+          }
+          // sort sale
+          if (sortSalesBy === 'token') {
+            // sort by token id
+            if (a.token > b.token) return 1
+            if (a.token < b.token) return -1
+            return 0
+          } else if (sortSalesBy === 'lowest') {
+            // sort by lowest
+            if (aPrice > bPrice) return 1
+            if (aPrice < bPrice) return -1
+            return 0
+          } else {
+            // sort by highest price
+            if (aPrice > bPrice) return -1
+            if (aPrice < bPrice) return 1
+            return 0
+          }
+        })
       // .map((t) => t.token)
     } else {
       return []
@@ -174,7 +185,6 @@ const Market = ({ location = {} }) => {
 
   // handles all the pagination!
   const PAGE_SIZE = 16
-  const [pageNumber, setInternalPageNumber] = React.useState(pagedSelected)
   const maxPageNumber = React.useMemo(() => {
     const total = chikns.length
     const remainder = total % PAGE_SIZE
@@ -194,6 +204,7 @@ const Market = ({ location = {} }) => {
     setSortSalesBy(saleSorted)
   }, [filterSalesStatus, saleSorted])
 
+  //  set the page number (handles validation logic)
   const setPage = React.useCallback(
     (page, jumpToTop = false) => {
       if (page < 0) setInternalPageNumber(0)
@@ -345,7 +356,6 @@ const Market = ({ location = {} }) => {
                   type="radio"
                   className="w-100"
                 >
-
                   <ToggleButton
                     className="w-50"
                     variant="outline-primary"
