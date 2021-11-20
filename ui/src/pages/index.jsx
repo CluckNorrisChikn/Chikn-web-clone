@@ -155,7 +155,7 @@ const IndexPage = () => {
       </div>
 
       <StackCol className="gap-7 py-5">
-        <Container className="d-flex justify-content-center">
+        {/* <Container className="d-flex justify-content-center">
           <div className="d-flex flex-row gap-5 justify-content-evenly woodenbanner-sizing">
             <div className="text-center pl-5">
               <h3>Public Mint</h3>
@@ -167,7 +167,11 @@ const IndexPage = () => {
               </small>
             </div>
           </div>
-        </Container>
+        </Container> */}
+
+        {/* hack spacing */}
+        <div />
+        <div />
 
         {/* carousel */}
         <div className="pb-3 pb-md-5">
