@@ -155,20 +155,6 @@ const IndexPage = () => {
       </div>
 
       <StackCol className="gap-7 py-5">
-        {/* <Container className="d-flex justify-content-center">
-          <div className="d-flex flex-row gap-5 justify-content-evenly woodenbanner-sizing">
-            <div className="text-center pl-5">
-              <h3>Public Mint</h3>
-              <h5>
-                1 AVAX <AvaxLogo size="1.5rem" /> <small>(+gas)</small>
-              </h5>
-              <small className="text-muted">
-                Max {siteConfig.publicMint.maxPerMint} per mint.
-              </small>
-            </div>
-          </div>
-        </Container> */}
-
         {/* hack spacing */}
         <div />
         <div />

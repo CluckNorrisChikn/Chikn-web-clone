@@ -110,8 +110,12 @@ const Market = ({ location = {} }) => {
   const chikns = React.useMemo(() => {
     // filter by the selected properties... 'background,body,head,neck,torso,feet,tail,trim'
     if (marketData && marketData.chikn) {
-      // if filters or sort changes, set the page back to the first page i.e. 0
-      setInternalPageNumber(0)
+      // if filters or sort changes, set the page back to the first page i.e. 0 (or pagedSelected if navigating back)
+      const isInitialPageLoad =
+        filteredSale === filterSalesStatus &&
+        saleSorted === sortSalesBy &&
+        filtered === filters
+      setInternalPageNumber(isInitialPageLoad ? pagedSelected : 0)
       return marketData.chikn
         .filter((t) => {
           return (
