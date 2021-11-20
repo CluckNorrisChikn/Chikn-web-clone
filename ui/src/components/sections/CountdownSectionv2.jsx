@@ -68,52 +68,17 @@ const Component = () => {
         <WoodenBannerOverlay className="countdown-sizing woodenbanner-sizing text-center">
           <Container className="d-flex flex-row justify-content-center countdown-monospace">
             <Row>
-              <Col xs={3}>
-                <h1>{day}</h1>
-                <h4>DAY</h4>
-              </Col>
-              <Col xs={3}>
-                <h1>{hrs}</h1>
-                <h4>HRS</h4>
-              </Col>
-              <Col xs={3}>
-                <h1>{min}</h1>
-                <h4>MIN</h4>
-              </Col>
-              <Col xs={3}>
-                <h1>{sec}</h1>
-                <h4>SEC</h4>
-              </Col>
+              <h2>Public Mint Now Over!</h2>
             </Row>
           </Container>
           <div className="d-flex flex-row gap-3 justify-content-center">
-            {!active && (
-              <Button className="px-4" disabled>
-                Connect wallet to Mint
-              </Button>
-            )}
-            {active && (
-              <>
-                {/* <Link
-                  className={`btn btn-primary px-4 ${
-                    gbMintOpen ? '' : 'disabled'
-                  }`}
-                  disabled={!gbMintOpen}
-                  to="/gbmint"
-                >
-                  $GB Pre-Mint
-                </Link> */}
-                <Link
-                  className={`btn btn-primary px-4 ${
-                    publicMintOpen ? '' : 'disabled'
-                  }`}
-                  disabled={!publicMintOpen}
-                  to="/mint"
-                >
-                  Public Mint Now Open
-                </Link>
-              </>
-            )}
+            <Link
+              className={'btn btn-primary px-4'}
+              // disabled={!publicMintOpen}
+              to="/market"
+            >
+              Check out the market!
+            </Link>
           </div>
         </WoodenBannerOverlay>
 
