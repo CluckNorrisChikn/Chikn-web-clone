@@ -300,7 +300,9 @@ const Market = ({ location = {} }) => {
                       )}
                   </span>
                 </div>
-                <div>Floor price</div>
+                <div>
+                  Floor<span className="d-none d-md-inline"> price</span>
+                </div>
               </div>
             </StackRow>
           </Card.Body>

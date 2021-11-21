@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {
   Alert,
-  Badge,
   Button,
   ButtonGroup,
   Card,

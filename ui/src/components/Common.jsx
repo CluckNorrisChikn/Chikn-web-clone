@@ -3,6 +3,7 @@ import { Button, Container, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import styled from 'styled-components'
 import siteConfig from '../../site-config'
 import ChickenIconSrc from '../images/Chikn_Logo_Wordmark.svg'
+import copy from 'copy-to-clipboard'
 
 import {
   FaDiscord,
@@ -148,7 +149,7 @@ export const SocialShareLinkButton = ({
               url
             })
           } else if (navigator.clipboard) {
-            navigator.clipboard.writeText(url)
+            copy(url)
             tempChangeTooltipLabel()
           } else {
             console.error('No way to share links!')
