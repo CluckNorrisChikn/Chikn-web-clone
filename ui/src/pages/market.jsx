@@ -477,7 +477,7 @@ const Market = ({ location = {} }) => {
               <h5>
                 Page {(pageNumber + 1).toLocaleString()} of{' '}
                 {(maxPageNumber + 1).toLocaleString()} (
-                {marketData?.chikn?.length.toLocaleString()})
+                {chikns.length.toLocaleString()})
               </h5>
               <Pagination>
                 <Pagination.First
@@ -505,20 +505,6 @@ const Market = ({ location = {} }) => {
                   <Col key={chikn.token} sm={6} md={4} lg={3}>
                     <ChickenCardMarketplaceSummary
                       tokenId={chikn.token}
-                      // onClick={() =>
-                      //   navigate(`/chikn/${chikn.token}`, {
-                      //     state: {
-                      //       backLink: '/market',
-                      //       backLabel: 'Back to Market',
-                      //       filterState: {
-                      //         filterSalesStatus: filterSalesStatus,
-                      //         sortSalesBy: sortSalesBy,
-                      //         filters: filters,
-                      //         pageNumber: pageNumber
-                      //       }
-                      //     }
-                      //   })
-                      // }
                       backLink={'/market'}
                       backLabel={'Back to Market'}
                       filterState={{
