@@ -77,14 +77,9 @@ const IndexPage = () => {
                   <Col key={tokenId} sm={6} md={4} lg={3}>
                     <ChickenCardWalletSummary
                       tokenId={tokenId}
-                      onClick={() =>
-                        navigate(`/chikn/${tokenId}`, {
-                          state: {
-                            backLink: '/wallet',
-                            backLabel: 'Back to Wallet'
-                          }
-                        })
-                      }
+
+                      backLink= {'/wallet'}
+                      backLabel={'Back to Wallet'}
                     />
                   </Col>
                 ))}

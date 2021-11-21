@@ -10,7 +10,8 @@ import {
   Row,
   Spinner,
   ToggleButton,
-  ToggleButtonGroup
+  ToggleButtonGroup,
+  Container
 } from 'react-bootstrap'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import { BiFilter } from 'react-icons/bi'
@@ -221,7 +222,7 @@ const Market = ({ location = {} }) => {
   )
 
   return (
-    <Layout pageName="Wallet">
+    <Layout pageName="Market">
       {/* ANCHOR header */}
       <StackRow className="justify-content-between">
         <h1>Market</h1>
@@ -306,19 +307,12 @@ const Market = ({ location = {} }) => {
         </Card>
       </StackRow>
 
-      {/* ANCHOR filters */}
-      <Accordion ref={scrollToTopRef}>
-        <Accordion.Item eventKey="0">
-          <Accordion.Header className="gap-3">
-            <div className="d-flex flex-row align-items-center gap-2">
-              <BiFilter className="fs-4" />
-              <span>Filters</span>
-            </div>
-          </Accordion.Header>
-          <Accordion.Body className="p-4">
+      <Container className="justify-content-center text-center py-0">
+        <Card style={{ border: 'transparent' }}>
+          <Card.Body>
             {/* sales */}
             <h5>Sales</h5>
-            <Row className="my-3">
+            <Row className="my-3 justify-content-center">
               <Col xs={12} sm={12} md={6} lg={4}>
                 <ToggleButtonGroup
                   name="filterSalesStatus"
@@ -347,10 +341,9 @@ const Market = ({ location = {} }) => {
                 </ToggleButtonGroup>
               </Col>
             </Row>
-
             {/* Sort for Sale */}
             <h5>Sort by</h5>
-            <Row className="my-3">
+            <Row className="my-3 justify-content-center">
               <Col xs={12} sm={12} md={9} lg={9}>
                 <ToggleButtonGroup
                   name="sortBy"
@@ -385,7 +378,7 @@ const Market = ({ location = {} }) => {
                     id="lowestRank"
                     value="lowestRank"
                   >
-                    Lowest rank
+                    Highest rank
                   </ToggleButton>
                   <ToggleButton
                     className="w-50"
@@ -393,7 +386,7 @@ const Market = ({ location = {} }) => {
                     id="highestRank"
                     value="highestRank"
                   >
-                    Highest rank
+                    Lowest rank
                   </ToggleButton>
                   <ToggleButton
                     className="w-50"
@@ -406,6 +399,20 @@ const Market = ({ location = {} }) => {
                 </ToggleButtonGroup>
               </Col>
             </Row>
+          </Card.Body>
+        </Card>
+      </Container>
+
+      {/* ANCHOR filters */}
+      <Accordion ref={scrollToTopRef}>
+        <Accordion.Item eventKey="0">
+          <Accordion.Header className="gap-3">
+            <div className="d-flex flex-row align-items-center gap-2">
+              <BiFilter className="fs-4" />
+              <span>Filters</span>
+            </div>
+          </Accordion.Header>
+          <Accordion.Body className="p-4">
 
             {/* properties */}
             <h5>Properties</h5>
@@ -504,20 +511,28 @@ const Market = ({ location = {} }) => {
                   <Col key={chikn.token} sm={6} md={4} lg={3}>
                     <ChickenCardMarketplaceSummary
                       tokenId={chikn.token}
-                      onClick={() =>
-                        navigate(`/chikn/${chikn.token}`, {
-                          state: {
-                            backLink: '/market',
-                            backLabel: 'Back to Market',
-                            filterState: {
-                              filterSalesStatus: filterSalesStatus,
-                              sortSalesBy: sortSalesBy,
-                              filters: filters,
-                              pageNumber: pageNumber
-                            }
-                          }
-                        })
-                      }
+                      // onClick={() =>
+                      //   navigate(`/chikn/${chikn.token}`, {
+                      //     state: {
+                      //       backLink: '/market',
+                      //       backLabel: 'Back to Market',
+                      //       filterState: {
+                      //         filterSalesStatus: filterSalesStatus,
+                      //         sortSalesBy: sortSalesBy,
+                      //         filters: filters,
+                      //         pageNumber: pageNumber
+                      //       }
+                      //     }
+                      //   })
+                      // }
+                      backLink= {'/market'}
+                      backLabel= {'Back to Market'}
+                      filterState= {{
+                        filterSalesStatus: filterSalesStatus,
+                        sortSalesBy: sortSalesBy,
+                        filters: filters,
+                        pageNumber: pageNumber
+                      }}
                       rank={chikn.rank}
                       forSale={chikn.forSale}
                       currentOwner={chikn.owner}

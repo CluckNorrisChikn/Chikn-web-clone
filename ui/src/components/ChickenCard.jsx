@@ -10,6 +10,7 @@ import {
   Spinner
 } from 'react-bootstrap'
 import Accordion from 'react-bootstrap/Accordion'
+import { Link } from 'gatsby'
 import { useQueryClient } from 'react-query'
 import styled from 'styled-components'
 import siteConfig from '../../site-config'
@@ -91,7 +92,7 @@ const Properties = styled.dl`
 const ChiknCard = styled(({ className = '', onClick = null, ...props }) => (
   <Card
     className={`${className} ${onClick !== null ? 'clickable' : ''}`}
-    onClick={onClick}
+    // onClick={onClick}
     {...props}
   />
 ))`
@@ -331,6 +332,20 @@ export const ChickenCardMarketplaceSummary = ({
                 )}
               </StackCol>
             </Card.Body>
+            <Link
+              className={'stretched-link'}
+              to={`/chikn/${tokenId}`}
+              state={{
+                backLink: '/market',
+                backLabel: 'Back to Market',
+                filterState: {
+                  filterSalesStatus: props.filterSalesStatus,
+                  sortSalesBy: props.sortSalesBy,
+                  filters: props.filters,
+                  pageNumber: props.pageNumber
+                }
+              }}
+            ></Link>
           </ChiknCard>
         </>
       )}
@@ -366,6 +381,14 @@ export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
                 <SaleStatus size="sm" forSale={forSale} owner={currentOwner} />
               </StackCol>
             </Card.Body>
+            <Link
+              className={'stretched-link'}
+              to={`/chikn/${tokenId}`}
+              state={{
+                backLink: '/market',
+                backLabel: 'Back to Market'
+              }}
+            ></Link>
           </ChiknCard>
         </>
       )}
