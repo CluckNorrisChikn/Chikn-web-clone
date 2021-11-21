@@ -483,7 +483,7 @@ const Market = ({ location = {} }) => {
               <h5>
                 Page {(pageNumber + 1).toLocaleString()} of{' '}
                 {(maxPageNumber + 1).toLocaleString()} (
-                {marketData?.chikn?.length.toLocaleString()})
+                {chikns.length.toLocaleString()})
               </h5>
               <Pagination>
                 <Pagination.First
