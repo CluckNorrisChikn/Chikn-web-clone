@@ -87,7 +87,7 @@ const Market = ({ location = {} }) => {
       : {}
   // react-state
   const {
-    filterSalesStatus: filteredSale = 'show_all',
+    filterSalesStatus: filteredSale = 'for_sale',
     sortSalesBy: saleSorted = 'token',
     filters: filtered = {},
     pageNumber: pagedSelected = 0
@@ -320,23 +320,23 @@ const Market = ({ location = {} }) => {
                   value={filterSalesStatus}
                   onChange={setFilterSalesStatus}
                   type="radio"
-                  className="w-100"
+                  className="w-100 button-group-mobile"
                 >
                   <ToggleButton
-                    className="w-50"
-                    variant="outline-primary"
-                    id="show_all"
-                    value="show_all"
-                  >
-                    Show All
-                  </ToggleButton>
-                  <ToggleButton
-                    className="w-50"
+                    className="w-md-50"
                     variant="outline-primary"
                     id="for_sale"
                     value="for_sale"
                   >
                     For Sale
+                  </ToggleButton>
+                  <ToggleButton
+                    className="w-md-50"
+                    variant="outline-primary"
+                    id="show_all"
+                    value="show_all"
+                  >
+                    Show All
                   </ToggleButton>
                 </ToggleButtonGroup>
               </Col>
@@ -351,10 +351,9 @@ const Market = ({ location = {} }) => {
                   value={sortSalesBy}
                   onChange={setSortSalesBy}
                   type="radio"
-                  className="w-100"
+                  className="w-100 button-group-mobile"
                 >
                   <ToggleButton
-                    className="w-50"
                     variant="outline-primary"
                     id="lowest"
                     value="lowest"
@@ -363,7 +362,6 @@ const Market = ({ location = {} }) => {
                     Lowest price
                   </ToggleButton>
                   <ToggleButton
-                    className="w-50"
                     variant="outline-primary"
                     id="highest"
                     value="highest"
@@ -373,7 +371,6 @@ const Market = ({ location = {} }) => {
                   </ToggleButton>
 
                   <ToggleButton
-                    className="w-50"
                     variant="outline-primary"
                     id="lowestRank"
                     value="lowestRank"
@@ -381,7 +378,6 @@ const Market = ({ location = {} }) => {
                     Highest rank
                   </ToggleButton>
                   <ToggleButton
-                    className="w-50"
                     variant="outline-primary"
                     id="highestRank"
                     value="highestRank"
@@ -389,7 +385,6 @@ const Market = ({ location = {} }) => {
                     Lowest rank
                   </ToggleButton>
                   <ToggleButton
-                    className="w-50"
                     variant="outline-primary"
                     id="token"
                     value="token"
@@ -413,7 +408,6 @@ const Market = ({ location = {} }) => {
             </div>
           </Accordion.Header>
           <Accordion.Body className="p-4">
-
             {/* properties */}
             <h5>Properties</h5>
             <Row>
@@ -525,9 +519,9 @@ const Market = ({ location = {} }) => {
                       //     }
                       //   })
                       // }
-                      backLink= {'/market'}
-                      backLabel= {'Back to Market'}
-                      filterState= {{
+                      backLink={'/market'}
+                      backLabel={'Back to Market'}
+                      filterState={{
                         filterSalesStatus: filterSalesStatus,
                         sortSalesBy: sortSalesBy,
                         filters: filters,
