@@ -307,13 +307,13 @@ const Market = ({ location = {} }) => {
         </Card>
       </StackRow>
 
-      <Container className="justify-content-center text-center py-0">
+      <Container className="justify-content-center text-center py-0 px-0">
         <Card style={{ border: 'transparent' }}>
           <Card.Body>
             {/* sales */}
             <h5>Sales</h5>
             <Row className="my-3 justify-content-center">
-              <Col xs={12} sm={12} md={6} lg={4}>
+              <Col xs={12} sm={12} md={6} lg={4} className="px-0">
                 <ToggleButtonGroup
                   name="filterSalesStatus"
                   defaultValue="show_all"
@@ -344,7 +344,7 @@ const Market = ({ location = {} }) => {
             {/* Sort for Sale */}
             <h5>Sort by</h5>
             <Row className="my-3 justify-content-center">
-              <Col xs={12} sm={12} md={9} lg={9}>
+              <Col xs={12} sm={12} md={9} lg={9} className="px-0">
                 <ToggleButtonGroup
                   name="sortBy"
                   defaultValue="token"
