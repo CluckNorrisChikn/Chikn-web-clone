@@ -231,56 +231,56 @@ const Market = ({ location = {} }) => {
       <Pagination className="flex-wrap">
         <Pagination.First
           disabled={disabledStart}
-          onClick={() => setPage(0)}
+          onClick={() => setPage(0, true)}
         />
         <Pagination.Item
           className="hide"
           disabled={(pageNum - 100 < 0)}
-          onClick={() => setPage(pageNum - 100)}>
+          onClick={() => setPage(pageNum - 100, true)}>
           -100
         </Pagination.Item>
         <Pagination.Item
           className="hide"
           disabled={pageNum - 50 < 0 }
-          onClick={() => setPage(pageNum - 50)}>
+          onClick={() => setPage(pageNum - 50, true)}>
           -50
         </Pagination.Item>
         <Pagination.Item
           className="hide"
           disabled={pageNum - 25 < 0 }
-          onClick={() => setPage(pageNum - 25)}>
+          onClick={() => setPage(pageNum - 25, true)}>
           -25
         </Pagination.Item>
         <Pagination.Prev
           disabled={disabledStart}
-          onClick={() => setPage(pageNum - 1)}
+          onClick={() => setPage(pageNum - 1, true)}
         />
         <Pagination.Next
           disabled={disabledEnd}
-          onClick={() => setPage(pageNum + 1)}
+          onClick={() => setPage(pageNum + 1, true)}
         />
 
         <Pagination.Item
           className="hide"
           disabled={pageNum + 25 > maxPageNum }
-          onClick={() => setPage(pageNum + 25)}>
+          onClick={() => setPage(pageNum + 25, true)}>
           +25
         </Pagination.Item>
         <Pagination.Item
           className="hide"
           disabled={pageNum + 50 > maxPageNum }
-          onClick={() => setPage(pageNum + 50)}>
+          onClick={() => setPage(pageNum + 50, true)}>
           +50
         </Pagination.Item>
         <Pagination.Item
           className="hide"
           disabled={pageNum + 100 > maxPageNum }
-          onClick={() => setPage(pageNum + 100)}>
+          onClick={() => setPage(pageNum + 100, true)}>
           +100
         </Pagination.Item>
         <Pagination.Last
           disabled={disabledEnd}
-          onClick={() => setPage(999999)}
+          onClick={() => setPage(999999, true)}
         />
       </Pagination>
     )
