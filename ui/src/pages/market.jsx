@@ -87,7 +87,7 @@ const Market = ({ location = {} }) => {
       : {}
   // react-state
   const {
-    filterSalesStatus: filteredSale = 'show_all',
+    filterSalesStatus: filteredSale = 'for_sale',
     sortSalesBy: saleSorted = 'token',
     filters: filtered = {},
     pageNumber: pagedSelected = 0
@@ -365,43 +365,45 @@ const Market = ({ location = {} }) => {
                       )}
                   </span>
                 </div>
-                <div>Floor price</div>
+                <div>
+                  Floor<span className="d-none d-md-inline"> price</span>
+                </div>
               </div>
             </StackRow>
           </Card.Body>
         </Card>
       </StackRow>
 
-      <Container className="justify-content-center text-center py-0">
+      <Container className="justify-content-center text-center py-0 px-0">
         <Card style={{ border: 'transparent' }}>
           <Card.Body>
             {/* sales */}
             <h5>Sales</h5>
             <Row className="my-3 justify-content-center">
-              <Col xs={12} sm={12} md={6} lg={4}>
+              <Col xs={12} sm={12} md={6} lg={4} className="px-0">
                 <ToggleButtonGroup
                   name="filterSalesStatus"
                   defaultValue="show_all"
                   value={filterSalesStatus}
                   onChange={setFilterSalesStatus}
                   type="radio"
-                  className="w-100"
+                  className="w-100 button-group-mobile"
                 >
                   <ToggleButton
-                    className="w-50"
-                    variant="outline-primary"
-                    id="show_all"
-                    value="show_all"
-                  >
-                    Show All
-                  </ToggleButton>
-                  <ToggleButton
-                    className="w-50"
+                    className="w-md-50"
                     variant="outline-primary"
                     id="for_sale"
                     value="for_sale"
                   >
                     For Sale
+                  </ToggleButton>
+                  <ToggleButton
+                    className="w-md-50"
+                    variant="outline-primary"
+                    id="show_all"
+                    value="show_all"
+                  >
+                    Show All
                   </ToggleButton>
                 </ToggleButtonGroup>
               </Col>
@@ -409,17 +411,16 @@ const Market = ({ location = {} }) => {
             {/* Sort for Sale */}
             <h5>Sort by</h5>
             <Row className="my-3 justify-content-center">
-              <Col xs={12} sm={12} md={9} lg={9}>
+              <Col xs={12} sm={12} md={9} lg={9} className="px-0">
                 <ToggleButtonGroup
                   name="sortBy"
                   defaultValue="token"
                   value={sortSalesBy}
                   onChange={setSortSalesBy}
                   type="radio"
-                  className="w-100 flex-md-nowrap flex-wrap"
+                  className="w-100 button-group-mobile"
                 >
                   <ToggleButton
-                    className="w-50"
                     variant="outline-primary"
                     id="lowest"
                     value="lowest"
@@ -428,7 +429,6 @@ const Market = ({ location = {} }) => {
                     Lowest price
                   </ToggleButton>
                   <ToggleButton
-                    className="w-50"
                     variant="outline-primary"
                     id="highest"
                     value="highest"
@@ -438,7 +438,6 @@ const Market = ({ location = {} }) => {
                   </ToggleButton>
 
                   <ToggleButton
-                    className="w-50"
                     variant="outline-primary"
                     id="lowestRank"
                     value="lowestRank"
@@ -446,7 +445,6 @@ const Market = ({ location = {} }) => {
                     Highest rank
                   </ToggleButton>
                   <ToggleButton
-                    className="w-50"
                     variant="outline-primary"
                     id="highestRank"
                     value="highestRank"
@@ -454,7 +452,6 @@ const Market = ({ location = {} }) => {
                     Lowest rank
                   </ToggleButton>
                   <ToggleButton
-                    className="w-50"
                     variant="outline-primary"
                     id="token"
                     value="token"
@@ -478,7 +475,6 @@ const Market = ({ location = {} }) => {
             </div>
           </Accordion.Header>
           <Accordion.Body className="p-4">
-
             {/* properties */}
             <h5>Properties</h5>
             <Row>
@@ -548,7 +544,7 @@ const Market = ({ location = {} }) => {
               <h5>
                 Page {(pageNumber + 1).toLocaleString()} of{' '}
                 {(maxPageNumber + 1).toLocaleString()} (
-                {marketData?.chikn?.length.toLocaleString()})
+                {chikns.length.toLocaleString()})
               </h5>
               <PaginationComponent pageNum={pageNumber} maxPageNum={maxPageNumber}/>
             </div>
@@ -559,9 +555,9 @@ const Market = ({ location = {} }) => {
                   <Col key={chikn.token} sm={6} md={4} lg={3}>
                     <ChickenCardMarketplaceSummary
                       tokenId={chikn.token}
-                      backLink= {'/market'}
-                      backLabel= {'Back to Market'}
-                      filterState= {{
+                      backLink={'/market'}
+                      backLabel={'Back to Market'}
+                      filterState={{
                         filterSalesStatus: filterSalesStatus,
                         sortSalesBy: sortSalesBy,
                         filters: filters,

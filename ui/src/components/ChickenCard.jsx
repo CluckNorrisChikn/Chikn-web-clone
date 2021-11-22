@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {
   Alert,
-  Badge,
   Button,
   ButtonGroup,
   Card,
@@ -338,12 +337,7 @@ export const ChickenCardMarketplaceSummary = ({
               state={{
                 backLink: '/market',
                 backLabel: 'Back to Market',
-                filterState: {
-                  filterSalesStatus: props.filterSalesStatus,
-                  sortSalesBy: props.sortSalesBy,
-                  filters: props.filters,
-                  pageNumber: props.pageNumber
-                }
+                filterState: props.filterState
               }}
             ></Link>
           </ChiknCard>
