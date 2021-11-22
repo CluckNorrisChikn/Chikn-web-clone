@@ -234,19 +234,19 @@ const Market = ({ location = {} }) => {
           onClick={() => setPage(0)}
         />
         <Pagination.Item
-          className="d-md-flex w-auto d-none"
+          className="hide"
           disabled={(pageNum - 100 < 0)}
           onClick={() => setPage(pageNum - 100)}>
           -100
         </Pagination.Item>
         <Pagination.Item
-          className="d-md-flex w-auto d-none"
+          className="hide"
           disabled={pageNum - 50 < 0 }
           onClick={() => setPage(pageNum - 50)}>
           -50
         </Pagination.Item>
         <Pagination.Item
-          className="d-md-flex w-auto d-none"
+          className="hide"
           disabled={pageNum - 25 < 0 }
           onClick={() => setPage(pageNum - 25)}>
           -25
@@ -261,19 +261,19 @@ const Market = ({ location = {} }) => {
         />
 
         <Pagination.Item
-          className="d-md-flex w-auto d-none"
+          className="hide"
           disabled={pageNum + 25 > maxPageNum }
           onClick={() => setPage(pageNum + 25)}>
           +25
         </Pagination.Item>
         <Pagination.Item
-          className="d-md-flex w-auto d-none"
+          className="hide"
           disabled={pageNum + 50 > maxPageNum }
           onClick={() => setPage(pageNum + 50)}>
           +50
         </Pagination.Item>
         <Pagination.Item
-          className="d-md-flex w-auto d-none"
+          className="hide"
           disabled={pageNum + 100 > maxPageNum }
           onClick={() => setPage(pageNum + 100)}>
           +100

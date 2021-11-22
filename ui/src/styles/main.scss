@@ -331,12 +331,15 @@ blockquote {
 @include media-breakpoint-down(md) {
   .pagination {
     width: 100%;
+    .hide {
+      display: none;
+    }
   }
 }
 
 @include media-breakpoint-up(md) {
   .pagination {
-    width: 400px !important;
+    width: 600px !important;
   }
 }
 
