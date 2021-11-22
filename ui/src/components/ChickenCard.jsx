@@ -90,8 +90,7 @@ const Properties = styled.dl`
 
 const ChiknCard = styled(({ className = '', onClick = null, ...props }) => (
   <Card
-    className={`${className} ${onClick !== null ? 'clickable' : ''}`}
-    // onClick={onClick} - trigger build
+    className={`${className} clickable`}
     {...props}
   />
 ))`
