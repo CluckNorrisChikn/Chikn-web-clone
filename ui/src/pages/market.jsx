@@ -224,9 +224,6 @@ const Market = ({ location = {} }) => {
   const PaginationComponent = ({ pageNum, maxPageNum }) => {
     const disabledStart = pageNum === 0
     const disabledEnd = pageNum === maxPageNum
-    console.log('pageNum', pageNum)
-    console.log('maxPageNum', maxPageNum)
-    console.log('pageNum + 50 >= maxPageNum', !pageNum + 50 >= maxPageNum)
     return (
       <Pagination className="flex-wrap">
         <Pagination.First
