@@ -221,6 +221,71 @@ const Market = ({ location = {} }) => {
     [maxPageNumber]
   )
 
+  const PaginationComponent = ({ pageNum, maxPageNum }) => {
+    const disabledStart = pageNum === 0
+    const disabledEnd = pageNum === maxPageNum
+    console.log('pageNum', pageNum)
+    console.log('maxPageNum', maxPageNum)
+    console.log('pageNum + 50 >= maxPageNum', !pageNum + 50 >= maxPageNum)
+    return (
+      <Pagination className="flex-wrap">
+        <Pagination.First
+          disabled={disabledStart}
+          onClick={() => setPage(0)}
+        />
+        <Pagination.Item
+          className="d-md-flex w-auto d-none"
+          disabled={(pageNum - 100 < 0)}
+          onClick={() => setPage(pageNum - 100)}>
+          -100
+        </Pagination.Item>
+        <Pagination.Item
+          className="d-md-flex w-auto d-none"
+          disabled={pageNum - 50 < 0 }
+          onClick={() => setPage(pageNum - 50)}>
+          -50
+        </Pagination.Item>
+        <Pagination.Item
+          className="d-md-flex w-auto d-none"
+          disabled={pageNum - 25 < 0 }
+          onClick={() => setPage(pageNum - 25)}>
+          -25
+        </Pagination.Item>
+        <Pagination.Prev
+          disabled={disabledStart}
+          onClick={() => setPage(pageNum - 1)}
+        />
+        <Pagination.Next
+          disabled={disabledEnd}
+          onClick={() => setPage(pageNum + 1)}
+        />
+
+        <Pagination.Item
+          className="d-md-flex w-auto d-none"
+          disabled={pageNum + 25 > maxPageNum }
+          onClick={() => setPage(pageNum + 25)}>
+          +25
+        </Pagination.Item>
+        <Pagination.Item
+          className="d-md-flex w-auto d-none"
+          disabled={pageNum + 50 > maxPageNum }
+          onClick={() => setPage(pageNum + 50)}>
+          +50
+        </Pagination.Item>
+        <Pagination.Item
+          className="d-md-flex w-auto d-none"
+          disabled={pageNum + 100 > maxPageNum }
+          onClick={() => setPage(pageNum + 100)}>
+          +100
+        </Pagination.Item>
+        <Pagination.Last
+          disabled={disabledEnd}
+          onClick={() => setPage(999999)}
+        />
+      </Pagination>
+    )
+  }
+
   return (
     <Layout pageName="Market">
       {/* ANCHOR header */}
@@ -351,7 +416,7 @@ const Market = ({ location = {} }) => {
                   value={sortSalesBy}
                   onChange={setSortSalesBy}
                   type="radio"
-                  className="w-100"
+                  className="w-100 flex-md-nowrap flex-wrap"
                 >
                   <ToggleButton
                     className="w-50"
@@ -485,24 +550,7 @@ const Market = ({ location = {} }) => {
                 {(maxPageNumber + 1).toLocaleString()} (
                 {marketData?.chikn?.length.toLocaleString()})
               </h5>
-              <Pagination>
-                <Pagination.First
-                  disabled={pageNumber === 0}
-                  onClick={() => setPage(0)}
-                />
-                <Pagination.Prev
-                  disabled={pageNumber === 0}
-                  onClick={() => setPage(pageNumber - 1)}
-                />
-                <Pagination.Next
-                  disabled={pageNumber === maxPageNumber}
-                  onClick={() => setPage(pageNumber + 1)}
-                />
-                <Pagination.Last
-                  disabled={pageNumber === maxPageNumber}
-                  onClick={() => setPage(999999)}
-                />
-              </Pagination>
+              <PaginationComponent pageNum={pageNumber} maxPageNum={maxPageNumber}/>
             </div>
             <Row className="gy-3 gx-3">
               {chikns
@@ -511,20 +559,6 @@ const Market = ({ location = {} }) => {
                   <Col key={chikn.token} sm={6} md={4} lg={3}>
                     <ChickenCardMarketplaceSummary
                       tokenId={chikn.token}
-                      // onClick={() =>
-                      //   navigate(`/chikn/${chikn.token}`, {
-                      //     state: {
-                      //       backLink: '/market',
-                      //       backLabel: 'Back to Market',
-                      //       filterState: {
-                      //         filterSalesStatus: filterSalesStatus,
-                      //         sortSalesBy: sortSalesBy,
-                      //         filters: filters,
-                      //         pageNumber: pageNumber
-                      //       }
-                      //     }
-                      //   })
-                      // }
                       backLink= {'/market'}
                       backLabel= {'Back to Market'}
                       filterState= {{
@@ -547,24 +581,7 @@ const Market = ({ location = {} }) => {
                 Page {(pageNumber + 1).toLocaleString()} of{' '}
                 {(maxPageNumber + 1).toLocaleString()}
               </h5>
-              <Pagination>
-                <Pagination.First
-                  disabled={pageNumber === 0}
-                  onClick={() => setPage(0, true)}
-                />
-                <Pagination.Prev
-                  disabled={pageNumber === 0}
-                  onClick={() => setPage(pageNumber - 1, true)}
-                />
-                <Pagination.Next
-                  disabled={pageNumber === maxPageNumber}
-                  onClick={() => setPage(pageNumber + 1, true)}
-                />
-                <Pagination.Last
-                  disabled={pageNumber === maxPageNumber}
-                  onClick={() => setPage(999999, true)}
-                />
-              </Pagination>
+              <PaginationComponent pageNum={pageNumber} maxPageNum={maxPageNumber}/>
             </div>
           </>
         )}
