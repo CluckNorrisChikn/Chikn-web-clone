@@ -88,9 +88,9 @@ const Properties = styled.dl`
   }
 `
 
-const ChiknCard = styled(({ className = '', onClick = null, ...props }) => (
+const ChiknCard = styled(({ className = '', loading = false, ...props }) => (
   <Card
-    className={`${className} clickable`}
+    className={`${className} ${loading ? '' : 'clickable'}`}
     {...props}
   />
 ))`
@@ -175,7 +175,7 @@ const RenderAddress = ({ address }) => {
 
 const ChickenCardShimmer = () => {
   return (
-    <ChiknCard>
+    <ChiknCard loading={true}>
       <CardImage className="shimmer" />
       <Card.Body>
         <h3 className="shimmer w-50">&nbsp;</h3>
@@ -300,7 +300,7 @@ export const ChickenCardMarketplaceSummary = ({
       {getTokenQuery.isError && <ShowError error={getTokenQuery.error} />}
       {getTokenQuery.isSuccess && (
         <>
-          <ChiknCard onClick={onClick}>
+          <ChiknCard>
             <CardImage
               src={isRevealed ? properties.image : ChickenUnrevealedImage}
             />
@@ -361,7 +361,7 @@ export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
       {getTokenQuery.isError && <ShowError error={getTokenQuery.error} />}
       {getTokenQuery.isSuccess && (
         <>
-          <ChiknCard onClick={onClick}>
+          <ChiknCard>
             <CardImage
               src={isRevealed ? properties.image : ChickenUnrevealedImage}
             />
@@ -408,7 +408,7 @@ export const ChickenCardRecentActivitySummary = ({
       {getTokenQuery.isError && <ShowError error={getTokenQuery.error} />}
       {getTokenQuery.isSuccess && (
         <>
-          <ChiknCard onClick={onClick}>
+          <ChiknCard>
             <CardImage
               src={isRevealed ? properties.image : ChickenUnrevealedImage}
             />
