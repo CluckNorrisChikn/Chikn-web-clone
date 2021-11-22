@@ -221,6 +221,68 @@ const Market = ({ location = {} }) => {
     [maxPageNumber]
   )
 
+  const PaginationComponent = ({ pageNum, maxPageNum }) => {
+    const disabledStart = pageNum === 0
+    const disabledEnd = pageNum === maxPageNum
+    return (
+      <Pagination className="flex-wrap">
+        <Pagination.First
+          disabled={disabledStart}
+          onClick={() => setPage(0, true)}
+        />
+        <Pagination.Item
+          className="hide"
+          disabled={(pageNum - 100 < 0)}
+          onClick={() => setPage(pageNum - 100, true)}>
+          -100
+        </Pagination.Item>
+        <Pagination.Item
+          className="hide"
+          disabled={pageNum - 50 < 0 }
+          onClick={() => setPage(pageNum - 50, true)}>
+          -50
+        </Pagination.Item>
+        <Pagination.Item
+          className="hide"
+          disabled={pageNum - 25 < 0 }
+          onClick={() => setPage(pageNum - 25, true)}>
+          -25
+        </Pagination.Item>
+        <Pagination.Prev
+          disabled={disabledStart}
+          onClick={() => setPage(pageNum - 1, true)}
+        />
+        <Pagination.Next
+          disabled={disabledEnd}
+          onClick={() => setPage(pageNum + 1, true)}
+        />
+
+        <Pagination.Item
+          className="hide"
+          disabled={pageNum + 25 > maxPageNum }
+          onClick={() => setPage(pageNum + 25, true)}>
+          +25
+        </Pagination.Item>
+        <Pagination.Item
+          className="hide"
+          disabled={pageNum + 50 > maxPageNum }
+          onClick={() => setPage(pageNum + 50, true)}>
+          +50
+        </Pagination.Item>
+        <Pagination.Item
+          className="hide"
+          disabled={pageNum + 100 > maxPageNum }
+          onClick={() => setPage(pageNum + 100, true)}>
+          +100
+        </Pagination.Item>
+        <Pagination.Last
+          disabled={disabledEnd}
+          onClick={() => setPage(999999, true)}
+        />
+      </Pagination>
+    )
+  }
+
   return (
     <Layout pageName="Market">
       {/* ANCHOR header */}
@@ -481,24 +543,7 @@ const Market = ({ location = {} }) => {
                 {(maxPageNumber + 1).toLocaleString()} (
                 {chikns.length.toLocaleString()})
               </h5>
-              <Pagination>
-                <Pagination.First
-                  disabled={pageNumber === 0}
-                  onClick={() => setPage(0)}
-                />
-                <Pagination.Prev
-                  disabled={pageNumber === 0}
-                  onClick={() => setPage(pageNumber - 1)}
-                />
-                <Pagination.Next
-                  disabled={pageNumber === maxPageNumber}
-                  onClick={() => setPage(pageNumber + 1)}
-                />
-                <Pagination.Last
-                  disabled={pageNumber === maxPageNumber}
-                  onClick={() => setPage(999999)}
-                />
-              </Pagination>
+              <PaginationComponent pageNum={pageNumber} maxPageNum={maxPageNumber}/>
             </div>
             <Row className="gy-3 gx-3">
               {chikns
@@ -529,24 +574,7 @@ const Market = ({ location = {} }) => {
                 Page {(pageNumber + 1).toLocaleString()} of{' '}
                 {(maxPageNumber + 1).toLocaleString()}
               </h5>
-              <Pagination>
-                <Pagination.First
-                  disabled={pageNumber === 0}
-                  onClick={() => setPage(0, true)}
-                />
-                <Pagination.Prev
-                  disabled={pageNumber === 0}
-                  onClick={() => setPage(pageNumber - 1, true)}
-                />
-                <Pagination.Next
-                  disabled={pageNumber === maxPageNumber}
-                  onClick={() => setPage(pageNumber + 1, true)}
-                />
-                <Pagination.Last
-                  disabled={pageNumber === maxPageNumber}
-                  onClick={() => setPage(999999, true)}
-                />
-              </Pagination>
+              <PaginationComponent pageNum={pageNumber} maxPageNum={maxPageNumber}/>
             </div>
           </>
         )}
