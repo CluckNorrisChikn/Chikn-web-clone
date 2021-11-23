@@ -62,13 +62,6 @@ const AvaxLogo = styled(({ logoSize = '15px', ...props }) => (
   top: -2px;
 `
 
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: ${(props) => props.columns || 'auto auto'};
-  column-gap: ${(props) => props.columnGap || '10px'};
-  row-gap: ${(props) => props.rowGap || '10px'};
-`
-
 const Properties = styled.dl`
   font-size: 1rem;
   display: grid;
@@ -89,10 +82,7 @@ const Properties = styled.dl`
 `
 
 const ChiknCard = styled(({ className = '', loading = false, ...props }) => (
-  <Card
-    className={`${className} ${loading ? '' : 'clickable'}`}
-    {...props}
-  />
+  <Card className={`${className} ${loading ? '' : 'clickable'}`} {...props} />
 ))`
   max-width: 500px;
   &.clickable {
@@ -140,8 +130,8 @@ export const AvaxPill = ({
     className={`${className} px-3 bg-light text-dark rounded-pill text-nowrap`}
     {...props}
   >
-    {typeof children === 'string' && children.length > 15
-      ? `${children.substring(0, 15)}…`
+    {typeof children === 'string' && children.length > 11
+      ? `${children.substring(0, 11)}…`
       : children}
     <AvaxLogo logoSize={logoSize} />
   </span>
@@ -158,17 +148,17 @@ const shortAccount = (acct) => {
   return `${firstHalf}...${lastHalf}`
 }
 
-const PropertyColour = ({ children }) => {
-  const pv = children.toLowerCase()
-  if (pv === 'none') return <span className="text-black-50">{children}</span>
-  else return <span>{children}</span>
-}
-
 const RenderAddress = ({ address }) => {
   const { account } = useWeb3Contract()
   return (
     <GreyPill>
-      {typeof account === 'undefined' ? '-' : (address === account ? 'You' : address ? shortAccount(address) : '-')}
+      {typeof account === 'undefined'
+        ? '-'
+        : address === account
+          ? 'You'
+          : address
+            ? shortAccount(address)
+            : '-'}
     </GreyPill>
   )
 }
@@ -248,7 +238,9 @@ const ShowHistory = ({ tokenId = '' }) => {
         </dt>
         <dd>last price</dd>
         <dt>
-          <AvaxPill>{details.previousPrice ? fmtCurrency(details.previousPrice) : '-'}</AvaxPill>
+          <AvaxPill>
+            {details.previousPrice ? fmtCurrency(details.previousPrice) : '-'}
+          </AvaxPill>
         </dt>
         <dd>Transfers</dd>
         <dt>{details.numberOfTransfers ? details.numberOfTransfers : '-'}</dt>
@@ -280,6 +272,42 @@ const ShowError = ({ error = {} }) => {
   )
 }
 
+const RarityBadge = styled(({ className = '', ...props }) => (
+  <div
+    className={`${className} ${props.rarity} d-inline-block text-capitalize rounded-pill fs-7`}
+    {...props}
+  >
+    {props.rarity}
+  </div>
+))`
+  font-size: 1rem;
+  padding: 4px 16px;
+  &.common {
+    color: var(--rarity-common-dark);
+    background: var(--rarity-common-light);
+  }
+  &.nice {
+    color: var(--rarity-nice-dark);
+    background: var(--rarity-nice-light);
+  }
+  &.rare {
+    color: var(--rarity-rare-dark);
+    background: var(--rarity-rare-light);
+  }
+  &.elite {
+    color: var(--rarity-elite-dark);
+    background: var(--rarity-elite-light);
+  }
+  &.legendary {
+    color: var(--rarity-legendary-dark);
+    background: var(--rarity-legendary-light);
+  }
+  &.unique {
+    color: var(--rarity-unique-dark);
+    background: var(--rarity-unique-light);
+  }
+`
+
 export const ChickenCardMarketplaceSummary = ({
   tokenId = '',
   onClick = null,
@@ -310,6 +338,9 @@ export const ChickenCardMarketplaceSummary = ({
                   <ChiknText /> #{tokenId}
                 </h6>
                 <small className="text-muted">Rank: {properties.rank}</small>
+                <div>
+                  <RarityBadge rarity={properties.rarity} />
+                </div>
                 <SaleStatus
                   size="sm"
                   forSale={props.forSale}
@@ -460,16 +491,17 @@ const Property = (props) => {
   const weightedPercentForColouring =
     layer === 'head' ? percentage * 3 : percentage
 
+  // --rarity-rare ???
   const background =
-    weightedPercentForColouring <= 0.0009 // unique (red)
-      ? '#ff372b'
-      : weightedPercentForColouring <= 0.0128 // legendary (orange)
-        ? '#9d5cff'
-        : weightedPercentForColouring <= 0.0394 // epic (green)
-          ? '#ffcf5c'
-          : weightedPercentForColouring <= 0.2558 // uncommon (blue)
-            ? '#52eb9a'
-            : '#66cbff' // common (grey)
+    weightedPercentForColouring <= 0.0009 // unique
+      ? 'var(--rarity-unique)'
+      : weightedPercentForColouring <= 0.0128 // legendary
+        ? 'var(--rarity-legendary)'
+        : weightedPercentForColouring <= 0.0394 // epic
+          ? 'var(--rarity-elite)'
+          : weightedPercentForColouring <= 0.2558 // uncommon
+            ? 'var(--rarity-nice)'
+            : 'var(--rarity-common)' // common
 
   return (
     <div
