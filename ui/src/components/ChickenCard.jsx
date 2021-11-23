@@ -280,7 +280,7 @@ const RarityBadge = styled(({ className = '', ...props }) => (
     {props.rarity}
   </div>
 ))`
-  font-size: 1rem;
+  ${(props) => (props.size === 'sm' ? 'font-size: 1rem;' : '')}
   padding: 4px 16px;
   &.common {
     color: var(--rarity-common-dark);
@@ -339,7 +339,7 @@ export const ChickenCardMarketplaceSummary = ({
                 </h6>
                 <small className="text-muted">Rank: {properties.rank}</small>
                 <div>
-                  <RarityBadge rarity={properties.rarity} />
+                  <RarityBadge rarity={properties.rarity} size="sm" />
                 </div>
                 <SaleStatus
                   size="sm"
@@ -402,6 +402,9 @@ export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
                   <ChiknText /> #{tokenId}
                 </h6>
                 <small className="text-muted">Rank: {properties.rank}</small>
+                <div>
+                  <RarityBadge rarity={properties.rarity} size="sm" />
+                </div>
                 <SaleStatus size="sm" forSale={forSale} owner={currentOwner} />
               </StackCol>
             </Card.Body>
@@ -603,6 +606,9 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
 
               {/* Rank */}
               <div className="text-muted">Rank: {properties.rank}</div>
+              <div>
+                <RarityBadge rarity={properties.rarity} />
+              </div>
 
               {/* actions */}
               <StackDynamic className="gap-1 flex-wrap">
