@@ -15,6 +15,45 @@ $font-size-root: 14px;
 @import 'bootstrap/scss/bootstrap';
 @import 'react-bootstrap-typeahead/css/Typeahead.css';
 
+// Common Blue #66cbff
+// Nice Green #52eb9a
+// Rare Yellow #ffcf5c
+// Elite Purple #9d5cff
+// Legendary Pink #fb54ba
+// Unique Red #ff372b
+
+// dark
+$rarity-common: #66cbff;
+$rarity-nice: #52eb9a;
+$rarity-rare: #ffcf5c;
+$rarity-elite: #9d5cff;
+$rarity-legendary: #fb54ba;
+$rarity-unique: #ff372b;
+
+:root {
+  // dark
+  --rarity-common: #{$rarity-common};
+  --rarity-nice: #{$rarity-nice};
+  --rarity-rare: #{$rarity-rare};
+  --rarity-elite: #{$rarity-elite};
+  --rarity-legendary: #{$rarity-legendary};
+  --rarity-unique: #{$rarity-unique};
+  // light
+  --rarity-common-light: #{lighten($rarity-common, 25%)};
+  --rarity-nice-light: #{lighten($rarity-nice, 25%)};
+  --rarity-rare-light: #{lighten($rarity-rare, 25%)};
+  --rarity-elite-light: #{lighten($rarity-elite, 25%)};
+  --rarity-legendary-light: #{lighten($rarity-legendary, 25%)};
+  --rarity-unique-light: #{lighten($rarity-unique, 25%)};
+  // dark
+  --rarity-common-dark: #{darken($rarity-common, 15%)};
+  --rarity-nice-dark: #{darken($rarity-nice, 15%)};
+  --rarity-rare-dark: #{darken($rarity-rare, 15%)};
+  --rarity-elite-dark: #{darken($rarity-elite, 15%)};
+  --rarity-legendary-dark: #{darken($rarity-legendary, 15%)};
+  --rarity-unique-dark: #{darken($rarity-unique, 15%)};
+}
+
 // fix height
 
 html,
