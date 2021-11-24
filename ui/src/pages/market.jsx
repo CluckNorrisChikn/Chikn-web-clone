@@ -137,7 +137,7 @@ const Market = ({ location = {} }) => {
             (isUndefOrEmpty(filters.tail) || ~filters.tail.indexOf(noneCheck(t.tail))) &&
             (isUndefOrEmpty(filters.trim) || ~filters.trim.indexOf(noneCheck(t.trim))) &&
             (isUndefOrEmpty(filters.rarity) || ~filters.rarity.indexOf(t.rarity?.toLowerCase())) &&
-            (isUndefOrEmpty(filters.traits) || ~filters.traits.indexOf(t._numOfTraits))
+            (isUndefOrEmpty(filters._numOfTraits) || ~filters._numOfTraits.indexOf(t._numOfTraits.toString()))
           )
         })
         .sort((a, b) => {
@@ -197,7 +197,7 @@ const Market = ({ location = {} }) => {
     filters.tail,
     filters.torso,
     filters.trim,
-    filters.traits,
+    filters._numOfTraits,
     filters.rarity,
     sortSalesBy
   ])
