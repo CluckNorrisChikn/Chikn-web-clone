@@ -125,7 +125,6 @@ const Market = ({ location = {} }) => {
         saleSorted === sortSalesBy &&
         filtered === filters
       setInternalPageNumber(isInitialPageLoad ? pagedSelected : 0)
-      console.log('marketData', marketData)
       return marketData.chikn
         .filter((t) => {
           return (
@@ -560,7 +559,6 @@ const Market = ({ location = {} }) => {
                 .filter(([layer]) => !layer.startsWith('_total'))
                 .map(([layer, traits]) => (
                   <Col xs={12} sm={12} md={6} lg={6} key={layer}>
-                    <p>{console.log(Object.keys(traits))}</p>
                     <Form.Group>
                       <Form.Label className="mt-2 mb-1 text-capitalize">
                         {layer === '_numOfTraits' ? '# traits' : layer}
