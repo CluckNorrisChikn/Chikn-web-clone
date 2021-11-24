@@ -49,7 +49,7 @@ import EditListingModal from './modals/EditListingModal'
  * @property {number} numberOfTransfers // 1
  */
 
-// trigger build
+// trigger build 2
 
 /** @type {Details} */
 const DETAILS_BLANK = {}
