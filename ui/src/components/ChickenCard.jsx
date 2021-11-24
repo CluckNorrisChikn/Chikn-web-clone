@@ -272,7 +272,7 @@ const ShowError = ({ error = {} }) => {
   )
 }
 
-const RarityBadge = styled(({ className = '', ...props }) => (
+export const RarityBadge = styled(({ className = '', ...props }) => (
   <div
     className={`${className} ${props.rarity} d-inline-block text-capitalize rounded-pill fs-7`}
     {...props}
