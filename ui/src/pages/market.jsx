@@ -125,6 +125,7 @@ const Market = ({ location = {} }) => {
         saleSorted === sortSalesBy &&
         filtered === filters
       setInternalPageNumber(isInitialPageLoad ? pagedSelected : 0)
+      console.log('marketData', marketData)
       return marketData.chikn
         .filter((t) => {
           return (
@@ -300,7 +301,7 @@ const Market = ({ location = {} }) => {
   const FloorCalculation = (rarity) => {
     return marketData.chikn.filter((t) => {
       return (
-        t.rarity === rarity
+        t.rarity === rarity && !isUndefOrEmpty(t.salePrice)
       )
     }).sort((a, b) => {
       const bPrice = parseFloat(b.salePrice)
@@ -501,6 +502,7 @@ const Market = ({ location = {} }) => {
                     variant="outline-primary"
                     id="lowestLastSale"
                     value="lowestLastSale"
+                    disabled={filterSalesStatus !== 'for_sale'}
                   >
                     Lowest last sold price
                   </ToggleButton>
@@ -508,6 +510,7 @@ const Market = ({ location = {} }) => {
                     variant="outline-primary"
                     id="highestLastSale"
                     value="highestLastSale"
+                    disabled={filterSalesStatus !== 'for_sale'}
                   >
                     Highest last sold price
                   </ToggleButton>
