@@ -128,6 +128,7 @@ const Market = ({ location = {} }) => {
       return marketData.chikn
         .filter((t) => {
           return (
+            ((((sortSalesBy === 'lowestLastSale') || (sortSalesBy === 'highestLastSale')) && t.previousPrice > 0) || (sortSalesBy !== 'lowestLastSale' && sortSalesBy !== 'highestLastSale')) &&
             (isUndefOrEmpty(filters.background) || ~filters.background.indexOf(t.background?.toLowerCase())) &&
             (isUndefOrEmpty(filters.body) || ~filters.body.indexOf(t.body?.toLowerCase())) &&
             (isUndefOrEmpty(filters.head) || ~filters.head.indexOf(noneCheck(t.head))) &&
