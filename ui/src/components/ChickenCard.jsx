@@ -49,6 +49,8 @@ import EditListingModal from './modals/EditListingModal'
  * @property {number} numberOfTransfers // 1
  */
 
+// trigger build 2
+
 /** @type {Details} */
 const DETAILS_BLANK = {}
 
@@ -272,7 +274,7 @@ const ShowError = ({ error = {} }) => {
   )
 }
 
-const RarityBadge = styled(({ className = '', ...props }) => (
+export const RarityBadge = styled(({ className = '', ...props }) => (
   <div
     className={`${className} ${props.rarity} d-inline-block text-capitalize rounded-pill fs-7`}
     {...props}

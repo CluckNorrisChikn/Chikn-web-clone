@@ -20,7 +20,8 @@ import { useQueryClient } from 'react-query'
 import {
   AvaxPill,
   ChickenCardMarketplaceSummary,
-  ChickenCardShimmerx4
+  ChickenCardShimmerx4,
+  RarityBadge
 } from '../components/ChickenCard'
 import { Section, StackRow } from '../components/Common'
 import {
@@ -51,6 +52,10 @@ const TraitsSelector = ({
       setValues(parentValues)
     }
   }, [parentValues, values])
+
+  if (options[0] === '') {
+    options[0] = 'None'
+  }
 
   return (
     <>
@@ -107,9 +112,12 @@ const Market = ({ location = {} }) => {
 
   const [pageNumber, setInternalPageNumber] = React.useState(pagedSelected)
 
+  // use this to manipulate the incoming nones ('') into the typeahead value ('None')
+  const noneCheck = (trait) => { return trait === '' ? 'None' : trait?.toLowerCase() }
+
   // responsible for applying client side filtering/sorting to the returned dataset.
   const chikns = React.useMemo(() => {
-    // filter by the selected properties... 'background,body,head,neck,torso,feet,tail,trim'
+    // filter by the selected properties... 'background,body,head,neck,torso,feet,tail,trim' - added # traits, rarity
     if (marketData && marketData.chikn) {
       // if filters or sort changes, set the page back to the first page i.e. 0 (or pagedSelected if navigating back)
       const isInitialPageLoad =
@@ -120,27 +128,24 @@ const Market = ({ location = {} }) => {
       return marketData.chikn
         .filter((t) => {
           return (
-            (isUndefOrEmpty(filters.background) ||
-              ~filters.background.indexOf(t.background?.toLowerCase())) &&
-            (isUndefOrEmpty(filters.body) ||
-              ~filters.body.indexOf(t.body?.toLowerCase())) &&
-            (isUndefOrEmpty(filters.head) ||
-              ~filters.head.indexOf(t.head?.toLowerCase())) &&
-            (isUndefOrEmpty(filters.neck) ||
-              ~filters.neck.indexOf(t.neck?.toLowerCase())) &&
-            (isUndefOrEmpty(filters.torso) ||
-              ~filters.torso.indexOf(t.torso?.toLowerCase())) &&
-            (isUndefOrEmpty(filters.feet) ||
-              ~filters.feet.indexOf(t.feet?.toLowerCase())) &&
-            (isUndefOrEmpty(filters.tail) ||
-              ~filters.tail.indexOf(t.tail?.toLowerCase())) &&
-            (isUndefOrEmpty(filters.trim) ||
-              ~filters.trim.indexOf(t.trim?.toLowerCase()))
+            ((((sortSalesBy === 'lowestLastSale') || (sortSalesBy === 'highestLastSale')) && t.previousPrice > 0) || (sortSalesBy !== 'lowestLastSale' && sortSalesBy !== 'highestLastSale')) &&
+            (isUndefOrEmpty(filters.background) || ~filters.background.indexOf(t.background?.toLowerCase())) &&
+            (isUndefOrEmpty(filters.body) || ~filters.body.indexOf(t.body?.toLowerCase())) &&
+            (isUndefOrEmpty(filters.head) || ~filters.head.indexOf(noneCheck(t.head))) &&
+            (isUndefOrEmpty(filters.neck) || ~filters.neck.indexOf(noneCheck(t.neck))) &&
+            (isUndefOrEmpty(filters.torso) || ~filters.torso.indexOf(noneCheck(t.torso))) &&
+            (isUndefOrEmpty(filters.feet) || ~filters.feet.indexOf(noneCheck(t.feet))) &&
+            (isUndefOrEmpty(filters.tail) || ~filters.tail.indexOf(noneCheck(t.tail))) &&
+            (isUndefOrEmpty(filters.trim) || ~filters.trim.indexOf(noneCheck(t.trim))) &&
+            (isUndefOrEmpty(filters.rarity) || ~filters.rarity.indexOf(t.rarity?.toLowerCase())) &&
+            (isUndefOrEmpty(filters._numOfTraits) || ~filters._numOfTraits.indexOf(t._numOfTraits.toString()))
           )
         })
         .sort((a, b) => {
           const aPrice = parseFloat(a.salePrice)
           const bPrice = parseFloat(b.salePrice)
+          const aPreviousPrice = parseFloat(a.previousPrice)
+          const bPreviousPrice = parseFloat(b.previousPrice)
           const aRarityRank = a.rank === '?' ? 0 : parseInt(a.rank)
           const bRarityRank = b.rank === '?' ? 0 : parseInt(b.rank)
           // sort rank
@@ -164,6 +169,14 @@ const Market = ({ location = {} }) => {
             if (aPrice > bPrice) return 1
             if (aPrice < bPrice) return -1
             return 0
+          } else if (sortSalesBy === 'lowestLastSale') {
+            if (aPreviousPrice > bPreviousPrice) return 1
+            if (aPreviousPrice < bPreviousPrice) return -1
+            return 0
+          } else if (sortSalesBy === 'highestLastSale') {
+            if (aPreviousPrice > bPreviousPrice) return -1
+            if (aPreviousPrice < bPreviousPrice) return 1
+            return 0
           } else {
             // sort by highest price
             if (aPrice > bPrice) return -1
@@ -185,6 +198,8 @@ const Market = ({ location = {} }) => {
     filters.tail,
     filters.torso,
     filters.trim,
+    filters._numOfTraits,
+    filters.rarity,
     sortSalesBy
   ])
 
@@ -283,6 +298,20 @@ const Market = ({ location = {} }) => {
     )
   }
 
+  const FloorCalculation = (rarity) => {
+    return marketData.chikn.filter((t) => {
+      return (
+        t.rarity === rarity && !isUndefOrEmpty(t.salePrice)
+      )
+    }).sort((a, b) => {
+      const bPrice = parseFloat(b.salePrice)
+      const aPrice = parseFloat(a.salePrice)
+      if (aPrice > bPrice) return 1
+      if (aPrice < bPrice) return -1
+      return 0
+    })[0].salePrice
+  }
+
   return (
     <Layout pageName="Market">
       {/* ANCHOR header */}
@@ -371,6 +400,41 @@ const Market = ({ location = {} }) => {
         </Card>
       </StackRow>
 
+      {/* RARITY FLOOR PRICES */}
+      <StackRow className="justify-content-around">
+        <Card>
+          <Card.Body>
+            <Card.Title className="text-center pb-2">Rarity Floor Prices</Card.Title>
+            <StackRow className="flex-wrap justify-content-center">
+              {Object.keys(metadata.rarity).map((rarity, i) => {
+                return (
+                  <div key={i}
+                    style={{ width: '120px', padding: '10px 10px' }}
+                    className="d-flex flex-column align-items-center"
+                  >
+                    <div className="pb-2">
+                      <RarityBadge rarity={rarity} size={'sm'} />
+                    </div>
+                    <div>
+                      <span>
+                        {apiMarketStatQuery.isLoading
+                          ? (
+                            <Spinner variant="primary" animation="border" size="sm" />
+                          )
+                          : (
+                            <AvaxPill>{FloorCalculation(rarity)}</AvaxPill>
+                          )}
+                      </span>
+                    </div>
+
+                  </div>
+                )
+              })}
+            </StackRow>
+          </Card.Body>
+        </Card>
+      </StackRow>
+
       <Container className="justify-content-center text-center py-0 px-0">
         <Card style={{ border: 'transparent' }}>
           <Card.Body>
@@ -408,7 +472,7 @@ const Market = ({ location = {} }) => {
             {/* Sort for Sale */}
             <h5>Sort by</h5>
             <Row className="my-3 justify-content-center">
-              <Col xs={12} sm={12} md={9} lg={9} className="px-0">
+              <Col xs={12} sm={12} md={12} lg={12} className="px-0">
                 <ToggleButtonGroup
                   name="sortBy"
                   defaultValue="token"
@@ -432,6 +496,23 @@ const Market = ({ location = {} }) => {
                     disabled={filterSalesStatus !== 'for_sale'}
                   >
                     Highest price
+                  </ToggleButton>
+
+                  <ToggleButton
+                    variant="outline-primary"
+                    id="lowestLastSale"
+                    value="lowestLastSale"
+                    disabled={filterSalesStatus !== 'for_sale'}
+                  >
+                    Lowest last sold price
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-primary"
+                    id="highestLastSale"
+                    value="highestLastSale"
+                    disabled={filterSalesStatus !== 'for_sale'}
+                  >
+                    Highest last sold price
                   </ToggleButton>
 
                   <ToggleButton
@@ -476,12 +557,12 @@ const Market = ({ location = {} }) => {
             <h5>Properties</h5>
             <Row>
               {Object.entries(metadata)
-                .filter(([layer]) => !layer.startsWith('_'))
+                .filter(([layer]) => !layer.startsWith('_total'))
                 .map(([layer, traits]) => (
-                  <Col xs={12} sm={12} md={6} lg={4} key={layer}>
+                  <Col xs={12} sm={12} md={6} lg={6} key={layer}>
                     <Form.Group>
                       <Form.Label className="mt-2 mb-1 text-capitalize">
-                        {layer}
+                        {layer === '_numOfTraits' ? '# traits' : layer}
                       </Form.Label>
                       <TraitsSelector
                         id={layer}
