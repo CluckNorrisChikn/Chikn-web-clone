@@ -199,6 +199,16 @@ const Layout = ({
                       Docs
                     </a>
                   </Nav.Item>
+                  <Nav.Item>
+                    <a
+                      className="nav-link px-3 text-capitalize "
+                      href={siteConfig.links.roadmap}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Roadmap
+                    </a>
+                  </Nav.Item>
                   {/* TODO Temporarily removed terms and conditions -> Joe */}
                   {/* <NavGatsbyLink to="/terms">
                     Terms &amp; Conditions
