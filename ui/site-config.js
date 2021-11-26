@@ -15,7 +15,7 @@ const gtm = {
 }
 
 const siteConfig = {
-  useAvaxTestnet: false, // !isProd, always true - this is PROD!
+  useAvaxTestnet: true, // !isProd, always true - this is PROD!
   includePrivatePages: !isProd,
   nftName: 'chikn',
   title: 'chikn',
@@ -39,7 +39,8 @@ const siteConfig = {
     discord: 'https://discord.gg/9znHkBYjra',
     twitter: 'https://twitter.com/chikn_nft',
     twitterAt: '@chikn_nft',
-    docs: 'https://docs.chikn.farm/'
+    docs: 'https://docs.chikn.farm/',
+    roadmap: 'https://docs.chikn.farm/roadmap'
   },
   featureToggles: {
     connectWalledEnabled: GATSBY_FT_CONNECT_WALLET_ENABLED !== 'false'
