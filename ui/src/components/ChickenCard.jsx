@@ -6,7 +6,7 @@ import {
   Card,
   Col,
   Row,
-  Spinner
+  Spinner,
 } from 'react-bootstrap'
 import Accordion from 'react-bootstrap/Accordion'
 import { Link } from 'gatsby'
@@ -25,7 +25,7 @@ import {
   SocialShareLinkButton,
   StackCol,
   StackDynamic,
-  StackRow
+  StackRow,
 } from './Common'
 import {
   getErrorMessage,
@@ -33,7 +33,7 @@ import {
   useBuyTokenMutation,
   useGetTokenQuery,
   useGetWeb3TokenDetail,
-  useWeb3Contract
+  useWeb3Contract,
 } from './Connect'
 import EditListingModal from './modals/EditListingModal'
 
@@ -157,10 +157,10 @@ const RenderAddress = ({ address }) => {
       {typeof account === 'undefined'
         ? '-'
         : address === account
-          ? 'You'
-          : address
-            ? shortAccount(address)
-            : '-'}
+        ? 'You'
+        : address
+        ? shortAccount(address)
+        : '-'}
     </GreyPill>
   )
 }
@@ -202,7 +202,7 @@ export const SaleStatus = ({
   size = 'lg',
   forSale = false,
   isOwner = false,
-  owner = ''
+  owner = '',
 }) => {
   const sizeClass = size === 'lg' ? 'py-2 px-3' : 'py-0 px-0'
   if (owner === '') {
@@ -369,7 +369,7 @@ export const ChickenCardMarketplaceSummary = ({
               state={{
                 backLink: '/market',
                 backLabel: 'Back to Market',
-                filterState: props.filterState
+                filterState: props.filterState,
               }}
             ></Link>
           </ChiknCard>
@@ -414,8 +414,8 @@ export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
               className={'stretched-link'}
               to={`/chikn/${tokenId}`}
               state={{
-                backLink: '/market',
-                backLabel: 'Back to Market'
+                backLink: '/wallet',
+                backLabel: 'Back to Wallet',
               }}
             ></Link>
           </ChiknCard>
@@ -431,7 +431,7 @@ export const ChickenCardRecentActivitySummary = ({
   tokenId = '',
   from = '',
   to = '',
-  onClick = null
+  onClick = null,
 }) => {
   /** @type {{ data: { details: Details }}} */
   const getTokenQuery = useGetTokenQuery(tokenId)
@@ -454,21 +454,19 @@ export const ChickenCardRecentActivitySummary = ({
                   <ChiknText /> #{tokenId}
                 </h6>
                 {/* TODO what about listed forsale events... do they come through? */}
-                {from === MINTED_FROM_ADDRESS
-                  ? (
-                    <GreyPill>Minted</GreyPill>
-                  )
-                  : (
-                    <>
-                      <GreenPill>Sold</GreenPill>
-                      <Properties definitionAlign="right">
-                        <dd>price</dd>
-                        <dt>
-                          <AvaxPill>{fmtCurrency(details.price)}</AvaxPill>
-                        </dt>
-                      </Properties>
-                    </>
-                  )}
+                {from === MINTED_FROM_ADDRESS ? (
+                  <GreyPill>Minted</GreyPill>
+                ) : (
+                  <>
+                    <GreenPill>Sold</GreenPill>
+                    <Properties definitionAlign="right">
+                      <dd>price</dd>
+                      <dt>
+                        <AvaxPill>{fmtCurrency(details.price)}</AvaxPill>
+                      </dt>
+                    </Properties>
+                  </>
+                )}
               </StackCol>
             </Card.Body>
           </ChiknCard>
@@ -501,12 +499,12 @@ const Property = (props) => {
     weightedPercentForColouring <= 0.0009 // unique
       ? 'var(--rarity-unique)'
       : weightedPercentForColouring <= 0.0128 // legendary
-        ? 'var(--rarity-legendary)'
-        : weightedPercentForColouring <= 0.0394 // epic
-          ? 'var(--rarity-elite)'
-          : weightedPercentForColouring <= 0.2558 // uncommon
-            ? 'var(--rarity-nice)'
-            : 'var(--rarity-common)' // common
+      ? 'var(--rarity-legendary)'
+      : weightedPercentForColouring <= 0.0394 // epic
+      ? 'var(--rarity-elite)'
+      : weightedPercentForColouring <= 0.2558 // uncommon
+      ? 'var(--rarity-nice)'
+      : 'var(--rarity-common)' // common
 
   return (
     <div
@@ -630,13 +628,11 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
                     onClick={buyToken}
                     disabled={useBuyToken.isLoading}
                   >
-                    {useBuyToken.isLoading
-                      ? (
-                        <Spinner size="sm" animation="border" />
-                      )
-                      : (
-                        'Purchase'
-                      )}
+                    {useBuyToken.isLoading ? (
+                      <Spinner size="sm" animation="border" />
+                    ) : (
+                      'Purchase'
+                    )}
                   </MenuButton> // purchase
                 )}
                 {active && isOwner && !isForSale && (
