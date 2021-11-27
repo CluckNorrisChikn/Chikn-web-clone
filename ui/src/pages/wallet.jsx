@@ -24,8 +24,7 @@ const IndexPage = () => {
 
   const { data: tokens = [] } = useWalletTokens
 
-  console.log('i am token', tokens)
-
+  // handles all the pagination!
   const PAGE_SIZE = 5
   const [pageNumber, setInternalPageNumber] = React.useState(0)
   const maxPageNumber = React.useMemo(() => {
@@ -95,7 +94,7 @@ const IndexPage = () => {
           useWalletTokens.isSuccess &&
           tokens.length > 0 && (
           <>
-            <h5>Total: {tokens.length.toLocaleString()}</h5>
+            <h5>You own {tokens.length.toLocaleString()} ChickenCardShimmer</h5>
             <Row className="gy-3 gx-3 mt-4">
               {tokens
                 .slice(pageNumber * PAGE_SIZE, (pageNumber + 1) * PAGE_SIZE)
@@ -112,25 +111,31 @@ const IndexPage = () => {
             </Row>
           </>
         )}
+        <div className="d-flex flex-column align-items-center mt-5">
+          <h5>
+            Page {(pageNumber + 1).toLocaleString()} of{' '}
+            {(maxPageNumber + 1).toLocaleString()}
+          </h5>
+          <Pagination>
+            <Pagination.First
+              disabled={pageNumber === 0}
+              onClick={() => setPage(0)}
+            />
+            <Pagination.Prev
+              disabled={pageNumber === 0}
+              onClick={() => setPage(pageNumber - 1)}
+            />
+            <Pagination.Next
+              disabled={pageNumber === maxPageNumber}
+              onClick={() => setPage(pageNumber + 1)}
+            />
+            <Pagination.Last
+              disabled={pageNumber === maxPageNumber}
+              onClick={() => setPage(999999)}
+            />
+          </Pagination>
+        </div>
       </Section>
-      <Pagination>
-        <Pagination.First
-          disabled={pageNumber === 0}
-          onClick={() => setPage(0)}
-        />
-        <Pagination.Prev
-          disabled={pageNumber === 0}
-          onClick={() => setPage(pageNumber - 1)}
-        />
-        <Pagination.Next
-          disabled={pageNumber === maxPageNumber}
-          onClick={() => setPage(pageNumber + 1)}
-        />
-        <Pagination.Last
-          disabled={pageNumber === maxPageNumber}
-          onClick={() => setPage(999999)}
-        />
-      </Pagination>
     </Layout>
   )
 }
