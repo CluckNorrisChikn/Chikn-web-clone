@@ -24,8 +24,7 @@ const IndexPage = () => {
 
   const { data: tokens = [] } = useWalletTokens
 
-  console.log('i am token', tokens)
-
+  // handles all the pagination!
   const PAGE_SIZE = 5
   const [pageNumber, setInternalPageNumber] = React.useState(0)
   const maxPageNumber = React.useMemo(() => {
@@ -118,25 +117,31 @@ const IndexPage = () => {
               </Row>
             </>
           )}
+        <div className="d-flex flex-column align-items-center mt-5">
+          <h5>
+            Page {(pageNumber + 1).toLocaleString()} of{' '}
+            {(maxPageNumber + 1).toLocaleString()}
+          </h5>
+          <Pagination>
+            <Pagination.First
+              disabled={pageNumber === 0}
+              onClick={() => setPage(0)}
+            />
+            <Pagination.Prev
+              disabled={pageNumber === 0}
+              onClick={() => setPage(pageNumber - 1)}
+            />
+            <Pagination.Next
+              disabled={pageNumber === maxPageNumber}
+              onClick={() => setPage(pageNumber + 1)}
+            />
+            <Pagination.Last
+              disabled={pageNumber === maxPageNumber}
+              onClick={() => setPage(999999)}
+            />
+          </Pagination>
+        </div>
       </Section>
-      <Pagination>
-        <Pagination.First
-          disabled={pageNumber === 0}
-          onClick={() => setPage(0)}
-        />
-        <Pagination.Prev
-          disabled={pageNumber === 0}
-          onClick={() => setPage(pageNumber - 1)}
-        />
-        <Pagination.Next
-          disabled={pageNumber === maxPageNumber}
-          onClick={() => setPage(pageNumber + 1)}
-        />
-        <Pagination.Last
-          disabled={pageNumber === maxPageNumber}
-          onClick={() => setPage(999999)}
-        />
-      </Pagination>
     </Layout>
   )
 }
