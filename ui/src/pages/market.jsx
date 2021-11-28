@@ -590,7 +590,7 @@ const Market = ({ location = {} }) => {
                             }))
                           }
                         }}
-                        parentValues={filters[layer]} // this is important
+                        parentValues={filters[layer]}
                       />
                     </Form.Group>
                   </Col>
