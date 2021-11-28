@@ -332,7 +332,7 @@ export const ChickenCardMarketplaceSummary = ({
         <>
           <ChiknCard>
             <CardImage
-              src={isRevealed ? properties.image : ChickenUnrevealedImage}
+              src={isRevealed ? properties.thumbnail : ChickenUnrevealedImage}
             />
             <Card.Body>
               <StackCol className="gap-2 justify-content-between">
@@ -396,7 +396,7 @@ export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
         <>
           <ChiknCard>
             <CardImage
-              src={isRevealed ? properties.image : ChickenUnrevealedImage}
+              src={isRevealed ? properties.thumbnail : ChickenUnrevealedImage}
             />
             <Card.Body>
               <StackCol className="justify-content-between gap-2">
