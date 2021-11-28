@@ -12,10 +12,6 @@ import siteConfig from '../../site-config'
 // import traits from '../components/traits/combinations.json'
 import axios from 'axios'
 
-// CD1 - points to the nginx server
-// CD2 - points to the node api server
-const API_URL = process.env.NODE_ENV === 'production' ? 'https://cdn2.chikn.farm' : 'https://cdn2.chikn.farm'
-
 export const getErrorMessage = (error, deactivate) => {
   const { constructor: { name } = {} } = error
   const errorName = name || typeof error
@@ -168,9 +164,10 @@ export const useGetTokenQuery = (tokenId) => {
   return useQuery(
     KEYS.CONTRACT_TOKEN(tokenId),
     async () => {
-      const properties = await axios.get(`${API_URL}/api/chikn/${tokenId}/details`).then(res => res.data)
+      const properties = await axios.get(`${siteConfig.apiUrl}/api/chikn/${tokenId}/details`).then(res => res.data)
       if (properties && properties.filename) {
         properties.image = siteConfig.cdnUrl + properties.filename
+        properties.thumbnail = siteConfig.cdnThumbnailUrl + properties.filename
       }
       return { properties }
     }, { enabled: !isNaN(tokenId) })
@@ -852,7 +849,7 @@ export const useTotalHoldersQuery = () => {
 export const useAPIMarketStat = (showForSale = false) => {
   return useQuery(
     KEYS.APIMARKET(showForSale),
-    async () => axios.get(`${API_URL}/api/market/list?forSale=${showForSale ? 'true' : 'false'}`).then(res => res.data),
+    async () => axios.get(`${siteConfig.apiUrl}/api/market/list?forSale=${showForSale ? 'true' : 'false'}`).then(res => res.data),
     {
       cacheTime: 15 * 1000,
       staleTime: 15 * 1000
