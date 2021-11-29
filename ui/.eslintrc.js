@@ -10,7 +10,8 @@ module.exports = {
     'space-before-function-paren': 0,
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'error',
-    indent: ['error', 2]
+    indent: ['error', 2],
+    'max-len': ['error', { code: 120, ignoreComments: true }]
   },
   settings: {
     react: {
