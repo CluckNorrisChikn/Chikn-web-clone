@@ -228,7 +228,6 @@ const ShowHistory = ({ tokenId = '' }) => {
   const { active, contract } = useWeb3Contract()
   const getWeb3TokenDetail = useGetWeb3TokenDetail(contract, active, tokenId)
   const { data: details = DETAILS_BLANK } = getWeb3TokenDetail
-  console.log('details', details)
   return (
     <>
       <Properties fixed>
@@ -565,7 +564,9 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
       <HelmetMeta
         pageName={`chikn #${tokenId}`}
         title={`chikn #${tokenId}`}
-        description={'10,000 chikn have flown the coop in search of owners! These are no ordinary chikn. Some are dapper, some are degen, others are made of the rarest materials known to chikn-kind - but one thing\'s for sure - ALL chikn lay $egg.'}
+        description={
+          "10,000 chikn have flown the coop in search of owners! These are no ordinary chikn. Some are dapper, some are degen, others are made of the rarest materials known to chikn-kind - but one thing's for sure - ALL chikn lay $egg."
+        }
         imageUrl={properties.image}
         imageHeightPx={1000}
         imageWidthPx={1000}
@@ -597,7 +598,11 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
                 <SocialShareLinkButton
                   title={`${siteConfig.nftName} #${tokenId}`}
                   text={siteConfig.description}
-                  url={window.location.toString()}
+                  url={
+                    typeof window !== 'undefined'
+                      ? window.location.toString()
+                      : ''
+                  }
                 />
                 <LinkButton href={properties.image} tooltip="Download image" />
                 <RefreshButton onClick={refreshPage} />
