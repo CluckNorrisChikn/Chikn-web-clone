@@ -18,7 +18,7 @@
     "deploy": "vercel --prod",
     "deploy-staging": "vercel",
     "lint": "eslint --fix --ext .js,.jsx src || true",
-    "prettier": "prettier --write '**/*.{js,json}'",
+    "prettier": "prettier --write 'src/**/*.{js,jsx,json}'",
     "pretty-quick": "pretty-quick"
   },
   "husky": {
