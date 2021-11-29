@@ -19,7 +19,9 @@ const siteConfig = {
   includePrivatePages: !isProd,
   nftName: 'chikn',
   title: 'chikn',
+  apiUrl: 'https://cdn1.chikn.farm',
   cdnUrl: 'https://cdn1.chikn.farm/images/',
+  cdnThumbnailUrl: 'https://cdn1.chikn.farm/images/thumb/',
   description:
     '10,000 algorithmically generated, unique chikn NFTs that lay $egg',
   url: `https://${host}`,
@@ -62,7 +64,7 @@ const siteConfig = {
   gtm
 }
 
-console.log(`Using env: ${JSON.stringify(process.env, null, 2)}`)
-console.log(`Using siteConfig: ${JSON.stringify(siteConfig, null, 2)}`)
+// console.log(`Using env: ${JSON.stringify(process.env, null, 2)}`)
+// console.log(`Using siteConfig: ${JSON.stringify(siteConfig, null, 2)}`)
 
 module.exports = siteConfig

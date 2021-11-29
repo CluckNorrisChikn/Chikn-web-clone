@@ -52,6 +52,8 @@ module.exports = {
     },
     'gatsby-plugin-sass',
     'gatsby-plugin-fontawesome-css',
+    'gatsby-transformer-json',
+    // images
     {
       resolve: 'gatsby-source-filesystem',
       options: {
@@ -60,6 +62,7 @@ module.exports = {
       },
       __key: 'images'
     },
+    // pages
     {
       resolve: 'gatsby-source-filesystem',
       options: {
@@ -67,6 +70,15 @@ module.exports = {
         path: './src/pages/'
       },
       __key: 'pages'
+    },
+    // graphql data
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'data',
+        path: './src/data/'
+      },
+      __key: 'data'
     }
 
   ]

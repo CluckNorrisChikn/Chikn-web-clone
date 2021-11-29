@@ -69,7 +69,7 @@ const IndexPage = () => {
           useWalletTokens.isSuccess &&
           tokens.length > 0 && (
           <>
-            <h5>({tokens.length.toLocaleString()})</h5>
+            <h5>You own {tokens.length.toLocaleString()} chikn</h5>
             <Row className="gy-3 gx-3 mt-4">
               {tokens
                 .sort((a, b) => a - b)
@@ -77,8 +77,7 @@ const IndexPage = () => {
                   <Col key={tokenId} sm={6} md={4} lg={3}>
                     <ChickenCardWalletSummary
                       tokenId={tokenId}
-
-                      backLink= {'/wallet'}
+                      backLink={'/wallet'}
                       backLabel={'Back to Wallet'}
                     />
                   </Col>

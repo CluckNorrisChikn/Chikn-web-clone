@@ -6,7 +6,9 @@ import { ChiknText } from '../../components/Common'
 import Layout from '../../components/Layout'
 import TransactionProgress from '../../components/TransactionProgressToast'
 
-const Page = ({ tokenId, location = {} }) => {
+const Page = (props) => {
+  const { params: { token: tokenId = -1 } = {}, location = {} } = props
+
   const { backLink, backLabel, filterState } =
     typeof location.state !== 'undefined' && location.state !== null
       ? location.state
@@ -17,7 +19,11 @@ const Page = ({ tokenId, location = {} }) => {
       <TransactionProgress intialOnShow={false} />
       {backLink && (
         <div>
-          <Link to={backLink} state={{ filterState }} className="btn btn-primary px-5">
+          <Link
+            to={backLink}
+            state={{ filterState }}
+            className="btn btn-primary px-5"
+          >
             &laquo;&nbsp;{backLabel || 'Go back'}
           </Link>
         </div>
