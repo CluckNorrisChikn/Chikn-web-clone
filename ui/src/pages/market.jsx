@@ -110,6 +110,8 @@ const Market = ({ location = {} }) => {
   const { isLoading: holderLoading, data: holders = {} } =
     useTotalHoldersQuery()
 
+  console.log('we are the filters', filters)
+
   const [pageNumber, setInternalPageNumber] = React.useState(pagedSelected)
 
   // use this to manipulate the incoming nones ('') into the typeahead value ('None')
@@ -413,7 +415,14 @@ const Market = ({ location = {} }) => {
                     className="d-flex flex-column align-items-center"
                   >
                     <div className="pb-2">
-                      <RarityBadge rarity={rarity} size={'sm'} />
+                      <RarityBadge rarity={rarity} size={'sm'} onClick={() => {
+                        setFilters((ps) => ({
+                          ...ps,
+                          rarity: [rarity]
+                        }))
+                        setSortSalesBy('lowestLastSale')
+                      }
+                      } />
                     </div>
                     <div>
                       <span>
@@ -559,6 +568,7 @@ const Market = ({ location = {} }) => {
               {Object.entries(metadata)
                 .filter(([layer]) => !layer.startsWith('_total'))
                 .map(([layer, traits]) => (
+                  /* stringArraysNotEqual(selections, "array of selected traits") */
                   <Col xs={12} sm={12} md={6} lg={6} key={layer}>
                     <Form.Group>
                       <Form.Label className="mt-2 mb-1 text-capitalize">
@@ -569,8 +579,11 @@ const Market = ({ location = {} }) => {
                         options={Object.keys(traits)}
                         updateParent={(selections) => {
                           if (
+
                             stringArraysNotEqual(selections, filters[layer])
                           ) {
+                            console.log('selections', selections)
+
                             setFilters((ps) => ({
                               ...ps,
                               [layer]: selections

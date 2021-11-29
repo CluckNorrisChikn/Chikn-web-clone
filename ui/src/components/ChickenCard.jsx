@@ -285,6 +285,7 @@ export const RarityBadge = styled(({ className = '', ...props }) => (
 ))`
   ${(props) => (props.size === 'sm' ? 'font-size: 1rem;' : '')}
   padding: 4px 16px;
+  cursor: pointer;
   &.common {
     color: var(--rarity-common-dark);
     background: var(--rarity-common-light);
