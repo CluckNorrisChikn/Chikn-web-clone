@@ -562,11 +562,8 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
     <>
       {/* meta */}
       <HelmetMeta
-        pageName={`chikn #${tokenId}`}
         title={`chikn #${tokenId}`}
-        description={
-          "10,000 chikn have flown the coop in search of owners! These are no ordinary chikn. Some are dapper, some are degen, others are made of the rarest materials known to chikn-kind - but one thing's for sure - ALL chikn lay $egg."
-        }
+        description={`chikn #${tokenId} - ${properties.rarity.toUpperCase()}`}
         imageUrl={properties.image}
         imageHeightPx={1000}
         imageWidthPx={1000}
