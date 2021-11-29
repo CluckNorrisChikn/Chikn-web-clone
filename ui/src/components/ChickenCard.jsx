@@ -563,7 +563,9 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
       {/* meta */}
       <HelmetMeta
         title={`chikn #${tokenId}`}
-        description={`chikn #${tokenId} - ${properties.rarity.toUpperCase()}`}
+        description={`Rank: ${
+          properties.rank
+        } - ${properties.rarity.toUpperCase()} - Check out my chikn!`}
         imageUrl={properties.image}
         imageHeightPx={1000}
         imageWidthPx={1000}
