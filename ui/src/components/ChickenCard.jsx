@@ -559,14 +559,18 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
     queryClient.invalidateQueries(KEYS.TOKEN(tokenId))
   }
 
+  const socialTitle = `chikn #${tokenId}`
+
+  const socialDescription = `Rank: ${
+    properties.rank
+  } - ${properties.rarity.toUpperCase()} - Check out my chikn!`
+
   return (
     <>
       {/* meta */}
       <HelmetMeta
-        title={`chikn #${tokenId}`}
-        description={`Rank: ${
-          properties.rank
-        } - ${properties.rarity.toUpperCase()} - Check out my chikn!`}
+        title={socialTitle}
+        description={socialDescription}
         imageUrl={properties.image}
         imageHeightPx={1000}
         imageWidthPx={1000}
@@ -596,8 +600,8 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
               {/* social */}
               <ButtonGroup>
                 <SocialShareLinkButton
-                  title={`${siteConfig.nftName} #${tokenId}`}
-                  text={siteConfig.description}
+                  title={socialTitle}
+                  text={socialDescription}
                   url={
                     typeof window !== 'undefined'
                       ? window.location.toString()
