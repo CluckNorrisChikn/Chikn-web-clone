@@ -565,12 +565,17 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
     properties.rank
   } - ${properties.rarity.toUpperCase()} - Check out my chikn!`
 
+  const socialUrl = typeof window !== 'undefined'
+    ? window.location.toString()
+    : ''
+
   return (
     <>
       {/* meta */}
       <HelmetMeta
         title={socialTitle}
         description={socialDescription}
+        url={socialUrl}
         imageUrl={properties.image}
         imageHeightPx={1000}
         imageWidthPx={1000}
@@ -602,11 +607,7 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
                 <SocialShareLinkButton
                   title={socialTitle}
                   text={socialDescription}
-                  url={
-                    typeof window !== 'undefined'
-                      ? window.location.toString()
-                      : ''
-                  }
+                  url={socialUrl}
                 />
                 <LinkButton href={properties.image} tooltip="Download image" />
                 <RefreshButton onClick={refreshPage} />
