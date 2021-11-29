@@ -9,7 +9,8 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 import ChickenRunTestNet from '../../contract/Chicken_Fuji.json'
 import ChickenRun from '../../contract/Chicken_Mainnet.json'
 import siteConfig from '../../site-config'
-// import traits from '../components/traits/combinations.json'
+import combinations from '../data/combinations.json'
+import ranks from '../components/traits/ranks.json'
 import axios from 'axios'
 
 export const getErrorMessage = (error, deactivate) => {
@@ -158,7 +159,25 @@ const getLatestEvents = async (contract, limit = 12) => {
 }
 
 /**
+ * Builds token data from local assets (POST-mint!).
+ * @param {*} tokenId
+ * @returns
+ */
+export const getTokenLocally = (tokenId = -1) => {
+  if (isNaN(parseInt(tokenId))) throw new Error(`Not a valid token - '${tokenId}'`)
+  const rankz = ranks[tokenId - 1]
+  const combos = combinations[tokenId - 1]
+  return {
+    ...combos,
+    ...rankz,
+    image: siteConfig.cdnUrl + combos.filename,
+    thumbnail: siteConfig.cdnThumbnailUrl + combos.filename
+  }
+}
+
+/**
  * ANCHOR Get's metadata for the given token.
+ * @deprecated only use for getting sales data... otherwise please use => getTokenLocally()
  */
 export const useGetTokenQuery = (tokenId) => {
   return useQuery(

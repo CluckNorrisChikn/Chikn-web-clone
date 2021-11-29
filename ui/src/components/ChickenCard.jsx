@@ -29,6 +29,7 @@ import {
 } from './Common'
 import {
   getErrorMessage,
+  getTokenLocally,
   KEYS,
   useBuyTokenMutation,
   useGetTokenQuery,
@@ -36,6 +37,7 @@ import {
   useWeb3Contract
 } from './Connect'
 import EditListingModal from './modals/EditListingModal'
+import HelmetMeta from './HelmetMeta'
 
 /**
  * @typedef {Object} Details
@@ -226,7 +228,6 @@ const ShowHistory = ({ tokenId = '' }) => {
   const { active, contract } = useWeb3Contract()
   const getWeb3TokenDetail = useGetWeb3TokenDetail(contract, active, tokenId)
   const { data: details = DETAILS_BLANK } = getWeb3TokenDetail
-  console.log('details', details)
   return (
     <>
       <Properties fixed>
@@ -538,9 +539,7 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
   const queryClient = useQueryClient()
   const { active, account, contract } = useWeb3Contract()
   /** @type {{ data: { details: Details }}} */
-  const getTokenQuery = useGetTokenQuery(tokenId)
-  const { data: { properties = {} } = {} } = getTokenQuery
-  const isRevealed = getTokenQuery.isSuccess // apply this everywhere
+  const properties = getTokenLocally(tokenId)
   const getWeb3TokenDetail = useGetWeb3TokenDetail(contract, active, tokenId)
   const { data: details = DETAILS_BLANK } = getWeb3TokenDetail
   const isOwner = details.currentOwner === account
@@ -561,6 +560,17 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
 
   return (
     <>
+      {/* meta */}
+      <HelmetMeta
+        title={`chikn #${tokenId}`}
+        description={`Rank: ${
+          properties.rank
+        } - ${properties.rarity.toUpperCase()} - Check out my chikn!`}
+        imageUrl={properties.image}
+        imageHeightPx={1000}
+        imageWidthPx={1000}
+      />
+
       {/* modal */}
       <EditListingModal
         showModal={showModal}
@@ -570,148 +580,131 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
         listingPrice={details.price}
       />
 
-      {getTokenQuery.isLoading && <ChickenCardShimmer />}
-      {getTokenQuery.isError && <ShowError error={getTokenQuery.error} />}
-      {getTokenQuery.isSuccess && (
-        <Section className="bg-white border" center={false}>
-          <StackDynamic className="gap-5 flex-grow-1">
+      <Section className="bg-white border" center={false}>
+        <StackDynamic className="gap-5 flex-grow-1">
+          <div>
+            <ChickenImage src={properties.image} />
+          </div>
+          <StackCol className="w-exact60pc gap-4">
+            <StackRow className="justify-content-between">
+              {/* title */}
+              <h5>
+                <ChiknText /> #{tokenId}
+              </h5>
+
+              {/* social */}
+              <ButtonGroup>
+                <SocialShareLinkButton
+                  title={`${siteConfig.nftName} #${tokenId}`}
+                  text={siteConfig.description}
+                  url={
+                    typeof window !== 'undefined'
+                      ? window.location.toString()
+                      : ''
+                  }
+                />
+                <LinkButton href={properties.image} tooltip="Download image" />
+                <RefreshButton onClick={refreshPage} />
+              </ButtonGroup>
+            </StackRow>
+
+            {/* Rank */}
+            <div className="text-muted">Rank: {properties.rank}</div>
             <div>
-              <ChickenImage
-                src={isRevealed ? properties.image : ChickenUnrevealedImage}
-              />
+              <RarityBadge rarity={properties.rarity} />
             </div>
-            <StackCol className="w-exact60pc gap-4">
-              <StackRow className="justify-content-between">
-                {/* title */}
-                <h5>
-                  <ChiknText /> #{tokenId}
-                </h5>
 
-                {/* social */}
-                <ButtonGroup>
-                  {isRevealed && (
-                    <SocialShareLinkButton
-                      title={`${siteConfig.nftName} #${tokenId}`}
-                      text={siteConfig.description}
-                      url={window.location.toString()}
-                    />
-                  )}
-                  {isRevealed && (
-                    <LinkButton
-                      href={properties.image}
-                      tooltip="Download image"
-                    />
-                  )}
-                  <RefreshButton onClick={refreshPage} />
-                </ButtonGroup>
-              </StackRow>
+            {/* actions */}
+            <StackDynamic className="gap-1 flex-wrap">
+              {active && ( // !isOwner && !isForSale &&
+                <SaleStatus
+                  forSale={details.forSale}
+                  owner={details.currentOwner}
+                />
+              )}
+              {!active && (
+                <GreyPill className="py-2 border">
+                  Connect wallet to buy
+                </GreyPill>
+              )}
+              {active && !isOwner && isForSale && (
+                <MenuButton onClick={buyToken} disabled={useBuyToken.isLoading}>
+                  {useBuyToken.isLoading
+                    ? (
+                      <Spinner size="sm" animation="border" />
+                    )
+                    : (
+                      'Purchase'
+                    )}
+                </MenuButton> // purchase
+              )}
+              {active && isOwner && !isForSale && (
+                <MenuButton onClick={() => setShowModal(true)}>Sell</MenuButton> // modify listing
+              )}
+              {isOwner && isForSale && (
+                <MenuButton onClick={() => setShowModal(true)}>
+                  Change listing
+                </MenuButton> // modify listing
+              )}
+            </StackDynamic>
 
-              {/* Rank */}
-              <div className="text-muted">Rank: {properties.rank}</div>
+            {/* Error from purchase */}
+            {useBuyToken.isError && (
+              <Alert variant="danger" className="mt-4">
+                {useBuyToken.error.message}
+              </Alert>
+            )}
+            {/* price */}
+            {isForSale && (
               <div>
-                <RarityBadge rarity={properties.rarity} />
+                <AvaxPill className="fs-4" logoSize="22px">
+                  {fmtCurrency(details.price)}
+                </AvaxPill>
               </div>
+            )}
 
-              {/* actions */}
-              <StackDynamic className="gap-1 flex-wrap">
-                {active && ( // !isOwner && !isForSale &&
-                  <SaleStatus
-                    forSale={details.forSale}
-                    owner={details.currentOwner}
-                  />
-                )}
-                {!active && (
-                  <GreyPill className="py-2 border">
-                    Connect wallet to buy
-                  </GreyPill>
-                )}
-                {active && !isOwner && isForSale && (
-                  <MenuButton
-                    onClick={buyToken}
-                    disabled={useBuyToken.isLoading}
-                  >
-                    {useBuyToken.isLoading
-                      ? (
-                        <Spinner size="sm" animation="border" />
-                      )
-                      : (
-                        'Purchase'
-                      )}
-                  </MenuButton> // purchase
-                )}
-                {active && isOwner && !isForSale && (
-                  <MenuButton onClick={() => setShowModal(true)}>
-                    Sell
-                  </MenuButton> // modify listing
-                )}
-                {isOwner && isForSale && (
-                  <MenuButton onClick={() => setShowModal(true)}>
-                    Change listing
-                  </MenuButton> // modify listing
-                )}
-              </StackDynamic>
+            {/* blurb */}
+            <i className="text-dark">
+              10,000 <b>chikn</b> have flown the coop in search of owners! These
+              are no ordinary <b>chikn</b>. Some are dapper, some are degen,
+              others are made of the rarest materials known to chikn-kind - but
+              one thing&apos;s for sure - ALL <b>chikn</b> lay <b>$egg</b>.
+            </i>
 
-              {/* Error from purchase */}
-              {useBuyToken.isError && (
-                <Alert variant="danger" className="mt-4">
-                  {useBuyToken.error.message}
-                </Alert>
-              )}
-              {/* price */}
-              {isForSale && (
-                <div>
-                  <AvaxPill className="fs-4" logoSize="22px">
-                    {fmtCurrency(details.price)}
-                  </AvaxPill>
-                </div>
-              )}
-
-              {/* blurb */}
-              <i className="text-dark">
-                10,000 <b>chikn</b> have flown the coop in search of owners!
-                These are no ordinary <b>chikn</b>. Some are dapper, some are
-                degen, others are made of the rarest materials known to
-                chikn-kind - but one thing&apos;s for sure - ALL <b>chikn</b>{' '}
-                lay <b>$egg</b>.
-              </i>
-
-              {isRevealed && (
-                <Accordion defaultActiveKey="0" flush>
-                  {/* attributes */}
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Attributes</Accordion.Header>
-                    <Accordion.Body>
-                      <StackCol className="gap-1 flex-wrap">
-                        {'background,body,head,neck,torso,feet,tail,trim'
-                          .split(',')
-                          .map((p, inx) => (
-                            <>
-                              <Property
-                                key={inx}
-                                layer={p}
-                                trait={properties[p] || 'None'}
-                                percentage={
-                                  metadata[p][properties[p]] / metadata._total
-                                }
-                              />
-                            </>
-                          ))}
-                      </StackCol>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                  {/* history */}
-                  <Accordion.Item eventKey="1">
-                    <Accordion.Header>History</Accordion.Header>
-                    <Accordion.Body>
-                      <ShowHistory tokenId={tokenId} />
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-              )}
-            </StackCol>
-          </StackDynamic>
-        </Section>
-      )}
+            <Accordion defaultActiveKey="0" flush>
+              {/* attributes */}
+              <Accordion.Item eventKey="0">
+                <Accordion.Header>Attributes</Accordion.Header>
+                <Accordion.Body>
+                  <StackCol className="gap-1 flex-wrap">
+                    {'background,body,head,neck,torso,feet,tail,trim'
+                      .split(',')
+                      .map((p, inx) => (
+                        <>
+                          <Property
+                            key={inx}
+                            layer={p}
+                            trait={properties[p] || 'None'}
+                            percentage={
+                              metadata[p][properties[p]] / metadata._total
+                            }
+                          />
+                        </>
+                      ))}
+                  </StackCol>
+                </Accordion.Body>
+              </Accordion.Item>
+              {/* history */}
+              <Accordion.Item eventKey="1">
+                <Accordion.Header>History</Accordion.Header>
+                <Accordion.Body>
+                  <ShowHistory tokenId={tokenId} />
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+          </StackCol>
+        </StackDynamic>
+      </Section>
     </>
   )
 }

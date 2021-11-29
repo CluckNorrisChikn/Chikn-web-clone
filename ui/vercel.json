@@ -1,11 +1,5 @@
 {
   "version": 2,
   "name": "chickenrun",
-  "public": false,
-  "routes": [
-    {
-      "src": "/chikn/(.*)",
-      "dest": "/chikn/[tokenId]/index.html"
-    }
-  ]
+  "public": false
 }

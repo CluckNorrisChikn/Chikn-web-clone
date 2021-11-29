@@ -24,6 +24,7 @@
     "copy-to-clipboard": "3.3.1",
     "gatsby-plugin-google-tagmanager": "3.14.0",
     "gatsby-plugin-page-creator": "3.14.0",
+    "gatsby-transformer-json": "4.2.0",
     "react-bootstrap-typeahead": "6.0.0-alpha.4",
     "react-scroll-parallax": "2.4.0",
     "web3-eth": "1.6.0"
