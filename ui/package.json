@@ -13,10 +13,16 @@
     "develop": "gatsby develop",
     "start": "gatsby develop --host=0.0.0.0",
     "build": "npm run safetyCheck && cp gatsby-browser.js gatsby-ssr.js && gatsby build",
+    "lint": "eslint --fix --ext .js,.jsx src",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "deploy": "vercel --prod",
     "deploy-staging": "vercel"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint"
+    }
   },
   "dependencies": {
     "@fontsource/courier-prime": "4.5.0",
@@ -71,6 +77,7 @@
     "gatsby-source-filesystem": "3.14.0",
     "gatsby-transformer-sharp": "3.14.0",
     "https-browserify": "1.0.0",
+    "husky": "7.0.4",
     "moment": "2.29.1",
     "moment-timezone": "0.5.33",
     "os-browserify": "0.3.0",
