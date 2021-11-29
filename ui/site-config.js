@@ -1,9 +1,10 @@
 // N.B. MUST BE IN THIS FORMAT!
 const GATSBY_CONFIG = process.env.GATSBY_CONFIG || 'production'
+const NODE_ENV = process.env.NODE_ENV || 'production'
 const GATSBY_FT_CONNECT_WALLET_ENABLED =
   process.env.GATSBY_FT_CONNECT_WALLET_ENABLED || 'true'
 
-const isProd = GATSBY_CONFIG === 'production'
+const isProd = GATSBY_CONFIG === 'production' || NODE_ENV === 'production'
 
 const host = isProd
   ? 'chikn.farm'
