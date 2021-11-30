@@ -11,34 +11,20 @@ import {
   Spinner,
   ToggleButton,
   ToggleButtonGroup,
-  Container
+  Container,
 } from 'react-bootstrap'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import { BiFilter } from 'react-icons/bi'
 import { FaSync } from 'react-icons/fa'
 import { useQueryClient } from 'react-query'
-import {
-  AvaxPill,
-  ChickenCardMarketplaceSummary,
-  ChickenCardShimmerx4,
-  RarityBadge
-} from '../components/ChickenCard'
+import { AvaxPill, ChickenCardMarketplaceSummary, ChickenCardShimmerx4, RarityBadge } from '../components/ChickenCard'
 import { Section, StackRow } from '../components/Common'
-import {
-  KEYS,
-  useAPIMarketStat,
-  useTotalHoldersQuery
-} from '../components/Connect'
+import { KEYS, useAPIMarketStat, useTotalHoldersQuery } from '../components/Connect'
 import Layout from '../components/Layout'
 import metadata from '../components/traits/metadata.json'
 import { stringArraysNotEqual } from '../components/utils/utils'
 
-const TraitsSelector = ({
-  id = null,
-  parentValues = [],
-  options = [],
-  updateParent = () => {}
-}) => {
+const TraitsSelector = ({ id = null, parentValues = [], options = [], updateParent = () => {} }) => {
   const ref = React.useRef()
   const [values, setValues] = React.useState([])
 
@@ -76,9 +62,7 @@ const TraitsSelector = ({
       />
 
       {/* debug */}
-      {process.env.NODE_ENV !== 'production' && (
-        <pre>values={JSON.stringify(values)}</pre>
-      )}
+      {process.env.NODE_ENV !== 'production' && <pre>values={JSON.stringify(values)}</pre>}
     </>
   )
 }
@@ -86,19 +70,16 @@ const TraitsSelector = ({
 const isUndefOrEmpty = (o) => typeof o === 'undefined' || o.length === 0
 
 const Market = ({ location = {} }) => {
-  const { filterState = {} } =
-    typeof location.state !== 'undefined' && location.state !== null
-      ? location.state
-      : {}
+  const { filterState = {} } = typeof location.state !== 'undefined' && location.state !== null ? location.state : {}
   // react-state
   const {
     filterSalesStatus: filteredSale = 'for_sale',
     sortSalesBy: saleSorted = 'token',
     filters: filtered = {},
-    pageNumber: pagedSelected = 0
+    pageNumber: pagedSelected = 0,
   } = filterState
   const scrollToTopRef = React.useRef()
-  console.log('Filter back ', filterState)
+  console.debug('Filter back ', filterState)
   // react-query
   const queryClient = useQueryClient()
   const [filterSalesStatus, setFilterSalesStatus] = React.useState(filteredSale)
@@ -107,30 +88,29 @@ const Market = ({ location = {} }) => {
   const [filters, setFilters] = React.useState(filtered)
   const apiMarketStatQuery = useAPIMarketStat(showForSale)
   const { data: marketData = {} } = apiMarketStatQuery
-  const { isLoading: holderLoading, data: holders = {} } =
-    useTotalHoldersQuery()
+  const { isLoading: holderLoading, data: holders = {} } = useTotalHoldersQuery()
 
-  console.log('we are the filters', filters)
+  console.debug('filters', filters)
 
   const [pageNumber, setInternalPageNumber] = React.useState(pagedSelected)
 
   // use this to manipulate the incoming nones ('') into the typeahead value ('None')
-  const noneCheck = (trait) => { return trait === '' ? 'None' : trait?.toLowerCase() }
+  const noneCheck = (trait) => {
+    return trait === '' ? 'None' : trait?.toLowerCase()
+  }
 
   // responsible for applying client side filtering/sorting to the returned dataset.
   const chikns = React.useMemo(() => {
     // filter by the selected properties... 'background,body,head,neck,torso,feet,tail,trim' - added # traits, rarity
     if (marketData && marketData.chikn) {
       // if filters or sort changes, set the page back to the first page i.e. 0 (or pagedSelected if navigating back)
-      const isInitialPageLoad =
-        filteredSale === filterSalesStatus &&
-        saleSorted === sortSalesBy &&
-        filtered === filters
+      const isInitialPageLoad = filteredSale === filterSalesStatus && saleSorted === sortSalesBy && filtered === filters
       setInternalPageNumber(isInitialPageLoad ? pagedSelected : 0)
       return marketData.chikn
         .filter((t) => {
           return (
-            ((((sortSalesBy === 'lowestLastSale') || (sortSalesBy === 'highestLastSale')) && t.previousPrice > 0) || (sortSalesBy !== 'lowestLastSale' && sortSalesBy !== 'highestLastSale')) &&
+            (((sortSalesBy === 'lowestLastSale' || sortSalesBy === 'highestLastSale') && t.previousPrice > 0) ||
+              (sortSalesBy !== 'lowestLastSale' && sortSalesBy !== 'highestLastSale')) &&
             (isUndefOrEmpty(filters.background) || ~filters.background.indexOf(t.background?.toLowerCase())) &&
             (isUndefOrEmpty(filters.body) || ~filters.body.indexOf(t.body?.toLowerCase())) &&
             (isUndefOrEmpty(filters.head) || ~filters.head.indexOf(noneCheck(t.head))) &&
@@ -202,7 +182,7 @@ const Market = ({ location = {} }) => {
     filters.trim,
     filters._numOfTraits,
     filters.rarity,
-    sortSalesBy
+    sortSalesBy,
   ])
 
   // handles all the pagination!
@@ -243,75 +223,57 @@ const Market = ({ location = {} }) => {
     const disabledEnd = pageNum === maxPageNum
     return (
       <Pagination className="flex-wrap">
-        <Pagination.First
-          disabled={disabledStart}
-          onClick={() => setPage(0, true)}
-        />
-        <Pagination.Item
-          className="hide"
-          disabled={(pageNum - 100 < 0)}
-          onClick={() => setPage(pageNum - 100, true)}>
+        <Pagination.First disabled={disabledStart} onClick={() => setPage(0, true)} />
+        <Pagination.Item className="hide" disabled={pageNum - 100 < 0} onClick={() => setPage(pageNum - 100, true)}>
           -100
         </Pagination.Item>
-        <Pagination.Item
-          className="hide"
-          disabled={pageNum - 50 < 0 }
-          onClick={() => setPage(pageNum - 50, true)}>
+        <Pagination.Item className="hide" disabled={pageNum - 50 < 0} onClick={() => setPage(pageNum - 50, true)}>
           -50
         </Pagination.Item>
-        <Pagination.Item
-          className="hide"
-          disabled={pageNum - 25 < 0 }
-          onClick={() => setPage(pageNum - 25, true)}>
+        <Pagination.Item className="hide" disabled={pageNum - 25 < 0} onClick={() => setPage(pageNum - 25, true)}>
           -25
         </Pagination.Item>
-        <Pagination.Prev
-          disabled={disabledStart}
-          onClick={() => setPage(pageNum - 1, true)}
-        />
-        <Pagination.Next
-          disabled={disabledEnd}
-          onClick={() => setPage(pageNum + 1, true)}
-        />
+        <Pagination.Prev disabled={disabledStart} onClick={() => setPage(pageNum - 1, true)} />
+        <Pagination.Next disabled={disabledEnd} onClick={() => setPage(pageNum + 1, true)} />
 
         <Pagination.Item
           className="hide"
-          disabled={pageNum + 25 > maxPageNum }
-          onClick={() => setPage(pageNum + 25, true)}>
+          disabled={pageNum + 25 > maxPageNum}
+          onClick={() => setPage(pageNum + 25, true)}
+        >
           +25
         </Pagination.Item>
         <Pagination.Item
           className="hide"
-          disabled={pageNum + 50 > maxPageNum }
-          onClick={() => setPage(pageNum + 50, true)}>
+          disabled={pageNum + 50 > maxPageNum}
+          onClick={() => setPage(pageNum + 50, true)}
+        >
           +50
         </Pagination.Item>
         <Pagination.Item
           className="hide"
-          disabled={pageNum + 100 > maxPageNum }
-          onClick={() => setPage(pageNum + 100, true)}>
+          disabled={pageNum + 100 > maxPageNum}
+          onClick={() => setPage(pageNum + 100, true)}
+        >
           +100
         </Pagination.Item>
-        <Pagination.Last
-          disabled={disabledEnd}
-          onClick={() => setPage(999999, true)}
-        />
+        <Pagination.Last disabled={disabledEnd} onClick={() => setPage(999999, true)} />
       </Pagination>
     )
   }
 
   const FloorCalculation = (rarity) => {
-    return marketData.chikn.filter((t) => {
-      return (
-        t.rarity === rarity && !isUndefOrEmpty(t.salePrice)
-      )
-    }).sort((a, b) => {
-      const bPrice = parseFloat(b.salePrice)
-      const aPrice = parseFloat(a.salePrice)
-      if (aPrice > bPrice) return 1
-      if (aPrice < bPrice) return -1
-      return 0
-    })[0].salePrice
+    return marketData.chikn
+      .filter((t) => {
+        return t.rarity === rarity && !isUndefOrEmpty(t.salePrice)
+      })
+      .sort((a, b) => {
+        const bPrice = parseFloat(b.salePrice)
+        const aPrice = parseFloat(a.salePrice)
+        if (aPrice > bPrice) return 1
+        if (aPrice < bPrice) return -1
+        return 0
+      })[0].salePrice
   }
 
   return (
@@ -344,18 +306,16 @@ const Market = ({ location = {} }) => {
                 style={{
                   width: '120px',
                   padding: '0px 10px',
-                  borderRight: '1px solid rgba(0, 0, 0, 0.125)'
+                  borderRight: '1px solid rgba(0, 0, 0, 0.125)',
                 }}
                 className="d-flex flex-column align-items-center"
               >
                 <div>
-                  {apiMarketStatQuery.isLoading
-                    ? (
-                      <Spinner variant="primary" animation="border" size="sm" />
-                    )
-                    : (
-                      marketData?.mintedCount?.toLocaleString()
-                    )}
+                  {apiMarketStatQuery.isLoading ? (
+                    <Spinner variant="primary" animation="border" size="sm" />
+                  ) : (
+                    marketData?.mintedCount?.toLocaleString()
+                  )}
                 </div>
                 <div>Items</div>
               </div>
@@ -363,34 +323,27 @@ const Market = ({ location = {} }) => {
                 style={{
                   width: '120px',
                   padding: '0px 10px',
-                  borderRight: '1px solid rgba(0, 0, 0, 0.125)'
+                  borderRight: '1px solid rgba(0, 0, 0, 0.125)',
                 }}
                 className="d-flex flex-column align-items-center"
               >
                 <div>
-                  {holderLoading
-                    ? (
-                      <Spinner variant="primary" animation="border" size="sm" />
-                    )
-                    : (
-                      holders.data?.pagination?.total_count?.toLocaleString()
-                    )}
+                  {holderLoading ? (
+                    <Spinner variant="primary" animation="border" size="sm" />
+                  ) : (
+                    holders.data?.pagination?.total_count?.toLocaleString()
+                  )}
                 </div>
                 <div>Owners</div>
               </div>
-              <div
-                style={{ width: '120px', padding: '0px 10px' }}
-                className="d-flex flex-column align-items-center"
-              >
+              <div style={{ width: '120px', padding: '0px 10px' }} className="d-flex flex-column align-items-center">
                 <div>
                   <span>
-                    {apiMarketStatQuery.isLoading
-                      ? (
-                        <Spinner variant="primary" animation="border" size="sm" />
-                      )
-                      : (
-                        <AvaxPill>{marketData.floorPrice}</AvaxPill>
-                      )}
+                    {apiMarketStatQuery.isLoading ? (
+                      <Spinner variant="primary" animation="border" size="sm" />
+                    ) : (
+                      <AvaxPill>{marketData.floorPrice}</AvaxPill>
+                    )}
                   </span>
                 </div>
                 <div>
@@ -410,32 +363,33 @@ const Market = ({ location = {} }) => {
             <StackRow className="flex-wrap justify-content-center">
               {Object.keys(metadata.rarity).map((rarity, i) => {
                 return (
-                  <div key={i}
+                  <div
+                    key={i}
                     style={{ width: '120px', padding: '10px 10px' }}
                     className="d-flex flex-column align-items-center"
                   >
                     <div className="pb-2">
-                      <RarityBadge rarity={rarity} size={'sm'} onClick={() => {
-                        setFilters((ps) => ({
-                          ...ps,
-                          rarity: [rarity]
-                        }))
-                        setSortSalesBy('lowestLastSale')
-                      }
-                      } />
+                      <RarityBadge
+                        rarity={rarity}
+                        size={'sm'}
+                        onClick={() => {
+                          setFilters((ps) => ({
+                            ...ps,
+                            rarity: [rarity],
+                          }))
+                          setSortSalesBy('lowestLastSale')
+                        }}
+                      />
                     </div>
                     <div>
                       <span>
-                        {apiMarketStatQuery.isLoading
-                          ? (
-                            <Spinner variant="primary" animation="border" size="sm" />
-                          )
-                          : (
-                            <AvaxPill>{FloorCalculation(rarity)}</AvaxPill>
-                          )}
+                        {apiMarketStatQuery.isLoading ? (
+                          <Spinner variant="primary" animation="border" size="sm" />
+                        ) : (
+                          <AvaxPill>{FloorCalculation(rarity)}</AvaxPill>
+                        )}
                       </span>
                     </div>
-
                   </div>
                 )
               })}
@@ -459,20 +413,10 @@ const Market = ({ location = {} }) => {
                   type="radio"
                   className="w-100 button-group-mobile"
                 >
-                  <ToggleButton
-                    className="w-md-50"
-                    variant="outline-primary"
-                    id="for_sale"
-                    value="for_sale"
-                  >
+                  <ToggleButton className="w-md-50" variant="outline-primary" id="for_sale" value="for_sale">
                     For Sale
                   </ToggleButton>
-                  <ToggleButton
-                    className="w-md-50"
-                    variant="outline-primary"
-                    id="show_all"
-                    value="show_all"
-                  >
+                  <ToggleButton className="w-md-50" variant="outline-primary" id="show_all" value="show_all">
                     Show All
                   </ToggleButton>
                 </ToggleButtonGroup>
@@ -524,25 +468,13 @@ const Market = ({ location = {} }) => {
                     Highest last sold price
                   </ToggleButton>
 
-                  <ToggleButton
-                    variant="outline-primary"
-                    id="lowestRank"
-                    value="lowestRank"
-                  >
+                  <ToggleButton variant="outline-primary" id="lowestRank" value="lowestRank">
                     Highest rank
                   </ToggleButton>
-                  <ToggleButton
-                    variant="outline-primary"
-                    id="highestRank"
-                    value="highestRank"
-                  >
+                  <ToggleButton variant="outline-primary" id="highestRank" value="highestRank">
                     Lowest rank
                   </ToggleButton>
-                  <ToggleButton
-                    variant="outline-primary"
-                    id="token"
-                    value="token"
-                  >
+                  <ToggleButton variant="outline-primary" id="token" value="token">
                     Chikn #
                   </ToggleButton>
                 </ToggleButtonGroup>
@@ -578,15 +510,12 @@ const Market = ({ location = {} }) => {
                         id={layer}
                         options={Object.keys(traits)}
                         updateParent={(selections) => {
-                          if (
-
-                            stringArraysNotEqual(selections, filters[layer])
-                          ) {
-                            console.log('selections', selections)
+                          if (stringArraysNotEqual(selections, filters[layer])) {
+                            console.debug('selections', selections)
 
                             setFilters((ps) => ({
                               ...ps,
-                              [layer]: selections
+                              [layer]: selections,
                             }))
                           }
                         }}
@@ -598,22 +527,13 @@ const Market = ({ location = {} }) => {
             </Row>
             {/* clear button */}
             <Row>
-              <Col
-                xs={12}
-                className="d-flex flex-row justify-content-center pt-4"
-              >
-                <Button
-                  variant="outline-primary"
-                  onClick={() => setFilters({})}
-                  className="px-5"
-                >
+              <Col xs={12} className="d-flex flex-row justify-content-center pt-4">
+                <Button variant="outline-primary" onClick={() => setFilters({})} className="px-5">
                   Clear Filters
                 </Button>
               </Col>
             </Row>
-            {process.env.NODE_ENV !== 'production' && (
-              <pre>filters={JSON.stringify(filters, null, 2)}</pre>
-            )}
+            {process.env.NODE_ENV !== 'production' && <pre>filters={JSON.stringify(filters, null, 2)}</pre>}
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
@@ -621,9 +541,7 @@ const Market = ({ location = {} }) => {
       {/* ANCHOR search results */}
       <Section className="border bg-white" center={true}>
         {/* no data */}
-        {chikns.length === 0 && apiMarketStatQuery.isSuccess && (
-          <h5>No chikns available.</h5>
-        )}
+        {chikns.length === 0 && apiMarketStatQuery.isSuccess && <h5>No chikns available.</h5>}
 
         {/* for sale and loading */}
         {apiMarketStatQuery.isLoading && <ChickenCardShimmerx4 />}
@@ -633,42 +551,38 @@ const Market = ({ location = {} }) => {
           <>
             <div className="d-flex flex-column align-items-center mb-5">
               <h5>
-                Page {(pageNumber + 1).toLocaleString()} of{' '}
-                {(maxPageNumber + 1).toLocaleString()} (
+                Page {(pageNumber + 1).toLocaleString()} of {(maxPageNumber + 1).toLocaleString()} (
                 {chikns.length.toLocaleString()})
               </h5>
-              <PaginationComponent pageNum={pageNumber} maxPageNum={maxPageNumber}/>
+              <PaginationComponent pageNum={pageNumber} maxPageNum={maxPageNumber} />
             </div>
             <Row className="gy-3 gx-3">
-              {chikns
-                .slice(pageNumber * PAGE_SIZE, (pageNumber + 1) * PAGE_SIZE)
-                .map((chikn) => (
-                  <Col key={chikn.token} sm={6} md={4} lg={3}>
-                    <ChickenCardMarketplaceSummary
-                      tokenId={chikn.token}
-                      backLink={'/market'}
-                      backLabel={'Back to Market'}
-                      filterState={{
-                        filterSalesStatus: filterSalesStatus,
-                        sortSalesBy: sortSalesBy,
-                        filters: filters,
-                        pageNumber: pageNumber
-                      }}
-                      rank={chikn.rank}
-                      forSale={chikn.forSale}
-                      currentOwner={chikn.owner}
-                      price={chikn.salePrice}
-                      previousPrice={chikn.previousPrice}
-                    />
-                  </Col>
-                ))}
+              {chikns.slice(pageNumber * PAGE_SIZE, (pageNumber + 1) * PAGE_SIZE).map((chikn) => (
+                <Col key={chikn.token} sm={6} md={4} lg={3}>
+                  <ChickenCardMarketplaceSummary
+                    tokenId={chikn.token}
+                    backLink={'/market'}
+                    backLabel={'Back to Market'}
+                    filterState={{
+                      filterSalesStatus: filterSalesStatus,
+                      sortSalesBy: sortSalesBy,
+                      filters: filters,
+                      pageNumber: pageNumber,
+                    }}
+                    rank={chikn.rank}
+                    forSale={chikn.forSale}
+                    currentOwner={chikn.owner}
+                    price={chikn.salePrice}
+                    previousPrice={chikn.previousPrice}
+                  />
+                </Col>
+              ))}
             </Row>
             <div className="d-flex flex-column align-items-center mt-5">
               <h5>
-                Page {(pageNumber + 1).toLocaleString()} of{' '}
-                {(maxPageNumber + 1).toLocaleString()}
+                Page {(pageNumber + 1).toLocaleString()} of {(maxPageNumber + 1).toLocaleString()}
               </h5>
-              <PaginationComponent pageNum={pageNumber} maxPageNum={maxPageNumber}/>
+              <PaginationComponent pageNum={pageNumber} maxPageNum={maxPageNumber} />
             </div>
           </>
         )}

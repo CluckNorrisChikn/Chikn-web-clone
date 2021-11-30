@@ -1,13 +1,5 @@
 import * as React from 'react'
-import {
-  Alert,
-  Button,
-  ButtonGroup,
-  Card,
-  Col,
-  Row,
-  Spinner
-} from 'react-bootstrap'
+import { Alert, Button, ButtonGroup, Card, Col, Row, Spinner } from 'react-bootstrap'
 import Accordion from 'react-bootstrap/Accordion'
 import { Link } from 'gatsby'
 import { useQueryClient } from 'react-query'
@@ -25,7 +17,7 @@ import {
   SocialShareLinkButton,
   StackCol,
   StackDynamic,
-  StackRow
+  StackRow,
 } from './Common'
 import {
   getErrorMessage,
@@ -34,7 +26,7 @@ import {
   useBuyTokenMutation,
   useGetTokenQuery,
   useGetWeb3TokenDetail,
-  useWeb3Contract
+  useWeb3Contract,
 } from './Connect'
 import EditListingModal from './modals/EditListingModal'
 import HelmetMeta from './HelmetMeta'
@@ -56,9 +48,7 @@ import HelmetMeta from './HelmetMeta'
 /** @type {Details} */
 const DETAILS_BLANK = {}
 
-const AvaxLogo = styled(({ logoSize = '15px', ...props }) => (
-  <img src={AvaxSvg} logosize={logoSize} {...props} />
-))`
+const AvaxLogo = styled(({ logoSize = '15px', ...props }) => <img src={AvaxSvg} logosize={logoSize} {...props} />)`
   width: ${(props) => props.logosize || '15px'};
   height: ${(props) => props.logosize || '15px'};
   margin-left: 5px;
@@ -69,8 +59,7 @@ const AvaxLogo = styled(({ logoSize = '15px', ...props }) => (
 const Properties = styled.dl`
   font-size: 1rem;
   display: grid;
-  grid-template-columns: ${(props) =>
-    props.fixed ? '120px auto' : 'auto auto'};
+  grid-template-columns: ${(props) => (props.fixed ? '120px auto' : 'auto auto')};
   column-gap: 10px;
   row-gap: 5px;
   margin-bottom: 0px;
@@ -104,47 +93,26 @@ const CardImage = styled((props) => <Card.Img variant="top" {...props} />)`
 `
 
 export const GreyPill = ({ className = '', ...props }) => (
-  <span
-    className={`${className} px-3 bg-light text-muted border rounded-pill text-nowrap`}
-    {...props}
-  />
+  <span className={`${className} px-3 bg-light text-muted border rounded-pill text-nowrap`} {...props} />
 )
 
 const GreenPill = ({ className = '', ...props }) => (
-  <span
-    className={`${className} px-3 bg-success text-white rounded-pill text-nowrap`}
-    {...props}
-  />
+  <span className={`${className} px-3 bg-success text-white rounded-pill text-nowrap`} {...props} />
 )
 
 const BluePill = ({ className = '', ...props }) => (
-  <span
-    className={`${className} px-3 bg-light border text-dark rounded-pill text-nowrap`}
-    {...props}
-  />
+  <span className={`${className} px-3 bg-light border text-dark rounded-pill text-nowrap`} {...props} />
 )
 
-export const AvaxPill = ({
-  className = '',
-  children = undefined,
-  logoSize,
-  ...props
-}) => (
-  <span
-    className={`${className} px-3 bg-light text-dark rounded-pill text-nowrap`}
-    {...props}
-  >
-    {typeof children === 'string' && children.length > 11
-      ? `${children.substring(0, 11)}…`
-      : children}
+export const AvaxPill = ({ className = '', children = undefined, logoSize, ...props }) => (
+  <span className={`${className} px-3 bg-light text-dark rounded-pill text-nowrap`} {...props}>
+    {typeof children === 'string' && children.length > 11 ? `${children.substring(0, 11)}…` : children}
     <AvaxLogo logoSize={logoSize} />
   </span>
 )
 
 export const ConnectWalletPrompt = () => <GreyPill>Connect wallet</GreyPill>
-export const ConnectWalletPromptText = () => (
-  <i className="text-muted">Connect wallet to view</i>
-)
+export const ConnectWalletPromptText = () => <i className="text-muted">Connect wallet to view</i>
 
 const shortAccount = (acct) => {
   const firstHalf = acct.substring(0, 4)
@@ -156,13 +124,7 @@ const RenderAddress = ({ address }) => {
   const { account } = useWeb3Contract()
   return (
     <GreyPill>
-      {typeof account === 'undefined'
-        ? '-'
-        : address === account
-          ? 'You'
-          : address
-            ? shortAccount(address)
-            : '-'}
+      {typeof account === 'undefined' ? '-' : address === account ? 'You' : address ? shortAccount(address) : '-'}
     </GreyPill>
   )
 }
@@ -200,12 +162,7 @@ export const ChickenCardShimmerx4 = () => {
   )
 }
 
-export const SaleStatus = ({
-  size = 'lg',
-  forSale = false,
-  isOwner = false,
-  owner = ''
-}) => {
+export const SaleStatus = ({ size = 'lg', forSale = false, isOwner = false, owner = '' }) => {
   const sizeClass = size === 'lg' ? 'py-2 px-3' : 'py-0 px-0'
   if (owner === '') {
     // return <GreyPill className={`${sizeClass}`}>Connect wallet</GreyPill>
@@ -241,25 +198,17 @@ const ShowHistory = ({ tokenId = '' }) => {
         </dt>
         <dd>last price</dd>
         <dt>
-          <AvaxPill>
-            {details.previousPrice ? fmtCurrency(details.previousPrice) : '-'}
-          </AvaxPill>
+          <AvaxPill>{details.previousPrice ? fmtCurrency(details.previousPrice) : '-'}</AvaxPill>
         </dt>
         <dd>Transfers</dd>
         <dt>{details.numberOfTransfers ? details.numberOfTransfers : '-'}</dt>
         <dd>Sale Status</dd>
         <dt>
-          <SaleStatus
-            size="sm"
-            forSale={details.forSale}
-            owner={details.currentOwner}
-          />
+          <SaleStatus size="sm" forSale={details.forSale} owner={details.currentOwner} />
         </dt>
         <dd>listing price</dd>
         <dt>
-          <AvaxPill>
-            {details.forSale ? fmtCurrency(details.price) : '-'}
-          </AvaxPill>
+          <AvaxPill>{details.forSale ? fmtCurrency(details.price) : '-'}</AvaxPill>
         </dt>
       </Properties>
     </>
@@ -276,10 +225,7 @@ const ShowError = ({ error = {} }) => {
 }
 
 export const RarityBadge = styled(({ className = '', ...props }) => (
-  <div
-    className={`${className} ${props.rarity} d-inline-block text-capitalize rounded-pill fs-7`}
-    {...props}
-  >
+  <div className={`${className} ${props.rarity} d-inline-block text-capitalize rounded-pill fs-7`} {...props}>
     {props.rarity}
   </div>
 ))`
@@ -312,11 +258,7 @@ export const RarityBadge = styled(({ className = '', ...props }) => (
   }
 `
 
-export const ChickenCardMarketplaceSummary = ({
-  tokenId = '',
-  onClick = null,
-  ...props
-}) => {
+export const ChickenCardMarketplaceSummary = ({ tokenId = '', onClick = null, ...props }) => {
   const { account } = useWeb3Contract()
   const getTokenQuery = useGetTokenQuery(tokenId)
   const isRevealed = getTokenQuery.isSuccess
@@ -333,9 +275,7 @@ export const ChickenCardMarketplaceSummary = ({
       {getTokenQuery.isSuccess && (
         <>
           <ChiknCard>
-            <CardImage
-              src={isRevealed ? properties.thumbnail : ChickenUnrevealedImage}
-            />
+            <CardImage src={isRevealed ? properties.thumbnail : ChickenUnrevealedImage} />
             <Card.Body>
               <StackCol className="gap-2 justify-content-between">
                 <h6 className="p-0 mb-0">
@@ -345,12 +285,7 @@ export const ChickenCardMarketplaceSummary = ({
                 <div>
                   <RarityBadge rarity={properties.rarity} size="sm" />
                 </div>
-                <SaleStatus
-                  size="sm"
-                  forSale={props.forSale}
-                  isOwner={isOwner}
-                  owner={props.currentOwner}
-                />
+                <SaleStatus size="sm" forSale={props.forSale} isOwner={isOwner} owner={props.currentOwner} />
                 {showForSale && (
                   <Properties definitionAlign="right">
                     <dd>price</dd>
@@ -371,7 +306,7 @@ export const ChickenCardMarketplaceSummary = ({
               state={{
                 backLink: '/market',
                 backLabel: 'Back to Market',
-                filterState: props.filterState
+                filterState: props.filterState,
               }}
             ></Link>
           </ChiknCard>
@@ -397,9 +332,7 @@ export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
       {getTokenQuery.isSuccess && (
         <>
           <ChiknCard>
-            <CardImage
-              src={isRevealed ? properties.thumbnail : ChickenUnrevealedImage}
-            />
+            <CardImage src={isRevealed ? properties.thumbnail : ChickenUnrevealedImage} />
             <Card.Body>
               <StackCol className="justify-content-between gap-2">
                 <h6 className="mb-0">
@@ -417,7 +350,7 @@ export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
               to={`/chikn/${tokenId}`}
               state={{
                 backLink: '/market',
-                backLabel: 'Back to Market'
+                backLabel: 'Back to Market',
               }}
             ></Link>
           </ChiknCard>
@@ -429,16 +362,10 @@ export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
 
 const MINTED_FROM_ADDRESS = '0x0000000000000000000000000000000000000000'
 
-export const ChickenCardRecentActivitySummary = ({
-  tokenId = '',
-  from = '',
-  to = '',
-  onClick = null
-}) => {
+export const ChickenCardRecentActivitySummary = ({ tokenId = '', from = '', to = '', onClick = null }) => {
   /** @type {{ data: { details: Details }}} */
   const getTokenQuery = useGetTokenQuery(tokenId)
-  const { data: { properties = {}, details = DETAILS_BLANK } = {} } =
-    getTokenQuery
+  const { data: { properties = {}, details = DETAILS_BLANK } = {} } = getTokenQuery
   const isRevealed = getTokenQuery.isSuccess
   return (
     <>
@@ -447,30 +374,26 @@ export const ChickenCardRecentActivitySummary = ({
       {getTokenQuery.isSuccess && (
         <>
           <ChiknCard>
-            <CardImage
-              src={isRevealed ? properties.image : ChickenUnrevealedImage}
-            />
+            <CardImage src={isRevealed ? properties.image : ChickenUnrevealedImage} />
             <Card.Body>
               <StackCol className="gap-2">
                 <h6>
                   <ChiknText /> #{tokenId}
                 </h6>
                 {/* TODO what about listed forsale events... do they come through? */}
-                {from === MINTED_FROM_ADDRESS
-                  ? (
-                    <GreyPill>Minted</GreyPill>
-                  )
-                  : (
-                    <>
-                      <GreenPill>Sold</GreenPill>
-                      <Properties definitionAlign="right">
-                        <dd>price</dd>
-                        <dt>
-                          <AvaxPill>{fmtCurrency(details.price)}</AvaxPill>
-                        </dt>
-                      </Properties>
-                    </>
-                  )}
+                {from === MINTED_FROM_ADDRESS ? (
+                  <GreyPill>Minted</GreyPill>
+                ) : (
+                  <>
+                    <GreenPill>Sold</GreenPill>
+                    <Properties definitionAlign="right">
+                      <dd>price</dd>
+                      <dt>
+                        <AvaxPill>{fmtCurrency(details.price)}</AvaxPill>
+                      </dt>
+                    </Properties>
+                  </>
+                )}
               </StackCol>
             </Card.Body>
           </ChiknCard>
@@ -486,29 +409,22 @@ const ChickenImage = styled.img`
 `
 
 const Property = (props) => {
-  const {
-    layer = 'None',
-    trait = 'None',
-    percentage = 0,
-    className = '',
-    ...otherProps
-  } = props
+  const { layer = 'None', trait = 'None', percentage = 0, className = '', ...otherProps } = props
 
   // NOTE head = x4
-  const weightedPercentForColouring =
-    layer === 'head' ? percentage * 3 : percentage
+  const weightedPercentForColouring = layer === 'head' ? percentage * 3 : percentage
 
   // --rarity-rare ???
   const background =
     weightedPercentForColouring <= 0.0009 // unique
       ? 'var(--rarity-unique)'
       : weightedPercentForColouring <= 0.0128 // legendary
-        ? 'var(--rarity-legendary)'
-        : weightedPercentForColouring <= 0.0394 // epic
-          ? 'var(--rarity-elite)'
-          : weightedPercentForColouring <= 0.2558 // uncommon
-            ? 'var(--rarity-nice)'
-            : 'var(--rarity-common)' // common
+      ? 'var(--rarity-legendary)'
+      : weightedPercentForColouring <= 0.0394 // epic
+      ? 'var(--rarity-elite)'
+      : weightedPercentForColouring <= 0.2558 // uncommon
+      ? 'var(--rarity-nice)'
+      : 'var(--rarity-common)' // common
 
   return (
     <div
@@ -561,13 +477,10 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
 
   const socialTitle = `chikn #${tokenId}`
 
-  const socialDescription = `Rank: ${
-    properties.rank
-  } - ${properties.rarity.toUpperCase()} - Check out my chikn!`
+  const socialDescription = `Rank: ${properties.rank} - ${properties.rarity.toUpperCase()} - Check out my chikn!`
 
-  const socialUrl = typeof window !== 'undefined'
-    ? window.location.toString()
-    : ''
+  // N.B. don't use window.location - as we're now precompiling this component on the build server...
+  const socialUrl = `${siteConfig.url}/chikn/${tokenId}`
 
   return (
     <>
@@ -604,11 +517,7 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
 
               {/* social */}
               <ButtonGroup>
-                <SocialShareLinkButton
-                  title={socialTitle}
-                  text={socialDescription}
-                  url={socialUrl}
-                />
+                <SocialShareLinkButton title={socialTitle} text={socialDescription} url={socialUrl} />
                 <LinkButton href={properties.image} tooltip="Download image" />
                 <RefreshButton onClick={refreshPage} />
               </ButtonGroup>
@@ -623,34 +532,19 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
             {/* actions */}
             <StackDynamic className="gap-1 flex-wrap">
               {active && ( // !isOwner && !isForSale &&
-                <SaleStatus
-                  forSale={details.forSale}
-                  owner={details.currentOwner}
-                />
+                <SaleStatus forSale={details.forSale} owner={details.currentOwner} />
               )}
-              {!active && (
-                <GreyPill className="py-2 border">
-                  Connect wallet to buy
-                </GreyPill>
-              )}
+              {!active && <GreyPill className="py-2 border">Connect wallet to buy</GreyPill>}
               {active && !isOwner && isForSale && (
                 <MenuButton onClick={buyToken} disabled={useBuyToken.isLoading}>
-                  {useBuyToken.isLoading
-                    ? (
-                      <Spinner size="sm" animation="border" />
-                    )
-                    : (
-                      'Purchase'
-                    )}
+                  {useBuyToken.isLoading ? <Spinner size="sm" animation="border" /> : 'Purchase'}
                 </MenuButton> // purchase
               )}
               {active && isOwner && !isForSale && (
                 <MenuButton onClick={() => setShowModal(true)}>Sell</MenuButton> // modify listing
               )}
               {isOwner && isForSale && (
-                <MenuButton onClick={() => setShowModal(true)}>
-                  Change listing
-                </MenuButton> // modify listing
+                <MenuButton onClick={() => setShowModal(true)}>Change listing</MenuButton> // modify listing
               )}
             </StackDynamic>
 
@@ -671,10 +565,9 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
 
             {/* blurb */}
             <i className="text-dark">
-              10,000 <b>chikn</b> have flown the coop in search of owners! These
-              are no ordinary <b>chikn</b>. Some are dapper, some are degen,
-              others are made of the rarest materials known to chikn-kind - but
-              one thing&apos;s for sure - ALL <b>chikn</b> lay <b>$egg</b>.
+              10,000 <b>chikn</b> have flown the coop in search of owners! These are no ordinary <b>chikn</b>. Some are
+              dapper, some are degen, others are made of the rarest materials known to chikn-kind - but one thing&apos;s
+              for sure - ALL <b>chikn</b> lay <b>$egg</b>.
             </i>
 
             <Accordion defaultActiveKey="0" flush>
@@ -683,20 +576,16 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
                 <Accordion.Header>Attributes</Accordion.Header>
                 <Accordion.Body>
                   <StackCol className="gap-1 flex-wrap">
-                    {'background,body,head,neck,torso,feet,tail,trim'
-                      .split(',')
-                      .map((p, inx) => (
-                        <>
-                          <Property
-                            key={inx}
-                            layer={p}
-                            trait={properties[p] || 'None'}
-                            percentage={
-                              metadata[p][properties[p]] / metadata._total
-                            }
-                          />
-                        </>
-                      ))}
+                    {'background,body,head,neck,torso,feet,tail,trim'.split(',').map((p, inx) => (
+                      <>
+                        <Property
+                          key={inx}
+                          layer={p}
+                          trait={properties[p] || 'None'}
+                          percentage={metadata[p][properties[p]] / metadata._total}
+                        />
+                      </>
+                    ))}
                   </StackCol>
                 </Accordion.Body>
               </Accordion.Item>
