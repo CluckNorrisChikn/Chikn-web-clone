@@ -458,7 +458,7 @@ const Property = (props) => {
         </span>
         <RarityColour style={{ textTransform: 'capitalize' }} rarity={rarity}>
           <span>
-            <b>+ {score}</b>
+            <b>+ {score.toFixed(2)}</b>
           </span>
         </RarityColour>
       </div>
@@ -517,7 +517,7 @@ const calculateScore = (properties) => {
     const trait = metadata[t][properties[t] || '']
     totalScore = totalScore + trait.score
   })
-  return totalScore
+  return totalScore.toFixed(2)
 }
 
 /**
