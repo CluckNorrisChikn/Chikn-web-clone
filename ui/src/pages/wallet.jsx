@@ -38,6 +38,8 @@ const IndexPage = () => {
     if (pageNumber > maxPageNumber) setInternalPageNumber(0)
   }, [pageNumber, maxPageNumber])
 
+  const scrollToTopRef = React.useRef()
+
   const setPage = React.useCallback(
     (page, jumpToTop = false) => {
       if (page < 0) setInternalPageNumber(0)
@@ -50,7 +52,7 @@ const IndexPage = () => {
   )
 
   return (
-    <Layout pageName="Wallet">
+    <Layout pageName="Wallet" ref={scrollToTopRef}>
       <StackRow className="justify-content-between">
         <h1>Wallet</h1>
         <div>
