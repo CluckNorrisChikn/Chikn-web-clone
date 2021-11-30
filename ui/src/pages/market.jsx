@@ -382,7 +382,7 @@ const Market = ({ location = {} }) => {
                             ...ps,
                             rarity: [rarity],
                           }))
-                          setSortSalesBy('lowestLastSale')
+                          setSortSalesBy('lowest')
                         }}
                       />
                     </div>
@@ -518,7 +518,7 @@ const Market = ({ location = {} }) => {
               {Object.entries(metadata)
                 .filter(([layer]) => !layer.startsWith('_total'))
                 .map(([layer, traits]) => (
-                  /* stringArraysNotEqual(selections, "array of selected traits") */
+                  /* stringArraysNotEqual(selections, array of selected traits) */
                   <Col xs={12} sm={12} md={6} lg={6} key={layer}>
                     <Form.Group>
                       <Form.Label className="mt-2 mb-1 text-capitalize">
@@ -529,8 +529,6 @@ const Market = ({ location = {} }) => {
                         options={Object.keys(traits)}
                         updateParent={(selections) => {
                           if (stringArraysNotEqual(selections, filters[layer])) {
-                            console.debug('selections', selections)
-
                             setFilters((ps) => ({
                               ...ps,
                               [layer]: selections,
