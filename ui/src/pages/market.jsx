@@ -26,6 +26,7 @@ import Layout from '../components/Layout'
 import metadata from '../components/traits/metadata.json'
 import { stringArraysNotEqual } from '../components/utils/utils'
 
+// trigger build
 const TraitsSelector = ({ id = null, parentValues = [], options = [], updateParent = () => {} }) => {
   const ref = React.useRef()
   const [values, setValues] = React.useState([])
