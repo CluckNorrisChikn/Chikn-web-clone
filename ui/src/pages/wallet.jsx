@@ -94,7 +94,7 @@ const IndexPage = () => {
           useWalletTokens.isSuccess &&
           tokens.length > 0 && (
           <>
-            <h5>You own {tokens.length.toLocaleString()} ChickenCardShimmer</h5>
+            <h5>You own {tokens.length.toLocaleString()} chikn</h5>
             <Row className="gy-3 gx-3 mt-4">
               {tokens
                 .slice(pageNumber * PAGE_SIZE, (pageNumber + 1) * PAGE_SIZE)
