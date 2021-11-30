@@ -1,186 +1,1006 @@
 {
   "_total": 10000,
   "background": {
-    "?": 9,
-    "cloud": 241,
-    "cornhusk": 1813,
-    "farm": 173,
-    "galactic": 53,
-    "miami": 428,
-    "moon": 128,
-    "nugget": 369,
-    "periwinkle": 712,
-    "plum": 727,
-    "royale": 743,
-    "solana": 453,
-    "tangerine": 696,
-    "turquoisey": 723,
-    "venus": 464,
-    "vermillion": 1836,
-    "vibe": 432
+    "?": {
+      "count": 9,
+      "percentile": 100.0,
+      "score": 1111.11,
+      "rarity": "unique"
+    },
+    "galactic": {
+      "count": 53,
+      "percentile": 94.2,
+      "score": 188.51,
+      "rarity": "legendary"
+    },
+    "moon": {
+      "count": 128,
+      "percentile": 88.3,
+      "score": 78.05,
+      "rarity": "elite"
+    },
+    "farm": {
+      "count": 173,
+      "percentile": 82.4,
+      "score": 57.75,
+      "rarity": "elite"
+    },
+    "cloud": {
+      "count": 241,
+      "percentile": 76.5,
+      "score": 41.46,
+      "rarity": "elite"
+    },
+    "nugget": {
+      "count": 369,
+      "percentile": 70.6,
+      "score": 27.08,
+      "rarity": "rare"
+    },
+    "miami": {
+      "count": 428,
+      "percentile": 64.8,
+      "score": 23.34,
+      "rarity": "rare"
+    },
+    "vibe": {
+      "count": 432,
+      "percentile": 58.9,
+      "score": 23.13,
+      "rarity": "rare"
+    },
+    "solana": {
+      "count": 453,
+      "percentile": 53.0,
+      "score": 22.06,
+      "rarity": "nice"
+    },
+    "venus": {
+      "count": 464,
+      "percentile": 47.1,
+      "score": 21.53,
+      "rarity": "nice"
+    },
+    "tangerine": {
+      "count": 696,
+      "percentile": 41.2,
+      "score": 14.35,
+      "rarity": "nice"
+    },
+    "periwinkle": {
+      "count": 712,
+      "percentile": 35.3,
+      "score": 14.03,
+      "rarity": "nice"
+    },
+    "turquoisey": {
+      "count": 723,
+      "percentile": 29.5,
+      "score": 13.82,
+      "rarity": "common"
+    },
+    "plum": {
+      "count": 727,
+      "percentile": 23.6,
+      "score": 13.74,
+      "rarity": "common"
+    },
+    "royale": {
+      "count": 743,
+      "percentile": 17.7,
+      "score": 13.45,
+      "rarity": "common"
+    },
+    "cornhusk": {
+      "count": 1813,
+      "percentile": 11.8,
+      "score": 5.51,
+      "rarity": "common"
+    },
+    "vermillion": {
+      "count": 1836,
+      "percentile": 5.9,
+      "score": 5.44,
+      "rarity": "common"
+    }
   },
   "body": {
-    "?": 9,
-    "bullion": 252,
-    "celestial": 110,
-    "crystalé": 201,
-    "frognation green": 1539,
-    "gameboy": 554,
-    "mutant purple": 1616,
-    "nightstalker blue": 1546,
-    "passion red": 1511,
-    "pixel-chan": 516,
-    "rustic brown": 2146
+    "?": {
+      "count": 9,
+      "percentile": 100.0,
+      "score": 1111.11,
+      "rarity": "unique"
+    },
+    "celestial": {
+      "count": 110,
+      "percentile": 91.0,
+      "score": 90.83,
+      "rarity": "legendary"
+    },
+    "crystalé": {
+      "count": 201,
+      "percentile": 81.9,
+      "score": 49.71,
+      "rarity": "elite"
+    },
+    "bullion": {
+      "count": 252,
+      "percentile": 72.8,
+      "score": 39.65,
+      "rarity": "rare"
+    },
+    "pixel-chan": {
+      "count": 516,
+      "percentile": 63.7,
+      "score": 19.36,
+      "rarity": "rare"
+    },
+    "gameboy": {
+      "count": 554,
+      "percentile": 54.6,
+      "score": 18.03,
+      "rarity": "nice"
+    },
+    "passion red": {
+      "count": 1511,
+      "percentile": 45.5,
+      "score": 6.61,
+      "rarity": "nice"
+    },
+    "frognation green": {
+      "count": 1539,
+      "percentile": 36.4,
+      "score": 6.49,
+      "rarity": "nice"
+    },
+    "nightstalker blue": {
+      "count": 1546,
+      "percentile": 27.3,
+      "score": 6.46,
+      "rarity": "common"
+    },
+    "mutant purple": {
+      "count": 1616,
+      "percentile": 18.2,
+      "score": 6.18,
+      "rarity": "common"
+    },
+    "rustic brown": {
+      "count": 2146,
+      "percentile": 9.1,
+      "score": 4.66,
+      "rarity": "common"
+    }
   },
   "feet": {
-    "": 4273,
-    "?": 9,
-    "black vans": 215,
-    "blue feet": 1037,
-    "blue kicks": 289,
-    "comfortable uggs": 134,
-    "green feet": 1034,
-    "green kicks": 176,
-    "purple feet": 1000,
-    "purple leather boots": 133,
-    "real feet": 98,
-    "red feet": 1023,
-    "red leather boots": 113,
-    "red vans": 203,
-    "rollerderby": 142,
-    "swashbucklers": 121
+    "?": {
+      "count": 9,
+      "percentile": 100.0,
+      "score": 1111.11,
+      "rarity": "unique"
+    },
+    "real feet": {
+      "count": 98,
+      "percentile": 93.8,
+      "score": 93.80,
+      "rarity": "legendary"
+    },
+    "red leather boots": {
+      "count": 113,
+      "percentile": 87.5,
+      "score": 87.50,
+      "rarity": "elite"
+    },
+    "swashbucklers": {
+      "count": 121,
+      "percentile": 81.3,
+      "score": 81.30,
+      "rarity": "elite"
+    },
+    "purple leather boots": {
+      "count": 133,
+      "percentile": 75.0,
+      "score": 75.00,
+      "rarity": "elite"
+    },
+    "comfortable uggs": {
+      "count": 134,
+      "percentile": 68.8,
+      "score": 68.80,
+      "rarity": "rare"
+    },
+    "rollerderby": {
+      "count": 142,
+      "percentile": 62.5,
+      "score": 62.50,
+      "rarity": "rare"
+    },
+    "green kicks": {
+      "count": 176,
+      "percentile": 56.3,
+      "score": 56.30,
+      "rarity": "rare"
+    },
+    "red vans": {
+      "count": 203,
+      "percentile": 50.0,
+      "score": 50.00,
+      "rarity": "nice"
+    },
+    "black vans": {
+      "count": 215,
+      "percentile": 43.8,
+      "score": 43.80,
+      "rarity": "nice"
+    },
+    "blue kicks": {
+      "count": 289,
+      "percentile": 37.5,
+      "score": 37.50,
+      "rarity": "nice"
+    },
+    "purple feet": {
+      "count": 1000,
+      "percentile": 31.3,
+      "score": 31.30,
+      "rarity": "nice"
+    },
+    "red feet": {
+      "count": 1023,
+      "percentile": 25.0,
+      "score": 25.00,
+      "rarity": "common"
+    },
+    "green feet": {
+      "count": 1034,
+      "percentile": 18.8,
+      "score": 18.80,
+      "rarity": "common"
+    },
+    "blue feet": {
+      "count": 1037,
+      "percentile": 12.5,
+      "score": 12.50,
+      "rarity": "common"
+    },
+    "": {
+      "count": 4273,
+      "percentile": 6.3,
+      "score": 6.30,
+      "rarity": "common"
+    }
   },
   "head": {
-    "": 2731,
-    "?": 9,
-    "admiral": 273,
-    "all seeing eye": 111,
-    "avax safety officer": 115,
-    "black sweatband": 235,
-    "blue mage": 233,
-    "boxhead": 38,
-    "charcoal brunette": 105,
-    "cheeky redhead": 104,
-    "construction helmet": 217,
-    "cool dude 69": 233,
-    "covid safe": 253,
-    "crusader": 146,
-    "daft punk": 26,
-    "deal with it": 246,
-    "frothy crown": 116,
-    "gentlechikn": 112,
-    "gentleman's pipe": 224,
-    "golden blonde": 119,
-    "golden bone daddy": 30,
-    "golden crusader": 59,
-    "goose": 100,
-    "hamlet": 51,
-    "hothead": 112,
-    "hubba bubba": 227,
-    "icey stare": 59,
-    "inherited royalty": 53,
-    "laser eye": 78,
-    "low vision admiral": 121,
-    "luckiest red cap": 78,
-    "lucky blue cap": 163,
-    "maverick": 229,
-    "mfd": 114,
-    "moustache": 241,
-    "murica": 42,
-    "mysterious fez": 107,
-    "nerdlinger": 231,
-    "pillager": 259,
-    "pineapple": 57,
-    "pixel cigarette": 219,
-    "purple sweatband": 249,
-    "red mage": 219,
-    "saint": 106,
-    "savage beast": 240,
-    "smoking lounge": 106,
-    "sucker": 229,
-    "super saiyan": 73,
-    "top of the morning": 231,
-    "tungsten cube": 27,
-    "uniquehorn": 244
+    "?": {
+      "count": 9,
+      "percentile": 100.0,
+      "score": 1111.11,
+      "rarity": "unique"
+    },
+    "daft punk": {
+      "count": 26,
+      "percentile": 98.1,
+      "score": 384.27,
+      "rarity": "legendary"
+    },
+    "tungsten cube": {
+      "count": 27,
+      "percentile": 96.1,
+      "score": 370.04,
+      "rarity": "legendary"
+    },
+    "golden bone daddy": {
+      "count": 30,
+      "percentile": 94.2,
+      "score": 333.03,
+      "rarity": "legendary"
+    },
+    "boxhead": {
+      "count": 38,
+      "percentile": 92.2,
+      "score": 262.92,
+      "rarity": "legendary"
+    },
+    "murica": {
+      "count": 42,
+      "percentile": 90.2,
+      "score": 237.88,
+      "rarity": "legendary"
+    },
+    "hamlet": {
+      "count": 51,
+      "percentile": 88.3,
+      "score": 195.90,
+      "rarity": "elite"
+    },
+    "inherited royalty": {
+      "count": 53,
+      "percentile": 86.3,
+      "score": 188.51,
+      "rarity": "elite"
+    },
+    "pineapple": {
+      "count": 57,
+      "percentile": 84.4,
+      "score": 175.28,
+      "rarity": "elite"
+    },
+    "icey stare": {
+      "count": 59,
+      "percentile": 82.4,
+      "score": 169.34,
+      "rarity": "elite"
+    },
+    "golden crusader": {
+      "count": 59,
+      "percentile": 82.4,
+      "score": 169.34,
+      "rarity": "elite"
+    },
+    "super saiyan": {
+      "count": 73,
+      "percentile": 78.5,
+      "score": 136.86,
+      "rarity": "elite"
+    },
+    "luckiest red cap": {
+      "count": 78,
+      "percentile": 76.5,
+      "score": 128.09,
+      "rarity": "elite"
+    },
+    "laser eye": {
+      "count": 78,
+      "percentile": 76.5,
+      "score": 128.09,
+      "rarity": "elite"
+    },
+    "goose": {
+      "count": 100,
+      "percentile": 72.6,
+      "score": 99.91,
+      "rarity": "rare"
+    },
+    "cheeky redhead": {
+      "count": 104,
+      "percentile": 70.6,
+      "score": 96.07,
+      "rarity": "rare"
+    },
+    "charcoal brunette": {
+      "count": 105,
+      "percentile": 68.7,
+      "score": 95.15,
+      "rarity": "rare"
+    },
+    "smoking lounge": {
+      "count": 106,
+      "percentile": 66.7,
+      "score": 94.25,
+      "rarity": "rare"
+    },
+    "saint": {
+      "count": 106,
+      "percentile": 66.7,
+      "score": 94.25,
+      "rarity": "rare"
+    },
+    "mysterious fez": {
+      "count": 107,
+      "percentile": 62.8,
+      "score": 93.37,
+      "rarity": "rare"
+    },
+    "all seeing eye": {
+      "count": 111,
+      "percentile": 60.8,
+      "score": 90.01,
+      "rarity": "rare"
+    },
+    "hothead": {
+      "count": 112,
+      "percentile": 58.9,
+      "score": 89.21,
+      "rarity": "rare"
+    },
+    "gentlechikn": {
+      "count": 112,
+      "percentile": 58.9,
+      "score": 89.21,
+      "rarity": "rare"
+    },
+    "mfd": {
+      "count": 114,
+      "percentile": 55.0,
+      "score": 87.64,
+      "rarity": "rare"
+    },
+    "avax safety officer": {
+      "count": 115,
+      "percentile": 53.0,
+      "score": 86.88,
+      "rarity": "nice"
+    },
+    "frothy crown": {
+      "count": 116,
+      "percentile": 51.0,
+      "score": 86.13,
+      "rarity": "nice"
+    },
+    "golden blonde": {
+      "count": 119,
+      "percentile": 49.1,
+      "score": 83.96,
+      "rarity": "nice"
+    },
+    "low vision admiral": {
+      "count": 121,
+      "percentile": 47.1,
+      "score": 82.57,
+      "rarity": "nice"
+    },
+    "crusader": {
+      "count": 146,
+      "percentile": 45.1,
+      "score": 68.43,
+      "rarity": "nice"
+    },
+    "lucky blue cap": {
+      "count": 163,
+      "percentile": 43.2,
+      "score": 61.29,
+      "rarity": "nice"
+    },
+    "construction helmet": {
+      "count": 217,
+      "percentile": 41.2,
+      "score": 46.04,
+      "rarity": "nice"
+    },
+    "red mage": {
+      "count": 219,
+      "percentile": 39.3,
+      "score": 45.62,
+      "rarity": "nice"
+    },
+    "pixel cigarette": {
+      "count": 219,
+      "percentile": 39.3,
+      "score": 45.62,
+      "rarity": "nice"
+    },
+    "gentleman's pipe": {
+      "count": 224,
+      "percentile": 35.3,
+      "score": 44.60,
+      "rarity": "nice"
+    },
+    "hubba bubba": {
+      "count": 227,
+      "percentile": 33.4,
+      "score": 44.01,
+      "rarity": "nice"
+    },
+    "sucker": {
+      "count": 229,
+      "percentile": 31.4,
+      "score": 43.63,
+      "rarity": "nice"
+    },
+    "maverick": {
+      "count": 229,
+      "percentile": 31.4,
+      "score": 43.63,
+      "rarity": "nice"
+    },
+    "top of the morning": {
+      "count": 231,
+      "percentile": 27.5,
+      "score": 43.25,
+      "rarity": "common"
+    },
+    "nerdlinger": {
+      "count": 231,
+      "percentile": 27.5,
+      "score": 43.25,
+      "rarity": "common"
+    },
+    "cool dude 69": {
+      "count": 233,
+      "percentile": 23.6,
+      "score": 42.88,
+      "rarity": "common"
+    },
+    "blue mage": {
+      "count": 233,
+      "percentile": 23.6,
+      "score": 42.88,
+      "rarity": "common"
+    },
+    "black sweatband": {
+      "count": 235,
+      "percentile": 19.7,
+      "score": 42.51,
+      "rarity": "common"
+    },
+    "savage beast": {
+      "count": 240,
+      "percentile": 17.7,
+      "score": 41.63,
+      "rarity": "common"
+    },
+    "moustache": {
+      "count": 241,
+      "percentile": 15.7,
+      "score": 41.46,
+      "rarity": "common"
+    },
+    "uniquehorn": {
+      "count": 244,
+      "percentile": 13.8,
+      "score": 40.95,
+      "rarity": "common"
+    },
+    "deal with it": {
+      "count": 246,
+      "percentile": 11.8,
+      "score": 40.61,
+      "rarity": "common"
+    },
+    "purple sweatband": {
+      "count": 249,
+      "percentile": 9.9,
+      "score": 40.12,
+      "rarity": "common"
+    },
+    "covid safe": {
+      "count": 253,
+      "percentile": 7.9,
+      "score": 39.49,
+      "rarity": "common"
+    },
+    "pillager": {
+      "count": 259,
+      "percentile": 5.9,
+      "score": 38.58,
+      "rarity": "common"
+    },
+    "admiral": {
+      "count": 273,
+      "percentile": 4.0,
+      "score": 36.60,
+      "rarity": "common"
+    },
+    "": {
+      "count": 2731,
+      "percentile": 2.0,
+      "score": 3.66,
+      "rarity": "common"
+    }
   },
   "neck": {
-    "": 3871,
-    "?": 9,
-    "avax bling": 440,
-    "avax degen": 77,
-    "bitcoin bling": 336,
-    "bitcoin maxi": 84,
-    "black bandana": 276,
-    "blue bandana": 221,
-    "chains for days": 339,
-    "chicken choker": 366,
-    "dollar chain": 341,
-    "ethereum bling": 350,
-    "ethereum gwei guzzler": 91,
-    "hairy old man": 730,
-    "mim bling": 302,
-    "mim og": 82,
-    "purple bowtie": 702,
-    "red bandana": 243,
-    "red bowtie": 596,
-    "second head": 85,
-    "wage slave": 459
+    "?": {
+      "count": 9,
+      "percentile": 100.0,
+      "score": 1111.11,
+      "rarity": "unique"
+    },
+    "avax degen": {
+      "count": 77,
+      "percentile": 95.3,
+      "score": 129.75,
+      "rarity": "legendary"
+    },
+    "mim og": {
+      "count": 82,
+      "percentile": 90.5,
+      "score": 121.84,
+      "rarity": "legendary"
+    },
+    "bitcoin maxi": {
+      "count": 84,
+      "percentile": 85.8,
+      "score": 118.94,
+      "rarity": "elite"
+    },
+    "second head": {
+      "count": 85,
+      "percentile": 81.0,
+      "score": 117.54,
+      "rarity": "elite"
+    },
+    "ethereum gwei guzzler": {
+      "count": 91,
+      "percentile": 76.2,
+      "score": 109.79,
+      "rarity": "elite"
+    },
+    "blue bandana": {
+      "count": 221,
+      "percentile": 71.5,
+      "score": 45.21,
+      "rarity": "rare"
+    },
+    "red bandana": {
+      "count": 243,
+      "percentile": 66.7,
+      "score": 41.12,
+      "rarity": "rare"
+    },
+    "black bandana": {
+      "count": 276,
+      "percentile": 62.0,
+      "score": 36.20,
+      "rarity": "rare"
+    },
+    "mim bling": {
+      "count": 302,
+      "percentile": 57.2,
+      "score": 33.08,
+      "rarity": "rare"
+    },
+    "bitcoin bling": {
+      "count": 336,
+      "percentile": 52.4,
+      "score": 29.74,
+      "rarity": "nice"
+    },
+    "chains for days": {
+      "count": 339,
+      "percentile": 47.7,
+      "score": 29.47,
+      "rarity": "nice"
+    },
+    "dollar chain": {
+      "count": 341,
+      "percentile": 42.9,
+      "score": 29.30,
+      "rarity": "nice"
+    },
+    "ethereum bling": {
+      "count": 350,
+      "percentile": 38.1,
+      "score": 28.55,
+      "rarity": "nice"
+    },
+    "chicken choker": {
+      "count": 366,
+      "percentile": 33.4,
+      "score": 27.30,
+      "rarity": "nice"
+    },
+    "avax bling": {
+      "count": 440,
+      "percentile": 28.6,
+      "score": 22.71,
+      "rarity": "common"
+    },
+    "wage slave": {
+      "count": 459,
+      "percentile": 23.9,
+      "score": 21.77,
+      "rarity": "common"
+    },
+    "red bowtie": {
+      "count": 596,
+      "percentile": 19.1,
+      "score": 16.76,
+      "rarity": "common"
+    },
+    "purple bowtie": {
+      "count": 702,
+      "percentile": 14.3,
+      "score": 14.23,
+      "rarity": "common"
+    },
+    "hairy old man": {
+      "count": 730,
+      "percentile": 9.6,
+      "score": 13.69,
+      "rarity": "common"
+    },
+    "": {
+      "count": 3871,
+      "percentile": 4.8,
+      "score": 2.58,
+      "rarity": "common"
+    }
   },
   "tail": {
-    "": 4743,
-    "?": 9,
-    "big mama fat pipes": 184,
-    "gas guzzler": 412,
-    "golden egg": 274,
-    "golden plumage": 211,
-    "led": 595,
-    "liarliar": 825,
-    "nyan": 747,
-    "orange plumage": 588,
-    "red plumage": 612,
-    "very fresh egg": 800
+    "?": {
+      "count": 9,
+      "percentile": 100.0,
+      "score": 1111.11,
+      "rarity": "unique"
+    },
+    "big mama fat pipes": {
+      "count": 184,
+      "percentile": 91.7,
+      "score": 54.30,
+      "rarity": "legendary"
+    },
+    "golden plumage": {
+      "count": 211,
+      "percentile": 83.4,
+      "score": 47.35,
+      "rarity": "elite"
+    },
+    "golden egg": {
+      "count": 274,
+      "percentile": 75.0,
+      "score": 36.46,
+      "rarity": "elite"
+    },
+    "gas guzzler": {
+      "count": 412,
+      "percentile": 66.7,
+      "score": 24.25,
+      "rarity": "rare"
+    },
+    "orange plumage": {
+      "count": 588,
+      "percentile": 58.4,
+      "score": 16.99,
+      "rarity": "rare"
+    },
+    "led": {
+      "count": 595,
+      "percentile": 50.0,
+      "score": 16.79,
+      "rarity": "nice"
+    },
+    "red plumage": {
+      "count": 612,
+      "percentile": 41.7,
+      "score": 16.33,
+      "rarity": "nice"
+    },
+    "nyan": {
+      "count": 747,
+      "percentile": 33.4,
+      "score": 13.37,
+      "rarity": "nice"
+    },
+    "very fresh egg": {
+      "count": 800,
+      "percentile": 25.0,
+      "score": 12.49,
+      "rarity": "common"
+    },
+    "liarliar": {
+      "count": 825,
+      "percentile": 16.7,
+      "score": 12.11,
+      "rarity": "common"
+    },
+    "": {
+      "count": 4743,
+      "percentile": 8.4,
+      "score": 2.11,
+      "rarity": "common"
+    }
   },
   "torso": {
-    "": 3976,
-    "?": 9,
-    "a fresh baguette": 529,
-    "action shorts": 127,
-    "big bag of cash": 178,
-    "big ol corn cob": 509,
-    "blue bag": 556,
-    "business boy": 49,
-    "captain chimerica": 151,
-    "cutlass": 300,
-    "fresh fish": 334,
-    "hentai": 235,
-    "human growth hormones": 351,
-    "karate kid": 75,
-    "midas muscles": 139,
-    "mighty broadsword": 339,
-    "nugget wand": 132,
-    "old fashioned romance": 534,
-    "peacemaker": 492,
-    "popsicle": 282,
-    "spell wand": 178,
-    "summer days": 525
+    "?": {
+      "count": 9,
+      "percentile": 100.0,
+      "score": 1111.11,
+      "rarity": "unique"
+    },
+    "business boy": {
+      "count": 49,
+      "percentile": 95.5,
+      "score": 203.90,
+      "rarity": "legendary"
+    },
+    "karate kid": {
+      "count": 75,
+      "percentile": 91.0,
+      "score": 133.21,
+      "rarity": "legendary"
+    },
+    "action shorts": {
+      "count": 127,
+      "percentile": 86.4,
+      "score": 78.67,
+      "rarity": "elite"
+    },
+    "nugget wand": {
+      "count": 132,
+      "percentile": 81.9,
+      "score": 75.69,
+      "rarity": "elite"
+    },
+    "midas muscles": {
+      "count": 139,
+      "percentile": 77.3,
+      "score": 71.88,
+      "rarity": "elite"
+    },
+    "captain chimerica": {
+      "count": 151,
+      "percentile": 72.8,
+      "score": 66.17,
+      "rarity": "rare"
+    },
+    "spell wand": {
+      "count": 178,
+      "percentile": 68.2,
+      "score": 56.13,
+      "rarity": "rare"
+    },
+    "big bag of cash": {
+      "count": 178,
+      "percentile": 68.2,
+      "score": 56.13,
+      "rarity": "rare"
+    },
+    "hentai": {
+      "count": 235,
+      "percentile": 59.1,
+      "score": 42.51,
+      "rarity": "rare"
+    },
+    "popsicle": {
+      "count": 282,
+      "percentile": 54.6,
+      "score": 35.43,
+      "rarity": "nice"
+    },
+    "cutlass": {
+      "count": 300,
+      "percentile": 50.0,
+      "score": 33.30,
+      "rarity": "nice"
+    },
+    "fresh fish": {
+      "count": 334,
+      "percentile": 45.5,
+      "score": 29.91,
+      "rarity": "nice"
+    },
+    "mighty broadsword": {
+      "count": 339,
+      "percentile": 41.0,
+      "score": 29.47,
+      "rarity": "nice"
+    },
+    "human growth hormones": {
+      "count": 351,
+      "percentile": 36.4,
+      "score": 28.46,
+      "rarity": "nice"
+    },
+    "peacemaker": {
+      "count": 492,
+      "percentile": 31.9,
+      "score": 20.31,
+      "rarity": "nice"
+    },
+    "big ol corn cob": {
+      "count": 509,
+      "percentile": 27.3,
+      "score": 19.63,
+      "rarity": "common"
+    },
+    "summer days": {
+      "count": 525,
+      "percentile": 22.8,
+      "score": 19.03,
+      "rarity": "common"
+    },
+    "a fresh baguette": {
+      "count": 529,
+      "percentile": 18.2,
+      "score": 18.89,
+      "rarity": "common"
+    },
+    "old fashioned romance": {
+      "count": 534,
+      "percentile": 13.7,
+      "score": 18.71,
+      "rarity": "common"
+    },
+    "blue bag": {
+      "count": 556,
+      "percentile": 9.1,
+      "score": 17.97,
+      "rarity": "common"
+    },
+    "": {
+      "count": 3976,
+      "percentile": 4.6,
+      "score": 2.51,
+      "rarity": "common"
+    }
   },
   "trim": {
-    "": 8529,
-    "?": 9,
-    "avax trim": 423,
-    "black trim": 285,
-    "blue trim": 393,
-    "cloud trim": 180,
-    "space trim": 181
+    "?": {
+      "count": 9,
+      "percentile": 100.0,
+      "score": 1111.11,
+      "rarity": "unique"
+    },
+    "cloud trim": {
+      "count": 180,
+      "percentile": 85.8,
+      "score": 55.51,
+      "rarity": "elite"
+    },
+    "space trim": {
+      "count": 181,
+      "percentile": 71.5,
+      "score": 55.20,
+      "rarity": "rare"
+    },
+    "black trim": {
+      "count": 285,
+      "percentile": 57.2,
+      "score": 35.06,
+      "rarity": "rare"
+    },
+    "blue trim": {
+      "count": 393,
+      "percentile": 42.9,
+      "score": 25.42,
+      "rarity": "nice"
+    },
+    "avax trim": {
+      "count": 423,
+      "percentile": 28.6,
+      "score": 23.62,
+      "rarity": "common"
+    },
+    "": {
+      "count": 8529,
+      "percentile": 14.3,
+      "score": 1.17,
+      "rarity": "common"
+    }
   },
-  "_numOfTraits": {
-    "2": 47,
-    "3": 294,
-    "4": 1483,
-    "5": 4846,
-    "6": 2635,
-    "7": 631,
-    "8": 64
+    "_numOfTraits": {
+    "2": {
+      "count": 47,
+      "percentile": 87.5,
+      "score": 212.77,
+      "rarity": "elite"
+      } ,
+    "3": {
+      "count": 294,
+      "percentile": 62.5,
+      "score": 34.01,
+      "rarity": "rare"
+      } ,
+    "4": {
+      "count": 1483,
+      "percentile": 37.5,
+      "score": 6.74,
+      "rarity": "nice"
+      } ,
+    "5": {
+      "count": 4846,
+      "percentile": 12.5,
+      "score": 2.06,
+      "rarity": "common"
+      } ,
+    "6": {
+      "count": 2635,
+      "percentile": 25,
+      "score": 3.80,
+      "rarity": "common"
+      } ,
+    "7": {
+      "count": 631,
+      "percentile": 50,
+      "score": 15.85,
+      "rarity": "nice"
+      } ,
+    "8": {
+      "count": 64,
+      "percentile": 75,
+      "score": 156.25,
+      "rarity": "elite"
+    } 
   },
   "rarity": {
     "common": 0,
