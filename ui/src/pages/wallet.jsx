@@ -22,6 +22,8 @@ const IndexPage = () => {
   const { contract, account, active, deactivate } = useWeb3Contract()
   const useWalletTokens = useGetWalletTokensQuery(contract, account, active)
 
+  const scrollToTopRef = React.useRef()
+
   const { data: tokens = [] } = useWalletTokens
 
   // handles all the pagination!
@@ -38,8 +40,6 @@ const IndexPage = () => {
     if (pageNumber > maxPageNumber) setInternalPageNumber(0)
   }, [pageNumber, maxPageNumber])
 
-  const scrollToTopRef = React.useRef()
-
   const setPage = React.useCallback(
     (page, jumpToTop = false) => {
       if (page < 0) setInternalPageNumber(0)
@@ -52,9 +52,9 @@ const IndexPage = () => {
   )
 
   return (
-    <Layout pageName="Wallet" ref={scrollToTopRef}>
+    <Layout pageName="Wallet">
       <StackRow className="justify-content-between">
-        <h1>Wallet</h1>
+        <h1 ref={scrollToTopRef}>Wallet</h1>
         <div>
           <Button
             title="Refresh"
