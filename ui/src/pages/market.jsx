@@ -11,6 +11,8 @@ import {
   Row,
   Spinner,
   ToggleButton,
+  DropdownButton,
+  Dropdown,
   ToggleButtonGroup,
 } from 'react-bootstrap'
 import { Typeahead } from 'react-bootstrap-typeahead'
@@ -95,6 +97,8 @@ const Market = ({ location = {} }) => {
   const [pageNumber, setInternalPageNumber] = React.useState(pagedSelected)
 
   const [searchInput, setSearchInput] = React.useState('')
+
+  const [pageSize, setPageSize] = React.useState(12)
 
   // use this to manipulate the incoming nones ('') into the typeahead value ('None')
   const noneCheck = (trait) => {
@@ -197,13 +201,13 @@ const Market = ({ location = {} }) => {
   ])
 
   // handles all the pagination!
-  const PAGE_SIZE = 16
+  const PAGE_SIZE = pageSize
   const maxPageNumber = React.useMemo(() => {
     const total = chikns.length
     const remainder = total % PAGE_SIZE
     const maxPage = parseInt(total / PAGE_SIZE) + (remainder > 0 ? 0 : -1)
     return maxPage
-  }, [chikns])
+  }, [chikns, PAGE_SIZE])
 
   // fix for when filters change the max page number...
   React.useEffect(() => {
@@ -604,7 +608,20 @@ const Market = ({ location = {} }) => {
               <h5>
                 Page {(pageNumber + 1).toLocaleString()} of {(maxPageNumber + 1).toLocaleString()}
               </h5>
-              <PaginationComponent pageNum={pageNumber} maxPageNum={maxPageNumber} />
+              <Row>
+                <Col>
+                  <PaginationComponent pageNum={pageNumber} maxPageNum={maxPageNumber} />
+                </Col>
+                <Col>
+                  <DropdownButton id="dropdown-basic-button" title="Chikn/Page">
+                    <Dropdown.Item onClick={() => setPageSize(5)}>5</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setPageSize(10)}>10</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setPageSize(20)}>20</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setPageSize(50)}>50</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setPageSize(100)}>100</Dropdown.Item>
+                  </DropdownButton>
+                </Col>
+              </Row>
             </div>
           </>
         )}
