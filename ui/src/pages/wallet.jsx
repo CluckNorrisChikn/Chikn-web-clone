@@ -121,19 +121,19 @@ const IndexPage = () => {
           <Pagination>
             <Pagination.First
               disabled={pageNumber === 0}
-              onClick={() => setPage(0)}
+              onClick={() => setPage(0, true)}
             />
             <Pagination.Prev
               disabled={pageNumber === 0}
-              onClick={() => setPage(pageNumber - 1)}
+              onClick={() => setPage(pageNumber - 1, true)}
             />
             <Pagination.Next
               disabled={pageNumber === maxPageNumber}
-              onClick={() => setPage(pageNumber + 1)}
+              onClick={() => setPage(pageNumber + 1, true)}
             />
             <Pagination.Last
               disabled={pageNumber === maxPageNumber}
-              onClick={() => setPage(999999)}
+              onClick={() => setPage(999999, true)}
             />
           </Pagination>
         </div>
