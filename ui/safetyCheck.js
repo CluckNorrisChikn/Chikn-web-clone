@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === 'production') {
   // check correct page generators are used...
   if (!fs.existsSync('src/pages/chikn/{CombinationsJson.token}.jsx')) {
     console.warn('SafetyCheck: Generating ALL pages for PROD!')
-    fs.renameSync('src/pages/chikn/{CombinationsTenJson.token}.jsx', 'src/pages/chikn/{CombinationsJson.token}.jsx')
+    fs.renameSync('src/pages/chikn/{CombinationsForDevJson.token}.jsx', 'src/pages/chikn/{CombinationsJson.token}.jsx')
   }
 
   console.log('SafetyCheck: looks good.')
