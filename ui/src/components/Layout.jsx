@@ -112,6 +112,7 @@ const Layout = ({ pageName = undefined, children = [], constrainWidth = true, pa
       </header>
       {/* main */}
       <main className="flex-grow-1">
+        {/* eslint-disable-next-line multiline-ternary */}
         {constrainWidth ? (
           <Container className={`${className} ${padTop ? 'mt-5' : 'mt-0'} mb-5 d-flex flex-column`}>
             {/* <TransactionProgress intialOnShow={true} /> */}
