@@ -12,6 +12,7 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Container,
+  InputGroup,
 } from 'react-bootstrap'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import { BiFilter } from 'react-icons/bi'
@@ -94,6 +95,8 @@ const Market = ({ location = {} }) => {
 
   const [pageNumber, setInternalPageNumber] = React.useState(pagedSelected)
 
+  const [searchInput, setSearchInput] = React.useState('')
+
   // use this to manipulate the incoming nones ('') into the typeahead value ('None')
   const noneCheck = (trait) => {
     return trait === '' ? 'None' : trait?.toLowerCase()
@@ -109,6 +112,7 @@ const Market = ({ location = {} }) => {
       return marketData.chikn
         .filter((t) => {
           return (
+            (!searchInput.length || t.token === parseInt(searchInput)) &&
             (((sortSalesBy === 'lowestLastSale' || sortSalesBy === 'highestLastSale') && t.previousPrice > 0) ||
               (sortSalesBy !== 'lowestLastSale' && sortSalesBy !== 'highestLastSale')) &&
             (isUndefOrEmpty(filters.background) || ~filters.background.indexOf(t.background?.toLowerCase())) &&
@@ -182,6 +186,7 @@ const Market = ({ location = {} }) => {
     filters.trim,
     filters._numOfTraits,
     filters.rarity,
+    searchInput,
     sortSalesBy,
   ])
 
@@ -483,6 +488,19 @@ const Market = ({ location = {} }) => {
           </Card.Body>
         </Card>
       </Container>
+
+      {/* Search Input */}
+
+      <Col lg="3">
+        <InputGroup>
+          <Form.Control
+            type="text"
+            placeholder="Search For Chikn #"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
+        </InputGroup>
+      </Col>
 
       {/* ANCHOR filters */}
       <Accordion ref={scrollToTopRef}>
