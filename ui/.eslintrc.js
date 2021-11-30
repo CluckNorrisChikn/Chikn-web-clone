@@ -2,7 +2,7 @@ module.exports = {
   root: true,
   extends: ['eslint:recommended', 'standard', 'plugin:react/recommended', 'plugin:react-hooks/recommended'],
   env: {
-    browser: true
+    browser: true,
   },
   rules: {
     'react/display-name': 0,
@@ -10,12 +10,13 @@ module.exports = {
     'space-before-function-paren': 0,
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'error',
-    indent: ['error', 2]
+    indent: ['error', 2],
+    'max-len': ['error', { code: 120, ignoreComments: true }],
   },
   settings: {
     react: {
       pragma: 'React',
-      version: '16.12.0'
-    }
-  }
+      version: '16.12.0',
+    },
+  },
 }

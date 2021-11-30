@@ -6,11 +6,11 @@ import { ChiknText } from '../../components/Common'
 import Layout from '../../components/Layout'
 import TransactionProgress from '../../components/TransactionProgressToast'
 
-const Page = ({ tokenId, location = {} }) => {
+const Page = (props) => {
+  const { params: { token: tokenId = -1 } = {}, location = {} } = props
+
   const { backLink, backLabel, filterState } =
-    typeof location.state !== 'undefined' && location.state !== null
-      ? location.state
-      : {}
+    typeof location.state !== 'undefined' && location.state !== null ? location.state : {}
 
   return (
     <Layout pageName={`${siteConfig.nftName} #${tokenId}`}>

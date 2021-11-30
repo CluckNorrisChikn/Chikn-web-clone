@@ -1,17 +1,15 @@
 // N.B. MUST BE IN THIS FORMAT!
 const GATSBY_CONFIG = process.env.GATSBY_CONFIG || 'production'
-const GATSBY_FT_CONNECT_WALLET_ENABLED =
-  process.env.GATSBY_FT_CONNECT_WALLET_ENABLED || 'true'
+const NODE_ENV = process.env.NODE_ENV || 'production'
+const GATSBY_FT_CONNECT_WALLET_ENABLED = process.env.GATSBY_FT_CONNECT_WALLET_ENABLED || 'true'
 
-const isProd = GATSBY_CONFIG === 'production'
+const isProd = GATSBY_CONFIG === 'production' || NODE_ENV === 'production'
 
-const host = isProd
-  ? 'chikn.farm'
-  : 'chickenrun-git-dev-mountainpass.vercel.app'
+const host = isProd ? 'chikn.farm' : 'chickenrun-git-dev-mountainpass.vercel.app'
 
 // google tag manager configuration
 const gtm = {
-  id: 'GTM-NFLTF75'
+  id: 'GTM-NFLTF75',
 }
 
 const siteConfig = {
@@ -22,8 +20,7 @@ const siteConfig = {
   apiUrl: 'https://cdn1.chikn.farm',
   cdnUrl: 'https://cdn1.chikn.farm/images/',
   cdnThumbnailUrl: 'https://cdn1.chikn.farm/images/thumb/',
-  description:
-    '10,000 algorithmically generated, unique chikn NFTs that lay $egg',
+  description: '10,000 algorithmically generated, unique chikn NFTs that lay $egg',
   url: `https://${host}`,
   imageUrl: `https://${host}/brand/banner_og-1200x630px.jpg`,
   image2by1Url: `https://${host}/brand/banner_og-1260x630px.jpg`,
@@ -42,29 +39,29 @@ const siteConfig = {
     twitter: 'https://twitter.com/chikn_nft',
     twitterAt: '@chikn_nft',
     docs: 'https://docs.chikn.farm/',
-    roadmap: 'https://docs.chikn.farm/roadmap'
+    roadmap: 'https://docs.chikn.farm/roadmap',
   },
   featureToggles: {
-    connectWalledEnabled: GATSBY_FT_CONNECT_WALLET_ENABLED !== 'false'
+    connectWalledEnabled: GATSBY_FT_CONNECT_WALLET_ENABLED !== 'false',
   },
   publicMint: {
     title_open: 'Minting is open!',
     title_closed: 'Minting closed.',
     releaseDate: '2021-11-12T22:00:00+0000',
     maxPerMint: 12,
-    limitPerWallet: 50
+    limitPerWallet: 50,
   },
   gbMint: {
     title_open: '$GB Pre-Minting is open!',
     title_closed: '$GB Pre-Minting closed.',
     releaseDate: '2021-11-12T22:00:00+0000',
     maxPerMint: 1,
-    limitPerWallet: 1
+    limitPerWallet: 1,
   },
-  gtm
+  gtm,
 }
 
-console.log(`Using env: ${JSON.stringify(process.env, null, 2)}`)
-console.log(`Using siteConfig: ${JSON.stringify(siteConfig, null, 2)}`)
+// console.log(`Using env: ${JSON.stringify(process.env, null, 2)}`)
+// console.log(`Using siteConfig: ${JSON.stringify(siteConfig, null, 2)}`)
 
 module.exports = siteConfig

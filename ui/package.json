@@ -16,7 +16,20 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "deploy": "vercel --prod",
-    "deploy-staging": "vercel"
+    "deploy-staging": "vercel",
+    "lint": "eslint --fix --ext .js,.jsx src || true",
+    "prettier": "prettier --write 'src/**/*.{js,jsx,json}'",
+    "pretty-quick": "pretty-quick"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged && npm run lint"
+    }
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "printWidth": 120
   },
   "dependencies": {
     "@fontsource/courier-prime": "4.5.0",
@@ -24,6 +37,7 @@
     "copy-to-clipboard": "3.3.1",
     "gatsby-plugin-google-tagmanager": "3.14.0",
     "gatsby-plugin-page-creator": "3.14.0",
+    "gatsby-transformer-json": "4.2.0",
     "react-bootstrap-typeahead": "6.0.0-alpha.4",
     "react-scroll-parallax": "2.4.0",
     "web3-eth": "1.6.0"
@@ -70,9 +84,12 @@
     "gatsby-source-filesystem": "3.14.0",
     "gatsby-transformer-sharp": "3.14.0",
     "https-browserify": "1.0.0",
+    "husky": "4.3.8",
     "moment": "2.29.1",
     "moment-timezone": "0.5.33",
     "os-browserify": "0.3.0",
+    "prettier": "2.5.0",
+    "pretty-quick": "3.1.2",
     "react": "17.0.2",
     "react-bootstrap": "2.0.0-rc.0",
     "react-dom": "17.0.2",

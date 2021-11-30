@@ -1,6 +1,5 @@
-
 require('dotenv').config({
-  path: `.env.${process.env.NODE_ENV}`
+  path: `.env.${process.env.NODE_ENV}`,
 })
 
 const siteConfig = require('./site-config')
@@ -8,19 +7,19 @@ const siteConfig = require('./site-config')
 module.exports = {
   siteMetadata: {
     title: siteConfig.title,
-    siteUrl: siteConfig.url
+    siteUrl: siteConfig.url,
   },
   plugins: [
     // includes private pages
     ...(siteConfig.includePrivatePages
       ? [
-        {
-          resolve: 'gatsby-plugin-page-creator',
-          options: {
-            path: 'src/private-pages'
-          }
-        }
-      ]
+          {
+            resolve: 'gatsby-plugin-page-creator',
+            options: {
+              path: 'src/private-pages',
+            },
+          },
+        ]
       : []),
     {
       resolve: 'gatsby-plugin-google-tagmanager',
@@ -29,8 +28,8 @@ module.exports = {
         includeInDevelopment: true,
         defaultDataLayer: { platform: 'gatsby' },
         routeChangeEventName: 'gatsby-route-change',
-        enableWebVitalsTracking: true
-      }
+        enableWebVitalsTracking: true,
+      },
     },
     'gatsby-plugin-styled-components',
     'gatsby-plugin-image',
@@ -47,27 +46,38 @@ module.exports = {
         background_color: '#f7f0eb',
         theme_color: siteConfig.themeColour,
         display: 'standalone',
-        icon: 'src/images/Chikn_Icon_Red_whitebkgd.svg'
-      }
+        icon: 'src/images/Chikn_Icon_Red_whitebkgd.svg',
+      },
     },
     'gatsby-plugin-sass',
     'gatsby-plugin-fontawesome-css',
+    'gatsby-transformer-json',
+    // images
     {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'images',
-        path: './src/images/'
+        path: './src/images/',
       },
-      __key: 'images'
+      __key: 'images',
     },
+    // pages
     {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'pages',
-        path: './src/pages/'
+        path: './src/pages/',
       },
-      __key: 'pages'
-    }
-
-  ]
+      __key: 'pages',
+    },
+    // graphql data
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'data',
+        path: './src/data/',
+      },
+      __key: 'data',
+    },
+  ],
 }
