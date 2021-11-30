@@ -258,6 +258,42 @@ export const RarityBadge = styled(({ className = '', ...props }) => (
   }
 `
 
+export const RarityColour = styled(({ className = '', ...props }) => (
+  <div
+    className={`${className} ${props.rarity} d-inline-block text-capitalize rounded-pill fs-7`}
+    {...props}
+  >
+    {props.children}
+  </div>
+))`
+  ${(props) => (props.size === 'sm' ? 'font-size: 1rem;' : '')}
+  padding: 4px 16px;
+  &.common {
+    color: var(--rarity-common-dark);
+    background: var(--rarity-common-light);
+  }
+  &.nice {
+    color: var(--rarity-nice-dark);
+    background: var(--rarity-nice-light);
+  }
+  &.rare {
+    color: var(--rarity-rare-dark);
+    background: var(--rarity-rare-light);
+  }
+  &.elite {
+    color: var(--rarity-elite-dark);
+    background: var(--rarity-elite-light);
+  }
+  &.legendary {
+    color: var(--rarity-legendary-dark);
+    background: var(--rarity-legendary-light);
+  }
+  &.unique {
+    color: var(--rarity-unique-dark);
+    background: var(--rarity-unique-light);
+  }
+`
+
 export const ChickenCardMarketplaceSummary = ({ tokenId = '', onClick = null, ...props }) => {
   const { account } = useWeb3Contract()
   const getTokenQuery = useGetTokenQuery(tokenId)
@@ -409,43 +445,80 @@ const ChickenImage = styled.img`
 `
 
 const Property = (props) => {
-  const { layer = 'None', trait = 'None', percentage = 0, className = '', ...otherProps } = props
-
-  // NOTE head = x4
-  const weightedPercentForColouring = layer === 'head' ? percentage * 3 : percentage
-
-  // --rarity-rare ???
-  const background =
-    weightedPercentForColouring <= 0.0009 // unique
-      ? 'var(--rarity-unique)'
-      : weightedPercentForColouring <= 0.0128 // legendary
-      ? 'var(--rarity-legendary)'
-      : weightedPercentForColouring <= 0.0394 // epic
-      ? 'var(--rarity-elite)'
-      : weightedPercentForColouring <= 0.2558 // uncommon
-      ? 'var(--rarity-nice)'
-      : 'var(--rarity-common)' // common
+  const {
+    layer,
+    trait,
+    score,
+    percentile,
+    rarity,
+    className = '',
+    ...otherProps
+  } = props
 
   return (
     <div
-      className={`${className} px-3 py-2 rounded-3 text-nowrap border text-dark text-capitalize d-flex flex-row justify-content-between align-items-center`}
+      className={`${className} px-3 py-2 rounded-3 text-nowrap text-dark text-capitalize justify-content-between align-items-center`}
       {...otherProps}
     >
-      <span>
-        <b>{layer}</b>: {trait}
-      </span>
-      <div className="px-3 py-2 badge" style={{ background }}>
-        {(percentage * 100).toFixed(2)}%
+      <div className=" w-100 d-flex flex-row justify-content-between align-items-center">
+        <span>
+          <b>{layer}</b>: {trait}
+        </span>
+        <RarityColour style={{ textTransform: 'capitalize' }} rarity={rarity} >
+          <span><b>+ {score}</b></span>
+        </RarityColour>
+      </div>
+      <div className=" w-100 py-1 pt-3">
+        <ColouredProgressBar percentile={percentile} rarity={rarity} />
       </div>
     </div>
   )
 }
+
+const ColouredProgressBar = styled(({ className = '', percentile, rarity, ...props }) => {
+  const width = `${percentile}%`
+  return (
+    <div className="progress">
+      <div className={`progress-bar ${className} ${rarity}`} role="progressbar"
+        style={{ width: width, borderTopRightRadius: '15px', borderBottomRightRadius: '15px' }}
+        aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" {...props}></div>
+    </div>
+  )
+})`
+  &.common {
+    background: var(--rarity-common-dark);
+  }
+  &.nice {
+    background: var(--rarity-nice-dark);
+  }
+  &.rare {
+    background: var(--rarity-rare-dark);
+  }
+  &.elite {
+    background: var(--rarity-elite-dark);
+  }
+  &.legendary {
+    background: var(--rarity-legendary-dark);
+  }
+  &.unique {
+    background: var(--rarity-unique-dark);
+  }
+`
 
 const MenuButton = styled(Button)`
   min-width: 200px !important;
   padding-left: 30px !important;
   padding-right: 30px !important;
 `
+
+const calculateScore = (properties) => {
+  let totalScore = 0;
+  ['background', 'body', 'head', 'neck', 'torso', 'feet', 'tail', 'trim', '_numOfTraits'].forEach((t) => {
+    const trait = metadata[t][(properties[t] || '')]
+    totalScore = totalScore + trait.score
+  })
+  return totalScore
+}
 
 /**
  * Chicken Details page - this is where all actions happen, your view will change based on sell state, and ownership, and marketplace view.
@@ -507,14 +580,10 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
       <Section className="bg-white border" center={false}>
         <StackDynamic className="gap-5 flex-grow-1">
           <div>
-            <ChickenImage src={properties.image} />
-          </div>
-          <StackCol className="w-exact60pc gap-4">
-            <StackRow className="justify-content-between">
-              {/* title */}
-              <h5>
-                <ChiknText /> #{tokenId}
-              </h5>
+            <ChickenImage
+              src={properties.image}
+            />
+            <StackCol className="pt-3 gap-4">
 
               {/* social */}
               <ButtonGroup>
@@ -522,54 +591,74 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
                 <LinkButton href={properties.image} tooltip="Download image" />
                 <RefreshButton onClick={refreshPage} />
               </ButtonGroup>
-            </StackRow>
+              <StackCol className="d-flex justify-content-center text-center gap-3">
+                {/* Rank & score */}
+                <StackRow className="gap-3 d-flex justify-content-center">
+                  <div className="">Rank: <b>{properties.rank}</b></div>
+                  <div className="">Score: <b>{calculateScore(properties)}</b></div>
+                </StackRow>
+                <div>
+                  <RarityBadge rarity={properties.rarity} />
+                </div>
 
-            {/* Rank */}
-            <div className="text-muted">Rank: {properties.rank}</div>
-            <div>
-              <RarityBadge rarity={properties.rarity} />
-            </div>
+                {/* actions */}
+                <StackDynamic className="gap-1 flex-wrap justify-content-center">
+                  {active && ( // !isOwner && !isForSale &&
+                    <SaleStatus
+                      forSale={details.forSale}
+                      owner={details.currentOwner}
+                    />
+                  )}
+                  {!active && (
+                    <GreyPill className="py-2 border">
+                  Connect wallet to buy
+                    </GreyPill>
+                  )}
+                  {active && !isOwner && isForSale && (
+                    <MenuButton
+                      onClick={buyToken}
+                      disabled={useBuyToken.isLoading}
+                    >
+                      {useBuyToken.isLoading
+                        ? (
+                          <Spinner size="sm" animation="border" />
+                        )
+                        : (
+                          'Purchase'
+                        )}
+                    </MenuButton> // purchase
+                  )}
+                  {active && isOwner && !isForSale && (
+                    <MenuButton onClick={() => setShowModal(true)}>
+                  Sell
+                    </MenuButton> // modify listing
+                  )}
+                  {isOwner && isForSale && (
+                    <MenuButton onClick={() => setShowModal(true)}>
+                  Change listing
+                    </MenuButton> // modify listing
+                  )}
+                </StackDynamic>
 
-            {/* actions */}
-            <StackDynamic className="gap-1 flex-wrap">
-              {active && ( // !isOwner && !isForSale &&
-                <SaleStatus forSale={details.forSale} owner={details.currentOwner} />
-              )}
-              {!active && <GreyPill className="py-2 border">Connect wallet to buy</GreyPill>}
-              {active && !isOwner && isForSale && (
-                <MenuButton onClick={buyToken} disabled={useBuyToken.isLoading}>
-                  {useBuyToken.isLoading ? <Spinner size="sm" animation="border" /> : 'Purchase'}
-                </MenuButton> // purchase
-              )}
-              {active && isOwner && !isForSale && (
-                <MenuButton onClick={() => setShowModal(true)}>Sell</MenuButton> // modify listing
-              )}
-              {isOwner && isForSale && (
-                <MenuButton onClick={() => setShowModal(true)}>Change listing</MenuButton> // modify listing
-              )}
-            </StackDynamic>
+                {/* Error from purchase */}
+                {useBuyToken.isError && (
+                  <Alert variant="danger" className="mt-4">
+                    {useBuyToken.error.message}
+                  </Alert>
+                )}
+                {/* price */}
+                {isForSale && (
+                  <div>
+                    <AvaxPill className="fs-4" logoSize="22px">
+                      {fmtCurrency(details.price)}
+                    </AvaxPill>
+                  </div>
+                )}
+              </StackCol>
+            </StackCol>
+          </div>
 
-            {/* Error from purchase */}
-            {useBuyToken.isError && (
-              <Alert variant="danger" className="mt-4">
-                {useBuyToken.error.message}
-              </Alert>
-            )}
-            {/* price */}
-            {isForSale && (
-              <div>
-                <AvaxPill className="fs-4" logoSize="22px">
-                  {fmtCurrency(details.price)}
-                </AvaxPill>
-              </div>
-            )}
-
-            {/* blurb */}
-            <i className="text-dark">
-              10,000 <b>chikn</b> have flown the coop in search of owners! These are no ordinary <b>chikn</b>. Some are
-              dapper, some are degen, others are made of the rarest materials known to chikn-kind - but one thing&apos;s
-              for sure - ALL <b>chikn</b> lay <b>$egg</b>.
-            </i>
+          <StackCol className="w-exact60pc gap-4">
 
             <Accordion defaultActiveKey="0" flush>
               {/* attributes */}
@@ -577,16 +666,20 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
                 <Accordion.Header>Attributes</Accordion.Header>
                 <Accordion.Body>
                   <StackCol className="gap-1 flex-wrap">
-                    {'background,body,head,neck,torso,feet,tail,trim'.split(',').map((p, inx) => (
-                      <>
+                    {['background', 'body', 'head', 'neck', 'torso', 'feet', 'tail', 'trim', '_numOfTraits'].map((t, idx) => {
+                      const trait = metadata[t][(properties[t] || '')]
+                      const traitType = t === '_numOfTraits' ? '# traits' : t
+                      return (
                         <Property
-                          key={inx}
-                          layer={p}
-                          trait={properties[p] || 'None'}
-                          percentage={metadata[p][properties[p]] / metadata._total}
+                          key={idx}
+                          layer={traitType}
+                          trait={properties[t] || 'None'}
+                          rarity={trait.rarity}
+                          score={trait.score}
+                          percentile={trait.percentile}
                         />
-                      </>
-                    ))}
+                      )
+                    })}
                   </StackCol>
                 </Accordion.Body>
               </Accordion.Item>
