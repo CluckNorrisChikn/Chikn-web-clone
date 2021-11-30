@@ -25,7 +25,7 @@ const IndexPage = () => {
   const { data: tokens = [] } = useWalletTokens
 
   // handles all the pagination!
-  const PAGE_SIZE = 5
+  const PAGE_SIZE = 16
   const [pageNumber, setInternalPageNumber] = React.useState(0)
   const maxPageNumber = React.useMemo(() => {
     const total = tokens.length
