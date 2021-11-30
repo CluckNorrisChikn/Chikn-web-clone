@@ -349,8 +349,8 @@ export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
               className={'stretched-link'}
               to={`/chikn/${tokenId}`}
               state={{
-                backLink: '/market',
-                backLabel: 'Back to Market',
+                backLink: '/wallet',
+                backLabel: 'Back to Wallet',
               }}
             ></Link>
           </ChiknCard>
