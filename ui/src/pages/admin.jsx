@@ -17,7 +17,7 @@ import {
   useWeb3GBContract,
   useGetTokenURIMutation,
   useGetChickenDetailMutation,
-  useSetTokenSalePriceMutation,
+  useSetTokenSalePriceMutation
 } from '../components/Connect'
 import Layout from '../components/Layout'
 import { Button, Spinner, Alert, Form, InputGroup, ToggleButtonGroup, ToggleButton } from 'react-bootstrap'
@@ -72,27 +72,27 @@ const Admin = () => {
   const setExclude = () => {
     useSetExclude.mutate({
       address: freeAddress,
-      status: includeInWhiteList,
+      status: includeInWhiteList
     })
   }
 
   const sendAirdrop = () => {
     useSendAirdrop.mutate({
       numberOfToken: numberOfAirDrop,
-      address: airdropAddress,
+      address: airdropAddress
     })
   }
 
   const updateBaseUrl = () => {
     useChangeUrl.mutate({
-      url: baseUrl,
+      url: baseUrl
     })
   }
 
   const updateChiknKg = () => {
     useSetKg.mutate({
       tokenId: tokenId,
-      kg: kg,
+      kg: kg
     })
   }
 
@@ -104,7 +104,7 @@ const Admin = () => {
     useSetTokenSale.mutate({
       tokenId: saleTokenId,
       newPrice: newSalePrice,
-      isForSale,
+      isForSale
     })
   }
 

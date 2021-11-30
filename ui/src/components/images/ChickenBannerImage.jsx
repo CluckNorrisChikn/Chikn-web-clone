@@ -82,15 +82,15 @@ export default function Image() {
                 layers={[
                   {
                     children: <Img fluid={data.layer3.childImageSharp.fluid} objectFit="cover" alt="mountainsky" />,
-                    amount: 0.23,
+                    amount: 0.23
                   },
                   {
                     children: <Img fluid={data.layer2.childImageSharp.fluid} objectFit="cover" alt="backgrass" />,
-                    amount: 0.15,
+                    amount: 0.15
                   },
                   {
                     children: <Img fluid={data.layer1.childImageSharp.fluid} objectFit="cover" alt="frontgrass" />,
-                    amount: 0.01,
+                    amount: 0.01
                   },
                   // {
                   //   children: (
@@ -108,7 +108,7 @@ export default function Image() {
                         <ChiknLogo />
                       </div>
                     ),
-                    amount: 0,
+                    amount: 0
                   },
                   {
                     children: (
@@ -116,11 +116,11 @@ export default function Image() {
                         <AvaxLogo />
                       </div>
                     ),
-                    amount: 0,
-                  },
+                    amount: 0
+                  }
                 ]}
                 style={{
-                  height: '34vw',
+                  height: '34vw'
                 }}
               ></ParallaxBanner>
             </ParallaxProvider>

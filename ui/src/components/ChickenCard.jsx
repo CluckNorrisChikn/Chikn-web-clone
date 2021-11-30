@@ -17,7 +17,7 @@ import {
   SocialShareLinkButton,
   StackCol,
   StackDynamic,
-  StackRow,
+  StackRow
 } from './Common'
 import {
   getErrorMessage,
@@ -26,7 +26,7 @@ import {
   useBuyTokenMutation,
   useGetTokenQuery,
   useGetWeb3TokenDetail,
-  useWeb3Contract,
+  useWeb3Contract
 } from './Connect'
 import EditListingModal from './modals/EditListingModal'
 import HelmetMeta from './HelmetMeta'
@@ -339,7 +339,7 @@ export const ChickenCardMarketplaceSummary = ({ tokenId = '', onClick = null, ..
               state={{
                 backLink: '/market',
                 backLabel: 'Back to Market',
-                filterState: props.filterState,
+                filterState: props.filterState
               }}
             ></Link>
           </ChiknCard>
@@ -383,7 +383,7 @@ export const ChickenCardWalletSummary = ({ tokenId = '', onClick = null }) => {
               to={`/chikn/${tokenId}`}
               state={{
                 backLink: '/wallet',
-                backLabel: 'Back to Wallet',
+                backLabel: 'Back to Wallet'
               }}
             ></Link>
           </ChiknCard>
@@ -414,19 +414,21 @@ export const ChickenCardRecentActivitySummary = ({ tokenId = '', from = '', to =
                   <ChiknText /> #{tokenId}
                 </h6>
                 {/* TODO what about listed forsale events... do they come through? */}
-                {from === MINTED_FROM_ADDRESS ? (
-                  <GreyPill>Minted</GreyPill>
-                ) : (
-                  <>
-                    <GreenPill>Sold</GreenPill>
-                    <Properties definitionAlign="right">
-                      <dd>price</dd>
-                      <dt>
-                        <AvaxPill>{fmtCurrency(details.price)}</AvaxPill>
-                      </dt>
-                    </Properties>
-                  </>
-                )}
+                {from === MINTED_FROM_ADDRESS
+                  ? (
+                    <GreyPill>Minted</GreyPill>
+                  )
+                  : (
+                    <>
+                      <GreenPill>Sold</GreenPill>
+                      <Properties definitionAlign="right">
+                        <dd>price</dd>
+                        <dt>
+                          <AvaxPill>{fmtCurrency(details.price)}</AvaxPill>
+                        </dt>
+                      </Properties>
+                    </>
+                  )}
               </StackCol>
             </Card.Body>
           </ChiknCard>
@@ -456,7 +458,7 @@ const Property = (props) => {
         </span>
         <RarityColour style={{ textTransform: 'capitalize' }} rarity={rarity}>
           <span>
-            <b>+ {score}</b>
+            <b>+ {score.toFixed(2)}</b>
           </span>
         </RarityColour>
       </div>
@@ -515,7 +517,7 @@ const calculateScore = (properties) => {
     const trait = metadata[t][properties[t] || '']
     totalScore = totalScore + trait.score
   })
-  return totalScore
+  return totalScore.toFixed(2)
 }
 
 /**

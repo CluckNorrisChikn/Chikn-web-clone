@@ -17,13 +17,14 @@
     "clean": "gatsby clean",
     "deploy": "vercel --prod",
     "deploy-staging": "vercel",
-    "lint": "eslint --fix --ext .js,.jsx src || true",
+    "lint": "eslint --ext .js,.jsx src",
+    "lint:fix": "eslint --fix --ext .js,.jsx src",
     "prettier": "prettier --write 'src/**/*.{js,jsx,json}'",
     "pretty-quick": "pretty-quick"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged && npm run lint"
+      "pre-commit": "npm run lint:fix"
     }
   },
   "prettier": {

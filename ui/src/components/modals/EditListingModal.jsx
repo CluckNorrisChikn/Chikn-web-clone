@@ -9,7 +9,7 @@ import {
   Spinner,
   Alert,
   OverlayTrigger,
-  Tooltip,
+  Tooltip
 } from 'react-bootstrap'
 import AvaxSVG from '../../images/avalanche-avax-logo-trans.svg'
 import { KEYS, useGetWeb3TokenDetail, useSetTokenSalePriceMutation, useWeb3Contract } from '../../components/Connect'
@@ -68,7 +68,7 @@ const Page = ({ showModal, setShowModal, enableListing: enabled = false, listing
     useSetTokenSalePrice.mutate({
       tokenId,
       newPrice: price,
-      isForSale: enabledListing,
+      isForSale: enabledListing
     })
   }
 

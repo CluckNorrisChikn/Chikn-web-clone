@@ -17,7 +17,7 @@ export const fmtNumber = (o) => parseFloat(o).toLocaleString()
 export const fmtCurrency = (o) =>
   parseFloat(o).toLocaleString(undefined, {
     minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
+    maximumFractionDigits: 5
   })
 
 export const Section = ({ className = '', pad = true, center = true, ...props }) => (
@@ -104,7 +104,7 @@ export const SocialShareLinkButton = ({ className = '', title = '', text = '', u
             navigator.share({
               title,
               text,
-              url,
+              url
             })
           } else if (navigator.clipboard) {
             copy(url)
