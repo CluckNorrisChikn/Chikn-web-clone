@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet'
 import siteConfig from '../../site-config'
 
 const HelmetMeta = (props) => {
-  const { pageName, title, description, url, imageUrl, imageWidthPx, imageHeightPx } = props
+  const { pageName, title, description, url, imageUrl, imageWidthPx, imageHeightPx, imageAlt } = props
 
   return (
     <Helmet>
@@ -29,7 +29,7 @@ const HelmetMeta = (props) => {
       <meta property="og:image" content={imageUrl || siteConfig.imageUrl} />
       <meta property="og:image:width" content={imageWidthPx || siteConfig.imageWidthPx} />
       <meta property="og:image:height" content={imageHeightPx || siteConfig.imageHeightPx} />
-      <meta property="og:image:alt" content={siteConfig.imageAlt} />
+      <meta property="og:image:alt" content={imageAlt || siteConfig.imageAlt} />
       <meta property="og:url" content={url || siteConfig.url} />
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content={title || siteConfig.title} />
@@ -40,7 +40,7 @@ const HelmetMeta = (props) => {
       <meta name="twitter:site" content={siteConfig.links.twitterAt} />
       <meta name="twitter:description" content={description || siteConfig.description} />
       <meta name="twitter:image" content={imageUrl || siteConfig.image2by1Url} />
-      <meta name="twitter:image:alt" content={siteConfig.imageAlt} />
+      <meta name="twitter:image:alt" content={imageAlt || siteConfig.imageAlt} />
 
       {/* <!-- Chrome, Firefox OS and Opera --> */}
       <meta name="theme-color" content={siteConfig.themeColour} />

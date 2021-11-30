@@ -480,7 +480,7 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
   const socialDescription = `Rank: ${properties.rank} - ${properties.rarity.toUpperCase()} - Check out my chikn!`
 
   // N.B. don't use window.location - as we're now precompiling this component on the build server...
-  const socialUrl = `${siteConfig.url}/chikn/${tokenId}`
+  const socialUrl = `${siteConfig.url}/chikn/${tokenId}/`
 
   return (
     <>
@@ -492,6 +492,7 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
         imageUrl={properties.image}
         imageHeightPx={1000}
         imageWidthPx={1000}
+        imageAlt={'A picture of a super sexy chicken.'}
       />
 
       {/* modal */}
