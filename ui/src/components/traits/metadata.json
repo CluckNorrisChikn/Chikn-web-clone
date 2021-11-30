@@ -182,91 +182,91 @@
     "real feet": {
       "count": 98,
       "percentile": 93.8,
-      "score": 93.80,
+      "score": 93.8,
       "rarity": "legendary"
     },
     "red leather boots": {
       "count": 113,
       "percentile": 87.5,
-      "score": 87.50,
+      "score": 87.5,
       "rarity": "elite"
     },
     "swashbucklers": {
       "count": 121,
       "percentile": 81.3,
-      "score": 81.30,
+      "score": 81.3,
       "rarity": "elite"
     },
     "purple leather boots": {
       "count": 133,
       "percentile": 75.0,
-      "score": 75.00,
+      "score": 75.0,
       "rarity": "elite"
     },
     "comfortable uggs": {
       "count": 134,
       "percentile": 68.8,
-      "score": 68.80,
+      "score": 68.8,
       "rarity": "rare"
     },
     "rollerderby": {
       "count": 142,
       "percentile": 62.5,
-      "score": 62.50,
+      "score": 62.5,
       "rarity": "rare"
     },
     "green kicks": {
       "count": 176,
       "percentile": 56.3,
-      "score": 56.30,
+      "score": 56.3,
       "rarity": "rare"
     },
     "red vans": {
       "count": 203,
       "percentile": 50.0,
-      "score": 50.00,
+      "score": 50.0,
       "rarity": "nice"
     },
     "black vans": {
       "count": 215,
       "percentile": 43.8,
-      "score": 43.80,
+      "score": 43.8,
       "rarity": "nice"
     },
     "blue kicks": {
       "count": 289,
       "percentile": 37.5,
-      "score": 37.50,
+      "score": 37.5,
       "rarity": "nice"
     },
     "purple feet": {
       "count": 1000,
       "percentile": 31.3,
-      "score": 31.30,
+      "score": 31.3,
       "rarity": "nice"
     },
     "red feet": {
       "count": 1023,
       "percentile": 25.0,
-      "score": 25.00,
+      "score": 25.0,
       "rarity": "common"
     },
     "green feet": {
       "count": 1034,
       "percentile": 18.8,
-      "score": 18.80,
+      "score": 18.8,
       "rarity": "common"
     },
     "blue feet": {
       "count": 1037,
       "percentile": 12.5,
-      "score": 12.50,
+      "score": 12.5,
       "rarity": "common"
     },
     "": {
       "count": 4273,
       "percentile": 6.3,
-      "score": 6.30,
+      "score": 6.3,
       "rarity": "common"
     }
   },
@@ -310,7 +310,7 @@
     "hamlet": {
       "count": 51,
       "percentile": 88.3,
-      "score": 195.90,
+      "score": 195.9,
       "rarity": "elite"
     },
     "inherited royalty": {
@@ -472,7 +472,7 @@
     "gentleman's pipe": {
       "count": 224,
       "percentile": 35.3,
-      "score": 44.60,
+      "score": 44.6,
       "rarity": "nice"
     },
     "hubba bubba": {
@@ -568,7 +568,7 @@
     "admiral": {
       "count": 273,
       "percentile": 4.0,
-      "score": 36.60,
+      "score": 36.6,
       "rarity": "common"
     },
     "": {
@@ -630,7 +630,7 @@
     "black bandana": {
       "count": 276,
       "percentile": 62.0,
-      "score": 36.20,
+      "score": 36.2,
       "rarity": "rare"
     },
     "mim bling": {
@@ -654,7 +654,7 @@
     "dollar chain": {
       "count": 341,
       "percentile": 42.9,
-      "score": 29.30,
+      "score": 29.3,
       "rarity": "nice"
     },
     "ethereum bling": {
@@ -666,7 +666,7 @@
     "chicken choker": {
       "count": 366,
       "percentile": 33.4,
-      "score": 27.30,
+      "score": 27.3,
       "rarity": "nice"
     },
     "avax bling": {
@@ -716,7 +716,7 @@
     "big mama fat pipes": {
       "count": 184,
       "percentile": 91.7,
-      "score": 54.30,
+      "score": 54.3,
       "rarity": "legendary"
     },
     "golden plumage": {
@@ -790,7 +790,7 @@
     "business boy": {
       "count": 49,
       "percentile": 95.5,
-      "score": 203.90,
+      "score": 203.9,
       "rarity": "legendary"
     },
     "karate kid": {
@@ -850,7 +850,7 @@
     "cutlass": {
       "count": 300,
       "percentile": 50.0,
-      "score": 33.30,
+      "score": 33.3,
       "rarity": "nice"
     },
     "fresh fish": {
@@ -930,7 +930,7 @@
     "space trim": {
       "count": 181,
       "percentile": 71.5,
-      "score": 55.20,
+      "score": 55.2,
       "rarity": "rare"
     },
     "black trim": {
@@ -958,49 +958,49 @@
       "rarity": "common"
     }
   },
-    "_numOfTraits": {
+  "_numOfTraits": {
     "2": {
       "count": 47,
       "percentile": 87.5,
       "score": 212.77,
       "rarity": "elite"
-      } ,
+    },
     "3": {
       "count": 294,
       "percentile": 62.5,
       "score": 34.01,
       "rarity": "rare"
-      } ,
+    },
     "4": {
       "count": 1483,
       "percentile": 37.5,
       "score": 6.74,
       "rarity": "nice"
-      } ,
+    },
     "5": {
       "count": 4846,
       "percentile": 12.5,
       "score": 2.06,
       "rarity": "common"
-      } ,
+    },
     "6": {
       "count": 2635,
       "percentile": 25,
-      "score": 3.80,
+      "score": 3.8,
       "rarity": "common"
-      } ,
+    },
     "7": {
       "count": 631,
       "percentile": 50,
       "score": 15.85,
       "rarity": "nice"
-      } ,
+    },
     "8": {
       "count": 64,
       "percentile": 75,
       "score": 156.25,
       "rarity": "elite"
-    } 
+    }
   },
   "rarity": {
     "common": 0,

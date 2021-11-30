@@ -38,7 +38,7 @@ const FlipDate = ({ value }) => {
     const tickValue = tickRef.current
     Tick.DOM.create(currDiv, {
       value,
-      didInit
+      didInit,
     })
 
     return () => Tick.DOM.destroy(tickValue)
@@ -84,19 +84,10 @@ const FlipDate = ({ value }) => {
           // data-transform="preset(d, h, m, s) -> delay"
         >
           <div className="tick-group">
-            <div
-              data-key="value"
-              data-repeat="true"
-              data-transform="pad(00) -> split -> delay"
-            >
+            <div data-key="value" data-repeat="true" data-transform="pad(00) -> split -> delay">
               <span data-view="flip"></span>
             </div>
-            <span
-              data-key="label"
-              data-value="Days"
-              data-view="text"
-              className="tick-label"
-            />
+            <span data-key="label" data-value="Days" data-view="text" className="tick-label" />
           </div>
         </div>
       </div>

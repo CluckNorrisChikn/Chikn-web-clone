@@ -6,10 +6,7 @@ import { injected } from '../hooks/web3'
 import { KEYS, useWeb3Contract } from './Connect'
 import GenericToast from './GenericToast'
 import siteConfig from '../../site-config'
-import {
-  AVALANCHE_TESTNET_PARAMS,
-  AVALANCHE_MAINNET_PARAMS
-} from '../utils/network'
+import { AVALANCHE_TESTNET_PARAMS, AVALANCHE_MAINNET_PARAMS } from '../utils/network'
 
 const FixedWidthButton = styled(Button)`
   min-width: 180px;
@@ -23,23 +20,13 @@ const LOCAL_STORAGE_KEYS_CONNECTED = 'connected'
 
 const setUserHasConnected = (hasConnected) => {
   if (isBrowser) {
-    console.debug(
-      `wallet: storing user has connected -> ${hasConnected ? 'Y' : 'N'}`
-    )
+    console.debug(`wallet: storing user has connected -> ${hasConnected ? 'Y' : 'N'}`)
     if (hasConnected) {
       window.localStorage.setItem(LOCAL_STORAGE_KEYS_CONNECTED, 'Y')
     } else {
       window.localStorage.removeItem(LOCAL_STORAGE_KEYS_CONNECTED)
     }
   }
-}
-const getUserWasConnectedWhenLastSeen = () => {
-  if (isBrowser) {
-    const value = window.localStorage.getItem(LOCAL_STORAGE_KEYS_CONNECTED)
-    console.debug('storage: connected = ' + value)
-    return value === 'Y'
-  }
-  return false
 }
 
 // util
@@ -52,11 +39,7 @@ const shortFormAccountNum = (account) => {
 
 const connectToWallet = async (activate) => {
   try {
-    await activate(
-      injected,
-      (e) => console.error('wallet: error encountered #1', e),
-      true
-    )
+    await activate(injected, (e) => console.error('wallet: error encountered #1', e), true)
     setUserHasConnected(true)
   } catch (err) {
     console.error('wallet: error encountered #2', err)
@@ -67,14 +50,14 @@ const connectToWallet = async (activate) => {
 
 export const ConnectWalletButton = () => {
   const queryClient = useQueryClient()
-  const { active, error, account, activate, deactivate } = useWeb3Contract()
+  const { active, account, activate, deactivate } = useWeb3Contract()
 
   const [notification, setNotification] = React.useState({
     title: '',
     body: '',
     style: 'success',
     autoHide: false,
-    show: false
+    show: false,
   })
 
   const connectToWalletWithNotification = (activate) => {
@@ -91,15 +74,12 @@ export const ConnectWalletButton = () => {
       })
       .catch((err) => {
         const { stack } = err
-        console.error(
-          `Wallet connect error: '${err.constructor?.name}' - ${err.message}`,
-          { stack }
-        )
+        console.error(`Wallet connect error: '${err.constructor?.name}' - ${err.message}`, { stack })
         setNotification({
           title: 'Wallet connect error',
           body: err.message,
           show: true,
-          style: 'danger'
+          style: 'danger',
         })
       })
   }
@@ -124,7 +104,7 @@ export const ConnectWalletButton = () => {
         body: 'Wallet successfully disconnected',
         show: true,
         autoHide: true,
-        style: 'success'
+        style: 'success',
       })
       // give wallet state time to clear (and propagate)...
       setTimeout(() => {
@@ -157,7 +137,7 @@ export const ConnectWalletButton = () => {
       provider
         .request({
           method: 'wallet_addEthereumChain',
-          params: [!siteConfig.useAvaxTestnet ? AVALANCHE_MAINNET_PARAMS : AVALANCHE_TESTNET_PARAMS]
+          params: [!siteConfig.useAvaxTestnet ? AVALANCHE_MAINNET_PARAMS : AVALANCHE_TESTNET_PARAMS],
         })
         .catch((error) => {
           console.log('Unable to push wallet', error)
@@ -168,7 +148,7 @@ export const ConnectWalletButton = () => {
       body: '',
       style: 'success',
       autoHide: false,
-      show: false
+      show: false,
     })
   }
 
@@ -184,21 +164,15 @@ export const ConnectWalletButton = () => {
       >
         {/* unsupported network */}
         {notification.body.includes('Unsupported chain') && (
-          <div className="py-4">
-            Unsupported network. Please switch your wallet to the Avalanche
-            Network.
-          </div>
+          <div className="py-4">Unsupported network. Please switch your wallet to the Avalanche Network.</div>
         )}
         {/* generic message */}
-        {!notification.body.includes('Unsupported chain') && (
-          <div className="py-4">{notification.body}</div>
-        )}
+        {!notification.body.includes('Unsupported chain') && <div className="py-4">{notification.body}</div>}
 
-        {notification.style === 'danger' &&
-          notification.body.includes('Unsupported chain') && (
+        {notification.style === 'danger' && notification.body.includes('Unsupported chain') && (
           <div className="d-flex justify-content-center pt-3">
             <Button className="w-100" onClick={addAvalancheNetwork}>
-                Switch to correct network
+              Switch to correct network
             </Button>
           </div>
         )}

@@ -4,10 +4,10 @@ export const AVALANCHE_MAINNET_PARAMS = {
   nativeCurrency: {
     name: 'Avalanche',
     symbol: 'AVAX',
-    decimals: 18
+    decimals: 18,
   },
   rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
-  blockExplorerUrls: ['https://cchain.explorer.avax.network/']
+  blockExplorerUrls: ['https://cchain.explorer.avax.network/'],
 }
 
 export const AVALANCHE_TESTNET_PARAMS = {
@@ -16,10 +16,10 @@ export const AVALANCHE_TESTNET_PARAMS = {
   nativeCurrency: {
     name: 'Avalanche',
     symbol: 'AVAX',
-    decimals: 18
+    decimals: 18,
   },
   rpcUrls: ['https://api.avax-test.network/ext/bc/C/rpc'],
-  blockExplorerUrls: ['https://cchain.explorer.avax-test.network/']
+  blockExplorerUrls: ['https://cchain.explorer.avax-test.network/'],
 }
 
 export const AVALANCHE_LOCAL_PARAMS = {
@@ -28,8 +28,8 @@ export const AVALANCHE_LOCAL_PARAMS = {
   nativeCurrency: {
     name: 'Avalanche',
     symbol: 'AVAX',
-    decimals: 18
+    decimals: 18,
   },
   rpcUrls: ['http://localhost:9650/ext/bc/C/rpc'],
-  blockExplorerUrls: ['']
+  blockExplorerUrls: [''],
 }

@@ -5,13 +5,7 @@ import siteConfig from '../../site-config'
 import ChickenIconSrc from '../images/Chikn_Logo_Wordmark.svg'
 import copy from 'copy-to-clipboard'
 
-import {
-  FaDiscord,
-  FaTwitter,
-  FaShareAlt,
-  FaDownload,
-  FaSync
-} from 'react-icons/fa'
+import { FaDiscord, FaTwitter, FaShareAlt, FaDownload, FaSync } from 'react-icons/fa'
 
 // formatters
 
@@ -23,30 +17,18 @@ export const fmtNumber = (o) => parseFloat(o).toLocaleString()
 export const fmtCurrency = (o) =>
   parseFloat(o).toLocaleString(undefined, {
     minimumFractionDigits: 0,
-    maximumFractionDigits: 5
+    maximumFractionDigits: 5,
   })
 
-export const Section = ({
-  className = '',
-  pad = true,
-  center = true,
-  ...props
-}) => (
+export const Section = ({ className = '', pad = true, center = true, ...props }) => (
   <Container
-    className={`${pad ? 'p-3 p-md-5' : ''} ${
-      center ? 'text-center' : ''
-    } rounded-3 ${className}`}
+    className={`${pad ? 'p-3 p-md-5' : ''} ${center ? 'text-center' : ''} rounded-3 ${className}`}
     {...props}
   />
 )
 
 export const Stack = ({ className = '', direction = 'row', ...props }) => (
-  <div
-    className={`d-flex flex-${
-      direction === 'row' ? 'row' : 'column'
-    } ${className}`}
-    {...props}
-  />
+  <div className={`d-flex flex-${direction === 'row' ? 'row' : 'column'} ${className}`} {...props} />
 )
 export const StackDynamic = ({ className = '', ...props }) => (
   <div className={`d-flex gap-2 stack-dynamic ${className}`} {...props} />
@@ -55,9 +37,7 @@ export const StackDynamic = ({ className = '', ...props }) => (
 export const StackCol = ({ className = '', ...props }) => (
   <div className={`d-flex flex-column ${className}`} {...props} />
 )
-export const StackRow = ({ className = '', ...props }) => (
-  <div className={`d-flex flex-row ${className}`} {...props} />
-)
+export const StackRow = ({ className = '', ...props }) => <div className={`d-flex flex-row ${className}`} {...props} />
 
 export const Grid = styled.div`
   display: grid;
@@ -78,20 +58,12 @@ export const StyleDaChikn = ({ children = '' }) => {
  * An <A> link, thats styled as a button.
  */
 export const AButton = ({ className = '', ...props }) => (
-  <a
-    className={`btn ${className}`}
-    target="_blank"
-    rel="noopener noreferrer"
-    {...props}
-  />
+  <a className={`btn ${className}`} target="_blank" rel="noopener noreferrer" {...props} />
 )
 
 export const SocialTwitterButton = () => {
   return (
-    <AButton
-      className="fs-5 btn-lg btn-outline-dark"
-      href={siteConfig.links.twitter}
-    >
+    <AButton className="fs-5 btn-lg btn-outline-dark" href={siteConfig.links.twitter}>
       <FaTwitter />
     </AButton>
   )
@@ -99,30 +71,19 @@ export const SocialTwitterButton = () => {
 
 export const SocialDiscordButton = () => {
   return (
-    <AButton
-      className="fs-5 btn-lg btn-outline-dark"
-      href={siteConfig.links.discord}
-    >
+    <AButton className="fs-5 btn-lg btn-outline-dark" href={siteConfig.links.discord}>
       <FaDiscord />
     </AButton>
   )
 }
 
-export const ChickenIcon = styled((props) => (
-  <img src={ChickenIconSrc} {...props} />
-))`
+export const ChickenIcon = styled((props) => <img src={ChickenIconSrc} {...props} />)`
   // width: ${(props) => props.size || '6rem'};
   height: ${(props) => props.size || '2.5rem'};
   margin: 10px 0px;
 `
 
-export const SocialShareLinkButton = ({
-  className = '',
-  title = '',
-  text = '',
-  url = '',
-  ...props
-}) => {
+export const SocialShareLinkButton = ({ className = '', title = '', text = '', url = '', ...props }) => {
   const [tooltipText, setTooltipText] = React.useState('Copy link')
 
   const tempChangeTooltipLabel = () => {
@@ -132,10 +93,7 @@ export const SocialShareLinkButton = ({
   }
 
   return (
-    <OverlayTrigger
-      placement="bottom"
-      overlay={<Tooltip id="tooltip-disabled">{tooltipText}</Tooltip>}
-    >
+    <OverlayTrigger placement="bottom" overlay={<Tooltip id="tooltip-disabled">{tooltipText}</Tooltip>}>
       <Button
         variant="outline-dark"
         className={`${className}`}
@@ -146,7 +104,7 @@ export const SocialShareLinkButton = ({
             navigator.share({
               title,
               text,
-              url
+              url,
             })
           } else if (navigator.clipboard) {
             copy(url)
@@ -162,17 +120,9 @@ export const SocialShareLinkButton = ({
   )
 }
 
-export const LinkButton = ({
-  className = '',
-  href = '',
-  tooltip = 'Download image',
-  ...props
-}) => {
+export const LinkButton = ({ className = '', href = '', tooltip = 'Download image', ...props }) => {
   return (
-    <OverlayTrigger
-      placement="bottom"
-      overlay={<Tooltip id="tooltip-disabled">{tooltip}</Tooltip>}
-    >
+    <OverlayTrigger placement="bottom" overlay={<Tooltip id="tooltip-disabled">{tooltip}</Tooltip>}>
       <a
         className={`btn btn-outline-dark ${className}`}
         {...props}
@@ -186,23 +136,10 @@ export const LinkButton = ({
   )
 }
 
-export const RefreshButton = ({
-  className = '',
-  onClick = '',
-  tooltip = 'Refresh',
-  ...props
-}) => {
+export const RefreshButton = ({ className = '', onClick = '', tooltip = 'Refresh', ...props }) => {
   return (
-    <OverlayTrigger
-      placement="bottom"
-      overlay={<Tooltip id="tooltip-disabled">{tooltip}</Tooltip>}
-    >
-      <Button
-        variant="outline-dark"
-        className={`${className}`}
-        {...props}
-        onClick={onClick}
-      >
+    <OverlayTrigger placement="bottom" overlay={<Tooltip id="tooltip-disabled">{tooltip}</Tooltip>}>
+      <Button variant="outline-dark" className={`${className}`} {...props} onClick={onClick}>
         <FaSync />
       </Button>
     </OverlayTrigger>
@@ -226,9 +163,7 @@ export const RainbowText2 = styled((props) => <span {...props} />)`
   -webkit-box-decoration-break: clone;
 `
 
-export const ChiknText = styled((props) => (
-  <span {...props}>{siteConfig.nftName}</span>
-))`
+export const ChiknText = styled((props) => <span {...props}>{siteConfig.nftName}</span>)`
   // background: linear-gradient(135deg, #df3f3d 0%, purple 100%);
   // color: #b664b0;
   // background-clip: text;

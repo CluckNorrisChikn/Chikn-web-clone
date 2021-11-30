@@ -7,21 +7,12 @@ import styled from 'styled-components'
 import siteConfig from '../../site-config'
 import { KEYS } from '../components/Connect'
 import AvalancheIconSrc from '../images/avalanche-avax-logo-black.svg'
-import {
-  ChickenIcon,
-  SocialDiscordButton,
-  SocialTwitterButton,
-  StackCol,
-  StackRow,
-  StyleDaChikn
-} from './Common'
+import { ChickenIcon, SocialDiscordButton, SocialTwitterButton, StackCol, StackRow, StyleDaChikn } from './Common'
 import { ConnectWalletButton } from './ConnectWalletButton'
 import HelmetMeta from './HelmetMeta'
 import { injected } from '../hooks/web3'
 
-const AvaxLogoSmall = styled((props) => (
-  <img src={AvalancheIconSrc} {...props} />
-))`
+const AvaxLogoSmall = styled((props) => <img src={AvalancheIconSrc} {...props} />)`
   width: 1.2rem;
   height: 1.2rem;
   margin-left: 0.2rem;
@@ -42,9 +33,7 @@ const NavGatsbyLink = ({ children, disabled, ...props }) => {
   return (
     <Nav.Item>
       <Link
-        className={`nav-link px-3 text-capitalize ${
-          disabled ? 'disabled' : ''
-        }`}
+        className={`nav-link px-3 text-capitalize ${disabled ? 'disabled' : ''}`}
         activeClassName="active"
         {...props}
       >
@@ -65,13 +54,7 @@ const HeaderLinks = () =>
     </NavGatsbyLink>
   ))
 
-const Layout = ({
-  pageName = undefined,
-  children = [],
-  constrainWidth = true,
-  padTop = true,
-  className = 'gap-4'
-}) => {
+const Layout = ({ pageName = undefined, children = [], constrainWidth = true, padTop = true, className = 'gap-4' }) => {
   // add useEffect to monitor change in wallet
   const { library, account, chainId, activate } = useWeb3React()
   const queryClient = useQueryClient()
@@ -107,22 +90,14 @@ const Layout = ({
 
       {/* header */}
       <header style={{ postion: 'relative' }}>
-        <Navbar
-          bg="light"
-          expand="md"
-          fixed="top"
-          className="bg-white border-bottom shadow-sm"
-        >
+        <Navbar bg="light" expand="md" fixed="top" className="bg-white border-bottom shadow-sm">
           <Container>
             <Navbar.Brand href="/">
               <ChickenIcon />
               {/* <StyleDaChikn>{siteConfig.title}</StyleDaChikn> */}
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="navbarResponsive" />
-            <Navbar.Collapse
-              id="navbarResponsive"
-              className="justify-content-end"
-            >
+            <Navbar.Collapse id="navbarResponsive" className="justify-content-end">
               {/* links */}
               <Nav className="align-items-md-center">
                 <HeaderLinks />
@@ -138,20 +113,12 @@ const Layout = ({
       {/* main */}
       <main className="flex-grow-1">
         {constrainWidth ? (
-          <Container
-            className={`${className} ${
-              padTop ? 'mt-5' : 'mt-0'
-            } mb-5 d-flex flex-column`}
-          >
+          <Container className={`${className} ${padTop ? 'mt-5' : 'mt-0'} mb-5 d-flex flex-column`}>
             {/* <TransactionProgress intialOnShow={true} /> */}
             {children}
           </Container>
         ) : (
-          <div
-            className={`${className} ${
-              padTop ? 'mt-5' : 'mt-0'
-            } mb-5 d-flex flex-column`}
-          >
+          <div className={`${className} ${padTop ? 'mt-5' : 'mt-0'} mb-5 d-flex flex-column`}>
             {/* <TransactionProgress intialOnShow={false} /> */}
             {children}
           </div>
@@ -220,8 +187,7 @@ const Layout = ({
           <Container className="border-top p-3">
             <StackRow className="justify-content-between align-items-center">
               <small>
-                &copy; {new Date().getFullYear()}{' '}
-                <StyleDaChikn>{siteConfig.title}</StyleDaChikn> Inc
+                &copy; {new Date().getFullYear()} <StyleDaChikn>{siteConfig.title}</StyleDaChikn> Inc
               </small>
               <small>
                 Powered by <AvaxLogoSmall />

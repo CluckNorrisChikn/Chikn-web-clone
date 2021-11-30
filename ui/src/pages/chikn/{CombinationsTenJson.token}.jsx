@@ -10,20 +10,14 @@ const Page = (props) => {
   const { params: { token: tokenId = -1 } = {}, location = {} } = props
 
   const { backLink, backLabel, filterState } =
-    typeof location.state !== 'undefined' && location.state !== null
-      ? location.state
-      : {}
+    typeof location.state !== 'undefined' && location.state !== null ? location.state : {}
 
   return (
     <Layout pageName={`${siteConfig.nftName} #${tokenId}`}>
       <TransactionProgress intialOnShow={false} />
       {backLink && (
         <div>
-          <Link
-            to={backLink}
-            state={{ filterState }}
-            className="btn btn-primary px-5"
-          >
+          <Link to={backLink} state={{ filterState }} className="btn btn-primary px-5">
             &laquo;&nbsp;{backLabel || 'Go back'}
           </Link>
         </div>

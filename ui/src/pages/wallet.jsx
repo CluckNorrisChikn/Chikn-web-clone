@@ -4,17 +4,9 @@ import * as React from 'react'
 import { Alert, Button, Col, Row, Pagination } from 'react-bootstrap'
 import { FaSync } from 'react-icons/fa'
 import { useQueryClient } from 'react-query'
-import {
-  ChickenCardShimmerx4,
-  ChickenCardWalletSummary,
-} from '../components/ChickenCard'
+import { ChickenCardShimmerx4, ChickenCardWalletSummary } from '../components/ChickenCard'
 import { ChiknText, Section, StackRow } from '../components/Common'
-import {
-  getErrorMessage,
-  KEYS,
-  useGetWalletTokensQuery,
-  useWeb3Contract,
-} from '../components/Connect'
+import { getErrorMessage, KEYS, useGetWalletTokensQuery, useWeb3Contract } from '../components/Connect'
 import Layout from '../components/Layout'
 
 const IndexPage = () => {
@@ -79,22 +71,16 @@ const IndexPage = () => {
 
         {/* wallet error */}
         {active && !useWalletTokens.isFetching && useWalletTokens.isError && (
-          <Alert variant="danger">
-            {getErrorMessage(useWalletTokens.error, deactivate)}
-          </Alert>
+          <Alert variant="danger">{getErrorMessage(useWalletTokens.error, deactivate)}</Alert>
         )}
 
         {/* wallet loaded - no tokens */}
-        {active &&
-          !useWalletTokens.isFetching &&
-          useWalletTokens.isSuccess &&
-          tokens.length === 0 && <h5>No tokens found in your wallet.</h5>}
+        {active && !useWalletTokens.isFetching && useWalletTokens.isSuccess && tokens.length === 0 && (
+          <h5>No tokens found in your wallet.</h5>
+        )}
 
         {/* wallet loaded - no tokens */}
-        {active &&
-          !useWalletTokens.isFetching &&
-          useWalletTokens.isSuccess &&
-          tokens.length > 0 && (
+        {active && !useWalletTokens.isFetching && useWalletTokens.isSuccess && tokens.length > 0 && (
           <>
             <h5>You own {tokens.length.toLocaleString()} chikn</h5>
             <Row className="gy-3 gx-3 mt-4">
@@ -103,11 +89,7 @@ const IndexPage = () => {
                 .sort((a, b) => a - b)
                 .map((tokenId) => (
                   <Col key={tokenId} sm={6} md={4} lg={3}>
-                    <ChickenCardWalletSummary
-                      tokenId={tokenId}
-                      backLink={'/wallet'}
-                      backLabel={'Back to Wallet'}
-                    />
+                    <ChickenCardWalletSummary tokenId={tokenId} backLink={'/wallet'} backLabel={'Back to Wallet'} />
                   </Col>
                 ))}
             </Row>
@@ -115,26 +97,13 @@ const IndexPage = () => {
         )}
         <div className="d-flex flex-column align-items-center mt-5">
           <h5>
-            Page {(pageNumber + 1).toLocaleString()} of{' '}
-            {(maxPageNumber + 1).toLocaleString()}
+            Page {(pageNumber + 1).toLocaleString()} of {(maxPageNumber + 1).toLocaleString()}
           </h5>
           <Pagination>
-            <Pagination.First
-              disabled={pageNumber === 0}
-              onClick={() => setPage(0, true)}
-            />
-            <Pagination.Prev
-              disabled={pageNumber === 0}
-              onClick={() => setPage(pageNumber - 1, true)}
-            />
-            <Pagination.Next
-              disabled={pageNumber === maxPageNumber}
-              onClick={() => setPage(pageNumber + 1, true)}
-            />
-            <Pagination.Last
-              disabled={pageNumber === maxPageNumber}
-              onClick={() => setPage(999999, true)}
-            />
+            <Pagination.First disabled={pageNumber === 0} onClick={() => setPage(0, true)} />
+            <Pagination.Prev disabled={pageNumber === 0} onClick={() => setPage(pageNumber - 1, true)} />
+            <Pagination.Next disabled={pageNumber === maxPageNumber} onClick={() => setPage(pageNumber + 1, true)} />
+            <Pagination.Last disabled={pageNumber === maxPageNumber} onClick={() => setPage(999999, true)} />
           </Pagination>
         </div>
       </Section>

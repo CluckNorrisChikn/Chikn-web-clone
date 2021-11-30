@@ -81,34 +81,16 @@ export default function Image() {
               <ParallaxBanner
                 layers={[
                   {
-                    children: (
-                      <Img
-                        fluid={data.layer3.childImageSharp.fluid}
-                        objectFit="cover"
-                        alt="mountainsky"
-                      />
-                    ),
-                    amount: 0.23
+                    children: <Img fluid={data.layer3.childImageSharp.fluid} objectFit="cover" alt="mountainsky" />,
+                    amount: 0.23,
                   },
                   {
-                    children: (
-                      <Img
-                        fluid={data.layer2.childImageSharp.fluid}
-                        objectFit="cover"
-                        alt="backgrass"
-                      />
-                    ),
-                    amount: 0.15
+                    children: <Img fluid={data.layer2.childImageSharp.fluid} objectFit="cover" alt="backgrass" />,
+                    amount: 0.15,
                   },
                   {
-                    children: (
-                      <Img
-                        fluid={data.layer1.childImageSharp.fluid}
-                        objectFit="cover"
-                        alt="frontgrass"
-                      />
-                    ),
-                    amount: 0.01
+                    children: <Img fluid={data.layer1.childImageSharp.fluid} objectFit="cover" alt="frontgrass" />,
+                    amount: 0.01,
                   },
                   // {
                   //   children: (
@@ -122,29 +104,23 @@ export default function Image() {
                   // },
                   {
                     children: (
-                      <div
-                        className="d-flex justify-content-center align-items-center"
-                        style={{ height: '17vw' }}
-                      >
+                      <div className="d-flex justify-content-center align-items-center" style={{ height: '17vw' }}>
                         <ChiknLogo />
                       </div>
                     ),
-                    amount: 0
+                    amount: 0,
                   },
                   {
                     children: (
-                      <div
-                        className="d-flex justify-content-center align-items-center"
-                        style={{ height: '31vw' }}
-                      >
+                      <div className="d-flex justify-content-center align-items-center" style={{ height: '31vw' }}>
                         <AvaxLogo />
                       </div>
                     ),
-                    amount: 0
-                  }
+                    amount: 0,
+                  },
                 ]}
                 style={{
-                  height: '34vw'
+                  height: '34vw',
                 }}
               ></ParallaxBanner>
             </ParallaxProvider>

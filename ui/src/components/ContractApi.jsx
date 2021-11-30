@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from 'react-query'
 let wallet = null
 
 const KEYS = {
-  WALLET: () => ['wallet']
+  WALLET: () => ['wallet'],
 }
 
 export const useGetWalletQuery = () => {
@@ -26,7 +26,7 @@ export const useUploadUnitPriceMutation = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(KEYS.WALLET())
-      }
+      },
     }
   )
 }

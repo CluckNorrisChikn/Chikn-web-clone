@@ -17,32 +17,18 @@ import {
   useWeb3GBContract,
   useGetTokenURIMutation,
   useGetChickenDetailMutation,
-  useSetTokenSalePriceMutation
+  useSetTokenSalePriceMutation,
 } from '../components/Connect'
 import Layout from '../components/Layout'
-import {
-  Button,
-  Spinner,
-  Alert,
-  Form,
-  InputGroup,
-  ToggleButtonGroup,
-  ToggleButton
-} from 'react-bootstrap'
+import { Button, Spinner, Alert, Form, InputGroup, ToggleButtonGroup, ToggleButton } from 'react-bootstrap'
 
 const Admin = () => {
   const { contract, account, active } = useWeb3Contract()
   const { contract: GBContract } = useWeb3GBContract()
-  const { isLoading: publicLoading, data: publicStatus } =
-    useIsPublicMintOpenQuery(contract, account, active)
-  const { isLoading: gbLoading, data: gbStatus } = useIsGBMintOpenQuery(
-    contract,
-    account,
-    active
-  )
+  const { isLoading: publicLoading, data: publicStatus } = useIsPublicMintOpenQuery(contract, account, active)
+  const { isLoading: gbLoading, data: gbStatus } = useIsGBMintOpenQuery(contract, account, active)
   const { data: currentBaseURL } = useBaseUrlQuery(contract, account, active)
-  const { isLoading: tokenForSaleIsLoading, data: tokensforSales } =
-    useGetAllSalesTokenQuery(contract, account, active)
+  const { isLoading: tokenForSaleIsLoading, data: tokensforSales } = useGetAllSalesTokenQuery(contract, account, active)
 
   const [address, setAddress] = React.useState('')
   const [freeAddress, setFreeAddress] = React.useState('')
@@ -86,27 +72,27 @@ const Admin = () => {
   const setExclude = () => {
     useSetExclude.mutate({
       address: freeAddress,
-      status: includeInWhiteList
+      status: includeInWhiteList,
     })
   }
 
   const sendAirdrop = () => {
     useSendAirdrop.mutate({
       numberOfToken: numberOfAirDrop,
-      address: airdropAddress
+      address: airdropAddress,
     })
   }
 
   const updateBaseUrl = () => {
     useChangeUrl.mutate({
-      url: baseUrl
+      url: baseUrl,
     })
   }
 
   const updateChiknKg = () => {
     useSetKg.mutate({
       tokenId: tokenId,
-      kg: kg
+      kg: kg,
     })
   }
 
@@ -118,7 +104,7 @@ const Admin = () => {
     useSetTokenSale.mutate({
       tokenId: saleTokenId,
       newPrice: newSalePrice,
-      isForSale
+      isForSale,
     })
   }
 
@@ -149,16 +135,8 @@ const Admin = () => {
 
         <h2>Opening for market</h2>
         <div>
-          Is GB mint open:{' '}
-          <span>
-            {publicLoading ? <Spinner animation="border" /> : `${gbStatus}`}{' '}
-          </span>
-          <Button
-            title="GB Toggle"
-            variant="success"
-            disabled={!active || useToggleGB.isLoading}
-            onClick={toggleGB}
-          >
+          Is GB mint open: <span>{publicLoading ? <Spinner animation="border" /> : `${gbStatus}`} </span>
+          <Button title="GB Toggle" variant="success" disabled={!active || useToggleGB.isLoading} onClick={toggleGB}>
             {useToggleGB.isLoading ? <Spinner animation="border" /> : 'Toggle'}
           </Button>
           {useToggleGB.isError && (
@@ -169,23 +147,14 @@ const Admin = () => {
         </div>
 
         <div>
-          Is Public mint open:{' '}
-          <span>
-            {gbLoading ? <Spinner animation="border" /> : `${publicStatus}`}{' '}
-          </span>
+          Is Public mint open: <span>{gbLoading ? <Spinner animation="border" /> : `${publicStatus}`} </span>
           <Button
             title="Public Toggle"
             variant="success"
             disabled={!active || useTogglePublic.isLoading}
             onClick={togglePublic}
           >
-            {useTogglePublic.isLoading
-              ? (
-                <Spinner animation="border" />
-              )
-              : (
-                'Toggle'
-              )}
+            {useTogglePublic.isLoading ? <Spinner animation="border" /> : 'Toggle'}
           </Button>
           {useTogglePublic.isError && (
             <Alert variant="danger" className="mt-4">
@@ -196,12 +165,7 @@ const Admin = () => {
 
         <hr />
         <h2>Check have 900 or more GB token</h2>
-        <Button
-          title="GB Check"
-          variant="success"
-          disabled={!active || useHasGB.isLoading}
-          onClick={checkHasGB}
-        >
+        <Button title="GB Check" variant="success" disabled={!active || useHasGB.isLoading} onClick={checkHasGB}>
           {useHasGB.isLoading ? <Spinner animation="border" /> : 'Check'}
         </Button>
         {useHasGB.isSuccess && (
@@ -215,12 +179,7 @@ const Admin = () => {
           </Alert>
         )}
 
-        <Button
-          title="Test GB"
-          variant="success"
-          disabled={!active || useTogglePublic.isLoading}
-          onClick={test}
-        >
+        <Button title="Test GB" variant="success" disabled={!active || useTogglePublic.isLoading} onClick={test}>
           Call GB contract directly (Check console log)
         </Button>
 
@@ -300,13 +259,7 @@ const Admin = () => {
 
         <hr />
         <h2>Token for sale</h2>
-        {tokenForSaleIsLoading
-          ? (
-            <Spinner animation="border" />
-          )
-          : (
-            <pre>{JSON.stringify(tokensforSales)}</pre>
-          )}
+        {tokenForSaleIsLoading ? <Spinner animation="border" /> : <pre>{JSON.stringify(tokensforSales)}</pre>}
 
         <hr />
         {/* Set token for sale */}
@@ -365,13 +318,7 @@ const Admin = () => {
           disabled={!active || useSetTokenSale.isLoading}
           onClick={submiSaleToken}
         >
-          {useSetTokenSale.isLoading
-            ? (
-              <Spinner animation="border" />
-            )
-            : (
-              'Set sale'
-            )}
+          {useSetTokenSale.isLoading ? <Spinner animation="border" /> : 'Set sale'}
         </Button>
         {useSetTokenSale.isSuccess && (
           <Alert variant="success" className="mt-4">
@@ -404,13 +351,7 @@ const Admin = () => {
                 disabled={!active || useGetChikenDetail.isLoading}
                 onClick={getChiknById}
               >
-                {useGetChikenDetail.isLoading
-                  ? (
-                    <Spinner animation="border" />
-                  )
-                  : (
-                    'Check'
-                  )}
+                {useGetChikenDetail.isLoading ? <Spinner animation="border" /> : 'Check'}
               </Button>
             </InputGroup>
           </Form.Group>
@@ -446,13 +387,7 @@ const Admin = () => {
                 disabled={!active || useGetTokenUri.isLoading}
                 onClick={getTokenUri}
               >
-                {useGetTokenUri.isLoading
-                  ? (
-                    <Spinner animation="border" />
-                  )
-                  : (
-                    'Check'
-                  )}
+                {useGetTokenUri.isLoading ? <Spinner animation="border" /> : 'Check'}
               </Button>
             </InputGroup>
           </Form.Group>
@@ -481,12 +416,7 @@ const Admin = () => {
             />
           </InputGroup>
           <InputGroup className="mb-3">
-            <Form.Control
-              type="number"
-              placeholder="set kg"
-              value={kg}
-              onChange={(e) => setKg(e.target.value)}
-            />
+            <Form.Control type="number" placeholder="set kg" value={kg} onChange={(e) => setKg(e.target.value)} />
           </InputGroup>
         </Form.Group>
         <Button
@@ -528,13 +458,7 @@ const Admin = () => {
                 disabled={!active || useGetExcluded.isLoading}
                 onClick={checkExclude}
               >
-                {useGetExcluded.isLoading
-                  ? (
-                    <Spinner animation="border" />
-                  )
-                  : (
-                    'Check'
-                  )}
+                {useGetExcluded.isLoading ? <Spinner animation="border" /> : 'Check'}
               </Button>
             </InputGroup>
           </Form.Group>
@@ -550,9 +474,7 @@ const Admin = () => {
         <h2>Free Excluding (Add/Remove)</h2>
         <div>
           <Form.Group className="my-4" controlId="formBasicEmail">
-            <Form.Label>
-              Add / remove wallet address to the exclude list (Free minting)
-            </Form.Label>
+            <Form.Label>Add / remove wallet address to the exclude list (Free minting)</Form.Label>
             <InputGroup className="mb-3">
               <Form.Control
                 type="text"
@@ -572,9 +494,7 @@ const Admin = () => {
             >
               <ToggleButton
                 id="excludeList-check-2"
-                className={`w-50 ${
-                  includeInWhiteList === true ? 'text-white' : ''
-                }`}
+                className={`w-50 ${includeInWhiteList === true ? 'text-white' : ''}`}
                 variant={'outline-success'}
                 value={true}
               >
@@ -582,9 +502,7 @@ const Admin = () => {
               </ToggleButton>
               <ToggleButton
                 id="excludeList-check-1"
-                className={`w-50 ${
-                  includeInWhiteList === false ? 'text-white' : ''
-                }`}
+                className={`w-50 ${includeInWhiteList === false ? 'text-white' : ''}`}
                 variant={
                   // enabledListing === true ? 'success' : 'outline-success'
                   'outline-primary'
@@ -601,13 +519,7 @@ const Admin = () => {
             disabled={!active || useSetExclude.isLoading}
             onClick={setExclude}
           >
-            {useSetExclude.isLoading
-              ? (
-                <Spinner animation="border" />
-              )
-              : (
-                'Update'
-              )}
+            {useSetExclude.isLoading ? <Spinner animation="border" /> : 'Update'}
           </Button>
           {useSetExclude.isSuccess && (
             <Alert variant="success" className="mt-4">

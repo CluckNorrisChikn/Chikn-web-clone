@@ -21,12 +21,7 @@ const ChickenCarousel = () => {
   const [pageIsVisible, setPageIsVisible] = React.useState(true)
   const data = useStaticQuery(graphql`
     {
-      allFile(
-        filter: {
-          extension: { regex: "/(jpg)/" }
-          relativeDirectory: { eq: "carousel" }
-        }
-      ) {
+      allFile(filter: { extension: { regex: "/(jpg)/" }, relativeDirectory: { eq: "carousel" } }) {
         edges {
           node {
             childImageSharp {
@@ -40,9 +35,7 @@ const ChickenCarousel = () => {
       }
     }
   `)
-  const files = data.allFile.edges.sort((a, b) =>
-    a.node.base.localeCompare(b.node.base)
-  )
+  const files = data.allFile.edges.sort((a, b) => a.node.base.localeCompare(b.node.base))
   console.debug(
     'CarouselOrder',
     files.map((f) => f.node.base)
@@ -54,12 +47,7 @@ const ChickenCarousel = () => {
         {pageIsVisible && (
           <Ticker>
             {({ index }) => (
-              <ChickenImage
-                fixed={
-                  data.allFile.edges[index % data.allFile.edges.length].node
-                    .childImageSharp.fixed
-                }
-              />
+              <ChickenImage fixed={data.allFile.edges[index % data.allFile.edges.length].node.childImageSharp.fixed} />
             )}
           </Ticker>
         )}

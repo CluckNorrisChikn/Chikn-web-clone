@@ -3,7 +3,6 @@ import * as React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 import siteConfig from '../../site-config'
-import { AvaxLogo } from '../components/AvaxLogo'
 import ChickenCarousel from '../components/ChickenCarousel'
 import { AButton, Section, StackCol, StackRow } from '../components/Common'
 import ChickenBannerImage from '../components/images/ChickenBannerImage'
@@ -112,16 +111,12 @@ const ScratchesWhite = styled(({ src = null, className = '', ...props }) => (
   top: -1px;
   z-index: 999;
 `
-const ScratchesWhiteLeft = styled((props) => (
-  <ScratchesWhite src={Scratches1WhiteImage} {...props} />
-))`
+const ScratchesWhiteLeft = styled((props) => <ScratchesWhite src={Scratches1WhiteImage} {...props} />)`
   width: 200px;
   left: 0;
   transform: rotate(180deg);
 `
-const ScratchesWhiteRight = styled((props) => (
-  <ScratchesWhite src={Scratches1WhiteImage} {...props} />
-))`
+const ScratchesWhiteRight = styled((props) => <ScratchesWhite src={Scratches1WhiteImage} {...props} />)`
   width: 200px;
   right: 0;
 `
@@ -130,12 +125,7 @@ const ScratchesWhiteRight = styled((props) => (
 
 const IndexPage = () => {
   return (
-    <Layout
-      pageName="Home"
-      constrainWidth={false}
-      padTop={false}
-      className="gap-0"
-    >
+    <Layout pageName="Home" constrainWidth={false} padTop={false} className="gap-0">
       {/* banner */}
       <ChickenBannerImage />
 
@@ -163,10 +153,7 @@ const IndexPage = () => {
         <div className="pb-3 pb-md-5">
           <Container className="pb-3 pb-md-5 text-center">
             <h1>
-              10,000{' '}
-              <span className="text-body">
-                algorithmically generated, unique chikn
-              </span>
+              10,000 <span className="text-body">algorithmically generated, unique chikn</span>
             </h1>
             <h1 className="text-body mt-4 mb-4">NFTs that lay $egg</h1>
           </Container>
@@ -190,22 +177,16 @@ const IndexPage = () => {
               <p>
                 <b>chikn</b> are not just NFTs that lay $egg.
                 <br />
-                <b>chikn</b> is an entire ecosystem built around these NFTs -
-                encompassing novel Tri-Token Architecture.
+                <b>chikn</b> is an entire ecosystem built around these NFTs - encompassing novel Tri-Token Architecture.
                 <br />
-                <b>chikn</b> is extending the utility of Public Minting, a
-                Marketplace, and Farming for emerging NFT+token creators on
-                Avalanche.
+                <b>chikn</b> is extending the utility of Public Minting, a Marketplace, and Farming for emerging
+                NFT+token creators on Avalanche.
               </p>
               <p>
-                NFTs have the unique ability to combine utility with the power
-                of mimetism.
-                <br className="d-none d-lg-block" /> When you can have both, why
-                not have both?
+                NFTs have the unique ability to combine utility with the power of mimetism.
+                <br className="d-none d-lg-block" /> When you can have both, why not have both?
               </p>
-              <p>
-                It&apos;s simple, really. Everyone knows that chikn lay $egg.
-              </p>
+              <p>It&apos;s simple, really. Everyone knows that chikn lay $egg.</p>
             </Col>
           </Row>
         </Container>
@@ -217,12 +198,7 @@ const IndexPage = () => {
           </div>
           <h3>Tri-Token Ecosystem</h3>
           <Row className="py-4">
-            <Col
-              sm={12}
-              md={6}
-              className="g-3"
-              style={{ 'max-width': '600px' }}
-            >
+            <Col sm={12} md={6} className="g-3" style={{ 'max-width': '600px' }}>
               <StackCol className="gap-4">
                 <StackRow className="gap-3">
                   <TriTokenLegendIcon src={SVG_TriToken_Legend_03_chicken} />
@@ -238,8 +214,7 @@ const IndexPage = () => {
                     <b>$egg</b>
                     <br />
                     The governance and utility token of the <b>chikn</b>
-                    <br className="d-none d-lg-block" /> ecosystem. Hodl, use,
-                    or sell on the open market
+                    <br className="d-none d-lg-block" /> ecosystem. Hodl, use, or sell on the open market
                   </div>
                 </StackRow>
                 <StackRow className="gap-3">
@@ -248,8 +223,7 @@ const IndexPage = () => {
                     <b>$feed</b>
                     <br />
                     Harvested at chikn.farm, eaten by <b>chikn</b>,
-                    <br className="d-none d-lg-block" /> or sold on the open
-                    market
+                    <br className="d-none d-lg-block" /> or sold on the open market
                   </div>
                 </StackRow>
                 {/* blue */}
@@ -259,20 +233,16 @@ const IndexPage = () => {
                     <b>Lay</b>
                     <br />
                     Roost your <b>chikn</b> and lay <b>$egg</b>.
-                    <br className="d-none d-lg-block" /> <i>Biggr</i>{' '}
-                    <b>chikn</b> lay more <b>$egg</b>
+                    <br className="d-none d-lg-block" /> <i>Biggr</i> <b>chikn</b> lay more <b>$egg</b>
                   </div>
                 </StackRow>
                 <StackRow className="gap-3">
-                  <TriTokenLegendIcon
-                    src={SVG_TriToken_Legend_03_blue_pitchfork}
-                  />
+                  <TriTokenLegendIcon src={SVG_TriToken_Legend_03_blue_pitchfork} />
                   <div>
                     <b>Farm</b>
                     <br />
                     Received <b>$egg</b> LP tokens are used
-                    <br className="d-none d-lg-block" /> to farm <b>$feed</b> at
-                    chikn.farm
+                    <br className="d-none d-lg-block" /> to farm <b>$feed</b> at chikn.farm
                   </div>
                 </StackRow>
                 <StackRow className="gap-3">
@@ -281,18 +251,13 @@ const IndexPage = () => {
                     <b>Size</b> (Kg / KillerGainz)
                     <br />
                     <b>$feed</b> permanently increases the size
-                    <br className="d-none d-lg-block" /> of your <b>chikn</b>.
-                    It&apos;s written straight to the
+                    <br className="d-none d-lg-block" /> of your <b>chikn</b>. It&apos;s written straight to the
                     <br className="d-none d-lg-block" /> metadata of your NFT
                   </div>
                 </StackRow>
               </StackCol>
             </Col>
-            <Col
-              sm={12}
-              md={6}
-              className="d-flex align-items-center d-none d-md-flex"
-            >
+            <Col sm={12} md={6} className="d-flex align-items-center d-none d-md-flex">
               <TriTokenEcoMain />
             </Col>
           </Row>
@@ -302,10 +267,7 @@ const IndexPage = () => {
         <Container>
           <h3>Join the community</h3>
           <p>For the latest news, updates and access to pre-release content.</p>
-          <AButton
-            className="fs-5 btn-primary px-4"
-            href={siteConfig.links.discord}
-          >
+          <AButton className="fs-5 btn-primary px-4" href={siteConfig.links.discord}>
             Join our Discord
           </AButton>
         </Container>

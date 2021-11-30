@@ -1,18 +1,17 @@
-import { navigate } from 'gatsby-link'
 import * as React from 'react'
 import {
   Accordion,
   Button,
   Card,
   Col,
+  Container,
   Form,
+  InputGroup,
   Pagination,
   Row,
   Spinner,
   ToggleButton,
   ToggleButtonGroup,
-  Container,
-  InputGroup,
 } from 'react-bootstrap'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import { BiFilter } from 'react-icons/bi'
@@ -174,6 +173,7 @@ const Market = ({ location = {} }) => {
     } else {
       return []
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     marketData,
     filters.background,
@@ -188,6 +188,12 @@ const Market = ({ location = {} }) => {
     filters.rarity,
     searchInput,
     sortSalesBy,
+    filterSalesStatus,
+    // filtered,
+    // filteredSale,
+    // filters,
+    // pagedSelected,
+    // saleSorted
   ])
 
   // handles all the pagination!

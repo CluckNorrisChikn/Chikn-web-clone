@@ -1,30 +1,15 @@
 /* eslint-disable no-unused-vars */
 import * as React from 'react'
-import {
-  Button,
-  Col,
-  FormControl,
-  InputGroup,
-  Row,
-  Spinner,
-  Alert
-} from 'react-bootstrap'
+import { Button, Col, FormControl, InputGroup, Row, Spinner, Alert } from 'react-bootstrap'
 import styled from 'styled-components'
 import siteConfig from '../../../site-config'
-import {
-  ChiknText,
-  fmtCurrency,
-  fmtNumber,
-  Section,
-  StackCol,
-  StyleDaChikn
-} from '../Common'
+import { ChiknText, fmtCurrency, fmtNumber, Section, StackCol, StyleDaChikn } from '../Common'
 import {
   getErrorMessage,
   useGBMintTokenMutation,
   useGetSupplyQuery,
   usePublicMintTokenMutation,
-  useWeb3Contract
+  useWeb3Contract,
 } from '../Connect'
 import TransactionProgress from '../TransactionProgressToast'
 import AvaxSvg from '../../images/avalanche-avax-logo.svg'
@@ -52,20 +37,18 @@ const IndexPage = ({ type = 'public' }) => {
       gbMintLimit, // e.g. 900
       publicMintFeex1,
       publicMintOpen,
-      gbMintOpen
-    } = {}
+      gbMintOpen,
+    } = {},
   } = getSupplyQuery
 
   // local properties
   const isGBMint = type === 'gb'
   const maxAllocation = isGBMint ? gbMintLimit : publicMintLimit
-  const remainingChikn = isGBMint
-    ? gbMintLimit - gbminted
-    : publicMintLimit - minted
+  const remainingChikn = isGBMint ? gbMintLimit - gbminted : publicMintLimit - minted
   const priceLookup = React.useCallback(
     (count) => {
       console.debug(`checking prices for ${count} chikn`, {
-        publicMintFeex1
+        publicMintFeex1,
       })
       if (isGBMint) return 0
       return publicMintFeex1
@@ -73,8 +56,7 @@ const IndexPage = ({ type = 'public' }) => {
     [isGBMint, publicMintFeex1]
   )
   const priceConfig = isGBMint ? siteConfig.gbMint : siteConfig.publicMint
-  const isMintOpen =
-    (isGBMint ? gbMintOpen : publicMintOpen) && remainingChikn > 0
+  const isMintOpen = (isGBMint ? gbMintOpen : publicMintOpen) && remainingChikn > 0
 
   // TODO Sam - can we show more information in the notifcication? (current only txid)
   // TODO Sam - do we have options for the 2x and 3x buyer options? (validation: what happens if only <2 is left?)
@@ -89,9 +71,7 @@ const IndexPage = ({ type = 'public' }) => {
 
   const [countOfChickens, setCountOfChickens] = React.useState(1)
   const [price, setPrice] = React.useState(fmtCurrency(priceLookup(1)))
-  const [totalPrice, setTotalPrice] = React.useState(
-    fmtCurrency(priceLookup(1))
-  )
+  const [totalPrice, setTotalPrice] = React.useState(fmtCurrency(priceLookup(1)))
 
   React.useEffect(() => {
     const price = priceLookup(countOfChickens)
@@ -135,8 +115,7 @@ const IndexPage = ({ type = 'public' }) => {
             <>
               <h3>{priceConfig.title_closed}</h3>
               <div>
-                To buy <ChiknText />, please check the{' '}
-                <Link to="/market">Market</Link>.
+                To buy <ChiknText />, please check the <Link to="/market">Market</Link>.
               </div>
             </>
           )}
@@ -157,9 +136,7 @@ const IndexPage = ({ type = 'public' }) => {
                   variant="outline-secondary"
                   aria-label="Increase count of chickens by 1."
                   disabled={!canGoLower(countOfChickens)}
-                  onClick={(e) =>
-                    onChangeCountOfChickens(parseInt(countOfChickens) - 1)
-                  }
+                  onClick={(e) => onChangeCountOfChickens(parseInt(countOfChickens) - 1)}
                 >
                   &minus;
                 </Button>
@@ -176,9 +153,7 @@ const IndexPage = ({ type = 'public' }) => {
                   variant="outline-secondary"
                   aria-label="Lower count of chickens by 1."
                   disabled={!canGoHigher(countOfChickens)}
-                  onClick={(e) =>
-                    onChangeCountOfChickens(parseInt(countOfChickens) + 1)
-                  }
+                  onClick={(e) => onChangeCountOfChickens(parseInt(countOfChickens) + 1)}
                 >
                   &#43;
                 </Button>
@@ -193,39 +168,26 @@ const IndexPage = ({ type = 'public' }) => {
                 type="button"
                 size="lg"
                 variant={'outline-primary'}
-                disabled={
-                  !active ||
-                  usePublicMintToken.isLoading ||
-                  useGBMintToken.isLoading
-                }
+                disabled={!active || usePublicMintToken.isLoading || useGBMintToken.isLoading}
                 onClick={() => mintToken()}
                 className={'w-100 mb-3 w-md-300px'}
               >
-                {usePublicMintToken.isLoading || useGBMintToken.isLoading
-                  ? (
-                    <Spinner animation="border" />
-                  )
-                  : (
-                    <span>Mint Now</span>
-                  )}
+                {usePublicMintToken.isLoading || useGBMintToken.isLoading ? (
+                  <Spinner animation="border" />
+                ) : (
+                  <span>Mint Now</span>
+                )}
               </Button>
 
               {/* errors */}
               {usePublicMintToken.isError && (
-                <Alert variant={'danger'}>
-                  {getErrorMessage(usePublicMintToken.error)}
-                </Alert>
+                <Alert variant={'danger'}>{getErrorMessage(usePublicMintToken.error)}</Alert>
               )}
-              {useGBMintToken.isError && (
-                <Alert variant={'danger'}>
-                  {getErrorMessage(useGBMintToken.error)}
-                </Alert>
-              )}
+              {useGBMintToken.isError && <Alert variant={'danger'}>{getErrorMessage(useGBMintToken.error)}</Alert>}
               <small className="text-muted">
                 Max {priceConfig.maxPerMint} per mint.
                 <br />
-                View your minted <ChiknText /> in your{' '}
-                <Link to="/wallet">Wallet</Link>.
+                View your minted <ChiknText /> in your <Link to="/wallet">Wallet</Link>.
               </small>
             </>
           )}
@@ -240,7 +202,7 @@ const IndexPage = ({ type = 'public' }) => {
                     price,
                     totalPrice,
                     gbMintOpen,
-                    publicMintOpen
+                    publicMintOpen,
                   },
                   null,
                   2
@@ -255,7 +217,7 @@ const IndexPage = ({ type = 'public' }) => {
                     isMintOpen,
                     maxAllocation,
                     remainingChikn,
-                    priceConfig
+                    priceConfig,
                   },
                   null,
                   2

@@ -34,19 +34,10 @@ const GenericToast = ({
 }) => {
   return (
     <CenterToaster>
-      <Toast
-        show={show}
-        onClose={() => setShow(false)}
-        delay={5000}
-        autohide={autoHide}
-      >
+      <Toast show={show} onClose={() => setShow(false)} delay={5000} autohide={autoHide}>
         <Toast.Header closeButton={false} className={className} {...props}>
           <strong className="me-auto">{title}</strong>
-          <CloseButton
-            size="sm"
-            variant="outline-light border-0"
-            onClick={() => setShow(false)}
-          >
+          <CloseButton size="sm" variant="outline-light border-0" onClick={() => setShow(false)}>
             &times;
           </CloseButton>
         </Toast.Header>

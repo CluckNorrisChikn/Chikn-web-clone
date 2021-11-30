@@ -1,15 +1,8 @@
 import React from 'react'
-import {
-  toShort,
-  KEYS,
-  useStoreWorkingTxQuery
-} from '../components/Connect'
+import { toShort, KEYS, useStoreWorkingTxQuery } from '../components/Connect'
 import { useQueryClient } from 'react-query'
 import GenericToast from './GenericToast'
-import {
-  AVALANCHE_TESTNET_PARAMS,
-  AVALANCHE_MAINNET_PARAMS
-} from '../utils/network'
+import { AVALANCHE_TESTNET_PARAMS, AVALANCHE_MAINNET_PARAMS } from '../utils/network'
 import siteConfig from '../../site-config'
 
 const TransactionProgress = ({ intialOnShow = false }) => {
@@ -68,7 +61,8 @@ const TransactionProgress = ({ intialOnShow = false }) => {
     }
   }, [data, queryClient])
 
-  const backgroundColor = title === 'Transaction submitted' ? 'info' : (title === 'Transaction failed' ? 'error' : 'success')
+  const backgroundColor =
+    title === 'Transaction submitted' ? 'info' : title === 'Transaction failed' ? 'error' : 'success'
 
   return (
     <GenericToast
@@ -78,14 +72,17 @@ const TransactionProgress = ({ intialOnShow = false }) => {
       autoHide={false}
       className={`bg-${backgroundColor} text-white`}
     >
-      {errorMessage || (transactionRef.current &&
-        <a
-          rel="noreferrer noopener"
-          target="_blank"
-          href={`${networkExplorer.blockExplorerUrls[0]}/tx/${transactionRef.current.hash}`}>
-          {toShort(transactionRef.current.hash)}
-        </a>)}
-    </GenericToast >
+      {errorMessage ||
+        (transactionRef.current && (
+          <a
+            rel="noreferrer noopener"
+            target="_blank"
+            href={`${networkExplorer.blockExplorerUrls[0]}/tx/${transactionRef.current.hash}`}
+          >
+            {toShort(transactionRef.current.hash)}
+          </a>
+        ))}
+    </GenericToast>
   )
 }
 

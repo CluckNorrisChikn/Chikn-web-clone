@@ -1,16 +1,9 @@
 import { navigate } from 'gatsby-link'
 import * as React from 'react'
 import { Alert, Col, Row } from 'react-bootstrap'
-import {
-  ChickenCardRecentActivitySummary,
-  ChickenCardShimmerx4
-} from '../ChickenCard'
+import { ChickenCardRecentActivitySummary, ChickenCardShimmerx4 } from '../ChickenCard'
 import { Section, StackCol } from '../Common'
-import {
-  getErrorMessage,
-  useGetRecentActivityQuery,
-  useWeb3Contract
-} from '../Connect'
+import { getErrorMessage, useGetRecentActivityQuery, useWeb3Contract } from '../Connect'
 
 const Component = () => {
   const { active, contract } = useWeb3Contract()
@@ -28,9 +21,7 @@ const Component = () => {
 
         {/* error */}
         {getRecentActivityQuery.isError && (
-          <Alert variant="danger">
-            {getErrorMessage(getRecentActivityQuery.error)}
-          </Alert>
+          <Alert variant="danger">{getErrorMessage(getRecentActivityQuery.error)}</Alert>
         )}
 
         {/* success */}

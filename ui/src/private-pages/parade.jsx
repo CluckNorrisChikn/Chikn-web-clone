@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 import * as React from 'react'
 import { StackCol, StackRow } from '../components/Common'
@@ -37,34 +38,18 @@ const IndexPage = () => {
           Page {page} / {totalPages}
         </h5>
         <h5>
-          (chikns {from.toLocaleString()} - {to.toLocaleString()} of{' '}
-          {total.toLocaleString()})
+          (chikns {from.toLocaleString()} - {to.toLocaleString()} of {total.toLocaleString()})
         </h5>
         <div className="d-flex flex-row gap-2 mb-2">
-          <Button onClick={() => setPage((ps) => Math.max(ps - 10, 0))}>
-            Jump back 10 Pages
-          </Button>
-          <Button onClick={() => setPage((ps) => Math.max(ps - 1, 0))}>
-            Prev Page
-          </Button>
-          <Button onClick={() => setPage((ps) => Math.min(ps + 1, totalPages))}>
-            Next Page
-          </Button>
-          <Button
-            onClick={() => setPage((ps) => Math.min(ps + 10, totalPages))}
-          >
-            Jump 10 Pages
-          </Button>
+          <Button onClick={() => setPage((ps) => Math.max(ps - 10, 0))}>Jump back 10 Pages</Button>
+          <Button onClick={() => setPage((ps) => Math.max(ps - 1, 0))}>Prev Page</Button>
+          <Button onClick={() => setPage((ps) => Math.min(ps + 1, totalPages))}>Next Page</Button>
+          <Button onClick={() => setPage((ps) => Math.min(ps + 10, totalPages))}>Jump 10 Pages</Button>
         </div>
 
         <Grid>
           {data.slice(from, to).map((d) => (
-            <a
-              key={d.filename}
-              href={siteConfig.cdnUrl + d.filename}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a key={d.filename} href={siteConfig.cdnUrl + d.filename} target="_blank" rel="noreferrer">
               <Image src={siteConfig.cdnUrl + d.filename} />
             </a>
           ))}

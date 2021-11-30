@@ -18,9 +18,7 @@ export default function Image(props) {
           }
         }
       `}
-      render={(data) => (
-        <Img fluid={data.file.childImageSharp.fluid} {...props} />
-      )}
+      render={(data) => <Img fluid={data.file.childImageSharp.fluid} {...props} />}
     />
   )
 }

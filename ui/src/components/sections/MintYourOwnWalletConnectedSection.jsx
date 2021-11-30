@@ -3,19 +3,8 @@ import * as React from 'react'
 import { Button, Col, Row, Spinner } from 'react-bootstrap'
 import styled from 'styled-components'
 import siteConfig from '../../../site-config'
-import {
-  ChiknText,
-  fmtCurrency,
-  fmtNumber,
-  Section,
-  StackCol,
-  StyleDaChikn
-} from '../Common'
-import {
-  useGetSupplyQuery,
-  usePublicMintTokenMutation,
-  useWeb3Contract
-} from '../Connect'
+import { ChiknText, fmtCurrency, fmtNumber, Section, StackCol, StyleDaChikn } from '../Common'
+import { useGetSupplyQuery, usePublicMintTokenMutation, useWeb3Contract } from '../Connect'
 import TransactionProgress from '../TransactionProgressToast'
 import AvaxSvg from '../../images/avalanche-avax-logo.svg'
 import { Link } from 'gatsby'
@@ -61,8 +50,7 @@ const IndexPage = () => {
             <>
               <h3>Minting now closed.</h3>
               <div>
-                To buy <ChiknText />, please check the{' '}
-                <Link to="/market">Market</Link>.
+                To buy <ChiknText />, please check the <Link to="/market">Market</Link>.
               </div>
             </>
           )}
@@ -74,81 +62,43 @@ const IndexPage = () => {
               </div>
               <div>Choose from three options:</div>
               <Row sm={1} md={3} className="mb-3 text-center">
-                {siteConfig.pricing.map(
-                  ({
-                    label,
-                    price,
-                    description,
-                    requiredRemaining = 1,
-                    highlight = false
-                  }) => {
-                    return (
-                      <Col
-                        key={label}
-                        xs={12}
-                        md={4}
-                        className={
-                          requiredRemaining > remainingChikn ? 'opacity-50' : ''
-                        }
-                      >
-                        <div
-                          className={`card mb-4 rounded-3 shadow-sm ${
-                            highlight ? 'border-primary' : ''
-                          }`}
-                        >
-                          <div
-                            className={`card-header py-3 ${
-                              highlight
-                                ? 'bg-primary text-white border-primary'
-                                : ''
-                            }`}
-                          >
-                            <h4 className="my-0 fw-normal">{label}</h4>
-                          </div>
-                          <div className="card-body">
-                            <h1 className="card-title pricing-card-title">
-                              {fmtCurrency(price)}
-                              <AvaxLogoImage />
-                            </h1>
-                            <ul className="list-unstyled mt-3 mb-4">
-                              <li className="px-lg-5">
-                                <StyleDaChikn>{description}</StyleDaChikn>
-                              </li>
-                            </ul>
-                            <Button
-                              type="button"
-                              size="lg"
-                              variant={
-                                highlight ? 'primary' : 'outline-primary'
-                              }
-                              disabled={
-                                !active ||
-                                requiredRemaining > remainingChikn ||
-                                useMintToken.isLoading
-                              }
-                              onClick={() => mintToken()}
-                              className={'w-100'}
-                            >
-                              {useMintToken.isLoading
-                                ? (
-                                  <Spinner animation="border" />
-                                )
-                                : (
-                                  <span>Mint {label}</span>
-                                )}
-                            </Button>
-                          </div>
+                {siteConfig.pricing.map(({ label, price, description, requiredRemaining = 1, highlight = false }) => {
+                  return (
+                    <Col key={label} xs={12} md={4} className={requiredRemaining > remainingChikn ? 'opacity-50' : ''}>
+                      <div className={`card mb-4 rounded-3 shadow-sm ${highlight ? 'border-primary' : ''}`}>
+                        <div className={`card-header py-3 ${highlight ? 'bg-primary text-white border-primary' : ''}`}>
+                          <h4 className="my-0 fw-normal">{label}</h4>
                         </div>
-                      </Col>
-                    )
-                  }
-                )}
+                        <div className="card-body">
+                          <h1 className="card-title pricing-card-title">
+                            {fmtCurrency(price)}
+                            <AvaxLogoImage />
+                          </h1>
+                          <ul className="list-unstyled mt-3 mb-4">
+                            <li className="px-lg-5">
+                              <StyleDaChikn>{description}</StyleDaChikn>
+                            </li>
+                          </ul>
+                          <Button
+                            type="button"
+                            size="lg"
+                            variant={highlight ? 'primary' : 'outline-primary'}
+                            disabled={!active || requiredRemaining > remainingChikn || useMintToken.isLoading}
+                            onClick={() => mintToken()}
+                            className={'w-100'}
+                          >
+                            {useMintToken.isLoading ? <Spinner animation="border" /> : <span>Mint {label}</span>}
+                          </Button>
+                        </div>
+                      </div>
+                    </Col>
+                  )
+                })}
               </Row>
               <small className="text-muted">
                 Limited to 50 <ChiknText /> per Wallet.
                 <br />
-                View your minted <ChiknText /> in your{' '}
-                <Link to="/wallet">Wallet</Link>.
+                View your minted <ChiknText /> in your <Link to="/wallet">Wallet</Link>.
               </small>
             </>
           )}

@@ -259,10 +259,7 @@ export const RarityBadge = styled(({ className = '', ...props }) => (
 `
 
 export const RarityColour = styled(({ className = '', ...props }) => (
-  <div
-    className={`${className} ${props.rarity} d-inline-block text-capitalize rounded-pill fs-7`}
-    {...props}
-  >
+  <div className={`${className} ${props.rarity} d-inline-block text-capitalize rounded-pill fs-7`} {...props}>
     {props.children}
   </div>
 ))`
@@ -445,18 +442,11 @@ const ChickenImage = styled.img`
 `
 
 const Property = (props) => {
-  const {
-    layer,
-    trait,
-    score,
-    percentile,
-    rarity,
-    className = '',
-    ...otherProps
-  } = props
+  const { layer, trait, score, percentile, rarity, className = '', ...otherProps } = props
 
   return (
     <div
+      // eslint-disable-next-line max-len
       className={`${className} px-3 py-2 rounded-3 text-nowrap text-dark text-capitalize justify-content-between align-items-center`}
       {...otherProps}
     >
@@ -464,8 +454,10 @@ const Property = (props) => {
         <span>
           <b>{layer}</b>: {trait}
         </span>
-        <RarityColour style={{ textTransform: 'capitalize' }} rarity={rarity} >
-          <span><b>+ {score}</b></span>
+        <RarityColour style={{ textTransform: 'capitalize' }} rarity={rarity}>
+          <span>
+            <b>+ {score}</b>
+          </span>
         </RarityColour>
       </div>
       <div className=" w-100 py-1 pt-3">
@@ -479,9 +471,15 @@ const ColouredProgressBar = styled(({ className = '', percentile, rarity, ...pro
   const width = `${percentile}%`
   return (
     <div className="progress">
-      <div className={`progress-bar ${className} ${rarity}`} role="progressbar"
+      <div
+        className={`progress-bar ${className} ${rarity}`}
+        role="progressbar"
         style={{ width: width, borderTopRightRadius: '15px', borderBottomRightRadius: '15px' }}
-        aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" {...props}></div>
+        aria-valuenow="50"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        {...props}
+      ></div>
     </div>
   )
 })`
@@ -512,9 +510,9 @@ const MenuButton = styled(Button)`
 `
 
 const calculateScore = (properties) => {
-  let totalScore = 0;
-  ['background', 'body', 'head', 'neck', 'torso', 'feet', 'tail', 'trim', '_numOfTraits'].forEach((t) => {
-    const trait = metadata[t][(properties[t] || '')]
+  let totalScore = 0
+  ;['background', 'body', 'head', 'neck', 'torso', 'feet', 'tail', 'trim', '_numOfTraits'].forEach((t) => {
+    const trait = metadata[t][properties[t] || '']
     totalScore = totalScore + trait.score
   })
   return totalScore
@@ -580,11 +578,8 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
       <Section className="bg-white border" center={false}>
         <StackDynamic className="gap-5 flex-grow-1">
           <div>
-            <ChickenImage
-              src={properties.image}
-            />
+            <ChickenImage src={properties.image} />
             <StackCol className="pt-3 gap-4">
-
               {/* social */}
               <ButtonGroup>
                 <SocialShareLinkButton title={socialTitle} text={socialDescription} url={socialUrl} />
@@ -594,8 +589,12 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
               <StackCol className="d-flex justify-content-center text-center gap-3">
                 {/* Rank & score */}
                 <StackRow className="gap-3 d-flex justify-content-center">
-                  <div className="">Rank: <b>{properties.rank}</b></div>
-                  <div className="">Score: <b>{calculateScore(properties)}</b></div>
+                  <div className="">
+                    Rank: <b>{properties.rank}</b>
+                  </div>
+                  <div className="">
+                    Score: <b>{calculateScore(properties)}</b>
+                  </div>
                 </StackRow>
                 <div>
                   <RarityBadge rarity={properties.rarity} />
@@ -604,39 +603,19 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
                 {/* actions */}
                 <StackDynamic className="gap-1 flex-wrap justify-content-center">
                   {active && ( // !isOwner && !isForSale &&
-                    <SaleStatus
-                      forSale={details.forSale}
-                      owner={details.currentOwner}
-                    />
+                    <SaleStatus forSale={details.forSale} owner={details.currentOwner} />
                   )}
-                  {!active && (
-                    <GreyPill className="py-2 border">
-                  Connect wallet to buy
-                    </GreyPill>
-                  )}
+                  {!active && <GreyPill className="py-2 border">Connect wallet to buy</GreyPill>}
                   {active && !isOwner && isForSale && (
-                    <MenuButton
-                      onClick={buyToken}
-                      disabled={useBuyToken.isLoading}
-                    >
-                      {useBuyToken.isLoading
-                        ? (
-                          <Spinner size="sm" animation="border" />
-                        )
-                        : (
-                          'Purchase'
-                        )}
+                    <MenuButton onClick={buyToken} disabled={useBuyToken.isLoading}>
+                      {useBuyToken.isLoading ? <Spinner size="sm" animation="border" /> : 'Purchase'}
                     </MenuButton> // purchase
                   )}
                   {active && isOwner && !isForSale && (
-                    <MenuButton onClick={() => setShowModal(true)}>
-                  Sell
-                    </MenuButton> // modify listing
+                    <MenuButton onClick={() => setShowModal(true)}>Sell</MenuButton> // modify listing
                   )}
                   {isOwner && isForSale && (
-                    <MenuButton onClick={() => setShowModal(true)}>
-                  Change listing
-                    </MenuButton> // modify listing
+                    <MenuButton onClick={() => setShowModal(true)}>Change listing</MenuButton> // modify listing
                   )}
                 </StackDynamic>
 
@@ -659,27 +638,28 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
           </div>
 
           <StackCol className="w-exact60pc gap-4">
-
             <Accordion defaultActiveKey="0" flush>
               {/* attributes */}
               <Accordion.Item eventKey="0">
                 <Accordion.Header>Attributes</Accordion.Header>
                 <Accordion.Body>
                   <StackCol className="gap-1 flex-wrap">
-                    {['background', 'body', 'head', 'neck', 'torso', 'feet', 'tail', 'trim', '_numOfTraits'].map((t, idx) => {
-                      const trait = metadata[t][(properties[t] || '')]
-                      const traitType = t === '_numOfTraits' ? '# traits' : t
-                      return (
-                        <Property
-                          key={idx}
-                          layer={traitType}
-                          trait={properties[t] || 'None'}
-                          rarity={trait.rarity}
-                          score={trait.score}
-                          percentile={trait.percentile}
-                        />
-                      )
-                    })}
+                    {['background', 'body', 'head', 'neck', 'torso', 'feet', 'tail', 'trim', '_numOfTraits'].map(
+                      (t, idx) => {
+                        const trait = metadata[t][properties[t] || '']
+                        const traitType = t === '_numOfTraits' ? '# traits' : t
+                        return (
+                          <Property
+                            key={idx}
+                            layer={traitType}
+                            trait={properties[t] || 'None'}
+                            rarity={trait.rarity}
+                            score={trait.score}
+                            percentile={trait.percentile}
+                          />
+                        )
+                      }
+                    )}
                   </StackCol>
                 </Accordion.Body>
               </Accordion.Item>

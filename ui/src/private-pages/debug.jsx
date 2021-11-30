@@ -29,10 +29,10 @@ const IndexPage = () => {
           {
             item_name: 'chikn',
             price: 33.75,
-            quantity: 12
-          }
-        ]
-      }
+            quantity: 12,
+          },
+        ],
+      },
     })
   }
 
@@ -54,10 +54,10 @@ const IndexPage = () => {
           {
             item_name: 'chikn',
             price: 33.75,
-            quantity: 12
-          }
-        ]
-      }
+            quantity: 12,
+          },
+        ],
+      },
     })
   }
 
@@ -66,7 +66,7 @@ const IndexPage = () => {
     const dl = dataLayer || []
     dl.push({
       event: 'connect_wallet',
-      wallet: 'abcd'
+      wallet: 'abcd',
     })
   }
 
@@ -75,7 +75,7 @@ const IndexPage = () => {
     const dl = dataLayer || []
     dl.push({
       event: 'disconnect_wallet',
-      wallet: null
+      wallet: null,
     })
   }
 

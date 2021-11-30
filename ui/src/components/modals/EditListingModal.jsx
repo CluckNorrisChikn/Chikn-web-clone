@@ -9,28 +9,17 @@ import {
   Spinner,
   Alert,
   OverlayTrigger,
-  Tooltip
+  Tooltip,
 } from 'react-bootstrap'
 import AvaxSVG from '../../images/avalanche-avax-logo-trans.svg'
-import {
-  KEYS,
-  useGetWeb3TokenDetail,
-  useSetTokenSalePriceMutation,
-  useWeb3Contract
-} from '../../components/Connect'
+import { KEYS, useGetWeb3TokenDetail, useSetTokenSalePriceMutation, useWeb3Contract } from '../../components/Connect'
 import { useQueryClient } from 'react-query'
 
 import { FaInfoCircle } from 'react-icons/fa'
 
 // LINK -> // ui/src/pages/chikn/[tokenId].jsx (SELL)
 
-const Page = ({
-  showModal,
-  setShowModal,
-  enableListing: enabled = false,
-  listingPrice: price = '',
-  tokenId = ''
-}) => {
+const Page = ({ showModal, setShowModal, enableListing: enabled = false, listingPrice: price = '', tokenId = '' }) => {
   const [enabledListing, setEnabledListing] = React.useState(false)
   const [listingPrice, setListingPrice] = React.useState(price) // N.B. this will be a string!
 
@@ -57,9 +46,7 @@ const Page = ({
     if (
       value === '' ||
       value === '.' ||
-      (/^\d*\.?\d*$/.test(value) &&
-        !isNaN(parseFloat(value)) &&
-        parseFloat(value) < 99999999999)
+      (/^\d*\.?\d*$/.test(value) && !isNaN(parseFloat(value)) && parseFloat(value) < 99999999999)
     ) {
       setListingPrice(value)
     }
@@ -81,7 +68,7 @@ const Page = ({
     useSetTokenSalePrice.mutate({
       tokenId,
       newPrice: price,
-      isForSale: enabledListing
+      isForSale: enabledListing,
     })
   }
 
@@ -104,9 +91,7 @@ const Page = ({
   return (
     <Modal show={showModal} onHide={doHide}>
       <Modal.Header closeButton>
-        <Modal.Title>
-          {isForSale ? 'Change Listing' : 'Create Listing'}
-        </Modal.Title>
+        <Modal.Title>{isForSale ? 'Change Listing' : 'Create Listing'}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {/* not the owner */}
@@ -139,12 +124,7 @@ const Page = ({
                   >
                     Cancel listing
                   </ToggleButton>
-                  <ToggleButton
-                    id="tbg-check-1"
-                    className="w-50"
-                    variant="outline-primary"
-                    value={true}
-                  >
+                  <ToggleButton id="tbg-check-1" className="w-50" variant="outline-primary" value={true}>
                     {isForSale ? 'Change price' : 'List for Sale'}
                   </ToggleButton>
                 </ToggleButtonGroup>
@@ -159,14 +139,8 @@ const Page = ({
               <Form.Group className="my-4" controlId="formBasicEmail">
                 <Form.Label>Asking Price</Form.Label>
                 <InputGroup className="mb-3">
-                  <InputGroup.Text
-                    id="basic-addon1"
-                    style={{ backgroundColor: 'transparent' }}
-                  >
-                    <img
-                      src={AvaxSVG}
-                      style={{ width: '30px', height: '30px' }}
-                    />
+                  <InputGroup.Text id="basic-addon1" style={{ backgroundColor: 'transparent' }}>
+                    <img src={AvaxSVG} style={{ width: '30px', height: '30px' }} />
                   </InputGroup.Text>
                   <Form.Control
                     type="text"
@@ -186,9 +160,8 @@ const Page = ({
               placement="bottom"
               overlay={
                 <Tooltip id="tooltip-disabled">
-                  We collect a 6% royalty on all sales through the marketplace,
-                  which goes towards the ongoing maintenance of the chikn
-                  ecosystem.
+                  We collect a 6% royalty on all sales through the marketplace, which goes towards the ongoing
+                  maintenance of the chikn ecosystem.
                 </Tooltip>
               }
             >
@@ -227,13 +200,7 @@ const Page = ({
           onClick={submit}
           disabled={!active || !isOwner || useSetTokenSalePrice.isLoading}
         >
-          {useSetTokenSalePrice.isLoading
-            ? (
-              <Spinner size="sm" animation="border" />
-            )
-            : (
-              'Submit'
-            )}
+          {useSetTokenSalePrice.isLoading ? <Spinner size="sm" animation="border" /> : 'Submit'}
         </Button>
       </Modal.Footer>
     </Modal>
