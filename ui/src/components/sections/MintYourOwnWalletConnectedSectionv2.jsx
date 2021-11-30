@@ -9,7 +9,7 @@ import {
   useGBMintTokenMutation,
   useGetSupplyQuery,
   usePublicMintTokenMutation,
-  useWeb3Contract,
+  useWeb3Contract
 } from '../Connect'
 import TransactionProgress from '../TransactionProgressToast'
 import AvaxSvg from '../../images/avalanche-avax-logo.svg'
@@ -37,8 +37,8 @@ const IndexPage = ({ type = 'public' }) => {
       gbMintLimit, // e.g. 900
       publicMintFeex1,
       publicMintOpen,
-      gbMintOpen,
-    } = {},
+      gbMintOpen
+    } = {}
   } = getSupplyQuery
 
   // local properties
@@ -48,7 +48,7 @@ const IndexPage = ({ type = 'public' }) => {
   const priceLookup = React.useCallback(
     (count) => {
       console.debug(`checking prices for ${count} chikn`, {
-        publicMintFeex1,
+        publicMintFeex1
       })
       if (isGBMint) return 0
       return publicMintFeex1
@@ -172,11 +172,13 @@ const IndexPage = ({ type = 'public' }) => {
                 onClick={() => mintToken()}
                 className={'w-100 mb-3 w-md-300px'}
               >
-                {usePublicMintToken.isLoading || useGBMintToken.isLoading ? (
-                  <Spinner animation="border" />
-                ) : (
-                  <span>Mint Now</span>
-                )}
+                {usePublicMintToken.isLoading || useGBMintToken.isLoading
+                  ? (
+                    <Spinner animation="border" />
+                  )
+                  : (
+                    <span>Mint Now</span>
+                  )}
               </Button>
 
               {/* errors */}
@@ -202,7 +204,7 @@ const IndexPage = ({ type = 'public' }) => {
                     price,
                     totalPrice,
                     gbMintOpen,
-                    publicMintOpen,
+                    publicMintOpen
                   },
                   null,
                   2
@@ -217,7 +219,7 @@ const IndexPage = ({ type = 'public' }) => {
                     isMintOpen,
                     maxAllocation,
                     remainingChikn,
-                    priceConfig,
+                    priceConfig
                   },
                   null,
                   2

@@ -57,7 +57,7 @@ export const ConnectWalletButton = () => {
     body: '',
     style: 'success',
     autoHide: false,
-    show: false,
+    show: false
   })
 
   const connectToWalletWithNotification = (activate) => {
@@ -79,7 +79,7 @@ export const ConnectWalletButton = () => {
           title: 'Wallet connect error',
           body: err.message,
           show: true,
-          style: 'danger',
+          style: 'danger'
         })
       })
   }
@@ -104,7 +104,7 @@ export const ConnectWalletButton = () => {
         body: 'Wallet successfully disconnected',
         show: true,
         autoHide: true,
-        style: 'success',
+        style: 'success'
       })
       // give wallet state time to clear (and propagate)...
       setTimeout(() => {
@@ -137,7 +137,7 @@ export const ConnectWalletButton = () => {
       provider
         .request({
           method: 'wallet_addEthereumChain',
-          params: [!siteConfig.useAvaxTestnet ? AVALANCHE_MAINNET_PARAMS : AVALANCHE_TESTNET_PARAMS],
+          params: [!siteConfig.useAvaxTestnet ? AVALANCHE_MAINNET_PARAMS : AVALANCHE_TESTNET_PARAMS]
         })
         .catch((error) => {
           console.log('Unable to push wallet', error)
@@ -148,7 +148,7 @@ export const ConnectWalletButton = () => {
       body: '',
       style: 'success',
       autoHide: false,
-      show: false,
+      show: false
     })
   }
 

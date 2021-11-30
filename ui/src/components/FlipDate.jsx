@@ -38,7 +38,7 @@ const FlipDate = ({ value }) => {
     const tickValue = tickRef.current
     Tick.DOM.create(currDiv, {
       value,
-      didInit,
+      didInit
     })
 
     return () => Tick.DOM.destroy(tickValue)

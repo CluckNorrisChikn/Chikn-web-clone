@@ -11,7 +11,7 @@ import {
   Row,
   Spinner,
   ToggleButton,
-  ToggleButtonGroup,
+  ToggleButtonGroup
 } from 'react-bootstrap'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import { BiFilter } from 'react-icons/bi'
@@ -76,7 +76,7 @@ const Market = ({ location = {} }) => {
     filterSalesStatus: filteredSale = 'for_sale',
     sortSalesBy: saleSorted = 'token',
     filters: filtered = {},
-    pageNumber: pagedSelected = 0,
+    pageNumber: pagedSelected = 0
   } = filterState
   const scrollToTopRef = React.useRef()
   console.debug('Filter back ', filterState)
@@ -188,7 +188,7 @@ const Market = ({ location = {} }) => {
     filters.rarity,
     searchInput,
     sortSalesBy,
-    filterSalesStatus,
+    filterSalesStatus
     // filtered,
     // filteredSale,
     // filters,
@@ -317,16 +317,18 @@ const Market = ({ location = {} }) => {
                 style={{
                   width: '120px',
                   padding: '0px 10px',
-                  borderRight: '1px solid rgba(0, 0, 0, 0.125)',
+                  borderRight: '1px solid rgba(0, 0, 0, 0.125)'
                 }}
                 className="d-flex flex-column align-items-center"
               >
                 <div>
-                  {apiMarketStatQuery.isLoading ? (
-                    <Spinner variant="primary" animation="border" size="sm" />
-                  ) : (
-                    marketData?.mintedCount?.toLocaleString()
-                  )}
+                  {apiMarketStatQuery.isLoading
+                    ? (
+                      <Spinner variant="primary" animation="border" size="sm" />
+                    )
+                    : (
+                      marketData?.mintedCount?.toLocaleString()
+                    )}
                 </div>
                 <div>Items</div>
               </div>
@@ -334,27 +336,31 @@ const Market = ({ location = {} }) => {
                 style={{
                   width: '120px',
                   padding: '0px 10px',
-                  borderRight: '1px solid rgba(0, 0, 0, 0.125)',
+                  borderRight: '1px solid rgba(0, 0, 0, 0.125)'
                 }}
                 className="d-flex flex-column align-items-center"
               >
                 <div>
-                  {holderLoading ? (
-                    <Spinner variant="primary" animation="border" size="sm" />
-                  ) : (
-                    holders.data?.pagination?.total_count?.toLocaleString()
-                  )}
+                  {holderLoading
+                    ? (
+                      <Spinner variant="primary" animation="border" size="sm" />
+                    )
+                    : (
+                      holders.data?.pagination?.total_count?.toLocaleString()
+                    )}
                 </div>
                 <div>Owners</div>
               </div>
               <div style={{ width: '120px', padding: '0px 10px' }} className="d-flex flex-column align-items-center">
                 <div>
                   <span>
-                    {apiMarketStatQuery.isLoading ? (
-                      <Spinner variant="primary" animation="border" size="sm" />
-                    ) : (
-                      <AvaxPill>{marketData.floorPrice}</AvaxPill>
-                    )}
+                    {apiMarketStatQuery.isLoading
+                      ? (
+                        <Spinner variant="primary" animation="border" size="sm" />
+                      )
+                      : (
+                        <AvaxPill>{marketData.floorPrice}</AvaxPill>
+                      )}
                   </span>
                 </div>
                 <div>
@@ -386,7 +392,7 @@ const Market = ({ location = {} }) => {
                         onClick={() => {
                           setFilters((ps) => ({
                             ...ps,
-                            rarity: [rarity],
+                            rarity: [rarity]
                           }))
                           setSortSalesBy('lowest')
                         }}
@@ -394,11 +400,13 @@ const Market = ({ location = {} }) => {
                     </div>
                     <div>
                       <span>
-                        {apiMarketStatQuery.isLoading ? (
-                          <Spinner variant="primary" animation="border" size="sm" />
-                        ) : (
-                          <AvaxPill>{FloorCalculation(rarity)}</AvaxPill>
-                        )}
+                        {apiMarketStatQuery.isLoading
+                          ? (
+                            <Spinner variant="primary" animation="border" size="sm" />
+                          )
+                          : (
+                            <AvaxPill>{FloorCalculation(rarity)}</AvaxPill>
+                          )}
                       </span>
                     </div>
                   </div>
@@ -537,7 +545,7 @@ const Market = ({ location = {} }) => {
                           if (stringArraysNotEqual(selections, filters[layer])) {
                             setFilters((ps) => ({
                               ...ps,
-                              [layer]: selections,
+                              [layer]: selections
                             }))
                           }
                         }}
@@ -589,7 +597,7 @@ const Market = ({ location = {} }) => {
                       filterSalesStatus: filterSalesStatus,
                       sortSalesBy: sortSalesBy,
                       filters: filters,
-                      pageNumber: pageNumber,
+                      pageNumber: pageNumber
                     }}
                     rank={chikn.rank}
                     forSale={chikn.forSale}

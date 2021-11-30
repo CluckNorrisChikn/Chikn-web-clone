@@ -4,7 +4,7 @@ import { InjectedConnector } from '@web3-react/injected-connector'
 import siteConfig from '../../site-config'
 
 export const injected = new InjectedConnector({
-  supportedChainIds: !siteConfig.useAvaxTestnet ? [43114] : [43114, 43113, 43112],
+  supportedChainIds: !siteConfig.useAvaxTestnet ? [43114] : [43114, 43113, 43112]
 })
 
 export const useEagerConnect = () => {

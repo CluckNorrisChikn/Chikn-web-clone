@@ -1,7 +1,7 @@
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import {
   NoEthereumProviderError,
-  UserRejectedRequestError as UserRejectedRequestErrorInjected,
+  UserRejectedRequestError as UserRejectedRequestErrorInjected
 } from '@web3-react/injected-connector'
 import { Contract, utils } from 'ethers'
 import React from 'react'
@@ -74,7 +74,7 @@ export const KEYS = {
   FLOOR: () => ['market', 'floor'],
   HOLDERS: () => ['market', 'holders'],
   APIMARKET: (showForSale) =>
-    typeof showForSale === 'undefined' ? ['api', 'market'] : ['api', 'market', showForSale ? 'forSale' : 'showAll'],
+    typeof showForSale === 'undefined' ? ['api', 'market'] : ['api', 'market', showForSale ? 'forSale' : 'showAll']
 }
 
 /**
@@ -97,7 +97,7 @@ export const useGetSupplyQuery = () => {
         publicMintFeex1,
         baseUrl,
         gbMintOpen,
-        publicMintOpen,
+        publicMintOpen
       ] = await Promise.all([
         contract.totalSupply(), // <- how many are minted overall
         contract.gbTotalSupply(), // <- how many minted from gb supply (i.e. 5 / 900)
@@ -107,7 +107,7 @@ export const useGetSupplyQuery = () => {
         contract.mintFeeAmount(),
         contract.baseURL(), // e.g. https://cd1n.chikn.farm/tokens/
         contract.openForGB(),
-        contract.openForPublic(),
+        contract.openForPublic()
       ])
       minted = parseInt(minted)
       publicMintLimit = parseInt(publicMintLimit)
@@ -122,14 +122,14 @@ export const useGetSupplyQuery = () => {
         publicMintFeex1,
         baseUrl,
         gbMintOpen,
-        publicMintOpen,
+        publicMintOpen
       }
     },
     {
       enabled: active === true,
       cacheTime: 5 * 1000,
       staleTime: 5 * 1000,
-      refetchInterval: 60 * 1000,
+      refetchInterval: 60 * 1000
     }
   )
 }
@@ -182,7 +182,7 @@ export const getTokenLocally = (tokenId = -1) => {
     ...combos,
     ...rankz,
     image: siteConfig.cdnUrl + combos.filename,
-    thumbnail: siteConfig.cdnThumbnailUrl + combos.filename,
+    thumbnail: siteConfig.cdnThumbnailUrl + combos.filename
   }
 }
 
@@ -217,7 +217,7 @@ export const useGetRecentActivityQuery = ({ active, contract }) => {
     {
       enabled: active === true, // NOTE === true is important!
       cacheTime: 15 * 1000,
-      staleTime: 15 * 1000,
+      staleTime: 15 * 1000
     }
   )
 }
@@ -258,7 +258,7 @@ export const useWeb3GBContract = () => {
           inputs: [{ name: '_owner', type: 'address' }],
           name: 'balanceOf',
           outputs: [{ name: 'balance', type: 'uint256' }],
-          type: 'function',
+          type: 'function'
         },
         // decimals
         {
@@ -266,8 +266,8 @@ export const useWeb3GBContract = () => {
           inputs: [],
           name: 'decimals',
           outputs: [{ name: '', type: 'uint8' }],
-          type: 'function',
-        },
+          type: 'function'
+        }
       ]
       contract = new Contract('0x90842eb834cFD2A1DB0b1512B254a18E4D396215', minABI, web3react.library.getSigner())
     }
@@ -331,7 +331,7 @@ export const useGetWalletBalanceQuery = (library, account, enabled = true) => {
       const balance = utils.formatEther(await library.getBalance(account || ''))
       return new Promise((resolve, reject) => {
         resolve({
-          balance: balance.toString(),
+          balance: balance.toString()
         })
       })
     },
@@ -341,7 +341,7 @@ export const useGetWalletBalanceQuery = (library, account, enabled = true) => {
       staleTime: TIMEOUT_1_MIN * 10,
       refetchOnMount: false,
       refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
+      refetchOnReconnect: false
     }
   )
 }
@@ -357,7 +357,7 @@ export const useGetAllTokensForSaleQuery = (contract, account, enabled = true) =
       const tokenCount = await contract.totalSupply()
       for (let i = 1; i <= tokenCount.toNumber(); i++) {
         tokensIds.push({
-          tokenId: i,
+          tokenId: i
         })
         // const token = await contract.allChickenRun(i)
         // tokensIds.push({
@@ -374,7 +374,7 @@ export const useGetAllTokensForSaleQuery = (contract, account, enabled = true) =
       return tokensIds
     },
     {
-      enabled: !isUndef(contract) && !isUndef(account) && enabled,
+      enabled: !isUndef(contract) && !isUndef(account) && enabled
     }
   )
 }
@@ -400,11 +400,11 @@ export const useGetWeb3TokenDetail = (contract, enabled = true, tokenId) => {
         // perchHeight: tokenDetail.perchHeight,
         previousPrice: FormatAvaxPrice(tokenDetail.previousPrice),
         price: FormatAvaxPrice(tokenDetail.price),
-        tokenId: tokenDetail.tokenId,
+        tokenId: tokenDetail.tokenId
       }
     },
     {
-      enabled: !isUndef(contract) && !isUndef(tokenId) && enabled,
+      enabled: !isUndef(contract) && !isUndef(tokenId) && enabled
     }
   )
 }
@@ -428,7 +428,7 @@ export const useGetWalletTokensQuery = (contract, account, enabled = true) => {
       return tokensIds
     },
     {
-      enabled: !isUndef(contract) && !isUndef(account) && enabled,
+      enabled: !isUndef(contract) && !isUndef(account) && enabled
     }
   )
 }
@@ -450,7 +450,7 @@ export const usePublicMintTokenMutation = () => {
         // cancel anything in transaction queue
         await queryClient.cancelQueries(KEYS.TRANSACTION())
         queryClient.setQueryData(KEYS.TRANSACTION(), data)
-      },
+      }
     }
   )
 }
@@ -467,7 +467,7 @@ export const useGBMintTokenMutation = () => {
       // cancel anything in transaction queue
       await queryClient.cancelQueries(KEYS.TRANSACTION())
       queryClient.setQueryData(KEYS.TRANSACTION(), data)
-    },
+    }
   })
 }
 
@@ -482,7 +482,7 @@ export const useSetTokenSalePriceMutation = (contract, enabled = true) => {
           .then((tx) => {
             console.log('Set sale price tx', tx)
             resolve({
-              ...tx,
+              ...tx
             })
           })
           .catch((err) => {
@@ -497,7 +497,7 @@ export const useSetTokenSalePriceMutation = (contract, enabled = true) => {
         // cancel anything in tranaction queue
         await queryClient.cancelQueries(KEYS.TRANSACTION())
         queryClient.setQueryData(KEYS.TRANSACTION(), data)
-      },
+      }
     }
   )
 }
@@ -512,7 +512,7 @@ export const useBuyTokenMutation = (contract, enabled = true) => {
           .then((tx) => {
             console.log('Buy token tx', tx)
             resolve({
-              ...tx,
+              ...tx
             })
           })
           .catch((err) => {
@@ -527,7 +527,7 @@ export const useBuyTokenMutation = (contract, enabled = true) => {
         // cancel anything in tranaction queue
         await queryClient.cancelQueries(KEYS.TRANSACTION())
         queryClient.setQueryData(KEYS.TRANSACTION(), data)
-      },
+      }
     }
   )
 }
@@ -552,7 +552,7 @@ export const useIsPublicMintOpenQuery = (contract, account, enabled = true) => {
       return publicStatus
     },
     {
-      enabled: !isUndef(contract) && !isUndef(account) && enabled,
+      enabled: !isUndef(contract) && !isUndef(account) && enabled
     }
   )
 }
@@ -566,7 +566,7 @@ export const useIsGBMintOpenQuery = (contract, account, enabled = true) => {
       return gbStatus
     },
     {
-      enabled: !isUndef(contract) && !isUndef(account) && enabled,
+      enabled: !isUndef(contract) && !isUndef(account) && enabled
     }
   )
 }
@@ -581,7 +581,7 @@ export const useToggleOpenForGBMutation = (contract, enabled = true) => {
           .then((tx) => {
             console.log(`Toggle GB ${isOpen}`, tx)
             resolve({
-              ...tx,
+              ...tx
             })
           })
           .catch((err) => {
@@ -596,7 +596,7 @@ export const useToggleOpenForGBMutation = (contract, enabled = true) => {
         setTimeout(() => {
           queryClient.invalidateQueries(KEYS.ADMIN())
         }, 2000)
-      },
+      }
     }
   )
 }
@@ -611,7 +611,7 @@ export const useToggleOpenForPublicMutation = (contract, enabled = true) => {
           .then((tx) => {
             console.log(`Toggle for public ${isOpen}`, tx)
             resolve({
-              ...tx,
+              ...tx
             })
           })
           .catch((err) => {
@@ -626,7 +626,7 @@ export const useToggleOpenForPublicMutation = (contract, enabled = true) => {
         setTimeout(() => {
           queryClient.invalidateQueries(KEYS.ADMIN())
         }, 2000)
-      },
+      }
     }
   )
 }
@@ -640,7 +640,7 @@ export const useGetExcludedMutation = (contract, account, enabled = true) => {
           .then((data) => {
             console.log(`Check exclusion list ${address}`, data)
             resolve({
-              exist: data,
+              exist: data
             })
           })
           .catch((err) => {
@@ -650,7 +650,7 @@ export const useGetExcludedMutation = (contract, account, enabled = true) => {
       })
     },
     {
-      enabled: !isUndef(contract) && enabled,
+      enabled: !isUndef(contract) && enabled
     }
   )
 }
@@ -666,7 +666,7 @@ export const useSetExcludedMutation = (contract, enabled = true) => {
           .then((tx) => {
             console.log(`Update exclusion list ${address} - ${status}`, tx)
             resolve({
-              ...tx,
+              ...tx
             })
           })
           .catch((err) => {
@@ -676,7 +676,7 @@ export const useSetExcludedMutation = (contract, enabled = true) => {
       })
     },
     {
-      enabled: !isUndef(contract) && enabled,
+      enabled: !isUndef(contract) && enabled
     }
   )
 }
@@ -690,7 +690,7 @@ export const useBaseUrlQuery = (contract, account, enabled = true) => {
       return baseUrl
     },
     {
-      enabled: !isUndef(contract) && !isUndef(account) && enabled,
+      enabled: !isUndef(contract) && !isUndef(account) && enabled
     }
   )
 }
@@ -707,7 +707,7 @@ export const useChangeUrlMutation = (contract, enabled = true) => {
           .then((tx) => {
             console.log(`Change based url to  ${url}`, tx)
             resolve({
-              ...tx,
+              ...tx
             })
           })
           .catch((err) => {
@@ -722,7 +722,7 @@ export const useChangeUrlMutation = (contract, enabled = true) => {
         setTimeout(() => {
           queryClient.invalidateQueries(KEYS.ADMIN())
         }, 2000)
-      },
+      }
     }
   )
 }
@@ -738,7 +738,7 @@ export const useAirdropMutation = (contract, enabled = true) => {
           .then((tx) => {
             console.log(`Airdrop ${numberOfToken} tokens ${address}`, tx)
             resolve({
-              ...tx,
+              ...tx
             })
           })
           .catch((err) => {
@@ -748,7 +748,7 @@ export const useAirdropMutation = (contract, enabled = true) => {
       })
     },
     {
-      enabled: !isUndef(contract) && enabled,
+      enabled: !isUndef(contract) && enabled
     }
   )
 }
@@ -763,7 +763,7 @@ export const useGetAllSalesTokenQuery = () => {
       return tokensForSale.filter((t) => t > 0).map((t) => Number(t))
     },
     {
-      enabled: !isUndef(contract),
+      enabled: !isUndef(contract)
     }
   )
 }
@@ -779,7 +779,7 @@ export const useSetKGMutation = (contract, enabled = true) => {
           .then((tx) => {
             console.log(`Set token #${tokenId} to ${kg} KG `, tx)
             resolve({
-              ...tx,
+              ...tx
             })
           })
           .catch((err) => {
@@ -789,7 +789,7 @@ export const useSetKGMutation = (contract, enabled = true) => {
       })
     },
     {
-      enabled: !isUndef(contract) && enabled,
+      enabled: !isUndef(contract) && enabled
     }
   )
 }
@@ -805,7 +805,7 @@ export const useCheckHasGBMutation = (contract, enabled = true) => {
           .then((tx) => {
             console.log(`Address ${address}  has GB token >=900`, tx)
             resolve({
-              ...tx,
+              ...tx
             })
           })
           .catch((err) => {
@@ -815,7 +815,7 @@ export const useCheckHasGBMutation = (contract, enabled = true) => {
       })
     },
     {
-      enabled: !isUndef(contract) && enabled,
+      enabled: !isUndef(contract) && enabled
     }
   )
 }
@@ -839,7 +839,7 @@ export const useGetTokenURIMutation = (contract, enabled = true) => {
       })
     },
     {
-      enabled: !isUndef(contract) && enabled,
+      enabled: !isUndef(contract) && enabled
     }
   )
 }
@@ -863,7 +863,7 @@ export const useGetChickenDetailMutation = (contract, enabled = true) => {
               perchHeight: tokenDetail.perchHeight,
               previousPrice: FormatAvaxPrice(tokenDetail.previousPrice),
               price: FormatAvaxPrice(tokenDetail.price),
-              tokenId: tokenDetail.tokenId,
+              tokenId: tokenDetail.tokenId
             })
           })
           .catch((err) => {
@@ -873,7 +873,7 @@ export const useGetChickenDetailMutation = (contract, enabled = true) => {
       })
     },
     {
-      enabled: !isUndef(contract) && enabled,
+      enabled: !isUndef(contract) && enabled
     }
   )
 }
@@ -901,13 +901,13 @@ export const useGetStatQuery = () => {
       return {
         items: `${saletokens.length.toLocaleString()} / ${all.length.toLocaleString()}`,
         floor: FormatAvaxPrice(result[0].price),
-        ceiling: FormatAvaxPrice(result[saletokens.length - 1].price),
+        ceiling: FormatAvaxPrice(result[saletokens.length - 1].price)
       }
     },
     {
       enabled: !isUndef(contract),
       cacheTime: 5 * 1000,
-      staleTime: 5 * 1000,
+      staleTime: 5 * 1000
     }
   )
 }
@@ -920,8 +920,8 @@ export const useTotalHoldersQuery = () => {
         'https://api.covalenthq.com/v1/43114/tokens/0x8927985B358692815E18F2138964679DcA5d3b79/token_holders/',
         {
           headers: {
-            Authorization: 'Basic Y2tleV82Yzk5ZmQ5MjE0MmE0MzJkYWVmYTdmODViODI6',
-          },
+            Authorization: 'Basic Y2tleV82Yzk5ZmQ5MjE0MmE0MzJkYWVmYTdmODViODI6'
+          }
         }
       )
       console.log('holders', holders.data)
@@ -929,7 +929,7 @@ export const useTotalHoldersQuery = () => {
     },
     {
       cacheTime: 5 * 1000,
-      staleTime: 5 * 1000,
+      staleTime: 5 * 1000
     }
   )
 }
@@ -943,7 +943,7 @@ export const useAPIMarketStat = (showForSale = false) => {
         .then((res) => res.data),
     {
       cacheTime: 15 * 1000,
-      staleTime: 15 * 1000,
+      staleTime: 15 * 1000
     }
   )
 }
