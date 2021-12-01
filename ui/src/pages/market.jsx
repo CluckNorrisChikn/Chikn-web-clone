@@ -623,11 +623,11 @@ const Market = ({ location = {} }) => {
                 </Col>
                 <Col>
                   <DropdownButton id="dropdown-basic-button" title="Chikn/Page">
-                    <Dropdown.Item onClick={() => setPageSize(5)}>5</Dropdown.Item>
-                    <Dropdown.Item onClick={() => setPageSize(10)}>10</Dropdown.Item>
-                    <Dropdown.Item onClick={() => setPageSize(20)}>20</Dropdown.Item>
-                    <Dropdown.Item onClick={() => setPageSize(50)}>50</Dropdown.Item>
-                    <Dropdown.Item onClick={() => setPageSize(100)}>100</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setPageSize(8)}>8</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setPageSize(16)}>16</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setPageSize(32)}>32</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setPageSize(64)}>64</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setPageSize(128)}>128</Dropdown.Item>
                   </DropdownButton>
                 </Col>
               </Row>
