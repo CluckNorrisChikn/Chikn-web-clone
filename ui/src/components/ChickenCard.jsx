@@ -43,7 +43,7 @@ import HelmetMeta from './HelmetMeta'
  * @property {number} numberOfTransfers // 1
  */
 
-// trigger build 2
+// trigger build 3
 
 /** @type {Details} */
 const DETAILS_BLANK = {}
@@ -452,15 +452,19 @@ const Property = (props) => {
       className={`${className} px-3 py-2 rounded-3 text-nowrap text-dark text-capitalize justify-content-between align-items-center`}
       {...otherProps}
     >
-      <div className=" w-100 d-flex flex-row justify-content-between align-items-center">
-        <span>
-          <b>{layer}</b>: {trait}
-        </span>
-        <RarityColour style={{ textTransform: 'capitalize' }} rarity={rarity}>
+      <div className=" w-100 d-flex flex-wrap flex-row justify-content-between align-items-center">
+        <Col xs={12} sm={6} md={6} className="d-flex justify-content-sm-start justify-content-center">
           <span>
-            <b>+ {score.toFixed(2)}</b>
+            <b>{layer}</b>: {trait}
           </span>
-        </RarityColour>
+        </Col>
+        <Col xs={12} sm={6} md={6} className="d-flex justify-content-sm-end justify-content-center">
+          <RarityColour style={{ textTransform: 'capitalize' }} rarity={rarity}>
+            <span>
+              <b>+ {score.toFixed(2)}</b>
+            </span>
+          </RarityColour>
+        </Col>
       </div>
       <div className=" w-100 py-1 pt-3">
         <ColouredProgressBar percentile={percentile} rarity={rarity} />
@@ -649,7 +653,7 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
                     {['background', 'body', 'head', 'neck', 'torso', 'feet', 'tail', 'trim', '_numOfTraits'].map(
                       (t, idx) => {
                         const trait = metadata[t][properties[t] || '']
-                        const traitType = t === '_numOfTraits' ? '# traits' : t
+                        const traitType = t === '_numOfTraits' ? '# of traits' : t
                         return (
                           <Property
                             key={idx}
