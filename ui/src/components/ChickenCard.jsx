@@ -653,7 +653,7 @@ export const ChickenCardDetails = ({ tokenId = '' }) => {
                     {['background', 'body', 'head', 'neck', 'torso', 'feet', 'tail', 'trim', '_numOfTraits'].map(
                       (t, idx) => {
                         const trait = metadata[t][properties[t] || '']
-                        const traitType = t === '_numOfTraits' ? '# of  traits' : t
+                        const traitType = t === '_numOfTraits' ? '# of traits' : t
                         return (
                           <Property
                             key={idx}
