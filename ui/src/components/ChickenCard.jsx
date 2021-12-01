@@ -43,7 +43,7 @@ import HelmetMeta from './HelmetMeta'
  * @property {number} numberOfTransfers // 1
  */
 
-// trigger build 2
+// trigger build 3
 
 /** @type {Details} */
 const DETAILS_BLANK = {}
